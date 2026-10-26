@@ -1,0 +1,6 @@
+# Research iterations run only when explicitly selected.
+exclude = ["Magma/Evidence/**"]
+
+[format]
+line-width = 100
+reflow-comments = false

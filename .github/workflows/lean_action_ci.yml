@@ -1,0 +1,18 @@
+name: Lean Action CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Run Lean Action
+        uses: leanprover/lean-action@6469cb6e0cfd1b6ff0c204c3c3a4f6cc28784ea5
