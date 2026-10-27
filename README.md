@@ -65,6 +65,7 @@ with right input difference one and left output difference zero.
 | `Magma.OneHot.ActiveNibbleNecessary` | First-active-nibble necessity for arbitrary differences, 896 zero off-diagonal one-hot cells, and at most 128 positive cells for every key |
 | `Magma.OneHot.DiagonalCarryMasks` | Certified local S-box/carry masks, 948 universally zero one-hot cells, and at most 76 positive cells for every key |
 | `Magma.OneHot.CandidateSharpWitnesses` | Explicit RFC witnesses for all 76 candidates; exact one-hot support over the union of keys and 948 universally impossible cells |
+| `Magma.OneHot.FixedKeySupportAudit` | Exact carry-DP support for any fixed key, certified 72-cell support at `0x06120010`, and a separate 72-cell local-model ceiling |
 | `Magma.ZeroLeft.ColumnTransport` | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys |
 | `Magma.ZeroLeft.EightEntries` | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs |
 | `Magma.ZeroLeft.KeyParity` | First-key parity reduction of the zero-left slice and eight equal entries for every even first key |
@@ -99,6 +100,7 @@ next iteration.
 | `15_OneHotKeyClasses`        | Do 32 local key classes agree with UInt8 scans, and which class predicts empty one-bit support? |
 | `16_OneHotClassCertificates` | Do original-arithmetic certificates establish exact support for all 32 class representatives? |
 | `17_OneHotExactColumnMass` | Do keys with the same one-bit support class also have equal exact column masses? |
+| `18_OneHotFixedKeySupport` | How many of the 76 globally realizable cells coexist at one key, and what ceiling follows from consistent local carries? |
 
 Fixed observations are Lean examples and theorems. Measurements use `#eval`. Run an iteration
 explicitly; iterations import the library directly and do not run earlier experiments:

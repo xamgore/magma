@@ -43,6 +43,7 @@ public import Magma.OneHot.UniversalLowerNibbleZeros
 public import Magma.OneHot.ActiveNibbleNecessary
 public import Magma.OneHot.DiagonalCarryMasks
 public import Magma.OneHot.CandidateSharpWitnesses
+public import Magma.OneHot.FixedKeySupportAudit
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
