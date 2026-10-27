@@ -35,6 +35,7 @@ public import Magma.ZeroLeft.ColumnTransport
 public import Magma.ZeroLeft.EightEntries
 public import Magma.ZeroLeft.KeyParity
 public import Magma.ZeroLeft.OddKey
+public import Magma.ZeroLeft.ParityCompleteSlice
 public import Magma.BatchSearch
 public import Magma.BatchFamily
 import all Init.Data.Range.Basic

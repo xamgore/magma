@@ -24,6 +24,9 @@ belong to `Magma.MultiRoundDDT`.
 `Magma.ZeroLeft.KeyParity` combines it with the eight-offset classification.
 `Magma.OddUnitInput77` gives the complete 77-entry odd-key reference row, and
 `Magma.ZeroLeft.OddKey` applies its exact counts to three-round columns.
+`Magma.ZeroLeft.ParityCompleteSlice` unifies both parities into exact coefficients,
+supports, and column cardinalities of zero, eight, or 77 for arbitrary round keys
+with right input difference one and left output difference zero.
 
 | Module                   | Content                                                          |
 |--------------------------|------------------------------------------------------------------|
@@ -62,6 +65,7 @@ belong to `Magma.MultiRoundDDT`.
 | `Magma.ZeroLeft.EightEntries` | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs |
 | `Magma.ZeroLeft.KeyParity` | First-key parity reduction of the zero-left slice and eight equal entries for every even first key |
 | `Magma.ZeroLeft.OddKey` | Exact three-round zero-left coefficients for odd first keys and arbitrary second and third keys |
+| `Magma.ZeroLeft.ParityCompleteSlice` | Unified exact coefficients and supports for both first-key parities, with column cardinalities 0, 8, or 77 |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 
