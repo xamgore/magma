@@ -41,6 +41,7 @@ public import Magma.ZeroLeft.ParityCompleteSlice
 public import Magma.ZeroLeft.IndividualCoefficientMaxima
 public import Magma.OneHot.UniversalLowerNibbleZeros
 public import Magma.OneHot.ActiveNibbleNecessary
+public import Magma.OneHot.DiagonalCarryMasks
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
