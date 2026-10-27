@@ -22,6 +22,7 @@ run on every invocation.
 | `Magma.Pruning`          | Domain pruning, soundness, stabilization                         |
 | `Magma.Certificates`     | Independent checkers and soundness, including `FastInitialCheck` |
 | `Magma.FastSearch`       | Candidate generation and UInt16/UInt8 propagation                |
+| `Magma.UInt8NoPathCertificates` | Independently checked no-path certificates from UInt8 proposals |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 
@@ -45,6 +46,7 @@ next iteration.
 | `10_ZeroLeft64ExactCounts`     | Do all 64 predicted pairs have the same exact DDT count for every third key?                    |
 | `11_ZeroLeft64Completeness`    | Does conservation of DDT mass prove that the 64-pair list is complete?                          |
 | `12_ZeroLeftArbitraryKeys`     | Which one-bit output columns vanish for arbitrary keys, is total mass preserved, and can UInt8 scan them quickly? |
+| `13_UInt8NoPathCertificates`  | Can original carry arithmetic independently certify the UInt8 scan's one-bit exclusions?       |
 
 Fixed observations are Lean examples and theorems. Measurements use `#eval`. Run an iteration
 explicitly; iterations import the library directly and do not run earlier experiments:
