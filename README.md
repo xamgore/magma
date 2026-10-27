@@ -22,6 +22,7 @@ separate: import `Magma.OneHot.KeyClasses` and refer to declarations under `Magm
 | `Magma.CryptoProperties` | DDT/LAT bounds, Walsh spectra, nonlinearity                      |
 | `Magma.CarryAutomaton`   | Carry model, path counts, reachability                           |
 | `Magma.MultiRoundDDT`    | Feistel differentials and joint carry constraints                |
+| `Magma.ZeroLeftColumnTransport` | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys |
 | `Magma.Pruning`          | Domain pruning, soundness, stabilization                         |
 | `Magma.Certificates`     | Independent checkers and soundness, including `FastInitialCheck` |
 | `Magma.FastSearch`       | Candidate generation and UInt16/UInt8 propagation                |

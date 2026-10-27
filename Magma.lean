@@ -4,6 +4,7 @@ public import Magma.RFC8891
 public import Magma.CryptoProperties
 public import Magma.CarryAutomaton
 public import Magma.MultiRoundDDT
+public import Magma.ZeroLeftColumnTransport
 public import Magma.Pruning
 public import Magma.Certificates
 public import Magma.FastSearch
