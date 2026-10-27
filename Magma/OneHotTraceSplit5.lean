@@ -13,10 +13,6 @@ input digits. The original fold is then split exactly after its five-digit
 prefix, leaving the active nibble five and the two silent suffix nibbles.
 For a fixed assignment, acceptance depends only on the common prefix carry,
 the active output digit two, and equal outgoing carries from that active step.
-
-The resulting DDT theorem retains the input assignment and prefix carry as
-explicit witnesses. Relating the attainable carries of this actual prefix
-trace to `WordPrefixCarryPossible` remains the next semantic bridge.
 -/
 
 open Magma.CarryAutomaton Magma.OneHotSilentNibbleStructure Magma.OneHotBoundaryReduction

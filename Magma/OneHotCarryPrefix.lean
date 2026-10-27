@@ -13,10 +13,6 @@ Carry one is attainable exactly when the low key prefix is nonzero: choose
 an input prefix `2^20 - keyLow`. Thus the Boolean key-class flag determines
 the complete set of possible prefix carries for every 32-bit key, and
 replacing a key by its representative preserves that set.
-
-These arithmetic theorems describe `WordPrefixCarryPossible`. Relating this
-prefix model and a single active S-box transition to full carry paths is
-still required to establish `OneHotClassInvariant`.
 -/
 
 open Magma.OneHotKeyClasses Magma.OneHotClassCertificates

@@ -15,6 +15,7 @@ public import Magma.OneHotCarryPrefix
 public import Magma.OneHotSilentNibbleStructure
 public import Magma.OneHotBoundaryReduction
 public import Magma.OneHotTraceSplit5
+public import Magma.OneHotPrefixArithmeticBridge
 public import Magma.BatchSearch
 public import Magma.BatchFamily
 import all Init.Data.Range.Basic

@@ -30,6 +30,7 @@ run on every invocation.
 | `Magma.OneHotSilentNibbleStructure` | Silent-nibble carry structure, active-nibble nonzero output, and the original local-step bridge |
 | `Magma.OneHotBoundaryReduction` | Exact prefix/active/suffix boundary reduction and invariance across key classes |
 | `Magma.OneHotTraceSplit5` | Exact 5+1+2 trace split and the actual DDT criterion through prefix and active-step witnesses |
+| `Magma.OneHotPrefixArithmeticBridge` | Arithmetic semantics of the trace prefix and unconditional full-word DDT support at bits 20–23 |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 

@@ -17,9 +17,6 @@ An arbitrary suffix of inactive nibbles preserves diagonal carry states.
 The local one-bit predicate is also identified with the original nibble-five
 transition relation with equal incoming and outgoing carries. These facts
 hold universally for the relevant key digits, carries, and S-box indices.
-
-Factoring the full eight-step path into its prefix, active nibble, and suffix
-remains necessary to establish `OneHotClassInvariant`.
 -/
 
 open Magma.CarryAutomaton Magma.OneHotKeyClasses

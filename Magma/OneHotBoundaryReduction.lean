@@ -14,10 +14,6 @@ Consequently, an active nibble-five transition followed by such a suffix
 is possible exactly when the original local S-box predicate holds.
 Combining this with arithmetic prefix-carry reachability gives an exact
 boundary condition for every key and invariance under its representative.
-
-These are unconditional boundary statements. Connecting the full eight-digit
-`carryTrace` existential to this prefix/active/suffix description remains
-necessary for the full `xorDDT_g` key-class classification.
 -/
 
 open Magma.CarryAutomaton Magma.OneHotKeyClasses Magma.OneHotCarryPrefix
