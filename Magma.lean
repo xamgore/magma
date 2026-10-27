@@ -39,6 +39,7 @@ public import Magma.OddUnitInput77
 public import Magma.ZeroLeft.OddKey
 public import Magma.ZeroLeft.ParityCompleteSlice
 public import Magma.ZeroLeft.IndividualCoefficientMaxima
+public import Magma.OneHot.UniversalLowerNibbleZeros
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
