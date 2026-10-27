@@ -153,6 +153,11 @@ or a record of unsuccessful tactic attempts.
 Use `--focus Magma.OneHotDiagonalCarryMasks.positiveOneHotCells_card_le_76` for one theorem
 and its prerequisites, or `--input .lake/deps.json` to reuse an existing dependency export.
 This command generates only the theorem diagram; it does not generate defs or source bundles.
+The diagram groups names by namespace, omits the common `Magma.` prefix and private-name
+mangling, and marks private nodes with `*`. Distinct declarations keep distinct node IDs;
+duplicate private names receive numbered markers. Base-36 IDs and grouped arrows keep the
+Mermaid source compact without removing nodes or dependencies. The command reports its
+character count alongside node and edge counts.
 
 `axiom-audit` checks the compiled library against the default axiom allowlist:
 `propext`, `Classical.choice`, and `Quot.sound`.

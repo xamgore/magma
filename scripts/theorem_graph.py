@@ -4,17 +4,19 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter, defaultdict
 import heapq
 from html import escape
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 
 if __package__:
-    from .export_sources import load_report, write_text
+    from .export_sources import load_report, name_parts, write_text
 else:
-    from export_sources import load_report, write_text
+    from export_sources import load_report, name_parts, write_text
 
 
 def theorem_dependencies(report: dict, module: str | None = None) -> dict[str, set[str]]:
@@ -93,19 +95,53 @@ def reduced_graph(graph: dict[str, set[str]]) -> dict[str, set[str]]:
     return result
 
 
+def short_name(name: str) -> str:
+    """Strip Lean's private-name mangling and the shared project prefix."""
+    if name.startswith('_private.'):
+        name = re.sub(r'^_private\..*?\.\d+\.', '', name, count=1)
+    return name.removeprefix('Magma.')
+
+
+def node_id(index: int) -> str:
+    digits = '0123456789abcdefghijklmnopqrstuvwxyz'
+    result = ''
+    while index:
+        index, digit = divmod(index, 36)
+        result = digits[digit] + result
+    return 't' + (result or '0')
+
+
 def render_theorems(graph: dict[str, set[str]]) -> str:
-    identifiers = {name: f't{index}' for index, name in enumerate(graph)}
+    identifiers = {name: node_id(index) for index, name in enumerate(graph)}
     lines = [
-        '%% Theorem dependencies from elaborated types and proof terms.',
-        '%% Arrows: prerequisite -> user; paths through hidden declarations are contracted.',
-        '%% Redundant transitive edges are omitted for acyclic graphs; cycles are preserved.',
+        '%% Prerequisite -> user; hidden paths contracted; transitive DAG edges reduced.',
+        '%% Namespace groups omit Magma.; * marks private names; numbered * disambiguates duplicates.',
         'flowchart TD',
     ]
+    private_counts = Counter(short_name(name) for name in graph if name.startswith('_private.'))
+    occurrences: Counter[str] = Counter()
+    groups: dict[str, list[str]] = defaultdict(list)
     for name in graph:
-        lines.append(f'  {identifiers[name]}["{escape(name, quote=True)}"]')
+        short = short_name(name)
+        parts = name_parts(short)
+        namespace = parts[0] if len(parts) > 1 else ''
+        label = '.'.join(parts[1:]) if namespace else parts[0]
+        if name.startswith('_private.'):
+            occurrences[short] += 1
+            label += '*' + (str(occurrences[short]) if private_counts[short] > 1 else '')
+        groups[namespace].append(f'{identifiers[name]}["{escape(label, quote=True)}"]')
+    for index, (namespace, nodes) in enumerate(groups.items()):
+        if namespace:
+            lines.append(f'subgraph g{index}["{escape(namespace, quote=True)}"]')
+        lines.extend(nodes)
+        if namespace:
+            lines.append('end')
+    users: dict[str, list[str]] = defaultdict(list)
     for name, dependencies in graph.items():
         for dependency in sorted(dependencies):
-            lines.append(f'  {identifiers[dependency]} --> {identifiers[name]}')
+            users[dependency].append(identifiers[name])
+    for dependency, targets in users.items():
+        lines.append(f'{identifiers[dependency]}-->{"&".join(targets)}')
     return '\n'.join(lines) + '\n'
 
 
@@ -129,7 +165,8 @@ def main() -> None:
             write_text(args.output, diagram)
         else:
             sys.stdout.write(diagram)
-        print(f'{len(graph)} theorems, {sum(map(len, graph.values()))} edges', file=sys.stderr)
+        print(f'{len(graph)} theorems, {sum(map(len, graph.values()))} edges, '
+              f'{len(diagram)} characters', file=sys.stderr)
     except (ValueError, KeyError, OSError, subprocess.CalledProcessError) as error:
         parser.exit(1, f'theorem_graph: {error}\n')
 
