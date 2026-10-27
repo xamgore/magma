@@ -49,6 +49,7 @@ public import Magma.OneHot.ExactCarryRegimes
 public import Magma.OneHot.ExactLocalSupportCompleteness
 public import Magma.OneHot.Support72KeyClasses
 public import Magma.OneHot.Support72ActualKeyCardinality
+public import Magma.OneHot.SupportHistogramDP
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
