@@ -34,6 +34,7 @@ run on every invocation.
 | `Magma.OneHotFullKeyClassInvariant` | Unconditional one-bit DDT support classification and key-class invariance for every key |
 | `Magma.OneHotThreeRoundColumns` | Universal zero-left three-round one-bit column support and the unique class with all columns zero |
 | `Magma.OneHotExactColumnMass` | Exact carry-DP column masses and unequal multiplicities within one support class |
+| `Magma.OneHotLinearPrefixMass` | Symbolic prefix-carry counts and an affine factorized model, with conditional DDT consequences |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 

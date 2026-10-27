@@ -19,6 +19,7 @@ public import Magma.OneHotPrefixArithmeticBridge
 public import Magma.OneHotFullKeyClassInvariant
 public import Magma.OneHotThreeRoundColumns
 public import Magma.OneHotExactColumnMass
+public import Magma.OneHotLinearPrefixMass
 public import Magma.BatchSearch
 public import Magma.BatchFamily
 import all Init.Data.Range.Basic
