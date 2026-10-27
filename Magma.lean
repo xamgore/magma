@@ -47,6 +47,7 @@ public import Magma.OneHot.FixedKeySupportAudit
 public import Magma.OneHot.FixedKeySupport72
 public import Magma.OneHot.ExactCarryRegimes
 public import Magma.OneHot.ExactLocalSupportCompleteness
+public import Magma.OneHot.Support72KeyClasses
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
