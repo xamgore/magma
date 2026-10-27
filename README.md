@@ -38,6 +38,7 @@ run on every invocation.
 | `Magma.OneHotQuantitativeTraceFactorization` | Symbolic 5+1+2 trace counting and unconditional affine DDT and column-mass formulae |
 | `Magma.OneHotExactCoefficientMasks` | Exact local coefficient masks, closed DDT and column masses, and four affine regimes |
 | `Magma.OneHotGlobalMaximum` | Sharp maxima for the one-bit DDT slice and three-round column masses, with all attaining key classes |
+| `Magma.OneHotFixedKeyPeak` | Exact peak and an attaining bit for each key, with arithmetic counts of maximizing classes |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 

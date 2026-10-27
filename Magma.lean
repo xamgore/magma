@@ -23,6 +23,7 @@ public import Magma.OneHotLinearPrefixMass
 public import Magma.OneHotQuantitativeTraceFactorization
 public import Magma.OneHotExactCoefficientMasks
 public import Magma.OneHotGlobalMaximum
+public import Magma.OneHotFixedKeyPeak
 public import Magma.BatchSearch
 public import Magma.BatchFamily
 import all Init.Data.Range.Basic
