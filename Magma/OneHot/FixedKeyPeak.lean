@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotGlobalMaximum
+public import Magma.OneHot.GlobalMaximum
 import all Init.Data.Range.Basic
 
 @[expose] public section

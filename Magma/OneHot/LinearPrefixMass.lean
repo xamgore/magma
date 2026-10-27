@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotExactColumnMass
+public import Magma.OneHot.ExactColumnMass
 import all Init.Data.Range.Basic
 
 @[expose] public section

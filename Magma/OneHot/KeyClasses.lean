@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotCompleteSupport
+public import Magma.OneHot.CompleteSupport
 import all Init.Data.Range.Basic
 
 @[expose] public section

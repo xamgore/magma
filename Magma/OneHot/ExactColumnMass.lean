@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotThreeRoundColumns
+public import Magma.OneHot.ThreeRoundColumns
 import all Init.Data.Range.Basic
 
 @[expose] public section

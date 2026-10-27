@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotExactCoefficientMasks
+public import Magma.OneHot.ExactCoefficientMasks
 import all Init.Data.Range.Basic
 
 @[expose] public section

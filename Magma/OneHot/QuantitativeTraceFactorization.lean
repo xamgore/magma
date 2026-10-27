@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotLinearPrefixMass
+public import Magma.OneHot.LinearPrefixMass
 import all Init.Data.Range.Basic
 
 @[expose] public section

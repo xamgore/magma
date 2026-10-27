@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotFullKeyClassInvariant
+public import Magma.OneHot.FullKeyClassInvariant
 import all Init.Data.Range.Basic
 
 @[expose] public section

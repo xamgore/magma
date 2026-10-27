@@ -1,8 +1,8 @@
 module
 
-public import Magma.OneHotKeyClasses
+public import Magma.OneHot.KeyClasses
 public import Magma.Evidence.«12_ZeroLeftArbitraryKeys»
-meta import Magma.OneHotKeyClasses
+meta import Magma.OneHot.KeyClasses
 meta import Magma.Evidence.«12_ZeroLeftArbitraryKeys»
 import all Init.Data.Range.Basic
 

@@ -13,6 +13,9 @@ run on every invocation.
 
 ### Library
 
+`Magma/OneHot/` groups one-bit analysis modules. Module paths and declaration namespaces are
+separate: import `Magma.OneHot.KeyClasses` and refer to declarations under `Magma.OneHotKeyClasses`.
+
 | Module                   | Content                                                          |
 |--------------------------|------------------------------------------------------------------|
 | `Magma.RFC8891`          | Specification, invertibility proofs, RFC test vectors            |
@@ -23,22 +26,22 @@ run on every invocation.
 | `Magma.Certificates`     | Independent checkers and soundness, including `FastInitialCheck` |
 | `Magma.FastSearch`       | Candidate generation and UInt16/UInt8 propagation                |
 | `Magma.UInt8NoPathCertificates` | Independently checked no-path certificates from UInt8 proposals |
-| `Magma.OneHotCompleteSupport` | Checked positive witnesses and exact one-bit support certificates |
-| `Magma.OneHotKeyClasses` | Exact local key-class tables and conditionally certified full-word support |
-| `Magma.OneHotClassCertificates` | Independent representative certificates and an explicit class-invariance hypothesis |
-| `Magma.OneHotCarryPrefix` | Universal prefix-carry classification and preservation under key-class representatives |
-| `Magma.OneHotSilentNibbleStructure` | Silent-nibble carry structure, active-nibble nonzero output, and the original local-step bridge |
-| `Magma.OneHotBoundaryReduction` | Exact prefix/active/suffix boundary reduction and invariance across key classes |
-| `Magma.OneHotTraceSplit5` | Exact 5+1+2 trace split and the actual DDT criterion through prefix and active-step witnesses |
-| `Magma.OneHotPrefixArithmeticBridge` | Arithmetic semantics of the trace prefix and unconditional full-word DDT support at bits 20–23 |
-| `Magma.OneHotFullKeyClassInvariant` | Unconditional one-bit DDT support classification and key-class invariance for every key |
-| `Magma.OneHotThreeRoundColumns` | Universal zero-left three-round one-bit column support and the unique class with all columns zero |
-| `Magma.OneHotExactColumnMass` | Exact carry-DP column masses and unequal multiplicities within one support class |
-| `Magma.OneHotLinearPrefixMass` | Symbolic prefix-carry counts and an affine factorized model, with conditional DDT consequences |
-| `Magma.OneHotQuantitativeTraceFactorization` | Symbolic 5+1+2 trace counting and unconditional affine DDT and column-mass formulae |
-| `Magma.OneHotExactCoefficientMasks` | Exact local coefficient masks, closed DDT and column masses, and four affine regimes |
-| `Magma.OneHotGlobalMaximum` | Sharp maxima for the one-bit DDT slice and three-round column masses, with all attaining key classes |
-| `Magma.OneHotFixedKeyPeak` | Exact peak and an attaining bit for each key, with arithmetic counts of maximizing classes |
+| `Magma.OneHot.CompleteSupport` | Checked positive witnesses and exact one-bit support certificates |
+| `Magma.OneHot.KeyClasses` | Exact local key-class tables and conditionally certified full-word support |
+| `Magma.OneHot.ClassCertificates` | Independent representative certificates and an explicit class-invariance hypothesis |
+| `Magma.OneHot.CarryPrefix` | Universal prefix-carry classification and preservation under key-class representatives |
+| `Magma.OneHot.SilentNibbleStructure` | Silent-nibble carry structure, active-nibble nonzero output, and the original local-step bridge |
+| `Magma.OneHot.BoundaryReduction` | Exact prefix/active/suffix boundary reduction and invariance across key classes |
+| `Magma.OneHot.TraceSplit5` | Exact 5+1+2 trace split and the actual DDT criterion through prefix and active-step witnesses |
+| `Magma.OneHot.PrefixArithmeticBridge` | Arithmetic semantics of the trace prefix and unconditional full-word DDT support at bits 20–23 |
+| `Magma.OneHot.FullKeyClassInvariant` | Unconditional one-bit DDT support classification and key-class invariance for every key |
+| `Magma.OneHot.ThreeRoundColumns` | Universal zero-left three-round one-bit column support and the unique class with all columns zero |
+| `Magma.OneHot.ExactColumnMass` | Exact carry-DP column masses and unequal multiplicities within one support class |
+| `Magma.OneHot.LinearPrefixMass` | Symbolic prefix-carry counts and an affine factorized model, with conditional DDT consequences |
+| `Magma.OneHot.QuantitativeTraceFactorization` | Symbolic 5+1+2 trace counting and unconditional affine DDT and column-mass formulae |
+| `Magma.OneHot.ExactCoefficientMasks` | Exact local coefficient masks, closed DDT and column masses, and four affine regimes |
+| `Magma.OneHot.GlobalMaximum` | Sharp maxima for the one-bit DDT slice and three-round column masses, with all attaining key classes |
+| `Magma.OneHot.FixedKeyPeak` | Exact peak and an attaining bit for each key, with arithmetic counts of maximizing classes |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 

@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotTraceSplit5
+public import Magma.OneHot.TraceSplit5
 import all Init.Data.Range.Basic
 
 @[expose] public section

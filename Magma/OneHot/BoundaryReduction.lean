@@ -1,7 +1,7 @@
 module
 
-public import Magma.OneHotCarryPrefix
-public import Magma.OneHotSilentNibbleStructure
+public import Magma.OneHot.CarryPrefix
+public import Magma.OneHot.SilentNibbleStructure
 import all Init.Data.Range.Basic
 
 @[expose] public section

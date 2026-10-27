@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotKeyClasses
+public import Magma.OneHot.KeyClasses
 import all Init.Data.Range.Basic
 
 @[expose] public section

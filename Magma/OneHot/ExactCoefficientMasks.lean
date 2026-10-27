@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotQuantitativeTraceFactorization
+public import Magma.OneHot.QuantitativeTraceFactorization
 import Mathlib.Tactic.Ring
 import all Init.Data.Range.Basic
 

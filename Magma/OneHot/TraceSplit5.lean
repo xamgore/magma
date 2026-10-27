@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotBoundaryReduction
+public import Magma.OneHot.BoundaryReduction
 import all Init.Data.Range.Basic
 
 @[expose] public section

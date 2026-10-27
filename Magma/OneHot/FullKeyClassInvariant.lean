@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHotPrefixArithmeticBridge
+public import Magma.OneHot.PrefixArithmeticBridge
 import all Init.Data.Range.Basic
 
 @[expose] public section
