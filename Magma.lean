@@ -24,6 +24,7 @@ public import Magma.OneHot.QuantitativeTraceFactorization
 public import Magma.OneHot.ExactCoefficientMasks
 public import Magma.OneHot.GlobalMaximum
 public import Magma.OneHot.FixedKeyPeak
+public import Magma.OneHot.ActualKeyCardinality
 public import Magma.BatchSearch
 public import Magma.BatchFamily
 import all Init.Data.Range.Basic

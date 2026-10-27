@@ -42,6 +42,7 @@ separate: import `Magma.OneHot.KeyClasses` and refer to declarations under `Magm
 | `Magma.OneHot.ExactCoefficientMasks` | Exact local coefficient masks, closed DDT and column masses, and four affine regimes |
 | `Magma.OneHot.GlobalMaximum` | Sharp maxima for the one-bit DDT slice and three-round column masses, with all attaining key classes |
 | `Magma.OneHot.FixedKeyPeak` | Exact peak and an attaining bit for each key, with arithmetic counts of maximizing classes |
+| `Magma.OneHot.ActualKeyCardinality` | Exact cardinalities of the actual 32-bit keys attaining and missing the one-bit DDT maximum |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 
