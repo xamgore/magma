@@ -617,6 +617,90 @@ theorem xorDDT_rounds_three_zero_left_factorization
     exact BitVec.zero_xor
   rw [xorDDT_rounds_three_zero_left_eq_two, xorDDT_rounds_two, hzero]
 
+/-! ### Zero-left row mass for arbitrary round keys -/
+
+private theorem zeroLeft_word_card : Fintype.card (V 32) = 2 ^ 32 := by
+  rw [← FinEnum.card_eq_fintypeCard]
+  exact FinEnum.card_bitVec 32
+
+/-- Summing over `aL` gives the second-round DDT count times `2^32`.
+    The result is independent of the first and third keys. -/
+theorem zeroLeft_row_mass (k₀ k₁ k₂ aR bR : V 32) :
+    (∑ aL : V 32,
+      xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂)
+        (aL, aR) (0#32, bR)) =
+      Fintype.card (V 32) * xorDDT_g k₁ bR aR := by
+  classical
+  calc
+    (∑ aL : V 32,
+      xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂)
+        (aL, aR) (0#32, bR)) =
+        ∑ aL : V 32,
+          xorDDT_g k₀ aR (xor bR aL) * xorDDT_g k₁ bR aR := by
+      apply Finset.sum_congr rfl
+      intro aL _
+      exact xorDDT_rounds_three_zero_left_factorization k₀ k₁ k₂ aL aR bR
+    _ = (∑ aL : V 32, xorDDT_g k₀ aR (xor bR aL)) *
+          xorDDT_g k₁ bR aR := (Finset.sum_mul _ _ _).symm
+    _ = Fintype.card (V 32) * xorDDT_g k₁ bR aR := by
+      rw [xorDDT_g_sum_output_xor]
+
+/-- A fixed `bR` column vanishes exactly when the second-round
+    differential is impossible, for arbitrary round keys. -/
+theorem zeroLeft_column_empty_iff (k₀ k₁ k₂ aR bR : V 32) :
+    (∀ aL : V 32,
+      xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂)
+        (aL, aR) (0#32, bR) = 0) ↔
+      xorDDT_g k₁ bR aR = 0 := by
+  constructor
+  · intro hall
+    have hsum :
+        (∑ aL : V 32,
+          xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂)
+            (aL, aR) (0#32, bR)) = 0 := by
+      simp only [hall, Finset.sum_const_zero]
+    rw [zeroLeft_row_mass] at hsum
+    rcases mul_eq_zero.mp hsum with hc | hb
+    · rw [zeroLeft_word_card] at hc
+      norm_num at hc
+    · exact hb
+  · intro hb aL
+    rw [xorDDT_rounds_three_zero_left_factorization, hb, mul_zero]
+
+/-- One Boolean carry test excludes every `aL` in a fixed `bR` column. -/
+theorem zeroLeft_column_empty_iff_boolean (k₀ k₁ k₂ aR bR : V 32) :
+    (∀ aL : V 32,
+      xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂)
+        (aL, aR) (0#32, bR) = 0) ↔
+      xorDiffPossibleBooleanFast k₁ bR aR = false := by
+  rw [zeroLeft_column_empty_iff, xorDiffPossibleBooleanFast_eq]
+  exact (xorDiffPossibleBoolean_false_iff k₁ bR aR).symm
+
+/-- The zero-left slice has total DDT mass `2^64` for arbitrary round keys
+    and right input difference. All sums are symbolic. -/
+theorem zeroLeft_total_mass_all_keys (k₀ k₁ k₂ aR : V 32) :
+    (∑ p : V 32 × V 32,
+      xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂)
+        (p.1, aR) (0#32, p.2)) = 2 ^ 64 := by
+  classical
+  calc
+    (∑ p : V 32 × V 32,
+      xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂)
+        (p.1, aR) (0#32, p.2)) =
+        ∑ bR : V 32, ∑ aL : V 32,
+          xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂)
+            (aL, aR) (0#32, bR) := by
+      rw [Fintype.sum_prod_type_right]
+    _ = ∑ bR : V 32, Fintype.card (V 32) * xorDDT_g k₁ bR aR := by
+      apply Finset.sum_congr rfl
+      intro bR _
+      exact zeroLeft_row_mass k₀ k₁ k₂ aR bR
+    _ = Fintype.card (V 32) * ∑ bR : V 32, xorDDT_g k₁ bR aR :=
+      (Finset.mul_sum _ _ _).symm
+    _ = Fintype.card (V 32) * Fintype.card (V 32) := by
+      rw [xorDDT_g_sum_input]
+    _ = 2 ^ 64 := by rw [zeroLeft_word_card]; norm_num
+
 /-- Universal exact formula for the zero-left output slice with the
     first two keys zero. No heuristic independence assumption appears. -/
 theorem zeroLeft_three_round_exact_sbox_product

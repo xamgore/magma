@@ -44,6 +44,7 @@ next iteration.
 | `09_ZeroLeftExactDDT`          | Can sixteen exact S-box factors determine the three exceptional DDT counts for every third key? |
 | `10_ZeroLeft64ExactCounts`     | Do all 64 predicted pairs have the same exact DDT count for every third key?                    |
 | `11_ZeroLeft64Completeness`    | Does conservation of DDT mass prove that the 64-pair list is complete?                          |
+| `12_ZeroLeftArbitraryKeys`     | Which one-bit output columns vanish for arbitrary keys, is total mass preserved, and can UInt8 scan them quickly? |
 
 Fixed observations are Lean examples and theorems. Measurements use `#eval`. Run an iteration
 explicitly; iterations import the library directly and do not run earlier experiments:
