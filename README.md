@@ -159,6 +159,12 @@ mangling, and marks private nodes with `*`. Distinct declarations keep distinct 
 duplicate private names receive numbered markers. Base-36 IDs and grouped arrows keep the
 Mermaid source compact without removing nodes or dependencies. The command reports its
 character count alongside node and edge counts.
+Each diagram has a default budget of 48,000 characters. Larger graphs produce an overview
+at the requested path and numbered parts such as `theorems.01.mmd`. Each theorem belongs to
+one part; direct prerequisites from other parts appear as boundary nodes marked `@N`.
+Global node IDs and private-name markers are consistent across parts, and every dependency
+edge is retained. The overview counts cross-part dependencies. Use `--max-chars` to change
+the budget; stdout output requires a graph small enough to fit in one diagram.
 
 `axiom-audit` checks the compiled library against the default axiom allowlist:
 `propext`, `Classical.choice`, and `Quot.sound`.

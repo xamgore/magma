@@ -111,16 +111,10 @@ def node_id(index: int) -> str:
     return 't' + (result or '0')
 
 
-def render_theorems(graph: dict[str, set[str]]) -> str:
-    identifiers = {name: node_id(index) for index, name in enumerate(graph)}
-    lines = [
-        '%% Prerequisite -> user; hidden paths contracted; transitive DAG edges reduced.',
-        '%% Namespace groups omit Magma.; * marks private names; numbered * disambiguates duplicates.',
-        'flowchart TD',
-    ]
+def theorem_labels(graph: dict[str, set[str]]) -> dict[str, tuple[str, str]]:
     private_counts = Counter(short_name(name) for name in graph if name.startswith('_private.'))
     occurrences: Counter[str] = Counter()
-    groups: dict[str, list[str]] = defaultdict(list)
+    labels = {}
     for name in graph:
         short = short_name(name)
         parts = name_parts(short)
@@ -129,6 +123,24 @@ def render_theorems(graph: dict[str, set[str]]) -> str:
         if name.startswith('_private.'):
             occurrences[short] += 1
             label += '*' + (str(occurrences[short]) if private_counts[short] > 1 else '')
+        labels[name] = namespace, label
+    return labels
+
+
+def render_theorems(graph: dict[str, set[str]], identifiers=None, labels=None, boundary=None) -> str:
+    identifiers = identifiers if identifiers is not None else {name: node_id(i) for i, name in enumerate(graph)}
+    labels = labels if labels is not None else theorem_labels(graph)
+    boundary = boundary or {}
+    lines = [
+        '%% Prerequisite -> user; hidden paths contracted; transitive DAG edges reduced.',
+        '%% Namespace groups omit Magma.; * marks private names; numbered * disambiguates duplicates.',
+        'flowchart TD',
+    ]
+    groups: dict[str, list[str]] = defaultdict(list)
+    for name in graph:
+        namespace, label = labels[name]
+        if name in boundary:
+            label += f' @{boundary[name]}'
         groups[namespace].append(f'{identifiers[name]}["{escape(label, quote=True)}"]')
     for index, (namespace, nodes) in enumerate(groups.items()):
         if namespace:
@@ -145,12 +157,85 @@ def render_theorems(graph: dict[str, set[str]]) -> str:
     return '\n'.join(lines) + '\n'
 
 
+def page_graph(graph: dict[str, set[str]], owners: list[str]) -> dict[str, set[str]]:
+    """Include every edge into an owned node, with boundary prerequisites as leaf nodes."""
+    owned = set(owners)
+    present = owned | set().union(set(), *(graph[name] for name in owners))
+    return {name: graph[name] if name in owned else set() for name in graph if name in present}
+
+
+def render_diagrams(graph: dict[str, set[str]], stem: str, max_chars: int) -> dict[str, str]:
+    """Split oversized diagrams without dropping any theorem or dependency edge."""
+    full = render_theorems(graph)
+    if len(full) <= max_chars:
+        return {f'{stem}.mmd': full}
+    identifiers = {name: node_id(i) for i, name in enumerate(graph)}
+    labels = theorem_labels(graph)
+    groups: dict[str, list[str]] = defaultdict(list)
+    for name in graph:
+        groups[labels[name][0]].append(name)
+
+    def fits(owners):
+        subset = page_graph(graph, owners)
+        # Pessimistic boundary numbers and room for the part header.
+        owned = set(owners)
+        boundary = {name: len(graph) for name in subset if name not in owned}
+        return len(render_theorems(subset, identifiers, labels, boundary)) + 256 <= max_chars
+
+    pages, current = [], []
+    for group in groups.values():
+        if fits(current + group):
+            current += group
+            continue
+        if current:
+            pages.append(current)
+            current = []
+        if fits(group):
+            current = list(group)
+            continue
+        for name in group:
+            if not fits(current + [name]):
+                if current:
+                    pages.append(current)
+                current = []
+                if not fits([name]):
+                    raise ValueError(f'Theorem and its direct prerequisites exceed the budget: {name}')
+            current.append(name)
+    if current:
+        pages.append(current)
+    page_of = {name: i for i, owners in enumerate(pages, 1) for name in owners}
+    files = {}
+    overview = [
+        '%% Parts preserve all theorem nodes and edges; open the numbered .mmd files.',
+        '%% Edge labels count dependencies crossing between parts.',
+        'flowchart TD',
+    ]
+    for i, owners in enumerate(pages, 1):
+        filename = f'{stem}.{i:02}.mmd'
+        subset = page_graph(graph, owners)
+        boundary = {name: page_of[name] for name in subset if page_of[name] != i}
+        diagram = f'%% Part {i}; @N marks a prerequisite owned by part N. Node IDs are global.\n'
+        diagram += render_theorems(subset, identifiers, labels, boundary)
+        files[filename] = diagram
+        overview.append(f'p{i}["{escape(filename, quote=True)}: {len(owners)} theorems"]')
+    crossing = Counter((page_of[dep], page_of[name]) for name, deps in graph.items()
+                       for dep in deps if page_of[dep] != page_of[name])
+    for (dependency, user), count in sorted(crossing.items()):
+        overview.append(f'p{dependency}-->|{count}|p{user}')
+    files = {f'{stem}.mmd': '\n'.join(overview) + '\n', **files}
+    if any(len(diagram) > max_chars for diagram in files.values()):
+        raise ValueError('Diagram exceeds the character budget; use --module or --focus')
+    return files
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--input', type=Path, help='Reuse deps JSON instead of building and running deps')
     parser.add_argument('-o', '--output', type=Path, help='Write Mermaid here instead of stdout')
     parser.add_argument('--module', help='Show theorems from this module or module subtree')
     parser.add_argument('--focus', action='append', help='Show this theorem and its prerequisites; repeatable')
+    parser.add_argument('--max-chars', type=int, default=48000,
+                        help='Character budget per diagram (default: 48000, below the 50000 limit)')
     args = parser.parse_args()
     try:
         report = json.loads(args.input.read_text(encoding='utf-8')) if args.input else load_report()
@@ -160,13 +245,19 @@ def main() -> None:
         if not graph:
             raise ValueError('No theorems found in selection')
         graph = reduced_graph(graph)
-        diagram = render_theorems(graph)
+        if args.max_chars <= 0:
+            raise ValueError('--max-chars must be positive')
+        files = render_diagrams(graph, args.output.stem if args.output else 'theorems', args.max_chars)
         if args.output:
-            write_text(args.output, diagram)
+            for filename, diagram in files.items():
+                write_text(args.output if filename == args.output.stem + '.mmd'
+                           else args.output.parent / filename, diagram)
         else:
-            sys.stdout.write(diagram)
+            if len(files) > 1:
+                raise ValueError('Graph needs multiple diagrams; pass -o to write an overview and numbered parts')
+            sys.stdout.write(next(iter(files.values())))
         print(f'{len(graph)} theorems, {sum(map(len, graph.values()))} edges, '
-              f'{len(diagram)} characters', file=sys.stderr)
+              f'{len(files)} diagrams, largest {max(map(len, files.values()))} characters', file=sys.stderr)
     except (ValueError, KeyError, OSError, subprocess.CalledProcessError) as error:
         parser.exit(1, f'theorem_graph: {error}\n')
 

@@ -1,6 +1,8 @@
 import unittest
+import re
 
-from scripts.theorem_graph import focused_graph, reduced_graph, render_theorems, short_name, theorem_dependencies
+from scripts.theorem_graph import (focused_graph, node_id, reduced_graph, render_diagrams,
+                                  render_theorems, short_name, theorem_dependencies)
 
 
 def declaration(name, kind='theorem', body=(), types=(), module='Magma.A'):
@@ -70,6 +72,30 @@ class TheoremGraphTests(unittest.TestCase):
         self.assertIn('tz["item35"]', diagram)
         self.assertIn('t10["item36"]', diagram)
         self.assertIn('["a&lt;b"]', diagram)
+
+    def test_partition_preserves_edges_and_global_ids_under_budget(self):
+        graph = {f'Magma.Shared.item{i}': {f'Magma.Shared.item{j}' for j in range(max(0, i - 3), i)}
+                 for i in range(100)}
+        files = render_diagrams(graph, 'test', 1500)
+        self.assertGreater(len(files), 2)
+        self.assertTrue(all(len(text) <= 1500 for text in files.values()))
+        edges, nodes = set(), set()
+        for filename, text in files.items():
+            if filename == 'test.mmd':
+                continue
+            nodes.update(re.findall(r'^(t[0-9a-z]+)\[', text, re.M))
+            for source, targets in re.findall(r'^(t[0-9a-z]+)-->(.*)$', text, re.M):
+                edges.update((source, target) for target in targets.split('&'))
+        ids = {name: node_id(i) for i, name in enumerate(graph)}
+        self.assertEqual(nodes, set(ids.values()))
+        self.assertEqual(edges, {(ids[dep], ids[name]) for name, deps in graph.items() for dep in deps})
+        self.assertTrue(any('@' in text for name, text in files.items() if name != 'test.mmd'))
+
+    def test_small_graph_is_not_split_and_impossible_budget_is_reported(self):
+        graph = {'a': set(), 'b': {'a'}}
+        self.assertEqual(render_diagrams(graph, 'small', 50000), {'small.mmd': render_theorems(graph)})
+        with self.assertRaisesRegex(ValueError, 'exceed'):
+            render_diagrams(graph, 'small', 10)
 
 
 if __name__ == '__main__':
