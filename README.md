@@ -120,6 +120,7 @@ lake lint
 lake exe defs > .lake/defs.txt
 lake exe deps > .lake/deps.json
 python3 scripts/export_sources.py -o .lake/sources.txt --mermaid .lake/modules.mmd
+python3 scripts/theorem_graph.py -o .lake/theorems.mmd
 lake exe axiom-audit
 ```
 
@@ -141,6 +142,17 @@ Both reading exports and the diagram omit the aggregate `Magma.lean` reexport mo
 Arrows point from dependencies to modules that import them. `deps` records the shared library
 module order and direct imports alongside declaration dependencies; its JSON schema is documented
 in the module comment in `Dependencies.lean`.
+
+`theorems.mmd` uses dependencies from elaborated theorem types and proof terms, including
+implicit references inserted by tactics and elaboration. Paths through definitions and generated
+helpers are contracted onto theorem nodes. Arrows point from prerequisites to their users;
+transitive edges are reduced when the graph is acyclic. `--module Magma.OneHot` limits visible
+nodes to that module subtree while preserving paths through hidden declarations.
+These are references retained in the final proof terms, rather than a minimal logical basis
+or a record of unsuccessful tactic attempts.
+Use `--focus Magma.OneHotDiagonalCarryMasks.positiveOneHotCells_card_le_76` for one theorem
+and its prerequisites, or `--input .lake/deps.json` to reuse an existing dependency export.
+This command generates only the theorem diagram; it does not generate defs or source bundles.
 
 `axiom-audit` checks the compiled library against the default axiom allowlist:
 `propext`, `Classical.choice`, and `Quot.sound`.
