@@ -22,8 +22,6 @@ of four-bit DDT entries, without enumerating 32-bit or 64-bit states. The list
 has no duplicate pairs, so `sixty_four_certified_pairs` certifies 64 distinct
 pairs with identical exact counts, uniformly over the third key.
 
-This establishes inclusion in the support. Completeness of the list still
-requires the converse, via a support/locality or conservation-of-mass argument.
 Iteration 08 is imported to reuse its definitions and proved list length; it
 contains no executable experiments. Earlier search profiles are not imported.
 

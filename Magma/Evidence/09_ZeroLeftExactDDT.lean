@@ -23,11 +23,6 @@ to sixteen four-bit DDT factors each. Every count is exactly `2^58` for output
 right difference `2^23`, uniformly over the third key. No 32-bit or 64-bit
 state space is enumerated, and no independence or Markov assumption is used.
 
-Classifying the entire support as the 64 pairs predicted in iteration 08 still
-requires connecting its explicit list to this universal product formula.
-Iteration 10 proves the exact count for every listed pair; the converse
-exclusion of unlisted pairs remains open.
-
 Build explicitly with `lake build Magma/Evidence/09_ZeroLeftExactDDT.lean`.
 Earlier iterations are not imported or executed.
 -/

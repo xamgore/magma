@@ -16,9 +16,7 @@ two exact four-bit RFC tables predict 64 pairs `(aL, bR)`.
 The proved support test and its soundness/completeness theorems live in
 `Magma.MultiRoundDDT`. The table proofs and enumeration below establish the
 predicted list's size and its one-bit/two-bit input masks. They do not establish
-that this list equals the full three-round support. Iteration 09 supplies the
-universal sixteen-factor DDT formula; identifying its positive entries with
-this explicit list remains to be proved.
+that this list equals the full three-round support.
 
 The fixed results are kernel-checked statements, with no profiling commands:
 64 predicted pairs, no one-bit positions, and two-bit pairs

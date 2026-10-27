@@ -254,6 +254,123 @@ theorem xorDDT_g_zero_key_eq_ddtT (d out : V 32) :
   · intro h
     exact congrArg rot11 h
 
+/-! ### XOR as a permutation: no large finite type enumeration -/
+
+private def xorRightEquiv (z : V 32) : V 32 ≃ V 32 where
+  toFun := fun x => xor x z
+  invFun := fun x => xor x z
+  left_inv := by
+    intro x
+    change (x ^^^ z) ^^^ z = x
+    rw [BitVec.xor_assoc, BitVec.xor_self, BitVec.xor_zero]
+  right_inv := by
+    intro x
+    change (x ^^^ z) ^^^ z = x
+    rw [BitVec.xor_assoc, BitVec.xor_self, BitVec.xor_zero]
+
+private def xorLeftEquiv (z : V 32) : V 32 ≃ V 32 where
+  toFun := fun x => xor z x
+  invFun := fun x => xor z x
+  left_inv := by
+    intro x
+    change z ^^^ (z ^^^ x) = x
+    rw [← BitVec.xor_assoc, BitVec.xor_self, BitVec.zero_xor]
+  right_inv := by
+    intro x
+    change z ^^^ (z ^^^ x) = x
+    rw [← BitVec.xor_assoc, BitVec.xor_self, BitVec.zero_xor]
+
+/-! ### Conservation laws for the actual 32-bit round function g -/
+
+/-- For a fixed input difference, each starting word produces exactly one
+    output difference. This is a fiberwise cardinality identity. -/
+theorem xorDDT_g_sum_output (k d : V 32) :
+    (∑ out : V 32, xorDDT_g k d out) = Fintype.card (V 32) := by
+  classical
+  have h := Finset.card_eq_sum_card_fiberwise
+    (s := (Finset.univ : Finset (V 32)))
+    (t := (Finset.univ : Finset (V 32)))
+    (f := fun x : V 32 => xor (g k (xor x d)) (g k x))
+    (by intro x hx; exact Finset.mem_univ _)
+  simpa only [xorDDT_g, Finset.card_univ] using h.symm
+
+/-- Generic double-counting lemma. Its type is ABSTRACT, preventing
+    reduction of `Finset.univ` over a 32- or 64-bit word space. -/
+private theorem sum_card_fibers_in_columns
+    {α β : Type*} [Fintype α] [Fintype β] [DecidableEq β]
+    (f : α → β → β) (hf : ∀ x, Function.Bijective (f x)) (out : β) :
+    (∑ d : β, ((Finset.univ : Finset α).filter
+      (fun x => f x d = out)).card) = Fintype.card α := by
+  classical
+  have hone (x : α) :
+      ((Finset.univ : Finset β).filter (fun d => f x d = out)).card = 1 := by
+    obtain ⟨w, hw⟩ := (hf x).2 out
+    have hs :
+        ((Finset.univ : Finset β).filter (fun d => f x d = out)) = {w} := by
+      ext d
+      simp only [Finset.mem_filter, Finset.mem_univ, true_and,
+        Finset.mem_singleton]
+      constructor
+      · intro hd
+        exact (hf x).1 (hd.trans hw.symm)
+      · intro hd
+        rw [hd]
+        exact hw
+    rw [hs]
+    simp
+  calc
+    (∑ d : β, ((Finset.univ : Finset α).filter
+       (fun x => f x d = out)).card) =
+        ∑ d : β, ∑ x : α, if f x d = out then (1 : Nat) else 0 := by
+      apply Finset.sum_congr rfl
+      intro d _
+      rw [Finset.card_eq_sum_ones, Finset.sum_filter]
+    _ = ∑ x : α, ∑ d : β,
+          if f x d = out then (1 : Nat) else 0 := by
+      rw [Finset.sum_comm]
+    _ = ∑ x : α,
+          ((Finset.univ : Finset β).filter (fun d => f x d = out)).card := by
+      apply Finset.sum_congr rfl
+      intro x _
+      rw [Finset.card_eq_sum_ones, Finset.sum_filter]
+    _ = ∑ _x : α, (1 : Nat) := by
+      apply Finset.sum_congr rfl
+      intro x _
+      exact hone x
+    _ = Fintype.card α := (Fintype.card_eq_sum_ones).symm
+
+/-- For a fixed output difference, each starting word gives exactly one
+    input difference, because g[k] and XOR-translation are permutations.
+
+    Unlike `xorDDT_g_sum_output`, this result USES the bijectivity of g. -/
+theorem xorDDT_g_sum_input (k out : V 32) :
+    (∑ d : V 32, xorDDT_g k d out) = Fintype.card (V 32) := by
+  classical
+  let f : V 32 → V 32 → V 32 :=
+    fun x d => xor (g k (xor x d)) (g k x)
+  have hf (x : V 32) : Function.Bijective (f x) := by
+    let e : V 32 ≃ V 32 :=
+      ((xorLeftEquiv x).trans (gEquiv k)).trans
+        (xorRightEquiv (g k x))
+    change Function.Bijective (e : V 32 → V 32)
+    exact e.bijective
+  simpa only [xorDDT_g, f] using
+    (sum_card_fibers_in_columns f hf out)
+
+theorem xorDDT_g_sum_output_xor (k d z : V 32) :
+    (∑ x : V 32, xorDDT_g k d (xor z x)) = Fintype.card (V 32) := by
+  calc
+    (∑ x : V 32, xorDDT_g k d (xor z x)) =
+        ∑ x : V 32, xorDDT_g k d (xor x z) := by
+      apply Finset.sum_congr rfl
+      intro x _
+      congr 1
+      change z ^^^ x = x ^^^ z
+      exact BitVec.xor_comm z x
+    _ = ∑ out : V 32, xorDDT_g k d out :=
+      (xorRightEquiv z).sum_comp (fun out => xorDDT_g k d out)
+    _ = Fintype.card (V 32) := xorDDT_g_sum_output k d
+
 /--
   An equivalent, nibble-local specification of the XOR-DDT of `g`.
   Both inputs to each S-box are obtained from the *complete* modular

@@ -31,18 +31,19 @@ run on every invocation.
 its question, preserves experiments and historical observations, and explains what motivated the
 next iteration.
 
-| Iteration                      | Research question                                                                           |
-|--------------------------------|---------------------------------------------------------------------------------------------|
-| `01_UInt16Search`              | Can local deletion find a certificate, and where does search spend time?                    |
-| `02_CarryGroupedPropagation`   | Do whole carry paths and grouped wiring expose a contradiction?                             |
-| `03_FastInitialCover`          | Can the concrete impossibility proof reuse a faster sound coverage check?                   |
-| `04_BatchCarryGroupedSearch`   | Can one verified carry base serve many left input differences?                              |
-| `05_BatchFamilyCertificates`   | Can the whole one-bit family be certified, and what survives a two-bit scan?                |
-| `06_TwoBitFamilyAndExceptions` | How can the selected two-bit family be certified, and why do three masks remain unresolved? |
-| `07_ThreeExceptionalWitnesses` | Do explicit inputs give positive DDT support for the three exceptional masks?               |
-| `08_ZeroLeftSupport`          | Do two exact S-box tables explain 64 predicted pairs and the three two-bit exceptions?       |
-| `09_ZeroLeftExactDDT`         | Can sixteen exact S-box factors determine the three exceptional DDT counts for every third key? |
-| `10_ZeroLeft64ExactCounts`    | Do all 64 predicted pairs have the same exact DDT count for every third key?                  |
+| Iteration                      | Research question                                                                               |
+|--------------------------------|-------------------------------------------------------------------------------------------------|
+| `01_UInt16Search`              | Can local deletion find a certificate, and where does search spend time?                        |
+| `02_CarryGroupedPropagation`   | Do whole carry paths and grouped wiring expose a contradiction?                                 |
+| `03_FastInitialCover`          | Can the concrete impossibility proof reuse a faster sound coverage check?                       |
+| `04_BatchCarryGroupedSearch`   | Can one verified carry base serve many left input differences?                                  |
+| `05_BatchFamilyCertificates`   | Can the whole one-bit family be certified, and what survives a two-bit scan?                    |
+| `06_TwoBitFamilyAndExceptions` | How can the selected two-bit family be certified, and why do three masks remain unresolved?     |
+| `07_ThreeExceptionalWitnesses` | Do explicit inputs give positive DDT support for the three exceptional masks?                   |
+| `08_ZeroLeftSupport`           | Do two exact S-box tables explain 64 predicted pairs and the three two-bit exceptions?          |
+| `09_ZeroLeftExactDDT`          | Can sixteen exact S-box factors determine the three exceptional DDT counts for every third key? |
+| `10_ZeroLeft64ExactCounts`     | Do all 64 predicted pairs have the same exact DDT count for every third key?                    |
+| `11_ZeroLeft64Completeness`    | Does conservation of DDT mass prove that the 64-pair list is complete?                          |
 
 Fixed observations are Lean examples and theorems. Measurements use `#eval`. Run an iteration
 explicitly; iterations import the library directly and do not run earlier experiments:

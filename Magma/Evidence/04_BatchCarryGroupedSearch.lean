@@ -20,7 +20,6 @@ The experiment scans all 32 one-bit left input differences for the same
 zero-key base and independently checks the first prefiltered hit.
 Prefilter hits alone are search observations; the soundness theorem requires
 both the shared base and the individual grouped witness to be accepted.
-The complete one-bit family is checked in `05_BatchFamilyCertificates.lean`.
 
 The three profiles measure proposal/search, shared base verification, and
 selection of one independently verified grouped witness separately. Timings

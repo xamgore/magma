@@ -20,13 +20,11 @@ The original single-deletion run exceeded ten minutes without a recorded
 result. Historical initialization measurements and comparisons are retained
 next to their calls below, including results for readers without Lean.
 
-This motivated the whole-carry-path and grouped-wiring experiments in
-`02_CarryGroupedPropagation.lean`. The implementation remains in
-`Magma.FastSearch`; this file records the experiments in their original order.
+The implementation lives in `Magma.FastSearch`; this file records the
+experiments in their original order.
 Runs without a transcript have no recorded outcome.
 
 Run explicitly with `lake env lean Magma/Evidence/01_UInt16Search.lean`.
-The later iterations do not import or execute these expensive experiments.
 -/
 
 open Magma.Internal Magma.CarryAutomaton Magma.MultiRoundDDT Magma.Pruning Magma.Certificates

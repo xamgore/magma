@@ -27,9 +27,8 @@ result using its soundness theorem in `Magma.Certificates.FastInitialCheck`:
 key, and every right output difference. Carry/grouped checkers are reused.
 
 Sound transition-based coverage already avoids the old check for this
-certificate. Universal correctness of `fastInitialBitDomains` remains a
-separate open task; no universal equality with the old domains is assumed.
-The next experimental direction is reusable bases and batch candidate search.
+certificate. No universal equality between `fastInitialBitDomains` and the
+old domains is assumed.
 
 Historical record:
 https://chatgpt.com/c/6ade1478-dfa8-83ed-83bc-dc3b84cc42cf
