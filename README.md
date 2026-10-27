@@ -14,66 +14,66 @@ run on every invocation.
 ### Library
 
 `Magma/OneHot/` groups one-bit analysis modules. Module paths and declaration namespaces are
-separate: import `Magma.OneHot.KeyClasses` and refer to declarations under `Magma.OneHotKeyClasses`.
+separate: import `OneHot.KeyClasses` and refer to declarations under `OneHotKeyClasses`.
 
-`Magma/ZeroLeft/` groups the later work on column transport and exact coefficients.
-It imports earlier zero-left results from `Magma.MultiRoundDDT` and one-bit results from
-`Magma/OneHot/`. The support and completeness proofs behind iterations 08, 10, and 11
-belong to `Magma.MultiRoundDDT`.
-`Magma.UnitInputParity` proves the general row invariant independently;
-`Magma.ZeroLeft.KeyParity` combines it with the eight-offset classification.
-`Magma.OddUnitInput77` gives the complete 77-entry odd-key reference row, and
-`Magma.ZeroLeft.OddKey` applies its exact counts to three-round columns.
-`Magma.ZeroLeft.ParityCompleteSlice` unifies both parities into exact coefficients,
-supports, and column cardinalities of zero, eight, or 77 for arbitrary round keys
-with right input difference one and left output difference zero.
+`Magma/ZeroLeft/` groups the later work on column transport and exact coefficients. It imports
+earlier zero-left results from `MultiRoundDDT` and one-bit results from
+`Magma/OneHot/`. The support and completeness proofs behind iterations 08, 10, and 11 belong to
+`MultiRoundDDT`.
+`UnitInputParity` proves the general row invariant independently;
+`ZeroLeft.KeyParity` combines it with the eight-offset classification.
+`OddUnitInput77` gives the complete 77-entry odd-key reference row, and
+`ZeroLeft.OddKey` applies its exact counts to three-round columns.
+`ZeroLeft.ParityCompleteSlice` unifies both parities into exact coefficients, supports, and column
+cardinalities of zero, eight, or 77 for arbitrary round keys with right input difference one and
+left output difference zero.
 
-| Module                   | Content                                                          |
-|--------------------------|------------------------------------------------------------------|
-| `Magma.RFC8891`          | Specification, invertibility proofs, RFC test vectors            |
-| `Magma.CryptoProperties` | DDT/LAT bounds, Walsh spectra, nonlinearity                      |
-| `Magma.CarryAutomaton`   | Carry model, path counts, reachability                           |
-| `Magma.UnitInputParity` | The entire unit-input DDT row depends only on key parity, by even-translation invariance |
-| `Magma.OddUnitInput77` | Kernel-certified 77-entry unit-input DDT row for every odd key, complete by conserved mass |
-| `Magma.MultiRoundDDT`    | Feistel differentials, joint carry constraints, and the complete 64-pair zero-key slice |
-| `Magma.Pruning`          | Domain pruning, soundness, stabilization                         |
-| `Magma.Certificates`     | Independent checkers and soundness, including `FastInitialCheck` |
-| `Magma.FastSearch`       | Candidate generation and UInt16/UInt8 propagation                |
-| `Magma.UInt8NoPathCertificates` | Independently checked no-path certificates from UInt8 proposals |
-| `Magma.OneHot.CompleteSupport` | Checked positive witnesses and exact one-bit support certificates |
-| `Magma.OneHot.KeyClasses` | Exact local key-class tables and conditionally certified full-word support |
-| `Magma.OneHot.ClassCertificates` | Independent representative certificates and an explicit class-invariance hypothesis |
-| `Magma.OneHot.CarryPrefix` | Universal prefix-carry classification and preservation under key-class representatives |
-| `Magma.OneHot.SilentNibbleStructure` | Silent-nibble carry structure, active-nibble nonzero output, and the original local-step bridge |
-| `Magma.OneHot.BoundaryReduction` | Exact prefix/active/suffix boundary reduction and invariance across key classes |
-| `Magma.OneHot.TraceSplit5` | Exact 5+1+2 trace split and the actual DDT criterion through prefix and active-step witnesses |
-| `Magma.OneHot.PrefixArithmeticBridge` | Arithmetic semantics of the trace prefix and unconditional full-word DDT support at bits 20–23 |
-| `Magma.OneHot.FullKeyClassInvariant` | Unconditional one-bit DDT support classification and key-class invariance for every key |
-| `Magma.OneHot.ThreeRoundColumns` | Universal zero-left three-round one-bit column support and the unique class with all columns zero |
-| `Magma.OneHot.ExactColumnMass` | Exact carry-DP column masses and unequal multiplicities within one support class |
-| `Magma.OneHot.LinearPrefixMass` | Symbolic prefix-carry counts and an affine factorized model, with conditional DDT consequences |
-| `Magma.OneHot.QuantitativeTraceFactorization` | Symbolic 5+1+2 trace counting and unconditional affine DDT and column-mass formulae |
-| `Magma.OneHot.ExactCoefficientMasks` | Exact local coefficient masks, closed DDT and column masses, and four affine regimes |
-| `Magma.OneHot.GlobalMaximum` | Sharp maxima for the one-bit DDT slice and three-round column masses, with all attaining key classes |
-| `Magma.OneHot.FixedKeyPeak` | Exact peak and an attaining bit for each key, with arithmetic counts of maximizing classes |
-| `Magma.OneHot.ActualKeyCardinality` | Exact cardinalities of the actual 32-bit keys attaining and missing the one-bit DDT maximum |
-| `Magma.OneHot.CompletePeakHistogram` | Exact histogram of fixed-key one-bit DDT peaks across all 32-bit round keys |
-| `Magma.OneHot.MaximizingBitMultiplicity` | Counts of maximizing one-bit positions at each key and their exact distribution over actual keys |
-| `Magma.OneHot.JointPeakMultiplicity` | Joint peak and maximizing-position fibers over actual keys, with exact counts for the two extreme cells |
-| `Magma.OneHot.JointPeakMultiplicityHistogram` | Complete joint histogram of one-bit DDT peaks and maximizing-position counts over all round keys |
-| `Magma.OneHot.UniversalLowerNibbleZeros` | Symbolic lower-nibble exclusion for arbitrary differences and 448 universally zero cells in the full one-hot DDT matrix |
-| `Magma.OneHot.ActiveNibbleNecessary` | First-active-nibble necessity for arbitrary differences, 896 zero off-diagonal one-hot cells, and at most 128 positive cells for every key |
-| `Magma.OneHot.DiagonalCarryMasks` | Certified local S-box/carry masks, 948 universally zero one-hot cells, and at most 76 positive cells for every key |
-| `Magma.OneHot.CandidateSharpWitnesses` | Explicit RFC witnesses for all 76 candidates; exact one-hot support over the union of keys and 948 universally impossible cells |
-| `Magma.OneHot.FixedKeySupportAudit` | Exact carry-DP support for any fixed key, certified 72-cell support at `0x06120010`, and a separate 72-cell local-model ceiling |
-| `Magma.ZeroLeft.ColumnTransport` | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys |
-| `Magma.ZeroLeft.EightEntries` | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs |
-| `Magma.ZeroLeft.KeyParity` | First-key parity reduction of the zero-left slice and eight equal entries for every even first key |
-| `Magma.ZeroLeft.OddKey` | Exact three-round zero-left coefficients for odd first keys and arbitrary second and third keys |
-| `Magma.ZeroLeft.ParityCompleteSlice` | Unified exact coefficients and supports for both first-key parities, with column cardinalities 0, 8, or 77 |
-| `Magma.ZeroLeft.IndividualCoefficientMaxima` | Attained maxima of individual column coefficients and sharp parity-sensitive bounds for one-bit right outputs |
-| `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
-| `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
+| Module                                  | Content                                                                                                                                    |
+|-----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| `RFC8891`                               | Specification, invertibility proofs, RFC test vectors                                                                                      |
+| `CryptoProperties`                      | DDT/LAT bounds, Walsh spectra, nonlinearity                                                                                                |
+| `CarryAutomaton`                        | Carry model, path counts, reachability                                                                                                     |
+| `UnitInputParity`                       | The entire unit-input DDT row depends only on key parity, by even-translation invariance                                                   |
+| `OddUnitInput77`                        | Kernel-certified 77-entry unit-input DDT row for every odd key, complete by conserved mass                                                 |
+| `MultiRoundDDT`                         | Feistel differentials, joint carry constraints, and the complete 64-pair zero-key slice                                                    |
+| `Pruning`                               | Domain pruning, soundness, stabilization                                                                                                   |
+| `Certificates`                          | Independent checkers and soundness, including `FastInitialCheck`                                                                           |
+| `FastSearch`                            | Candidate generation and UInt16/UInt8 propagation                                                                                          |
+| `UInt8NoPathCertificates`               | Independently checked no-path certificates from UInt8 proposals                                                                            |
+| `OneHot.CompleteSupport`                | Checked positive witnesses and exact one-bit support certificates                                                                          |
+| `OneHot.KeyClasses`                     | Exact local key-class tables and conditionally certified full-word support                                                                 |
+| `OneHot.ClassCertificates`              | Independent representative certificates and an explicit class-invariance hypothesis                                                        |
+| `OneHot.CarryPrefix`                    | Universal prefix-carry classification and preservation under key-class representatives                                                     |
+| `OneHot.SilentNibbleStructure`          | Silent-nibble carry structure, active-nibble nonzero output, and the original local-step bridge                                            |
+| `OneHot.BoundaryReduction`              | Exact prefix/active/suffix boundary reduction and invariance across key classes                                                            |
+| `OneHot.TraceSplit5`                    | Exact 5+1+2 trace split and the actual DDT criterion through prefix and active-step witnesses                                              |
+| `OneHot.PrefixArithmeticBridge`         | Arithmetic semantics of the trace prefix and unconditional full-word DDT support at bits 20–23                                             |
+| `OneHot.FullKeyClassInvariant`          | Unconditional one-bit DDT support classification and key-class invariance for every key                                                    |
+| `OneHot.ThreeRoundColumns`              | Universal zero-left three-round one-bit column support and the unique class with all columns zero                                          |
+| `OneHot.ExactColumnMass`                | Exact carry-DP column masses and unequal multiplicities within one support class                                                           |
+| `OneHot.LinearPrefixMass`               | Symbolic prefix-carry counts and an affine factorized model, with conditional DDT consequences                                             |
+| `OneHot.QuantitativeTraceFactorization` | Symbolic 5+1+2 trace counting and unconditional affine DDT and column-mass formulae                                                        |
+| `OneHot.ExactCoefficientMasks`          | Exact local coefficient masks, closed DDT and column masses, and four affine regimes                                                       |
+| `OneHot.GlobalMaximum`                  | Sharp maxima for the one-bit DDT slice and three-round column masses, with all attaining key classes                                       |
+| `OneHot.FixedKeyPeak`                   | Exact peak and an attaining bit for each key, with arithmetic counts of maximizing classes                                                 |
+| `OneHot.ActualKeyCardinality`           | Exact cardinalities of the actual 32-bit keys attaining and missing the one-bit DDT maximum                                                |
+| `OneHot.CompletePeakHistogram`          | Exact histogram of fixed-key one-bit DDT peaks across all 32-bit round keys                                                                |
+| `OneHot.MaximizingBitMultiplicity`      | Counts of maximizing one-bit positions at each key and their exact distribution over actual keys                                           |
+| `OneHot.JointPeakMultiplicity`          | Joint peak and maximizing-position fibers over actual keys, with exact counts for the two extreme cells                                    |
+| `OneHot.JointPeakMultiplicityHistogram` | Complete joint histogram of one-bit DDT peaks and maximizing-position counts over all round keys                                           |
+| `OneHot.UniversalLowerNibbleZeros`      | Symbolic lower-nibble exclusion for arbitrary differences and 448 universally zero cells in the full one-hot DDT matrix                    |
+| `OneHot.ActiveNibbleNecessary`          | First-active-nibble necessity for arbitrary differences, 896 zero off-diagonal one-hot cells, and at most 128 positive cells for every key |
+| `OneHot.DiagonalCarryMasks`             | Certified local S-box/carry masks, 948 universally zero one-hot cells, and at most 76 positive cells for every key                         |
+| `OneHot.CandidateSharpWitnesses`        | Explicit RFC witnesses for all 76 candidates; exact one-hot support over the union of keys and 948 universally impossible cells            |
+| `OneHot.FixedKeySupportAudit`           | Exact carry-DP support for any fixed key, certified 72-cell support at `0x06120010`, and a separate 72-cell local-model ceiling            |
+| `ZeroLeft.ColumnTransport`              | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys                                      |
+| `ZeroLeft.EightEntries`                 | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs                          |
+| `ZeroLeft.KeyParity`                    | First-key parity reduction of the zero-left slice and eight equal entries for every even first key                                         |
+| `ZeroLeft.OddKey`                       | Exact three-round zero-left coefficients for odd first keys and arbitrary second and third keys                                            |
+| `ZeroLeft.ParityCompleteSlice`          | Unified exact coefficients and supports for both first-key parities, with column cardinalities 0, 8, or 77                                 |
+| `ZeroLeft.IndividualCoefficientMaxima`  | Attained maxima of individual column coefficients and sharp parity-sensitive bounds for one-bit right outputs                              |
+| `BatchSearch`                           | Shared carry bases and independently checked batch hits                                                                                    |
+| `BatchFamily`                           | Batch certificates, family soundness, and two-bit candidates                                                                               |
 
 ### Research iterations
 
@@ -81,26 +81,26 @@ with right input difference one and left output difference zero.
 its question, preserves experiments and historical observations, and explains what motivated the
 next iteration.
 
-| Iteration                      | Research question                                                                               |
-|--------------------------------|-------------------------------------------------------------------------------------------------|
-| `01_UInt16Search`              | Can local deletion find a certificate, and where does search spend time?                        |
-| `02_CarryGroupedPropagation`   | Do whole carry paths and grouped wiring expose a contradiction?                                 |
-| `03_FastInitialCover`          | Can the concrete impossibility proof reuse a faster sound coverage check?                       |
-| `04_BatchCarryGroupedSearch`   | Can one verified carry base serve many left input differences?                                  |
-| `05_BatchFamilyCertificates`   | Can the whole one-bit family be certified, and what survives a two-bit scan?                    |
-| `06_TwoBitFamilyAndExceptions` | How can the selected two-bit family be certified, and why do three masks remain unresolved?     |
-| `07_ThreeExceptionalWitnesses` | Do explicit inputs give positive DDT support for the three exceptional masks?                   |
-| `08_ZeroLeftSupport`           | Do two exact S-box tables explain 64 predicted pairs and the three two-bit exceptions?          |
-| `09_ZeroLeftExactDDT`          | Can sixteen exact S-box factors determine the three exceptional DDT counts for every third key? |
-| `10_ZeroLeft64ExactCounts`     | Do all 64 predicted pairs have the same exact DDT count for every third key?                    |
-| `11_ZeroLeft64Completeness`    | Does conservation of DDT mass prove that the 64-pair list is complete?                          |
-| `12_ZeroLeftArbitraryKeys`     | Which one-bit output columns vanish for arbitrary keys, is total mass preserved, and can UInt8 scan them quickly? |
-| `13_UInt8NoPathCertificates`  | Can original carry arithmetic independently certify the UInt8 scan's one-bit exclusions?       |
-| `14_OneHotCompleteSupport`   | Do checked positive witnesses and no-path certificates give exact one-bit support for three keys? |
-| `15_OneHotKeyClasses`        | Do 32 local key classes agree with UInt8 scans, and which class predicts empty one-bit support? |
-| `16_OneHotClassCertificates` | Do original-arithmetic certificates establish exact support for all 32 class representatives? |
-| `17_OneHotExactColumnMass` | Do keys with the same one-bit support class also have equal exact column masses? |
-| `18_OneHotFixedKeySupport` | How many of the 76 globally realizable cells coexist at one key, and what ceiling follows from consistent local carries? |
+| Iteration                      | Research question                                                                                                        |
+|--------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| `01_UInt16Search`              | Can local deletion find a certificate, and where does search spend time?                                                 |
+| `02_CarryGroupedPropagation`   | Do whole carry paths and grouped wiring expose a contradiction?                                                          |
+| `03_FastInitialCover`          | Can the concrete impossibility proof reuse a faster sound coverage check?                                                |
+| `04_BatchCarryGroupedSearch`   | Can one verified carry base serve many left input differences?                                                           |
+| `05_BatchFamilyCertificates`   | Can the whole one-bit family be certified, and what survives a two-bit scan?                                             |
+| `06_TwoBitFamilyAndExceptions` | How can the selected two-bit family be certified, and why do three masks remain unresolved?                              |
+| `07_ThreeExceptionalWitnesses` | Do explicit inputs give positive DDT support for the three exceptional masks?                                            |
+| `08_ZeroLeftSupport`           | Do two exact S-box tables explain 64 predicted pairs and the three two-bit exceptions?                                   |
+| `09_ZeroLeftExactDDT`          | Can sixteen exact S-box factors determine the three exceptional DDT counts for every third key?                          |
+| `10_ZeroLeft64ExactCounts`     | Do all 64 predicted pairs have the same exact DDT count for every third key?                                             |
+| `11_ZeroLeft64Completeness`    | Does conservation of DDT mass prove that the 64-pair list is complete?                                                   |
+| `12_ZeroLeftArbitraryKeys`     | Which one-bit output columns vanish for arbitrary keys, is total mass preserved, and can UInt8 scan them quickly?        |
+| `13_UInt8NoPathCertificates`   | Can original carry arithmetic independently certify the UInt8 scan's one-bit exclusions?                                 |
+| `14_OneHotCompleteSupport`     | Do checked positive witnesses and no-path certificates give exact one-bit support for three keys?                        |
+| `15_OneHotKeyClasses`          | Do 32 local key classes agree with UInt8 scans, and which class predicts empty one-bit support?                          |
+| `16_OneHotClassCertificates`   | Do original-arithmetic certificates establish exact support for all 32 class representatives?                            |
+| `17_OneHotExactColumnMass`     | Do keys with the same one-bit support class also have equal exact column masses?                                         |
+| `18_OneHotFixedKeySupport`     | How many of the 76 globally realizable cells coexist at one key, and what ceiling follows from consistent local carries? |
 
 Fixed observations are Lean examples and theorems. Measurements use `#eval`. Run an iteration
 explicitly; iterations import the library directly and do not run earlier experiments:
@@ -128,49 +128,18 @@ lake exe axiom-audit
 ```
 
 `defs` includes definition bodies and omits proofs from the compiled library. Modules follow
-dependency order; declarations follow their type and proof dependencies, with source order as
-the tie-breaker. Namespace blocks shorten names and references, and leading layout whitespace
-is removed. Recursive dependency components remain together. Module markers retain import names
-and original file paths.
+dependency order; declarations follow their type and proof dependencies, with source order as the
+tie-breaker. Namespace blocks shorten names and references, and leading layout whitespace is
+removed. Recursive dependency components remain together. Module markers retain import names and
+original file paths.
 
 `sources.txt` contains the complete original library and Evidence sources in dependency order,
 including comments and proofs. Numbered Evidence iterations follow their prerequisites and retain
 their research order. The relative order of library modules matches `defs`; otherwise independent
-branches follow the import order in `Magma.lean`. Source contents and indentation are preserved.
-The exporter reads Evidence without compiling or executing its experiments. Use `--library-only`
-for just the compiled library. Downloads are not needed to regenerate either export.
-Both reading exports and the diagram omit the aggregate `Magma.lean` reexport module.
-
-`modules.mmd` is the generated Mermaid module DAG, with redundant transitive import edges omitted.
-Arrows point from dependencies to modules that import them. `deps` records the shared library
-module order and direct imports alongside declaration dependencies; its JSON schema is documented
-in the module comment in `Dependencies.lean`.
-
-`theorems.mmd` uses dependencies from elaborated theorem types and proof terms, including
-implicit references inserted by tactics and elaboration. Paths through definitions and generated
-helpers are contracted onto theorem nodes. Arrows point from prerequisites to their users;
-transitive edges are reduced when the graph is acyclic. `--module Magma.OneHot` limits visible
-nodes to that module subtree while preserving paths through hidden declarations.
-These are references retained in the final proof terms, rather than a minimal logical basis
-or a record of unsuccessful tactic attempts.
-Use `--focus Magma.OneHotDiagonalCarryMasks.positiveOneHotCells_card_le_76` for one theorem
-and its prerequisites, or `--input .lake/deps.json` to reuse an existing dependency export.
-This command generates only the theorem diagram; it does not generate defs or source bundles.
-The diagram groups names by namespace, omits the common `Magma.` prefix and private-name
-mangling, and marks private nodes with `*`. Distinct declarations keep distinct node IDs;
-duplicate private names receive numbered markers. Short Unicode IDs and grouped arrows keep the
-Mermaid source compact without removing nodes or dependencies. The command reports its
-character count alongside node and edge counts.
-Edge counts show the change before and after transitive reduction: if `C -> B -> A` is
-already present, `C -> A` is omitted while the theorem nodes remain. Labels keep literal
-apostrophes for compatibility with Pele.
-IDs use BMP characters, so each suffix character occupies one UTF-16 code unit in Pele.
-Each diagram has a default budget of 48,000 characters. Larger graphs produce an overview
-at the requested path and numbered parts such as `theorems.01.mmd`. Each theorem belongs to
-one part; direct prerequisites from other parts appear as boundary nodes marked `@N`.
-Global node IDs and private-name markers are consistent across parts, and every dependency
-edge is retained. The overview counts cross-part dependencies. Use `--max-chars` to change
-the budget; stdout output requires a graph small enough to fit in one diagram.
+branches follow the import order in `Magma.lean`. Source contents and indentation are preserved. The
+exporter reads Evidence without compiling or executing its experiments. Use `--library-only`
+for just the compiled library. Downloads are not needed to regenerate either export. Both reading
+exports and the diagram omit the aggregate `Magma.lean` reexport module.
 
 `axiom-audit` checks the compiled library against the default axiom allowlist:
 `propext`, `Classical.choice`, and `Quot.sound`.
