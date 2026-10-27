@@ -67,6 +67,7 @@ left output difference zero.
 | `OneHot.CandidateSharpWitnesses`        | Explicit RFC witnesses for all 76 candidates; exact one-hot support over the union of keys and 948 universally impossible cells            |
 | `OneHot.FixedKeySupportAudit`           | Exact carry-DP support for any fixed key, certified 72-cell support at `0x06120010`, and a separate 72-cell local-model ceiling            |
 | `OneHot.Support72KeyClasses` | Exact nibble conditions for attaining 72 cells, fourteen admissible prefixes, and 2016 maximizing coordinate tuples |
+| `OneHot.Support72ActualKeyCardinality` | Exactly 2016 actual 32-bit round keys attain the 72-cell support maximum, via the word-to-nibble equivalence |
 | `ZeroLeft.ColumnTransport`              | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys                                      |
 | `ZeroLeft.EightEntries`                 | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs                          |
 | `ZeroLeft.KeyParity`                    | First-key parity reduction of the zero-left slice and eight equal entries for every even first key                                         |
