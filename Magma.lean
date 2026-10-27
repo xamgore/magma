@@ -3,12 +3,12 @@ module
 public import Magma.RFC8891
 public import Magma.CryptoProperties
 public import Magma.CarryAutomaton
-public import Magma.UnitInputParity
 public import Magma.MultiRoundDDT
-public import Magma.OddUnitInput77
 public import Magma.Pruning
 public import Magma.Certificates
 public import Magma.FastSearch
+public import Magma.BatchSearch
+public import Magma.BatchFamily
 public import Magma.UInt8NoPathCertificates
 public import Magma.OneHot.CompleteSupport
 public import Magma.OneHot.KeyClasses
@@ -33,12 +33,12 @@ public import Magma.OneHot.JointPeakMultiplicity
 public import Magma.OneHot.JointPeakMultiplicityHistogram
 public import Magma.ZeroLeft.ColumnTransport
 public import Magma.ZeroLeft.EightEntries
+public import Magma.UnitInputParity
 public import Magma.ZeroLeft.KeyParity
+public import Magma.OddUnitInput77
 public import Magma.ZeroLeft.OddKey
 public import Magma.ZeroLeft.ParityCompleteSlice
 public import Magma.ZeroLeft.IndividualCoefficientMaxima
-public import Magma.BatchSearch
-public import Magma.BatchFamily
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/

@@ -1,6 +1,7 @@
 module
 
 import Lean
+import Lean.Util.SCC
 import all Init.Data.Range.Basic
 
 public section
@@ -9,10 +10,15 @@ public section
 # Project declarations
 
 `lake exe defs` prints authored declarations from the compiled `Magma` modules.
-Definitions include their bodies; theorems and other proof-valued declarations
-include only their types. Declaration ranges identify source declarations without
-reading the source file. Generated helpers are omitted; inductive constructors
-and structure fields are shown with their parent declaration.
+Modules follow Lean's dependency-first import order, also exported by `deps` for
+the source bundle. Within a module, Tarjan components order declarations by all
+type and body dependencies, including theorem proofs and hidden generated helpers.
+Source positions break ties, preserving the progression of the research.
+
+Namespace blocks give short declaration names and a namespace-aware pretty-printing
+context. Definition bodies are included; proofs are omitted. Generated helpers are
+hidden, with constructors and structure fields attached to their parent. Leading
+layout whitespace is removed: this is a reading index, not compilable Lean source.
 -/
 
 namespace Defs
@@ -32,52 +38,122 @@ private def kind (env : Environment) : ConstantInfo → String
     else if isStructure env info.name then "structure" else "inductive"
   | _ => ""
 
+private structure Entry where
+  name : Name
+  info : ConstantInfo
+  moduleIdx : ModuleIdx
+  position : Position
+  authored : Bool
+
+private def before (a b : Entry) : Bool :=
+  if a.moduleIdx != b.moduleIdx then a.moduleIdx.toNat < b.moduleIdx.toNat
+  else
+    if a.position != b.position then a.position.lt b.position else a.name.toString < b.name.toString
+
+private def compact (s : String) : String :=
+  String.intercalate "\n" (s.splitOn "\n" |>.map (·.trimAsciiStart.toString))
+
+private def printDeclaration (info : ConstantInfo) : MetaM Unit := do
+  let env ← getEnv
+  let out ← IO.getStdout
+  let type ← PrettyPrinter.ppExpr info.type
+  let visibility := if isPrivateName info.name then "private " else ""
+  let safety :=
+    match info with
+    | .defnInfo val =>
+      match val.safety with
+      | .unsafe => "unsafe "
+      | .partial => "partial "
+      | .safe => ""
+    | _ => ""
+  let displayName := (privateToUserName info.name).updatePrefix .anonymous
+  let levels :=
+    if info.levelParams.isEmpty then ""
+    else ".{" ++ String.intercalate ", " (info.levelParams.map Name.toString) ++ "}"
+  let header := s!"{visibility}{safety}{kind env info} {displayName}{levels} : {type.pretty 160}"
+  match info with
+  | .defnInfo val =>
+    if ← isProp info.type then
+      out.putStrLn (compact header)
+    else
+      let body ← PrettyPrinter.ppExpr val.value
+      out.putStrLn (compact s!"{header} :=\n{body.pretty 160}")
+  | .inductInfo val =>
+    out.putStrLn (compact header)
+    if let some structInfo := getStructureInfo? env info.name then
+      for field in structInfo.fieldInfo do
+        let fieldInfo ← getConstInfo field.projFn
+        let type ← PrettyPrinter.ppExpr fieldInfo.type
+        let name := (privateToUserName field.projFn).updatePrefix .anonymous
+        out.putStrLn (compact s!"-- field {name} : {type.pretty 160}")
+    else
+      for ctor in val.ctors do
+        let ctorInfo ← getConstInfo ctor
+        let type ← PrettyPrinter.ppExpr ctorInfo.type
+        let name := (privateToUserName ctor).updatePrefix .anonymous
+        out.putStrLn (compact s!"-- constructor {name} : {type.pretty 160}")
+  | _ =>
+    out.putStrLn (compact header)
+  out.putStrLn ""
+
 private def printDeclarations : MetaM Unit := do
   let env ← getEnv
   let out ← IO.getStdout
-  let decls :=
-    env.constants.toList.toArray.filter (fun (name, _) => isLocal env name) |>.qsort
-      (fun a b => a.1.toString < b.1.toString)
-  for (name, info) in decls do
-    if
-        (← findDeclarationRangesCore? name).isNone || kind env info == "" ||
-          env.isProjectionFn name then
+  let mut entries : Array Entry := #[]
+  for (name, info) in env.constants.toList do
+    if !isLocal env name then
       continue
-    let type ← PrettyPrinter.ppExpr info.type
-    let visibility := if isPrivateName name then "private " else ""
-    let safety :=
-      match info with
-      | .defnInfo val =>
-        match val.safety with
-        | .unsafe => "unsafe "
-        | .partial => "partial "
-        | .safe => ""
-      | _ => ""
-    let displayName := privateToUserName name
-    let levels :=
-      if info.levelParams.isEmpty then ""
-      else ".{" ++ String.intercalate ", " (info.levelParams.map Name.toString) ++ "}"
-    let header := s!"{visibility}{safety}{kind env info} {displayName}{levels} : {type.pretty 100}"
-    match info with
-    | .defnInfo val =>
-      if ← isProp info.type then
-        out.putStrLn header
-      else
-        let body ← PrettyPrinter.ppExpr val.value
-        out.putStrLn s!"{header} :=\n{body.pretty 100}"
-    | .inductInfo val =>
-      out.putStrLn header
-      if let some structInfo := getStructureInfo? env name then
-        for field in structInfo.fieldInfo do
-          let signature ← PrettyPrinter.ppSignature field.projFn
-          out.putStrLn s!"  -- field: {signature.fmt.pretty 100}"
-      else
-        for ctor in val.ctors do
-          let signature ← PrettyPrinter.ppSignature ctor
-          out.putStrLn s!"  -- constructor: {signature.fmt.pretty 100}"
-    | _ =>
-      out.putStrLn header
-    out.putStrLn ""
+    let some moduleIdx := env.getModuleIdxFor? name | continue
+    let ranges ← findDeclarationRangesCore? name
+    entries :=
+      entries.push
+        { name, info, moduleIdx
+          position := ranges.map (·.selectionRange.pos) |>.getD ⟨1000000000, 0⟩
+          authored :=
+            ranges.isSome && kind env info != "" && !env.isProjectionFn name &&
+              !(privateToUserName name).isInternalDetail }
+  entries := entries.qsort before
+  let mut rank : Std.HashMap Name Nat := {}
+  let mut authored : Std.HashSet Name := {}
+  for (entry, i) in entries.zipIdx do
+    rank := rank.insert entry.name i
+    if entry.authored then
+      authored := authored.insert entry.name
+  let byRank (a b : Name) : Bool := rank[a]?.getD 0 < rank[b]?.getD 0
+  out.putStrLn
+      "-- Reading index: definition bodies, theorem statements; module and dependency order.\n"
+  for idx in [:env.header.moduleNames.size] do
+    let moduleName := env.header.moduleNames[idx]!
+    if moduleName == `Magma || !(`Magma).isPrefixOf moduleName then
+      continue
+    let path := String.intercalate "/" (moduleName.components.map Name.toString) ++ ".lean"
+    out.putStrLn s!"-- module {moduleName} | {path}\n"
+    let vertices := entries.filter (·.moduleIdx.toNat == idx) |>.map (·.name) |>.toList
+    let successors := fun name =>
+      Id.run do
+        let some info := env.find? name | return []
+        let body := info.value? (allowOpaque := true) |>.map Expr.getUsedConstants |>.getD #[]
+        return (info.type.getUsedConstants ++ body).toList.filter
+              (fun dep => (env.getModuleIdxFor? dep).any (·.toNat == idx)) |>.mergeSort
+            byRank
+    let components := Lean.SCC.scc vertices successors
+    let mut active : Name := .anonymous
+    for component in components do
+      let visible := component.filter (authored.contains ·) |>.mergeSort byRank
+      if visible.length > 1 then
+        out.putStrLn "-- mutually dependent declarations"
+      for name in visible do
+        let ns := (privateToUserName name).getPrefix
+        if ns != active then
+          if !active.isAnonymous then
+            out.putStrLn s!"end {active}\n"
+          if !ns.isAnonymous then
+            out.putStrLn s!"namespace {ns}\n"
+          active := ns
+        withTheReader Core.Context (fun ctx => { ctx with currNamespace := ns }) do
+            printDeclaration (← getConstInfo name)
+    if !active.isAnonymous then
+      out.putStrLn s!"end {active}\n"
 
 def run : IO Unit := do
   initSearchPath (← findSysroot)

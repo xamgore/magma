@@ -116,11 +116,28 @@ lake lint
 ```sh
 lake exe defs > .lake/defs.txt
 lake exe deps > .lake/deps.json
+python3 scripts/export_sources.py -o .lake/sources.txt --mermaid .lake/modules.mmd
 lake exe axiom-audit
 ```
 
-`defs` includes definition bodies and omits proofs. The dependency JSON format is documented in the
-module comment in `Dependencies.lean`.
+`defs` includes definition bodies and omits proofs from the compiled library. Modules follow
+dependency order; declarations follow their type and proof dependencies, with source order as
+the tie-breaker. Namespace blocks shorten names and references, and leading layout whitespace
+is removed. Recursive dependency components remain together. Module markers retain import names
+and original file paths.
+
+`sources.txt` contains the complete original library and Evidence sources in dependency order,
+including comments and proofs. Numbered Evidence iterations follow their prerequisites and retain
+their research order. The relative order of library modules matches `defs`; otherwise independent
+branches follow the import order in `Magma.lean`. Source contents and indentation are preserved.
+The exporter reads Evidence without compiling or executing its experiments. Use `--library-only`
+for just the compiled library. Downloads are not needed to regenerate either export.
+Both reading exports and the diagram omit the aggregate `Magma.lean` reexport module.
+
+`modules.mmd` is the generated Mermaid module DAG, with redundant transitive import edges omitted.
+Arrows point from dependencies to modules that import them. `deps` records the shared library
+module order and direct imports alongside declaration dependencies; its JSON schema is documented
+in the module comment in `Dependencies.lean`.
 
 `axiom-audit` checks the compiled library against the default axiom allowlist:
 `propext`, `Classical.choice`, and `Quot.sound`.

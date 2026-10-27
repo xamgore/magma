@@ -2,3 +2,4 @@
 /.plugin
 /.lean-fmt-cache
 *.backup
+__pycache__/

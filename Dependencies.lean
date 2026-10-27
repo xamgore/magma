@@ -19,6 +19,12 @@ An edge points from a declaration to a directly referenced constant.
 This export does not compute a transitive closure or guarantee acyclicity:
 recursive definitions can introduce cycles. Module ownership, rather than a
 declaration's namespace, determines whether it belongs to the project.
+
+Schema version 2 adds `moduleOrder` and `modules`. The former is Lean's
+dependency-first import traversal; `defs` and the source bundle use the same
+order. Each module records its source path and direct project imports. Module
+edges also point from the importing module to its dependencies. Existing
+declaration fields are unchanged.
 -/
 
 namespace Dependencies
@@ -69,10 +75,27 @@ def run : IO Unit := do
   let decls :=
     env.constants.toList.toArray.filter (fun (name, _) => isLocal env name) |>.qsort
       (fun a b => a.1.toString < b.1.toString)
+  let mut modules : Array Json := #[]
+  let mut moduleOrder : Array String := #[]
+  for idx in [:env.header.moduleNames.size] do
+    let name := env.header.moduleNames[idx]!
+    if !(`Magma).isPrefixOf name then
+      continue
+    moduleOrder := moduleOrder.push name.toString
+    let imports :=
+      env.header.moduleData[idx]!.imports.map (·.module) |>.filter ((`Magma).isPrefixOf ·)
+    modules :=
+      modules.push <|
+        Json.mkObj
+          [("name", toJson name.toString),
+            ("path",
+              toJson <| String.intercalate "/" (name.components.map Name.toString) ++ ".lean"),
+            ("imports", toJson <| imports.map Name.toString)]
   let report :=
     Json.mkObj
-      [("schemaVersion", toJson (1 : Nat)), ("rootModule", toJson "Magma"),
-        ("edgeDirection", toJson "declaration -> dependency"),
+      [("schemaVersion", toJson (2 : Nat)), ("rootModule", toJson "Magma"),
+        ("edgeDirection", toJson "declaration -> dependency"), ("moduleOrder", toJson moduleOrder),
+        ("modules", Json.arr modules),
         ("declarations", Json.arr <| decls.map (fun (_, info) => declarationJson env info))]
   IO.println report.pretty
 
