@@ -1,7 +1,7 @@
 import unittest
 import re
 
-from scripts.theorem_graph import (focused_graph, node_id, reduced_graph, render_diagrams,
+from scripts.theorem_graph import (ID_DIGITS, focused_graph, node_id, reduced_graph, render_diagrams,
                                   render_theorems, short_name, theorem_dependencies)
 
 
@@ -61,17 +61,22 @@ class TheoremGraphTests(unittest.TestCase):
         self.assertIn('t0["helper*1"]', diagram)
         self.assertIn('t1["helper*2"]', diagram)
         self.assertIn('t2["helper"]', diagram)
-        self.assertIn('t0-->t3&t4', diagram)
+        self.assertIn('t0-->t3 & t4', diagram)
         self.assertIn('t1-->t3', diagram)
         self.assertEqual(short_name('Magma.«A.B».lemma'), '«A.B».lemma')
 
-    def test_base36_ids_are_unique_and_labels_are_escaped(self):
+    def test_unicode_ids_are_unique_bmp_and_labels_are_escaped(self):
         graph = {f'Magma.Shared.item{i}': set() for i in range(40)}
         graph['Magma.Shared.a<b'] = set()
         diagram = render_theorems(graph)
         self.assertIn('tz["item35"]', diagram)
-        self.assertIn('t10["item36"]', diagram)
+        self.assertIn('tа["item36"]', diagram)
         self.assertIn('["a&lt;b"]', diagram)
+        ids = {node_id(i) for i in range(len(ID_DIGITS) + 1)}
+        self.assertEqual(len(ids), len(ID_DIGITS) + 1)
+        self.assertEqual(len(node_id(1622).encode('utf-16-le')), 4)
+        self.assertEqual(node_id(len(ID_DIGITS)), 't10')
+        self.assertTrue(all(ord(char) <= 0xFFFF for char in ID_DIGITS))
 
     def test_partition_preserves_edges_and_global_ids_under_budget(self):
         graph = {f'Magma.Shared.item{i}': {f'Magma.Shared.item{j}' for j in range(max(0, i - 3), i)}
@@ -83,9 +88,9 @@ class TheoremGraphTests(unittest.TestCase):
         for filename, text in files.items():
             if filename == 'test.mmd':
                 continue
-            nodes.update(re.findall(r'^(t[0-9a-z]+)\[', text, re.M))
-            for source, targets in re.findall(r'^(t[0-9a-z]+)-->(.*)$', text, re.M):
-                edges.update((source, target) for target in targets.split('&'))
+            nodes.update(re.findall(r'^(t\w+)\[', text, re.M))
+            for source, targets in re.findall(r'^(t\w+)-->(.*)$', text, re.M):
+                edges.update((source, target.strip()) for target in targets.split('&'))
         ids = {name: node_id(i) for i, name in enumerate(graph)}
         self.assertEqual(nodes, set(ids.values()))
         self.assertEqual(edges, {(ids[dep], ids[name]) for name, deps in graph.items() for dep in deps})
@@ -96,6 +101,16 @@ class TheoremGraphTests(unittest.TestCase):
         self.assertEqual(render_diagrams(graph, 'small', 50000), {'small.mmd': render_theorems(graph)})
         with self.assertRaisesRegex(ValueError, 'exceed'):
             render_diagrams(graph, 'small', 10)
+
+    def test_apostrophes_stay_literal_in_pele_labels(self):
+        diagram = render_theorems({"Magma.N'.π'": set()})
+        self.assertIn('["N\'"]', diagram)
+        self.assertIn('["π\'"]', diagram)
+        self.assertNotIn('&#x27;', diagram)
+
+    def test_transitive_reduction_removes_triangle_and_longer_shortcuts(self):
+        graph = {'A': {'B', 'C'}, 'B': {'C'}, 'C': set(), 'D': {'A', 'B', 'C'}}
+        self.assertEqual(reduced_graph(graph), {'C': set(), 'B': {'C'}, 'A': {'B'}, 'D': {'A'}})
 
 
 if __name__ == '__main__':

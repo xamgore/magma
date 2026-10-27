@@ -156,9 +156,13 @@ and its prerequisites, or `--input .lake/deps.json` to reuse an existing depende
 This command generates only the theorem diagram; it does not generate defs or source bundles.
 The diagram groups names by namespace, omits the common `Magma.` prefix and private-name
 mangling, and marks private nodes with `*`. Distinct declarations keep distinct node IDs;
-duplicate private names receive numbered markers. Base-36 IDs and grouped arrows keep the
+duplicate private names receive numbered markers. Short Unicode IDs and grouped arrows keep the
 Mermaid source compact without removing nodes or dependencies. The command reports its
 character count alongside node and edge counts.
+Edge counts show the change before and after transitive reduction: if `C -> B -> A` is
+already present, `C -> A` is omitted while the theorem nodes remain. Labels keep literal
+apostrophes for compatibility with Pele.
+IDs use BMP characters, so each suffix character occupies one UTF-16 code unit in Pele.
 Each diagram has a default budget of 48,000 characters. Larger graphs produce an overview
 at the requested path and numbered parts such as `theorems.01.mmd`. Each theorem belongs to
 one part; direct prerequisites from other parts appear as boundary nodes marked `@N`.

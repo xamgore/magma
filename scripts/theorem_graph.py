@@ -13,6 +13,11 @@ import re
 import subprocess
 import sys
 
+# BMP letters count as one UTF-16 code unit in Pele's source-length check.
+ID_DIGITS = ('0123456789abcdefghijklmnopqrstuvwxyz'
+             'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
+             + ''.join(chr(code) for code in range(0x4E00, 0xA000)))
+
 if __package__:
     from .export_sources import load_report, name_parts, write_text
 else:
@@ -103,11 +108,10 @@ def short_name(name: str) -> str:
 
 
 def node_id(index: int) -> str:
-    digits = '0123456789abcdefghijklmnopqrstuvwxyz'
     result = ''
     while index:
-        index, digit = divmod(index, 36)
-        result = digits[digit] + result
+        index, digit = divmod(index, len(ID_DIGITS))
+        result = ID_DIGITS[digit] + result
     return 't' + (result or '0')
 
 
@@ -127,6 +131,11 @@ def theorem_labels(graph: dict[str, set[str]]) -> dict[str, tuple[str, str]]:
     return labels
 
 
+def label_text(text: str) -> str:
+    """Apostrophes are literal inside double-quoted Mermaid labels (Pele does not decode &#x27;)."""
+    return escape(text, quote=False).replace('"', '&quot;')
+
+
 def render_theorems(graph: dict[str, set[str]], identifiers=None, labels=None, boundary=None) -> str:
     identifiers = identifiers if identifiers is not None else {name: node_id(i) for i, name in enumerate(graph)}
     labels = labels if labels is not None else theorem_labels(graph)
@@ -134,17 +143,17 @@ def render_theorems(graph: dict[str, set[str]], identifiers=None, labels=None, b
     lines = [
         '%% Prerequisite -> user; hidden paths contracted; transitive DAG edges reduced.',
         '%% Namespace groups omit Magma.; * marks private names; numbered * disambiguates duplicates.',
-        'flowchart TD',
+        'flowchart LR',
     ]
     groups: dict[str, list[str]] = defaultdict(list)
     for name in graph:
         namespace, label = labels[name]
         if name in boundary:
             label += f' @{boundary[name]}'
-        groups[namespace].append(f'{identifiers[name]}["{escape(label, quote=True)}"]')
+        groups[namespace].append(f'{identifiers[name]}["{label_text(label)}"]')
     for index, (namespace, nodes) in enumerate(groups.items()):
         if namespace:
-            lines.append(f'subgraph g{index}["{escape(namespace, quote=True)}"]')
+            lines.append(f'subgraph g{index}["{label_text(namespace)}"]')
         lines.extend(nodes)
         if namespace:
             lines.append('end')
@@ -153,7 +162,7 @@ def render_theorems(graph: dict[str, set[str]], identifiers=None, labels=None, b
         for dependency in sorted(dependencies):
             users[dependency].append(identifiers[name])
     for dependency, targets in users.items():
-        lines.append(f'{identifiers[dependency]}-->{"&".join(targets)}')
+        lines.append(f'{identifiers[dependency]}-->{" & ".join(targets)}')
     return '\n'.join(lines) + '\n'
 
 
@@ -208,7 +217,7 @@ def render_diagrams(graph: dict[str, set[str]], stem: str, max_chars: int) -> di
     overview = [
         '%% Parts preserve all theorem nodes and edges; open the numbered .mmd files.',
         '%% Edge labels count dependencies crossing between parts.',
-        'flowchart TD',
+        'flowchart LR',
     ]
     for i, owners in enumerate(pages, 1):
         filename = f'{stem}.{i:02}.mmd'
@@ -217,7 +226,7 @@ def render_diagrams(graph: dict[str, set[str]], stem: str, max_chars: int) -> di
         diagram = f'%% Part {i}; @N marks a prerequisite owned by part N. Node IDs are global.\n'
         diagram += render_theorems(subset, identifiers, labels, boundary)
         files[filename] = diagram
-        overview.append(f'p{i}["{escape(filename, quote=True)}: {len(owners)} theorems"]')
+        overview.append(f'p{i}["{label_text(filename)}: {len(owners)} theorems"]')
     crossing = Counter((page_of[dep], page_of[name]) for name, deps in graph.items()
                        for dep in deps if page_of[dep] != page_of[name])
     for (dependency, user), count in sorted(crossing.items()):
@@ -244,6 +253,7 @@ def main() -> None:
             graph = focused_graph(graph, args.focus)
         if not graph:
             raise ValueError('No theorems found in selection')
+        original_edges = sum(map(len, graph.values()))
         graph = reduced_graph(graph)
         if args.max_chars <= 0:
             raise ValueError('--max-chars must be positive')
@@ -256,7 +266,7 @@ def main() -> None:
             if len(files) > 1:
                 raise ValueError('Graph needs multiple diagrams; pass -o to write an overview and numbered parts')
             sys.stdout.write(next(iter(files.values())))
-        print(f'{len(graph)} theorems, {sum(map(len, graph.values()))} edges, '
+        print(f'{len(graph)} theorems, {original_edges} -> {sum(map(len, graph.values()))} edges, '
               f'{len(files)} diagrams, largest {max(map(len, files.values()))} characters', file=sys.stderr)
     except (ValueError, KeyError, OSError, subprocess.CalledProcessError) as error:
         parser.exit(1, f'theorem_graph: {error}\n')
