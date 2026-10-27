@@ -33,6 +33,7 @@ run on every invocation.
 | `Magma.OneHotPrefixArithmeticBridge` | Arithmetic semantics of the trace prefix and unconditional full-word DDT support at bits 20–23 |
 | `Magma.OneHotFullKeyClassInvariant` | Unconditional one-bit DDT support classification and key-class invariance for every key |
 | `Magma.OneHotThreeRoundColumns` | Universal zero-left three-round one-bit column support and the unique class with all columns zero |
+| `Magma.OneHotExactColumnMass` | Exact carry-DP column masses and unequal multiplicities within one support class |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 
@@ -60,6 +61,7 @@ next iteration.
 | `14_OneHotCompleteSupport`   | Do checked positive witnesses and no-path certificates give exact one-bit support for three keys? |
 | `15_OneHotKeyClasses`        | Do 32 local key classes agree with UInt8 scans, and which class predicts empty one-bit support? |
 | `16_OneHotClassCertificates` | Do original-arithmetic certificates establish exact support for all 32 class representatives? |
+| `17_OneHotExactColumnMass` | Do keys with the same one-bit support class also have equal exact column masses? |
 
 Fixed observations are Lean examples and theorems. Measurements use `#eval`. Run an iteration
 explicitly; iterations import the library directly and do not run earlier experiments:
