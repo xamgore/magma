@@ -13,11 +13,10 @@ incoming-carry flag. A key and its representative therefore have the same
 local prediction. The aggregate checker independently verifies both DDT
 support inclusions for each of the 32 representative keys.
 
-`OneHotClassInvariant` states the remaining semantic bridge: replacing an
+`OneHotClassInvariant` states the semantic condition that replacing an
 arbitrary key by its representative preserves full-word one-bit DDT support.
-It is an explicit proposition, not an axiom. Classification of arbitrary
-keys requires both this invariant and acceptance of the representative
-certificates; the UInt8 comparison alone supplies neither hypothesis.
+The conditional classification theorem in this module takes this invariant
+and acceptance of the representative certificates as explicit hypotheses.
 -/
 
 open Magma.Internal Magma.CarryAutomaton Magma.MultiRoundDDT
@@ -89,14 +88,14 @@ theorem verifiedRepresentativeThreeRoundColumns
   exact checkedPredictedThreeRoundColumns_iff
     k₀ (representativeKey q c) k₂ hv j
 
-/-! ## 3. The exact missing universal mathematical theorem -/
+/-! ## 3. The full-word key-class invariance proposition -/
 
 /-- A statement purely about the FULL 32-bit round-function DDT:
     replacing a key by the representative of its two local invariants
-    should preserve the support of the one-bit-input, output-1 slice.
+    preserves the support of the one-bit-input, output-1 slice.
 
-    This remains a mathematical proof obligation. It is deliberately
-    a Prop (not a Boolean test on 32 sample keys). -/
+    This is a proposition about every key, independently of Boolean
+    checks on the 32 representatives. -/
 def OneHotClassInvariant : Prop :=
   ∀ (k : V 32) (j : Fin 32),
     (0 < xorDDT_g k (BitVec.ofNat 32 (2 ^ j.val)) (1#32)) ↔
