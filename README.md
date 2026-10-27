@@ -66,6 +66,7 @@ with right input difference one and left output difference zero.
 | `Magma.ZeroLeft.KeyParity` | First-key parity reduction of the zero-left slice and eight equal entries for every even first key |
 | `Magma.ZeroLeft.OddKey` | Exact three-round zero-left coefficients for odd first keys and arbitrary second and third keys |
 | `Magma.ZeroLeft.ParityCompleteSlice` | Unified exact coefficients and supports for both first-key parities, with column cardinalities 0, 8, or 77 |
+| `Magma.ZeroLeft.IndividualCoefficientMaxima` | Attained maxima of individual column coefficients and sharp parity-sensitive bounds for one-bit right outputs |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 
