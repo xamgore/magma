@@ -13,6 +13,7 @@ public import Magma.OneHotKeyClasses
 public import Magma.OneHotClassCertificates
 public import Magma.OneHotCarryPrefix
 public import Magma.OneHotSilentNibbleStructure
+public import Magma.OneHotBoundaryReduction
 public import Magma.BatchSearch
 public import Magma.BatchFamily
 import all Init.Data.Range.Basic

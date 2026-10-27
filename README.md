@@ -28,6 +28,7 @@ run on every invocation.
 | `Magma.OneHotClassCertificates` | Independent representative certificates and an explicit class-invariance hypothesis |
 | `Magma.OneHotCarryPrefix` | Universal prefix-carry classification and preservation under key-class representatives |
 | `Magma.OneHotSilentNibbleStructure` | Silent-nibble carry structure, active-nibble nonzero output, and the original local-step bridge |
+| `Magma.OneHotBoundaryReduction` | Exact prefix/active/suffix boundary reduction and invariance across key classes |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 
