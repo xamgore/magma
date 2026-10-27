@@ -24,6 +24,7 @@ run on every invocation.
 | `Magma.FastSearch`       | Candidate generation and UInt16/UInt8 propagation                |
 | `Magma.UInt8NoPathCertificates` | Independently checked no-path certificates from UInt8 proposals |
 | `Magma.OneHotCompleteSupport` | Checked positive witnesses and exact one-bit support certificates |
+| `Magma.OneHotKeyClasses` | Exact local key-class tables and conditionally certified full-word support |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 
@@ -49,6 +50,7 @@ next iteration.
 | `12_ZeroLeftArbitraryKeys`     | Which one-bit output columns vanish for arbitrary keys, is total mass preserved, and can UInt8 scan them quickly? |
 | `13_UInt8NoPathCertificates`  | Can original carry arithmetic independently certify the UInt8 scan's one-bit exclusions?       |
 | `14_OneHotCompleteSupport`   | Do checked positive witnesses and no-path certificates give exact one-bit support for three keys? |
+| `15_OneHotKeyClasses`        | Do 32 local key classes agree with UInt8 scans, and which class predicts empty one-bit support? |
 
 Fixed observations are Lean examples and theorems. Measurements use `#eval`. Run an iteration
 explicitly; iterations import the library directly and do not run earlier experiments:
