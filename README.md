@@ -46,6 +46,7 @@ separate: import `Magma.OneHot.KeyClasses` and refer to declarations under `Magm
 | `Magma.OneHot.CompletePeakHistogram` | Exact histogram of fixed-key one-bit DDT peaks across all 32-bit round keys |
 | `Magma.OneHot.MaximizingBitMultiplicity` | Counts of maximizing one-bit positions at each key and their exact distribution over actual keys |
 | `Magma.OneHot.JointPeakMultiplicity` | Joint peak and maximizing-position fibers over actual keys, with exact counts for the two extreme cells |
+| `Magma.OneHot.JointPeakMultiplicityHistogram` | Complete joint histogram of one-bit DDT peaks and maximizing-position counts over all round keys |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 

@@ -28,6 +28,7 @@ public import Magma.OneHot.ActualKeyCardinality
 public import Magma.OneHot.CompletePeakHistogram
 public import Magma.OneHot.MaximizingBitMultiplicity
 public import Magma.OneHot.JointPeakMultiplicity
+public import Magma.OneHot.JointPeakMultiplicityHistogram
 public import Magma.BatchSearch
 public import Magma.BatchFamily
 import all Init.Data.Range.Basic
