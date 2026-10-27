@@ -62,6 +62,7 @@ with right input difference one and left output difference zero.
 | `Magma.OneHot.JointPeakMultiplicity` | Joint peak and maximizing-position fibers over actual keys, with exact counts for the two extreme cells |
 | `Magma.OneHot.JointPeakMultiplicityHistogram` | Complete joint histogram of one-bit DDT peaks and maximizing-position counts over all round keys |
 | `Magma.OneHot.UniversalLowerNibbleZeros` | Symbolic lower-nibble exclusion for arbitrary differences and 448 universally zero cells in the full one-hot DDT matrix |
+| `Magma.OneHot.ActiveNibbleNecessary` | First-active-nibble necessity for arbitrary differences, 896 zero off-diagonal one-hot cells, and at most 128 positive cells for every key |
 | `Magma.ZeroLeft.ColumnTransport` | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys |
 | `Magma.ZeroLeft.EightEntries` | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs |
 | `Magma.ZeroLeft.KeyParity` | First-key parity reduction of the zero-left slice and eight equal entries for every even first key |
