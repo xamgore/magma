@@ -22,6 +22,8 @@ It imports earlier zero-left results from `Magma.MultiRoundDDT` and one-bit resu
 belong to `Magma.MultiRoundDDT`.
 `Magma.UnitInputParity` proves the general row invariant independently;
 `Magma.ZeroLeft.KeyParity` combines it with the eight-offset classification.
+`Magma.OddUnitInput77` gives the complete 77-entry odd-key reference row, and
+`Magma.ZeroLeft.OddKey` applies its exact counts to three-round columns.
 
 | Module                   | Content                                                          |
 |--------------------------|------------------------------------------------------------------|
@@ -29,6 +31,7 @@ belong to `Magma.MultiRoundDDT`.
 | `Magma.CryptoProperties` | DDT/LAT bounds, Walsh spectra, nonlinearity                      |
 | `Magma.CarryAutomaton`   | Carry model, path counts, reachability                           |
 | `Magma.UnitInputParity` | The entire unit-input DDT row depends only on key parity, by even-translation invariance |
+| `Magma.OddUnitInput77` | Kernel-certified 77-entry unit-input DDT row for every odd key, complete by conserved mass |
 | `Magma.MultiRoundDDT`    | Feistel differentials, joint carry constraints, and the complete 64-pair zero-key slice |
 | `Magma.Pruning`          | Domain pruning, soundness, stabilization                         |
 | `Magma.Certificates`     | Independent checkers and soundness, including `FastInitialCheck` |
@@ -58,6 +61,7 @@ belong to `Magma.MultiRoundDDT`.
 | `Magma.ZeroLeft.ColumnTransport` | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys |
 | `Magma.ZeroLeft.EightEntries` | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs |
 | `Magma.ZeroLeft.KeyParity` | First-key parity reduction of the zero-left slice and eight equal entries for every even first key |
+| `Magma.ZeroLeft.OddKey` | Exact three-round zero-left coefficients for odd first keys and arbitrary second and third keys |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 
