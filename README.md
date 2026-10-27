@@ -20,12 +20,15 @@ separate: import `Magma.OneHot.KeyClasses` and refer to declarations under `Magm
 It imports earlier zero-left results from `Magma.MultiRoundDDT` and one-bit results from
 `Magma/OneHot/`. The support and completeness proofs behind iterations 08, 10, and 11
 belong to `Magma.MultiRoundDDT`.
+`Magma.UnitInputParity` proves the general row invariant independently;
+`Magma.ZeroLeft.KeyParity` combines it with the eight-offset classification.
 
 | Module                   | Content                                                          |
 |--------------------------|------------------------------------------------------------------|
 | `Magma.RFC8891`          | Specification, invertibility proofs, RFC test vectors            |
 | `Magma.CryptoProperties` | DDT/LAT bounds, Walsh spectra, nonlinearity                      |
 | `Magma.CarryAutomaton`   | Carry model, path counts, reachability                           |
+| `Magma.UnitInputParity` | The entire unit-input DDT row depends only on key parity, by even-translation invariance |
 | `Magma.MultiRoundDDT`    | Feistel differentials, joint carry constraints, and the complete 64-pair zero-key slice |
 | `Magma.Pruning`          | Domain pruning, soundness, stabilization                         |
 | `Magma.Certificates`     | Independent checkers and soundness, including `FastInitialCheck` |
@@ -54,6 +57,7 @@ belong to `Magma.MultiRoundDDT`.
 | `Magma.OneHot.JointPeakMultiplicityHistogram` | Complete joint histogram of one-bit DDT peaks and maximizing-position counts over all round keys |
 | `Magma.ZeroLeft.ColumnTransport` | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys |
 | `Magma.ZeroLeft.EightEntries` | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs |
+| `Magma.ZeroLeft.KeyParity` | First-key parity reduction of the zero-left slice and eight equal entries for every even first key |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 

@@ -3,6 +3,7 @@ module
 public import Magma.RFC8891
 public import Magma.CryptoProperties
 public import Magma.CarryAutomaton
+public import Magma.UnitInputParity
 public import Magma.MultiRoundDDT
 public import Magma.Pruning
 public import Magma.Certificates
@@ -31,6 +32,7 @@ public import Magma.OneHot.JointPeakMultiplicity
 public import Magma.OneHot.JointPeakMultiplicityHistogram
 public import Magma.ZeroLeft.ColumnTransport
 public import Magma.ZeroLeft.EightEntries
+public import Magma.ZeroLeft.KeyParity
 public import Magma.BatchSearch
 public import Magma.BatchFamily
 import all Init.Data.Range.Basic
