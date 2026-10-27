@@ -16,13 +16,17 @@ run on every invocation.
 `Magma/OneHot/` groups one-bit analysis modules. Module paths and declaration namespaces are
 separate: import `Magma.OneHot.KeyClasses` and refer to declarations under `Magma.OneHotKeyClasses`.
 
+`Magma/ZeroLeft/` groups the later work on column transport and exact coefficients.
+It imports earlier zero-left results from `Magma.MultiRoundDDT` and one-bit results from
+`Magma/OneHot/`. The support and completeness proofs behind iterations 08, 10, and 11
+belong to `Magma.MultiRoundDDT`.
+
 | Module                   | Content                                                          |
 |--------------------------|------------------------------------------------------------------|
 | `Magma.RFC8891`          | Specification, invertibility proofs, RFC test vectors            |
 | `Magma.CryptoProperties` | DDT/LAT bounds, Walsh spectra, nonlinearity                      |
 | `Magma.CarryAutomaton`   | Carry model, path counts, reachability                           |
-| `Magma.MultiRoundDDT`    | Feistel differentials and joint carry constraints                |
-| `Magma.ZeroLeftColumnTransport` | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys |
+| `Magma.MultiRoundDDT`    | Feistel differentials, joint carry constraints, and the complete 64-pair zero-key slice |
 | `Magma.Pruning`          | Domain pruning, soundness, stabilization                         |
 | `Magma.Certificates`     | Independent checkers and soundness, including `FastInitialCheck` |
 | `Magma.FastSearch`       | Candidate generation and UInt16/UInt8 propagation                |
@@ -48,6 +52,8 @@ separate: import `Magma.OneHot.KeyClasses` and refer to declarations under `Magm
 | `Magma.OneHot.MaximizingBitMultiplicity` | Counts of maximizing one-bit positions at each key and their exact distribution over actual keys |
 | `Magma.OneHot.JointPeakMultiplicity` | Joint peak and maximizing-position fibers over actual keys, with exact counts for the two extreme cells |
 | `Magma.OneHot.JointPeakMultiplicityHistogram` | Complete joint histogram of one-bit DDT peaks and maximizing-position counts over all round keys |
+| `Magma.ZeroLeft.ColumnTransport` | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys |
+| `Magma.ZeroLeft.EightEntries` | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 

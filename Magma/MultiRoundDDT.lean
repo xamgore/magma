@@ -748,11 +748,9 @@ theorem xorDDT_rounds_three_zero_left_of_first_zero
   rw [xorDDT_rounds_three_zero_left_factorization, h]
   simp
 
-theorem xorDDT_rounds_three_zero_left_of_second_zero
-    (k₀ k₁ k₂ aL aR bR : V 32)
+theorem xorDDT_rounds_three_zero_left_of_second_zero (k₀ k₁ k₂ aL aR bR : V 32)
     (h : xorDDT_g k₁ bR aR = 0) :
-    xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂)
-      (aL, aR) (0#32, bR) = 0 := by
+    xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂) (aL, aR) (0#32, bR) = 0 := by
   rw [xorDDT_rounds_three_zero_left_factorization, h]
   simp
 
@@ -820,7 +818,6 @@ theorem zeroLeft_pos_for_every_third_key
   rw [xorDDT_rounds_three_zero_left_independent_of_k₂
     k₀ k₁ k₂ k₂' aL aR bR]
   exact h
-
 
 /-- The base state after two Feistel rounds. -/
 private theorem iterateG_two_formula
@@ -1487,3 +1484,270 @@ theorem verifiedCarryPaths_of_jointCarryConstraint
       (verifiedCarryPath_of_carryHasPathBoolean k₁ diff out hh)
 
 end Magma.MultiRoundDDT
+
+/-! ## Exact support of the zero-key zero-left slice
+
+The following results underlie research iterations 08, 10, and 11:
+two local S-box tables predict 64 pairs, each has count `2^58`, and
+together they exhaust the total slice mass `2^64`.
+-/
+
+open Magma.Internal Magma.CarryAutomaton Magma.MultiRoundDDT
+
+namespace Magma.ZeroLeftSupport
+
+/-- XOR on 4-bit S-box inputs, represented by `Fin 16`. -/
+private def xor4 (x d : Fin 16) : Fin 16 :=
+  ((BitVec.ofNat 4 x.val) ^^^ (BitVec.ofNat 4 d.val)).toFin
+
+/-- The ordinary 4-bit XOR-DDT of RFC S-box number `i`. -/
+def nibbleDDT (i : Fin 8) (d out : Fin 16) : Nat :=
+  ((Finset.univ : Finset (Fin 16)).filter fun x =>
+    Nat.xor (π'arrays i (xor4 x d)).val (π'arrays i x).val = out.val).card
+
+/-- For S-box 0, input difference 1 gives exactly eight outputs,
+    each with DDT count 2 (all other entries zero). -/
+theorem pi0_one_exact (out : Fin 16) :
+    nibbleDDT 0 1 out =
+      if out.val ∈ ([2, 3, 4, 6, 8, 10, 14, 15] : List Nat)
+      then 2 else 0 := by
+  fin_cases out <;> decide
+
+/-- For S-box 5, output difference 2 is possible for exactly eight
+    input differences, each with DDT count 2. -/
+theorem pi5_two_exact (d : Fin 16) :
+    nibbleDDT 5 d 2 =
+      if d.val ∈ ([3, 6, 8, 9, 10, 12, 13, 15] : List Nat)
+      then 2 else 0 := by
+  fin_cases d <;> decide
+
+/-- Output differences before rotation of the S-box 0 transition. -/
+def U : List Nat := [2, 3, 4, 6, 8, 10, 14, 15]
+
+/-- Input differences of S-box 5 producing output difference 2. -/
+def W : List Nat := [3, 6, 8, 9, 10, 12, 13, 15]
+
+/-- Predicted `(aL, bR)` pairs from the two independent 4-bit tables.
+    They have the form `(w*2^20 XOR u*2^11, w*2^20)`. Since the bit
+    ranges are disjoint, `+` equals XOR in this particular expression. -/
+def predictedPairs : List (V 32 × V 32) :=
+  W.flatMap fun w =>
+    U.map fun u =>
+      (BitVec.ofNat 32 (w * 2^20 + u * 2^11),
+       BitVec.ofNat 32 (w * 2^20))
+
+theorem predictedPairs_length : predictedPairs.length = 64 := by decide
+
+/-- Which single-bit input differences belong to the predicted support? -/
+def predictedOneBitPositions : List Nat :=
+  (List.range 32).filter fun i =>
+    predictedPairs.any fun p => p.1 == BitVec.ofNat 32 (2^i)
+
+/-- Which two-bit input differences belong to the predicted support? -/
+def predictedTwoBitPairs : List (Nat × Nat) := Id.run do
+  let mut result := []
+  for i in [:32] do
+    for j in [i+1:32] do
+      let aL := BitVec.ofNat 32 (2^i + 2^j)
+      if predictedPairs.any (fun p => p.1 == aL) then
+        result := (i, j) :: result
+  return result.reverse
+
+/-- No one-bit input difference occurs in the predicted list. -/
+theorem predictedOneBitPositions_eq_nil : predictedOneBitPositions = [] := by
+  decide +kernel
+
+/-- The predicted two-bit masks are exactly the three earlier search exceptions. -/
+theorem predictedTwoBitPairs_eq :
+    predictedTwoBitPairs = [(12, 23), (13, 23), (14, 23)] := by
+  decide +kernel
+
+end Magma.ZeroLeftSupport
+
+open Magma.ZeroLeftSupport
+
+namespace Magma.ZeroLeft64Exact
+
+/-- All eight-by-eight parameter choices have exact count `2^58`.
+    Importantly, each goal below is a *small*, fixed product of eight
+    4-bit S-box DDT entries; no `Finset FeistelState` is evaluated. -/
+theorem exact_count_for_UW
+    (k₂ : V 32) (w u : Nat)
+    (hw : w ∈ W) (hu : u ∈ U) :
+    xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂)
+      (BitVec.ofNat 32 (w * 2^20 + u * 2^11), 1#32)
+      (0#32, BitVec.ofNat 32 (w * 2^20)) = 2^58 := by
+  have hw' :
+      w = 3 ∨ w = 6 ∨ w = 8 ∨ w = 9 ∨
+      w = 10 ∨ w = 12 ∨ w = 13 ∨ w = 15 := by
+    simpa [W] using hw
+  have hu' :
+      u = 2 ∨ u = 3 ∨ u = 4 ∨ u = 6 ∨
+      u = 8 ∨ u = 10 ∨ u = 14 ∨ u = 15 := by
+    simpa [U] using hu
+  rcases hw' with (rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl) <;>
+    rcases hu' with (rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl) <;>
+    rw [zeroLeft_three_round_exact_sbox_product] <;>
+    decide +kernel
+
+/-- Every element of the original enumerated list has DDT exactly `2^58`.
+    This converts a 64-case computation into one reusable theorem. -/
+theorem predictedPairs_exact_count
+    (k₂ aL bR : V 32)
+    (hp : (aL, bR) ∈ predictedPairs) :
+    xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂)
+      (aL, 1#32) (0#32, bR) = 2^58 := by
+  unfold predictedPairs at hp
+  rcases List.mem_flatMap.mp hp with ⟨w, hw, hwu⟩
+  rcases List.mem_map.mp hwu with ⟨u, hu, hpair⟩
+  have hc := exact_count_for_UW k₂ w u hw hu
+  have ha : BitVec.ofNat 32 (w * 2^20 + u * 2^11) = aL :=
+    (Prod.mk.inj hpair).1
+  have hb : BitVec.ofNat 32 (w * 2^20) = bR :=
+    (Prod.mk.inj hpair).2
+  rw [ha, hb] at hc
+  exact hc
+
+/-- In particular all enumerated pairs have strictly positive DDT. -/
+theorem predictedPairs_possible
+    (k₂ aL bR : V 32)
+    (hp : (aL, bR) ∈ predictedPairs) :
+    0 < xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂)
+      (aL, 1#32) (0#32, bR) := by
+  rw [predictedPairs_exact_count k₂ aL bR hp]
+  norm_num
+
+/-- The parametrization has no duplicate pairs: all 64 entries
+    correspond to different input/output difference pairs. -/
+theorem predictedPairs_nodup : predictedPairs.Nodup := by
+  decide +kernel
+
+/-- A compact public statement: there are 64 distinct *certified*
+    pairs, and every one has the same exact count. Note that this is
+    an inclusion, not yet the converse (all other pairs impossible). -/
+theorem sixty_four_certified_pairs (k₂ : V 32) :
+    predictedPairs.length = 64 ∧
+    predictedPairs.Nodup ∧
+    (∀ aL bR : V 32, (aL, bR) ∈ predictedPairs →
+      xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂)
+        (aL, 1#32) (0#32, bR) = 2^58) := by
+  refine ⟨predictedPairs_length, predictedPairs_nodup, ?_⟩
+  intro aL bR hp
+  exact predictedPairs_exact_count k₂ aL bR hp
+
+end Magma.ZeroLeft64Exact
+
+open Magma.ZeroLeftSupport Magma.ZeroLeft64Exact
+
+namespace Magma.ZeroLeft64Completeness
+
+/-! ### The total weight of the zero-left DDT slice -/
+
+def zeroLeftSlice (k₂ : V 32) (p : FeistelState) : Nat :=
+  xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂) (p.1, 1#32) (0#32, p.2)
+
+/-- Constant row sums factor out of a sum weighted by the second coordinate. -/
+private theorem sum_pair_weights
+    {α β : Type*} [Fintype α] [Fintype β]
+    (f : β → α → Nat) (g : β → Nat) (row total : Nat)
+    (hrow : ∀ b, (∑ a : α, f b a) = row)
+    (hcol : (∑ b : β, g b) = total) :
+    (∑ p : α × β, f p.2 p.1 * g p.2) = row * total := by
+  classical
+  rw [Fintype.sum_prod_type_right]
+  have hinner (b : β) : (∑ a : α, f b a * g b) = row * g b := by
+    rw [← Finset.sum_mul, hrow]
+  simp_rw [hinner]
+  rw [← Finset.mul_sum, hcol]
+
+/-- The zero-left slice has total DDT mass `2^64` for every third key. -/
+theorem zeroLeftSlice_total_mass (k₂ : V 32) :
+    (∑ p : FeistelState, zeroLeftSlice k₂ p) = 2^64 := by
+  classical
+  have hcount : Fintype.card (V 32) = 2^32 := by
+    rw [← FinEnum.card_eq_fintypeCard]
+    exact FinEnum.card_bitVec 32
+  have hsum :
+      (∑ p : FeistelState,
+        xorDDT_g (0#32) (1#32) (xor p.2 p.1) *
+          xorDDT_g (0#32) p.2 (1#32)) = (2^32 : Nat) * 2^32 :=
+    sum_pair_weights
+      (fun bR aL : V 32 => xorDDT_g (0#32) (1#32) (xor bR aL))
+      (fun bR : V 32 => xorDDT_g (0#32) bR (1#32)) (2^32) (2^32)
+      (fun bR => (xorDDT_g_sum_output_xor (0#32) (1#32) bR).trans hcount)
+      ((xorDDT_g_sum_input (0#32) (1#32)).trans hcount)
+  calc
+    (∑ p : FeistelState, zeroLeftSlice k₂ p) =
+        ∑ p : FeistelState,
+          xorDDT_g (0#32) (1#32) (xor p.2 p.1) *
+            xorDDT_g (0#32) p.2 (1#32) := by
+      apply Finset.sum_congr rfl
+      intro p _
+      exact xorDDT_rounds_three_zero_left_factorization
+        (0#32) (0#32) k₂ p.1 (1#32) p.2
+    _ = (2^32 : Nat) * 2^32 := hsum
+    _ = 2^64 := by norm_num
+
+/-! ### Saturation: finite mass already exhausted by a known subset -/
+
+/-- If a finite set carries the entire mass of a natural-valued function,
+    every point outside it has weight zero. -/
+theorem zero_off_saturated_subset
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (S : Finset α) (weight : α → Nat) (mass : Nat)
+    (htotal : (∑ x : α, weight x) = mass)
+    (hknown : (∑ x ∈ S, weight x) = mass)
+    (x : α) (hx : x ∉ S) : weight x = 0 := by
+  have hcompl : (∑ x ∈ Sᶜ, weight x) = 0 := by
+    have hsplit := Finset.sum_add_sum_compl S weight
+    rw [hknown, htotal] at hsplit
+    omega
+  exact (Finset.sum_eq_zero_iff.mp hcompl) x (Finset.mem_compl.mpr hx)
+
+private def all64 : Finset FeistelState :=
+  predictedPairs.toFinset
+
+/-- The 64 certified entries already consume the entire 2^64 mass. -/
+theorem known64_total_mass (k₂ : V 32) :
+    (∑ p ∈ all64, zeroLeftSlice k₂ p) = 2^64 := by
+  have hcard : all64.card = 64 := by
+    change predictedPairs.toFinset.card = 64
+    rw [List.toFinset_card_of_nodup predictedPairs_nodup]
+    exact predictedPairs_length
+  calc
+    (∑ p ∈ all64, zeroLeftSlice k₂ p) =
+        ∑ _p ∈ all64, (2^58 : Nat) := by
+      apply Finset.sum_congr rfl
+      intro p hp
+      exact predictedPairs_exact_count k₂ p.1 p.2
+        (by simpa only [all64, List.mem_toFinset] using hp)
+    _ = all64.card * 2^58 := by simp
+    _ = 2^64 := by rw [hcard]; norm_num
+
+/-- Exact classification of the zero-left slice for every third round key. -/
+theorem zeroLeftSlice_exact_iff_listed (k₂ aL bR : V 32) :
+    xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂)
+      (aL, 1#32) (0#32, bR) =
+      if (aL, bR) ∈ predictedPairs then 2^58 else 0 := by
+  classical
+  by_cases hmem : (aL, bR) ∈ predictedPairs
+  · rewrite [ite_eq_left hmem]
+    exact predictedPairs_exact_count k₂ aL bR hmem
+  · rewrite [ite_eq_right hmem]
+    change zeroLeftSlice k₂ (aL, bR) = 0
+    apply zero_off_saturated_subset
+      (S := all64) (weight := zeroLeftSlice k₂)
+      (mass := 2^64)
+      (zeroLeftSlice_total_mass k₂) (known64_total_mass k₂)
+      (aL, bR)
+    simpa only [all64, List.mem_toFinset] using hmem
+
+/-- Positive DDT support is exactly the list of 64 certified pairs. -/
+theorem zeroLeftSlice_possible_iff_listed (k₂ aL bR : V 32) :
+    0 < xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂)
+      (aL, 1#32) (0#32, bR) ↔
+      (aL, bR) ∈ predictedPairs := by
+  rw [zeroLeftSlice_exact_iff_listed]
+  by_cases h : (aL, bR) ∈ predictedPairs <;> norm_num [h]
+
+end Magma.ZeroLeft64Completeness
