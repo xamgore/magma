@@ -8,6 +8,7 @@ public import Magma.Pruning
 public import Magma.Certificates
 public import Magma.FastSearch
 public import Magma.UInt8NoPathCertificates
+public import Magma.OneHotCompleteSupport
 public import Magma.BatchSearch
 public import Magma.BatchFamily
 import all Init.Data.Range.Basic
