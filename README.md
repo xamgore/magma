@@ -35,6 +35,7 @@ run on every invocation.
 | `Magma.OneHotThreeRoundColumns` | Universal zero-left three-round one-bit column support and the unique class with all columns zero |
 | `Magma.OneHotExactColumnMass` | Exact carry-DP column masses and unequal multiplicities within one support class |
 | `Magma.OneHotLinearPrefixMass` | Symbolic prefix-carry counts and an affine factorized model, with conditional DDT consequences |
+| `Magma.OneHotQuantitativeTraceFactorization` | Symbolic 5+1+2 trace counting and unconditional affine DDT and column-mass formulae |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 
