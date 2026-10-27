@@ -168,4 +168,9 @@ theorem checkedPredictedThreeRoundColumns_iff
   exact oneHot_threeRound_column_zero_iff
     k₀ k₁ k₂ (1#32) (predictedOneHotPositions k₁) hu hl j
 
+/-- One representative from each of 16 × 2 key classes. -/
+def representativeKey (q : Fin 16) (allowCarry1 : Bool) : V 32 :=
+  BitVec.ofNat 32
+    (q.val * (2 ^ 20) + (if allowCarry1 then 1 else 0))
+
 end Magma.OneHotKeyClasses

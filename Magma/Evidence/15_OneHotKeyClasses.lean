@@ -44,11 +44,6 @@ theorem predicted_emptySupportKey :
     (predictedOneHotPositions (0x00800000#32)).map Fin.val = [] := by
   decide
 
-/-- One representative from each of 16 × 2 key classes. -/
-def representativeKey (q : Fin 16) (allowCarry1 : Bool) : V 32 :=
-  BitVec.ofNat 32
-    (q.val * (2 ^ 20) + (if allowCarry1 then 1 else 0))
-
 def fastSupportPositions (k : V 32) : List (Fin 32) :=
   (List.finRange 32).filter fun j =>
     Magma.Evidence.ZeroLeftArbitraryKeys.xorDiffPossibleUInt8
