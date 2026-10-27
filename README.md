@@ -43,6 +43,7 @@ separate: import `Magma.OneHot.KeyClasses` and refer to declarations under `Magm
 | `Magma.OneHot.GlobalMaximum` | Sharp maxima for the one-bit DDT slice and three-round column masses, with all attaining key classes |
 | `Magma.OneHot.FixedKeyPeak` | Exact peak and an attaining bit for each key, with arithmetic counts of maximizing classes |
 | `Magma.OneHot.ActualKeyCardinality` | Exact cardinalities of the actual 32-bit keys attaining and missing the one-bit DDT maximum |
+| `Magma.OneHot.CompletePeakHistogram` | Exact histogram of fixed-key one-bit DDT peaks across all 32-bit round keys |
 | `Magma.BatchSearch`      | Shared carry bases and independently checked batch hits          |
 | `Magma.BatchFamily`      | Batch certificates, family soundness, and two-bit candidates     |
 
