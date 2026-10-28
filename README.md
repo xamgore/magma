@@ -69,6 +69,7 @@ left output difference zero.
 | `OneHot.Support72KeyClasses` | Exact nibble conditions for attaining 72 cells, fourteen admissible prefixes, and 2016 maximizing coordinate tuples |
 | `OneHot.Support72ActualKeyCardinality` | Exactly 2016 actual 32-bit round keys attain the 72-cell support maximum, via the word-to-nibble equivalence |
 | `OneHot.SupportHistogramDP` | Certified two-state DP table for support weights and cardinality reindexing to nibble fibers; identifying the DP coefficients with these fibers remains open |
+| `OneHot.SupportHistogramSemanticScan` | Prefix-state semantics and equality of the eight-digit scan score with real support; cardinality reindexing through the scan, without assuming the array-DP invariant |
 | `ZeroLeft.ColumnTransport`              | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys                                      |
 | `ZeroLeft.EightEntries`                 | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs                          |
 | `ZeroLeft.KeyParity`                    | First-key parity reduction of the zero-left slice and eight equal entries for every even first key                                         |
