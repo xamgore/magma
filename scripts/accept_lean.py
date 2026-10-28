@@ -147,9 +147,10 @@ def finish(args: argparse.Namespace) -> None:
     paths = list(dict.fromkeys([str(path.relative_to(ROOT))] + args.paths))
     for owned in paths:
         (ROOT / owned).resolve().relative_to(ROOT)
+    lean_files = [owned for owned in paths if owned.endswith('.lean') and owned != 'Magma.lean']
     commands = [
-        ['lake', 'exe', 'fmt', 'format', '--workers', '1', str(path.relative_to(ROOT))],
-        ['lake', 'build', str(path.relative_to(ROOT)), 'Magma'],
+        ['lake', 'exe', 'fmt', 'format', '--workers', '1', *lean_files],
+        ['lake', 'build', *lean_files, 'Magma'],
         ['lake', 'exe', 'axiom-audit', '--root', module_name(path)],
         ['git', 'diff', '--check', '--', *paths],
         ['git', 'add', '--', *paths],
@@ -199,9 +200,12 @@ def main() -> None:
         finish(args)
     else:
         path = relative_file(args.file)
-        stamp = proof_stamp(path)
-        if not stamp.exists() or stamp.read_text() != fingerprint(path):
-            raise ValueError('Run check successfully on the current source before finish')
+        lean_files = [path] + [relative_file(owned) for owned in args.paths
+                               if owned.endswith('.lean') and owned != 'Magma.lean']
+        for checked in lean_files:
+            stamp = proof_stamp(checked)
+            if not stamp.exists() or stamp.read_text() != fingerprint(checked):
+                raise ValueError(f'Run check successfully before finish: {checked}')
         LOG.parent.mkdir(exist_ok=True)
         with LOG.open('a') as log:
             subprocess.Popen([sys.executable, str(Path(__file__).resolve()), '_finish', *sys.argv[2:]],

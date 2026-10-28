@@ -70,6 +70,7 @@ left output difference zero.
 | `OneHot.Support72ActualKeyCardinality` | Exactly 2016 actual 32-bit round keys attain the 72-cell support maximum, via the word-to-nibble equivalence |
 | `OneHot.SupportHistogramDP` | Certified two-state DP table for support weights and cardinality reindexing to nibble fibers; identifying the DP coefficients with these fibers remains open |
 | `OneHot.SupportHistogramSemanticScan` | Prefix-state semantics and equality of the eight-digit scan score with real support; cardinality reindexing through the scan, without assuming the array-DP invariant |
+| `OneHot.DiagonalExactWeights` | Closed prefix-carry counts and proposed diagonal weights with exact positivity and zero criteria; numerical equality with the DDT remains a separate proof obligation |
 | `ZeroLeft.ColumnTransport`              | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys                                      |
 | `ZeroLeft.EightEntries`                 | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs                          |
 | `ZeroLeft.KeyParity`                    | First-key parity reduction of the zero-left slice and eight equal entries for every even first key                                         |
@@ -105,6 +106,7 @@ next iteration.
 | `16_OneHotClassCertificates`   | Do original-arithmetic certificates establish exact support for all 32 class representatives?                            |
 | `17_OneHotExactColumnMass`     | Do keys with the same one-bit support class also have equal exact column masses?                                         |
 | `18_OneHotFixedKeySupport`     | How many of the 76 globally realizable cells coexist at one key, and what ceiling follows from consistent local carries? |
+| `19_DiagonalExactWeights` | Do the proposed diagonal weights agree numerically with the carry DP at the zero key and the 72-cell witness key? |
 
 Fixed observations are Lean examples and theorems. Measurements use `#eval`. Run an iteration
 explicitly; iterations import the library directly and do not run earlier experiments:
