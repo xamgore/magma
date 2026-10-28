@@ -37,10 +37,10 @@ open Magma.OneHotDiagonalQuantitativeBridge
 open Magma.OneHotExactCoefficientGlobalMaximum
 open Magma.OneHotActiveNibbleNecessary
 
-private abbrev Word :=
+abbrev Word :=
   V 32
 
-private abbrev Q :=
+abbrev Q :=
   Fin 16
 
 /-- A nibble value for which *some* bit pair reaches local count four
@@ -150,91 +150,91 @@ theorem hasPeakCoefficient_iff_local (k : Word) :
 
 /-! ### Verified small local winner classes. -/
 
-private def a0 : Finset Q :=
+def a0 : Finset Q :=
   {3,7,11,15}
 
-private def a1 : Finset Q :=
+def a1 : Finset Q :=
   {1,2,3,9,10,11}
 
-private def a2 : Finset Q :=
+def a2 : Finset Q :=
   {0, 1, 11, 12, 13, 14, 15}
 
-private def b1 : Finset Q :=
+def b1 : Finset Q :=
   {1,2,9,10}
 
-private def b2 : Finset Q :=
+def b2 : Finset Q :=
   {0, 11, 12, 13, 14, 15}
 
-private def b3 : Finset Q :=
+def b3 : Finset Q :=
   {0, 11, 12, 13, 14, 15}
 
-private def b4 : Finset Q :=
+def b4 : Finset Q :=
   {0, 1, 2, 3, 10, 11, 15}
 
-private def b5 : Finset Q :=
+def b5 : Finset Q :=
   ∅
 
-private def b6 : Finset Q :=
+def b6 : Finset Q :=
   {0, 4, 8, 12}
 
-private def b7 : Finset Q :=
+def b7 : Finset Q :=
   {1,2,7,9,10,15}
 
-private theorem a0_correct : zeroPeakClass 0 = a0 := by decide +kernel
+theorem a0_correct : zeroPeakClass 0 = a0 := by decide +kernel
 
-private theorem a1_correct : zeroPeakClass 1 = a1 := by decide +kernel
+theorem a1_correct : zeroPeakClass 1 = a1 := by decide +kernel
 
-private theorem a2_correct : zeroPeakClass 2 = a2 := by decide +kernel
+theorem a2_correct : zeroPeakClass 2 = a2 := by decide +kernel
 
-private theorem b1_correct : bothPeakClass 1 = b1 := by decide +kernel
+theorem b1_correct : bothPeakClass 1 = b1 := by decide +kernel
 
-private theorem b2_correct : bothPeakClass 2 = b2 := by decide +kernel
+theorem b2_correct : bothPeakClass 2 = b2 := by decide +kernel
 
-private theorem b3_correct : bothPeakClass 3 = b3 := by decide +kernel
+theorem b3_correct : bothPeakClass 3 = b3 := by decide +kernel
 
-private theorem b4_correct : bothPeakClass 4 = b4 := by decide +kernel
+theorem b4_correct : bothPeakClass 4 = b4 := by decide +kernel
 
-private theorem b5_correct : bothPeakClass 5 = b5 := by decide +kernel
+theorem b5_correct : bothPeakClass 5 = b5 := by decide +kernel
 
-private theorem b6_correct : bothPeakClass 6 = b6 := by decide +kernel
+theorem b6_correct : bothPeakClass 6 = b6 := by decide +kernel
 
-private theorem b7_correct : bothPeakClass 7 = b7 := by decide +kernel
+theorem b7_correct : bothPeakClass 7 = b7 := by decide +kernel
 
 /-! ### Closed coordinate count for all keys WITHOUT the top DDT. -/
 
-private abbrev Prefix :=
+abbrev Prefix :=
   Q × (Q × Q)
 
-private abbrev High :=
+abbrev High :=
   Q × (Q × (Q × (Q × Q)))
 
-private abbrev Coordinates :=
+abbrev Coordinates :=
   Prefix × High
 
 private instance : DecidableEq Coordinates :=
   inferInstance
 
-private def avoid (s : Finset Q) : Finset Q :=
+def avoid (s : Finset Q) : Finset Q :=
   Finset.univ \ s
 
-private def avoidNonzero (s : Finset Q) : Finset Q :=
+def avoidNonzero (s : Finset Q) : Finset Q :=
   (Finset.univ \ s).erase 0
 
 /-- Exactly three ways the first nonzero nibble can occur WITHOUT
     attaining a top DDT coefficient. At three leading zero nibbles,
     q2=0 is already a winning value, so a fourth case is impossible. -/
-private def noPeakPrefix : Finset Prefix :=
+def noPeakPrefix : Finset Prefix :=
   ((avoidNonzero a0) ×ˢ ((avoid b1) ×ˢ (avoid b2))) ∪
   (({0} : Finset Q) ×ˢ ((avoidNonzero a1) ×ˢ (avoid b2))) ∪
   (({0} : Finset Q) ×ˢ (({0} : Finset Q) ×ˢ (avoidNonzero a2)))
 
 /-- Once a nonzero digit has appeared, only both-carry local winners
     could still yield coefficient 2^30. Position i=5 has none. -/
-private def noPeakHigh : Finset High :=
+def noPeakHigh : Finset High :=
   avoid b3 ×ˢ (avoid b4 ×ˢ
     ((Finset.univ : Finset Q) ×ˢ (avoid b6 ×ˢ avoid b7)))
 
-private def noPeakCoordinates : Finset Coordinates :=
+def noPeakCoordinates : Finset Coordinates :=
   noPeakPrefix ×ˢ noPeakHigh
 
 /-- 1320 + 90 + 9 prefix combinations. All three branches are disjoint. -/
@@ -284,10 +284,10 @@ theorem numberOfWinningTuples_arithmetic :
 
 /-! ### A purely structural transfer to ACTUAL 32-bit keys. -/
 
-private def toCoordinates (d : Fin 8 → Q) : Coordinates :=
+def toCoordinates (d : Fin 8 → Q) : Coordinates :=
   ((d 0, d 1, d 2), (d 3, d 4, d 5, d 6, d 7))
 
-private def fromCoordinates (c : Coordinates) (i : Fin 8) : Q :=
+def fromCoordinates (c : Coordinates) (i : Fin 8) : Q :=
   match i.val with
   | 0 => c.1.1
   | 1 => c.1.2.1
@@ -298,7 +298,7 @@ private def fromCoordinates (c : Coordinates) (i : Fin 8) : Q :=
   | 6 => c.2.2.2.2.1
   | _ => c.2.2.2.2.2
 
-private def coordinatesEquiv : (Fin 8 → Q) ≃ Coordinates where
+def coordinatesEquiv : (Fin 8 → Q) ≃ Coordinates where
   toFun := toCoordinates
   invFun := fromCoordinates
   left_inv := by
@@ -310,7 +310,7 @@ private def coordinatesEquiv : (Fin 8 → Q) ≃ Coordinates where
     rcases c with ⟨⟨q₀, q₁, q₂⟩, ⟨q₃, q₄, q₅, q₆, q₇⟩⟩
     rfl
 
-private def wordCoordinatesEquiv : Word ≃ Coordinates :=
+def wordCoordinatesEquiv : Word ≃ Coordinates :=
   wordDigitsEquiv.trans coordinatesEquiv
 
 /-- An explicit subset of the REAL round keys, represented by the

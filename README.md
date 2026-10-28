@@ -75,6 +75,7 @@ left output difference zero.
 | `OneHot.DiagonalQuantitativeBridge` | Pointwise trace acceptance and a radix-16 coordinate bijection prove the quantitative fiber bridge and the exact diagonal DDT formula for every key |
 | `OneHot.ExactCoefficientGlobalMaximum` | Sharp global one-hot XOR-DDT bound of 2^30 over all keys and bit pairs, attained at key 3 with differences 2 and 2^11, plus an exact diagonal equality criterion |
 | `OneHot.PeakKeyClasses` | Exact local peak classes and 245203200 coordinate-class keys; the count of 4049764096 keys attaining the peak is conditional on the coordinate characterization |
+| `OneHot.PeakKeyClassesSemanticClosure` | Unconditional coordinate characterization of non-peak keys and the exact count of 4049764096 actual 32-bit keys attaining the global peak |
 | `ZeroLeft.ColumnTransport`              | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys                                      |
 | `ZeroLeft.EightEntries`                 | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs                          |
 | `ZeroLeft.KeyParity`                    | First-key parity reduction of the zero-left slice and eight equal entries for every even first key                                         |

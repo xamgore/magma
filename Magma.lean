@@ -56,6 +56,7 @@ public import Magma.OneHot.DiagonalQuantitativeFibers
 public import Magma.OneHot.DiagonalQuantitativeBridge
 public import Magma.OneHot.ExactCoefficientGlobalMaximum
 public import Magma.OneHot.PeakKeyClasses
+public import Magma.OneHot.PeakKeyClassesSemanticClosure
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
