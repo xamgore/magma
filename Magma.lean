@@ -63,6 +63,7 @@ public import Magma.TwoHot.OutputOneFirstActiveNibble
 public import Magma.TwoHot.OutputOneSevenLocalCandidates
 public import Magma.TwoHot.OutputOneSevenSoundness
 public import Magma.TwoHot.OutputOneSevenExactCounts
+public import Magma.TwoHot.UniformTwoDigitKernel
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/

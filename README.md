@@ -82,6 +82,7 @@ left output difference zero.
 | `TwoHot.OutputOneSevenLocalCandidates` | Seven local candidates with explicit full-round witnesses; excluding the other 31 pairs remains conditional on local-model soundness for ascending bit pairs |
 | `TwoHot.OutputOneSevenSoundness` | Unconditional soundness for increasing bit pairs: exactly seven realizable differences and 489 universal zeros, with empty three-round zero-left columns for arbitrary round keys |
 | `TwoHot.OutputOneSevenExactCounts` | Exact four-state DP counts for all 496 increasing pairs, with a proposed two-nibble weighted formula whose quantitative bridge remains explicit |
+| `TwoHot.UniformTwoDigitKernel` | Uniform two-digit local count for all seven pairs, proved equal to the proposed weighted formula; full DP equivalence remains an explicit obligation |
 | `ZeroLeft.ColumnTransport`              | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys                                      |
 | `ZeroLeft.EightEntries`                 | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs                          |
 | `ZeroLeft.KeyParity`                    | First-key parity reduction of the zero-left slice and eight equal entries for every even first key                                         |
@@ -119,6 +120,7 @@ next iteration.
 | `18_OneHotFixedKeySupport`     | How many of the 76 globally realizable cells coexist at one key, and what ceiling follows from consistent local carries? |
 | `19_DiagonalExactWeights` | Do the proposed diagonal weights agree numerically with the carry DP at the zero key and the 72-cell witness key? |
 | `20_TwoHotOutputOneExactCounts` | What fixed values does the proposed weighted formula give at the zero key and the cross-nibble witness key? |
+| `21_TwoHotOutputOneDPAgreement` | Does a fast four-state scan agree with the proposed weighted formula on all seven pairs at eight sample keys? |
 
 Fixed observations are Lean examples and theorems. Measurements use `#eval`. Run an iteration
 explicitly; iterations import the library directly and do not run earlier experiments:
