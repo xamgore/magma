@@ -80,6 +80,7 @@ left output difference zero.
 | `OneHot.EightPeakPairsExactKeyCount` | Universal maximum of eight simultaneous peak pairs and exactly 248832 actual round keys attaining it, via four-nibble certificates and coordinate reindexing |
 | `TwoHot.OutputOneFirstActiveNibble` | First-active-nibble exclusion for output difference one: 458 universal zero transitions, 38 necessary candidates, and empty three-round zero-left columns |
 | `TwoHot.OutputOneSevenLocalCandidates` | Seven local candidates with explicit full-round witnesses; excluding the other 31 pairs remains conditional on local-model soundness for ascending bit pairs |
+| `TwoHot.OutputOneSevenSoundness` | Unconditional soundness for increasing bit pairs: exactly seven realizable differences and 489 universal zeros, with empty three-round zero-left columns for arbitrary round keys |
 | `ZeroLeft.ColumnTransport`              | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys                                      |
 | `ZeroLeft.EightEntries`                 | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs                          |
 | `ZeroLeft.KeyParity`                    | First-key parity reduction of the zero-left slice and eight equal entries for every even first key                                         |
