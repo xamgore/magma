@@ -103,7 +103,7 @@ def prepare(args: argparse.Namespace) -> None:
     result += '\n'.join(body_lines).lstrip() + '\n'
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(result)
-    if 'Evidence' not in dest.relative_to(ROOT).parts:
+    if not args.no_register and 'Evidence' not in dest.relative_to(ROOT).parts:
         root_file = ROOT / 'Magma.lean'
         root_source = root_file.read_text()
         entry = f'public import {module_name(dest)}\n'
@@ -127,7 +127,7 @@ def check(args: argparse.Namespace) -> None:
     stamp = proof_stamp(path)
     stamp.unlink(missing_ok=True)
     checked_hash = fingerprint(path)
-    with LOG.open('w') as log:
+    with LOG.open('a' if args.append_log else 'w') as log:
         result = subprocess.run(['lake', 'build', str(path.relative_to(ROOT))],
                                 cwd=ROOT, stdout=log, stderr=subprocess.STDOUT)
     if result.returncode:
@@ -184,8 +184,12 @@ def main() -> None:
     prep.add_argument('file')
     prep.add_argument('--import', dest='imports', action='append', default=[])
     prep.add_argument('--keep-examples', action='store_true')
+    prep.add_argument('--no-register', action='store_true',
+                      help='Leave the aggregate import unchanged while another job is finishing')
     check_parser = sub.add_parser('check', help='Elaborate proofs before formatting; log failures')
     check_parser.add_argument('file')
+    check_parser.add_argument('--append-log', action='store_true',
+                              help='Preserve output from a concurrent finishing job')
     for action in ['finish', '_finish']:
         final = sub.add_parser(action, help='Detach formatting, validation, audit and commit')
         final.add_argument('file')

@@ -59,6 +59,8 @@ public import Magma.OneHot.PeakKeyClasses
 public import Magma.OneHot.PeakKeyClassesSemanticClosure
 public import Magma.OneHot.PeakPairMultiplicity
 public import Magma.OneHot.EightPeakPairsExactKeyCount
+public import Magma.TwoHot.OutputOneFirstActiveNibble
+public import Magma.TwoHot.OutputOneSevenLocalCandidates
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
