@@ -86,6 +86,7 @@ left output difference zero.
 | `TwoHot.SevenTraceKernelBridge` | Pointwise equivalence of the eight-digit carry trace and the uniform two-digit predicate for all seven pairs, yielding an exact kernel-sum expression for the full DP count |
 | `TwoHot.SevenQuantitativeClosure` | Closes the seven-pair quantitative bridge and proves the closed DDT formula for all 496 increasing two-hot input pairs at every key |
 | `TwoHot.SevenCoefficientExtrema` | Sharp coefficient bounds: 2^29 for all ordered two-hot inputs and 2^28 for (23, 24), with local criteria for attaining each bound |
+| `TwoHot.CrossPeakExactKeyCount` | Exactly 1,879,048,448 actual 32-bit keys attain the sharp 2^28 coefficient for (23, 24), counted through an eight-nibble bijection |
 | `ZeroLeft.ColumnTransport`              | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys                                      |
 | `ZeroLeft.EightEntries`                 | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs                          |
 | `ZeroLeft.KeyParity`                    | First-key parity reduction of the zero-left slice and eight equal entries for every even first key                                         |

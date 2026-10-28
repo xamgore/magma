@@ -67,6 +67,7 @@ public import Magma.TwoHot.UniformTwoDigitKernel
 public import Magma.TwoHot.SevenTraceKernelBridge
 public import Magma.TwoHot.SevenQuantitativeClosure
 public import Magma.TwoHot.SevenCoefficientExtrema
+public import Magma.TwoHot.CrossPeakExactKeyCount
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
