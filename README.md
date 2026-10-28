@@ -77,6 +77,7 @@ left output difference zero.
 | `OneHot.PeakKeyClasses` | Exact local peak classes and 245203200 coordinate-class keys; the count of 4049764096 keys attaining the peak is conditional on the coordinate characterization |
 | `OneHot.PeakKeyClassesSemanticClosure` | Unconditional coordinate characterization of non-peak keys and the exact count of 4049764096 actual 32-bit keys attaining the global peak |
 | `OneHot.PeakPairMultiplicity` | Exact fixed-key peak-pair sets and counts via 128 local triples, 245203200 keys with no peak pairs, and a key with exactly eight; a universal eight-pair upper bound is not asserted |
+| `OneHot.EightPeakPairsExactKeyCount` | Universal maximum of eight simultaneous peak pairs and exactly 248832 actual round keys attaining it, via four-nibble certificates and coordinate reindexing |
 | `ZeroLeft.ColumnTransport`              | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys                                      |
 | `ZeroLeft.EightEntries`                 | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs                          |
 | `ZeroLeft.KeyParity`                    | First-key parity reduction of the zero-left slice and eight equal entries for every even first key                                         |

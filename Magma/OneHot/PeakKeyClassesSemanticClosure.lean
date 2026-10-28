@@ -55,7 +55,7 @@ private theorem digitPrefixValue_zero_iff (ds : Nat → Q) (n : Nat) :
       have hd : ds n = 0 := h n (by omega)
       simp [digitPrefixValue, hp, hd]
 
-private theorem keyPrefix_zero_iff_all_lower (k : Word) (i : Fin 8) :
+theorem keyPrefix_zero_iff_all_lower (k : Word) (i : Fin 8) :
     keyPrefix k i = 0 ↔ ∀ j : Fin 8, j.val < i.val → wordDigits k j = 0 := by
   have h := digitPrefixValue_zero_iff (wordDigitStream k) i.val
   rw [digitPrefixValue_wordDigitStream] at h
