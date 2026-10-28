@@ -84,6 +84,7 @@ left output difference zero.
 | `TwoHot.OutputOneSevenExactCounts` | Exact four-state DP counts for all 496 increasing pairs, with a proposed two-nibble weighted formula whose quantitative bridge remains explicit |
 | `TwoHot.UniformTwoDigitKernel` | Uniform two-digit local count for all seven pairs, proved equal to the proposed weighted formula; full DP equivalence remains an explicit obligation |
 | `TwoHot.SevenTraceKernelBridge` | Pointwise equivalence of the eight-digit carry trace and the uniform two-digit predicate for all seven pairs, yielding an exact kernel-sum expression for the full DP count |
+| `TwoHot.SevenQuantitativeClosure` | Closes the seven-pair quantitative bridge and proves the closed DDT formula for all 496 increasing two-hot input pairs at every key |
 | `ZeroLeft.ColumnTransport`              | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys                                      |
 | `ZeroLeft.EightEntries`                 | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs                          |
 | `ZeroLeft.KeyParity`                    | First-key parity reduction of the zero-left slice and eight equal entries for every even first key                                         |

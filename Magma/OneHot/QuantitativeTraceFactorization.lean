@@ -86,7 +86,7 @@ private def preStream (p : Prefix) (n : Nat) : Fin 16 :=
   if h : n < 5 then p ⟨n, h⟩ else 0
 
 /-- The prefix carry depends only on the first five input digits. -/
-private def prefixCarryDigits (k : V 32) (p : Prefix) : Fin 2 :=
+def prefixCarryDigits (k : V 32) (p : Prefix) : Fin 2 :=
   lowCarry5 (wordDigits k) (assemble p 0 (fun _ => 0))
 
 private theorem lowCarry5_assemble (k : V 32) (p : Prefix) (a : Fin 16) (s : Suffix) :
@@ -109,7 +109,7 @@ private theorem prefixValue_eq_encoding (p : Prefix) :
 
 /-- All five prefix carries equal ordinary integer addition modulo 2^20.
     No one-million-element enumeration is present in this proof. -/
-private theorem prefixCarryDigits_arithmetic (k : V 32) (p : Prefix) :
+theorem prefixCarryDigits_arithmetic (k : V 32) (p : Prefix) :
     (prefixCarryDigits k p).val =
       ((finFunctionFinEquiv p).val + k.toNat % B) / B := by
   have hsum := digitPrefixValue_add_carry
