@@ -52,6 +52,7 @@ public import Magma.OneHot.Support72ActualKeyCardinality
 public import Magma.OneHot.SupportHistogramDP
 public import Magma.OneHot.SupportHistogramSemanticScan
 public import Magma.OneHot.DiagonalExactWeights
+public import Magma.OneHot.DiagonalQuantitativeFibers
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
