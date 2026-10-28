@@ -13,10 +13,6 @@ import Magma.FastSearch
 /-!
 Evidence 21, fast executable DP-vs-formula regression (single scan).
 
-REPLACES the old long-running `OutputOneDPAgreementRegressions` evidence.
-DO NOT IMPORT that old evidence file: it contains a `by decide` proof
-that unfolds the full Finset/matrix implementation and may take hours.
-
 Algorithmic optimization:
   * Old DP: 4x4 transition matrix, each entry scans all 16 inputs.
   * New DP: for each of 4 current states, scan 16 inputs ONCE;
@@ -28,7 +24,6 @@ This is executable regression evidence, NOT a proof of the universal
 `sevenWeightFiberBridge` theorem. The fast transition semantics can be
 proved separately against `sboxCarryStep` and `carryDPCount`.
 
-No `decide` or `native_decide` over the full DP, and no new axioms.
 -/
 
 namespace Magma.Evidence.TwoHotDPAgreementFast
@@ -107,14 +102,5 @@ def runEvidence21Fast : IO Unit := do
   IO.println s!"[Evidence21] total={t1-t0} ms"
 
 #eval runEvidence21Fast
-
-/-!
-For empirical comparisons with the ORIGINAL `carryDPCount`, do a
-single case in a SEPARATE file. Do not import the old regressions module;
-its full-DP `by decide` is what can block before any later `#eval`.
-
-The executable fast scan is not yet a formal replacement for
-`carryDPCount` in universally quantified Lean theorems.
--/
 
 end Magma.Evidence.TwoHotDPAgreementFast
