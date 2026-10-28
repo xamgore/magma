@@ -21,7 +21,7 @@ In particular, it gives an unconditional certified zero test.
 IMPORTANT: Equality of the positive NUMERIC VALUES with xorDDT_g is a
 separate quantitative factorization obligation, NOT asserted here.
 The next proof needs to count prefix, active digit and suffix fibers,
-not just construct one full-word witness. No sorry or extra axioms.
+not just construct one full-word witness.
 -/
 
 namespace Magma.OneHotDiagonalExactWeights

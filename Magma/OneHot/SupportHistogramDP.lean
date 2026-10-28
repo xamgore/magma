@@ -21,7 +21,7 @@ finite certificate alone as that bridge.
 
 The expected values are given as `example` statements only where they
 serve as meaningful reproducible numeric regression checks.
-No sorry, native_decide, additional axioms or runtime `#eval`.
+
 -/
 
 namespace Magma.OneHotSupportHistogramDP

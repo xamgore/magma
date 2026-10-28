@@ -24,7 +24,7 @@ IMPORTANT PROOF STATUS:
     takes that separate obligation as a hypothesis.
 
 At the top of the module no existing `private` declarations are changed.
-No sorry, native_decide or new axioms.
+
 -/
 
 namespace Magma.TwoHotOutputOneSevenExactCounts

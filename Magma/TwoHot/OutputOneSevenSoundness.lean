@@ -23,7 +23,6 @@ cannot be canceled by a difference of the two incoming carries (whose
 magnitude is at most one); it is checked by finite 4-bit cases. Bits
 28..31 are excluded by the silent nibble 6 and the active nibble 7.
 
-No 32-bit input enumeration, sorry, native_decide, bv_decide, or axioms.
 -/
 
 namespace Magma.TwoHotOutputOneSevenSoundness

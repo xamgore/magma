@@ -16,7 +16,6 @@ No full V32 enumeration; two 4-nibble scans (65536 each), whose
 finite certificate checks can be split if your local Lean runs out of
 heartbeats. The mathematical reduction uses a key/nibble equivalence.
 
-No sorry, native_decide, bv_decide or added axioms. 
 -/
 
 namespace Magma.OneHotEightPeakPairsExactKeyCount

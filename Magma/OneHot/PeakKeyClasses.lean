@@ -24,7 +24,7 @@ to a 172800-element set. The product has 245203200 elements, leaving
 proved directly. The final identification with ACTUAL keys is reserved
 for a separate coordinate-equivalence proof, not assumed as an axiom.
 
-No `sorry`, native_decide, bv_decide or custom axioms. The only `decide`
+ The only `decide`
 proofs examine finite local S-box tables and at most 16^3 prefix tuples.
 -/
 

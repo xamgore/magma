@@ -12,7 +12,6 @@ Proves, WITHOUT EXTRA HYPOTHESES:
   ¬hasPeakCoefficient k ↔ wordCoordinatesEquiv k ∈ noPeakCoordinates
   card {k : V 32 | hasPeakCoefficient k} = 4049764096
 
-No enumeration of all 2^32 words, no sorry or native_decide.
 -/
 
 namespace Magma.OneHotPeakKeyClasses

@@ -21,7 +21,6 @@ equality of positive numbers merely from matching supports. In particular,
 full-input fiber count. The unconditional theorem in this module is
 `factorizedInputFiber_card`.
 
-No sorry, native_decide, bv_decide or additional axioms.
 -/
 
 namespace Magma.OneHotDiagonalQuantitativeFibers

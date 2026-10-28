@@ -11,7 +11,6 @@ Magma / two-hot input, one-hot output = 1: local reduction of 38
 first-active-nibble candidates, and 7 independently certified real witnesses.
 
 No changes to an existing `private` declaration are required.
-No `sorry`, `native_decide`, `bv_decide`, or new axioms.
 
 MATHEMATICAL STATUS
 -------------------

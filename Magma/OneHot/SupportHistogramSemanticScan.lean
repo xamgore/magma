@@ -18,7 +18,6 @@ It deliberately does NOT identify the executable array-based `pushDigit`
 with a semantic prefix histogram: that is a separate, still necessary
 invariant. Do not state `realHistogram = H` until that bridge is proved.
 
-No full key enumeration, no sorry, no native_decide.
 -/
 
 namespace Magma.OneHotSupportHistogramSemanticScan

@@ -12,8 +12,6 @@ Magma / two-hot input differences -> output difference 1.
 First module in the next research branch. It *uses* the existing general
 first-active-nibble soundness theorem; it does not search 2^32 inputs.
 
-No API changes to existing modules. No sorry/native_decide/new axioms.
-
 For a two-hot word with input bit positions i<j, the FIRST active input
 nibble is i/4. The unique nonzero output nibble of the pre-rotation
 output difference corresponding to the bit vector 1#32 is nibble 5.
@@ -28,7 +26,6 @@ The remaining 38 are NOT claimed positive. Their detailed carry analysis
 is the next step: 6 pairs inside nibble 5, 32 pairs crossing to higher
 nibbles. The latter can be narrowed further using later silent nibbles.
 
-No `#check` or `#print axioms`; expected numerical counts are theorems.
 -/
 
 namespace Magma.TwoHotOutputOneFirstActive

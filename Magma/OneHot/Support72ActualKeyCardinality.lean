@@ -10,8 +10,7 @@ Exact cardinality of the REAL 32-bit Magma round keys with maximal
 72-cell support in the single-bit-input / single-bit-output DDT matrix.
 
 This closes the distinction between the 2016 admissible nibble tuples
-and the set of actual V 32 keys. No 2^32 enumeration, no `sorry`,
-`native_decide`, or additional axioms.
+and the set of actual V 32 keys.
 -/
 
 namespace Magma.OneHotSupport72ActualKeyCardinality

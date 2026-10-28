@@ -20,8 +20,7 @@ For a diagonal cell (i,r,s), equality holds exactly when:
   L_i(q,0,r,s)=4 and (K_i=0 or L_i(q,1,r,s)=4),
 where q=wordDigits k i and K_i=k mod 16^i.
 
-No 32-bit Finset evaluation, `sorry`, `native_decide`, `bv_decide`
-or new axioms. The eight finite local checks enumerate only small
+ The eight finite local checks enumerate only small
 four-bit S-box transition tables.
 
 -/

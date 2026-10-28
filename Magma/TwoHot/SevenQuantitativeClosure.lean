@@ -11,7 +11,6 @@ import all Init.Data.Range.Basic
 Seven exact two-hot coefficients for output XOR difference 1:
 final quantitative bridge, using the already proved pointwise trace theorem.
 
-No 2^32 enumerations, no new trusted computations, no sorry, no native_decide.
 -/
 
 open scoped BigOperators

@@ -18,7 +18,7 @@ The next intended step is to prove a global MAXIMUM of EIGHT such pairs
 per key (computed separately by a 2-state nibble dynamic program).
 
 No existing private declarations need to be promoted to public.
-No sorry, native_decide, or new axioms.
+
 -/
 
 namespace Magma.OneHotPeakPairMultiplicity

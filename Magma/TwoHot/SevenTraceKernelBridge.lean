@@ -24,7 +24,6 @@ rewritten as `uniformSevenCount` using a prefix split and its known
 carry-zero/one cardinalities. This separation avoids mixing trace
 semantics with the counting algebra.
 
-No sorry, native_decide, bv_decide, or new axioms.
 -/
 
 namespace Magma.TwoHotSevenTraceKernelBridge

@@ -28,7 +28,6 @@ because the sixth digit is free.  For (23,24), it equals
 `localFiveSixCount` because both digits are constrained.  This enables
 ONE trace-factorization proof for all seven pairs rather than two.
 
-No sorry / native_decide / custom axioms. No full-DP execution.
 -/
 
 namespace Magma.TwoHotUniformTwoDigitKernel

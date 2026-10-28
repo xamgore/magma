@@ -17,8 +17,6 @@ factorized fiber has already been proved to have cardinality
 characterization and then transfer the cardinality using a radix-16
 coordinate equivalence.
 
-No unbounded key enumeration; no `sorry` or new axioms.
-
 -/
 
 namespace Magma.OneHotDiagonalQuantitativeBridge
