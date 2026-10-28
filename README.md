@@ -72,6 +72,7 @@ left output difference zero.
 | `OneHot.SupportHistogramSemanticScan` | Prefix-state semantics and equality of the eight-digit scan score with real support; cardinality reindexing through the scan, without assuming the array-DP invariant |
 | `OneHot.DiagonalExactWeights` | Closed prefix-carry counts and proposed diagonal weights with exact positivity and zero criteria; numerical equality with the DDT remains a separate proof obligation |
 | `OneHot.DiagonalQuantitativeFibers` | Exact cardinality of the factorized prefix/digit/suffix fiber and a conditional DDT formula with the remaining quantitative bridge stated explicitly |
+| `OneHot.DiagonalQuantitativeBridge` | Pointwise trace acceptance and a radix-16 coordinate bijection prove the quantitative fiber bridge and the exact diagonal DDT formula for every key |
 | `ZeroLeft.ColumnTransport`              | Exact coefficient transport, translated supports, and cross-column proportionality for arbitrary keys                                      |
 | `ZeroLeft.EightEntries`                 | Eight equal positive entries per nonempty column with first key zero, and exact affine values for one-bit outputs                          |
 | `ZeroLeft.KeyParity`                    | First-key parity reduction of the zero-left slice and eight equal entries for every even first key                                         |
