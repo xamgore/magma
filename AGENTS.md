@@ -9,4 +9,10 @@ First elaborate changed Lean modules and fix proof errors before running the for
 
 Use `python3 scripts/accept_lean.py prepare/check/run/finish` for incoming modules. `run` detaches the full check-before-format workflow; failures notify the desktop and request a resume of the originating chat through the Codex CLI, once per identical failure. Review actual `example`/`#eval` commands for Evidence before choosing the destination. Do not run `git status` during routine intake or detached finishing. For heartbeat/recursion failures, request targeted Lean diagnostics before changing resource limits.
 
+`check` automatically replaces compiler-reported unnecessary `<;>` tokens and rechecks the proof. Remaining warnings in the checked module block formatting and commits; fix them rather than suppressing the linters. Use `--fixup REV` instead of `--message` when a fixup commit is requested.
+
 Preserve incoming mathematical statements. Highlight substantive problems in chat instead of changing hypotheses, domains, or conclusions without the user’s instruction.
+
+Enable diagnostic traces only around the specific failing theorem, never across an entire source file. Preserve incoming proof statements; try the supplied revision before further proof changes. Omit installation notes, uncompiled-status disclaimers, and boilerplate assurances about sorry, axioms, native_decide, API changes, or avoiding full enumeration from imported module comments.
+
+Prepare incoming modules with `--no-register`; add the root import after successful elaboration. Verify a requested fixup commit exists before reporting it created.

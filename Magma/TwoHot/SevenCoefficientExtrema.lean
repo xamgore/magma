@@ -10,7 +10,6 @@ Exact extrema of the 7 potentially positive two-hot / output-1
 coefficients of the 32-bit Magma round function.
 
 No change to existing `private` declarations.
-No full-word DDT enumeration, no native_decide, sorry or new axioms.
 
 The numerical certificates are restricted to the six relevant nibble-5
 input differences and to the two local 4-bit S-box/carry steps.
@@ -145,9 +144,9 @@ private theorem weighted_binary_peak (K L a b : Nat) (hK : K < B) (ha : a = 0 �
     the symbolic abbreviation `B` or a product of two variables. -/
 private theorem six_scale (z : Nat) :
     256 * z = 2 ^ 29 ↔ z = B * 2 := by
-  norm_num [B] <;> omega
+  norm_num [B]; omega
 
-private theorem cross_scale (z : Nat) : 16 * z = 2 ^ 28 ↔ z = B * 16 := by norm_num [B] <;> omega
+private theorem cross_scale (z : Nat) : 16 * z = 2 ^ 28 ↔ z = B * 16 := by norm_num [B]; omega
 
 /-- Fix a single normal form for the `if` in weightedSevenCount.
     Note that the actual test in the definition is `p = (23,24)`. -/
@@ -161,14 +160,14 @@ private theorem six_branch (k : Word) (p : PairBits)
           (wordDigits (twoHot p.1 p.2) 5) 1) := by
   have hne : p ≠ ((23 : Fin 32), (24 : Fin 32)) := by
     simpa only [crossPair] using hn
-  simp only [weightedSevenCount, ite_eq_right hne] <;> rfl
+  simp only [weightedSevenCount, ite_eq_right hne]
 
 private theorem cross_branch (k : Word) :
     weightedSevenCount k crossPair =
       16 *
         ((B - prefixK k) * localFiveSixCount (wordDigits k 5) (wordDigits k 6) 0 +
           prefixK k * localFiveSixCount (wordDigits k 5) (wordDigits k 6) 1) := by
-  simp only [weightedSevenCount, crossPair, ite_true] <;> rfl
+  simp only [weightedSevenCount, crossPair, ite_true]
 
 /-- All six same-nibble coefficients are at most 2^29. -/
 theorem six_coeff_le_2pow29 (k : Word) (p : PairBits)

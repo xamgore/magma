@@ -123,6 +123,32 @@ def fingerprint(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def local_warnings(path: Path, diagnostics: str) -> list[re.Match[str]]:
+    warnings = re.finditer(r'^warning: (.+?):(\d+):(\d+): (.*)$', diagnostics, re.M)
+    return [warning for warning in warnings
+            if (ROOT / warning[1]).resolve() == path]
+
+
+def fix_seq_focus(path: Path, diagnostics: str) -> bool:
+    """Replace only the <;> tokens identified as unnecessary by Lean."""
+    source = path.read_text()
+    lines = source.splitlines(keepends=True)
+    positions = set()
+    for warning in local_warnings(path, diagnostics):
+        if warning[4] != 'Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice':
+            continue
+        line, column = int(warning[2]) - 1, int(warning[3])
+        if line >= len(lines) or lines[line][column:column + 3] != '<;>':
+            raise ValueError(f'Linter position does not match source: {warning[0]}')
+        positions.add(sum(map(len, lines[:line])) + column)
+    for position in sorted(positions, reverse=True):
+        source = source[:position] + ';' + source[position + 3:]
+    if positions:
+        path.write_text(source)
+        print(f'Fixed {len(positions)} unnecessary <;> tokens in {path.relative_to(ROOT)}', flush=True)
+    return bool(positions)
+
+
 def notify_failure(path: Path, stage: str) -> None:
     """Notify the desktop and resume the originating chat once per failure."""
     subprocess.run(['/usr/bin/osascript', '-', f'{path.stem}: {stage} failed.'],
@@ -165,21 +191,40 @@ def check(args: argparse.Namespace) -> None:
     LOG.parent.mkdir(exist_ok=True)
     stamp = proof_stamp(path)
     stamp.unlink(missing_ok=True)
-    checked_hash = fingerprint(path)
-    with LOG.open('a' if args.append_log else 'w') as log:
-        result = subprocess.run(['lake', 'build', str(path.relative_to(ROOT))],
-                                cwd=ROOT, stdout=log, stderr=subprocess.STDOUT)
-    if result.returncode:
-        errors = re.findall(r'^error:.*', LOG.read_text(), re.M)
+    original = path.read_bytes()
+    code = 1
+    for attempt in range(4):
+        checked_hash = fingerprint(path)
+        with LOG.open('a' if args.append_log or attempt else 'w') as log:
+            start = log.tell()
+            result = subprocess.run(['lake', 'build', str(path.relative_to(ROOT))],
+                                    cwd=ROOT, stdout=log, stderr=subprocess.STDOUT)
+        with LOG.open() as log:
+            log.seek(start)
+            diagnostics = log.read()
+        if fingerprint(path) != checked_hash:
+            raise ValueError('Source changed during proof checking; check it again')
+        if result.returncode:
+            if attempt:
+                path.write_bytes(original)
+                print('Automatic tactic fixes failed elaboration; restored the source.', flush=True)
+            break
+        if attempt < 3 and fix_seq_focus(path, diagnostics):
+            continue
+        warnings = local_warnings(path, diagnostics)
+        code = int(bool(warnings))
+        if warnings:
+            print(f'{len(warnings)} unresolved warnings block finishing.', flush=True)
+        break
+    if code:
+        errors = re.findall(r'^error:.*', diagnostics, re.M)
         print('\n'.join(errors[:12]))
         print(f'{len(errors)} errors; full diagnostics: {LOG}')
         notify_failure(path, 'Proof check')
-    elif fingerprint(path) == checked_hash:
+    else:
         stamp.parent.mkdir(parents=True, exist_ok=True)
         stamp.write_text(checked_hash)
-    else:
-        raise ValueError('Source changed during proof checking; check it again')
-    raise SystemExit(result.returncode)
+    raise SystemExit(code)
 
 
 def finish(args: argparse.Namespace) -> None:
@@ -190,27 +235,32 @@ def finish(args: argparse.Namespace) -> None:
     lean_files = [owned for owned in paths if owned.endswith('.lean') and owned != 'Magma.lean']
     commands = [
         ['lake', 'exe', 'fmt', 'format', '--workers', '1', *lean_files],
-        ['lake', 'build', *lean_files, 'Magma'],
+        *[[sys.executable, str(Path(__file__).resolve()), 'check', owned, '--append-log']
+          for owned in lean_files],
+        ['lake', 'build', 'Magma'],
         ['lake', 'exe', 'axiom-audit', '--root', module_name(path)],
         ['git', 'diff', '--check', '--', *paths],
         ['git', 'add', '--', *paths],
-        ['git', 'commit', '--only', '-m', args.message, '--', *paths],
+        ['git', 'commit', '--only',
+         *(['--fixup', args.fixup] if args.fixup else ['-m', args.message]), '--', *paths],
     ]
     code = 0
+    failure_reported = False
     try:
         for command in commands:
             print('+', repr(command), flush=True)
             subprocess.run(command, cwd=ROOT, check=True)
     except subprocess.CalledProcessError as exc:
         code = exc.returncode
+        failure_reported = exc.cmd[:3] == [sys.executable, str(Path(__file__).resolve()), 'check']
     except Exception as exc:
         print(str(exc), flush=True)
         code = 1
     finally:
         print(f'Completed with exit code {code}', flush=True)
-        if code:
+        if code and not failure_reported:
             notify_failure(path, 'Final validation')
-        else:
+        elif not code:
             subprocess.run(['/usr/bin/osascript', '-', f'{path.stem}: checks passed, commit created.'], input='''on run argv
   display notification (item 1 of argv) with title "Magma"
 end run
@@ -236,7 +286,9 @@ def main() -> None:
         final = sub.add_parser(action, help='Detach formatting, validation, audit and commit')
         final.add_argument('file')
         final.add_argument('--path', dest='paths', action='append', default=[])
-        final.add_argument('--message', required=True)
+        commit = final.add_mutually_exclusive_group(required=True)
+        commit.add_argument('--message')
+        commit.add_argument('--fixup', help='Create a fixup commit for the given revision')
     args = parser.parse_args()
     if args.action == 'prepare':
         prepare(args)
