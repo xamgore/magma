@@ -16,3 +16,5 @@ Preserve incoming mathematical statements. Highlight substantive problems in cha
 Enable diagnostic traces only around the specific failing theorem, never across an entire source file. Preserve incoming proof statements; try the supplied revision before further proof changes. Omit installation notes, uncompiled-status disclaimers, and boilerplate assurances about sorry, axioms, native_decide, API changes, or avoiding full enumeration from imported module comments.
 
 Prepare incoming modules with `--no-register`; add the root import after successful elaboration. Verify a requested fixup commit exists before reporting it created.
+
+For recursion-depth or term-unfolding failures, if the fix is uncertain or an attempted fix makes no progress, stop further proof experiments and prepare a handoff to the user's friend through the user. Annotate only the failing theorem with appropriate scoped traces/diagnostics and provide the log or reproduction command.
