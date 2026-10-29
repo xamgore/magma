@@ -183,7 +183,13 @@ private theorem rot11_as_split_concat (str : V 32) :
   change
     str.rotateLeft 11 =
       BitVec.extractLsb' 0 21 str ++ BitVec.extractLsb' 21 11 str
-  bv_decide
+  apply BitVec.eq_of_getLsbD_eq
+  intro i hi
+  rw [BitVec.getLsbD_rotateLeft_of_le (by decide : 11 < 32), BitVec.getLsbD_append]
+  by_cases h : i < 11
+  · simp [h]
+  · have hbound : i - 11 < 21 := by omega
+    simp [h, hi, hbound]
 
 /-- Cyclic rotation by 11 components is bijective. -/
 theorem Internal.rot11_is_bijective : Function.Bijective rot11 := by
