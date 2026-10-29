@@ -35,6 +35,7 @@ public import Diffan.Parameters.KeyStateConstraint
 public import Diffan.KeyedMeet
 public import Diffan.CoordinateSeparation
 public import Diffan.FiberDefect
+public import Diffan.FiberUniformity
 import all Init.Data.Range.Basic
 
 @[expose] public section
