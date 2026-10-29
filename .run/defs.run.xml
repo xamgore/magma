@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="defs" type="LakeCommandConfiguration" factoryName="Lake">
+  <configuration default="false" name="defs (short)" type="LakeCommandConfiguration" factoryName="Lake">
     <option name="arguments" value="exe defs" />
     <method v="2" />
   </configuration>
