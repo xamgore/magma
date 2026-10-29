@@ -91,6 +91,7 @@ public import Magma.Diffan.ThreeRoundZeroRightInputFactorization
 public import Magma.Diffan.FourRoundZeroLeftFactorization
 public import Magma.Diffan.FirstRoundDeletion
 public import Magma.Diffan.FiveRoundCoreDefect
+public import Magma.Diffan.ThreeRoundMiddleDiagonal
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
