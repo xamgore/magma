@@ -25,6 +25,7 @@ namespace Diffan
 structure StateDifference (X Δ : Type*) where
   base : X
   delta : Δ
+  deriving Fintype
 
 namespace StateDifference
 
