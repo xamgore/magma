@@ -24,6 +24,9 @@ public import Diffan.LocalTransducer
 public import Diffan.StateDifference
 public import Diffan.DifferentialMap
 public import Diffan.Examples.StateDifference16
+public import Diffan.Product
+public import Diffan.InverseDDT
+public import Diffan.ReversibleChain
 import all Init.Data.Range.Basic
 
 @[expose] public section
