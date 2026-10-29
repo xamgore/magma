@@ -73,6 +73,8 @@ public import Magma.DiffanCarryBridge
 public import Magma.DiffanTwoHot
 public import Magma.DiffanThreeRound
 public import Magma.DiffanWeightedCarry
+public import Magma.DiffanLocalTransducer
+public import Magma.DiffanChainExample
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
