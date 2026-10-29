@@ -83,6 +83,7 @@ public import Magma.Diffan.ScheduledMeet
 public import Magma.Diffan.ThreeRoundCoordinateCertificate
 public import Magma.Diffan.ThreeRoundCouplingDefect
 public import Magma.Diffan.ThreeRoundConvolutionDefect
+public import Magma.Diffan.ThreeRoundRightHistogram
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
