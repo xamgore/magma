@@ -1,6 +1,6 @@
 module
 
-public import Diffan.DifferenceSpaceAPI
+public import Diffan.Differential
 import all Init.Data.Range.Basic
 
 @[expose] public section
@@ -93,6 +93,38 @@ theorem transport_comp {X Y Z A B C : Type*}
       StateDifference.mk (g (f x))
         (derivative sx sz (g ∘ f) a x)
   rw [derivative_comp sx sy sz f g a x]
+
+/-- A fixed input pair determines one concrete trajectory even for the identity map. -/
+@[simp] theorem transport_id {X A : Type*}
+    (s : DifferenceSpace X A) (p : StateDifference X A) :
+    transport s s (fun x => x) p = p := by
+  cases p
+  simp only [transport, derivative_id]
+
+/-- Recovering both concrete states uses the inverse of the state map;
+    the difference-space coordinate equivalence alone does not supply it. -/
+@[simp] theorem transport_symm_transport {X Y A B : Type*}
+    (sx : DifferenceSpace X A) (sy : DifferenceSpace Y B)
+    (f : X ≃ Y) (p : StateDifference X A) :
+    transport sy sx f.symm (transport sx sy f p) = p := by
+  rcases p with ⟨x, a⟩
+  simp [transport, derivative, sy.shift_diff, sx.diff_shift]
+
+@[simp]
+theorem transport_transport_symm {X Y A B : Type*} (sx : DifferenceSpace X A)
+    (sy : DifferenceSpace Y B) (f : X ≃ Y) (p : StateDifference Y B) :
+    transport sx sy f (transport sy sx f.symm p) = p :=
+  transport_symm_transport sy sx f.symm p
+
+/-- A bijection of state spaces restores the whole input pair uniquely.
+    The inverse transports both output states through `f.symm`. -/
+def transportEquiv {X Y A B : Type*}
+    (sx : DifferenceSpace X A) (sy : DifferenceSpace Y B)
+    (f : X ≃ Y) : StateDifference X A ≃ StateDifference Y B where
+  toFun := transport sx sy f
+  invFun := transport sy sx f.symm
+  left_inv := transport_symm_transport sx sy f
+  right_inv := transport_transport_symm sx sy f
 
 end StateDifference
 

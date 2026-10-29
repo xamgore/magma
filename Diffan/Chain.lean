@@ -1,6 +1,5 @@
 module
 
-public import Diffan.PathCount
 public import Diffan.StateDifference
 import all Init.Data.Range.Basic
 
@@ -16,7 +15,7 @@ in chronological order: `Chain.cons f (Chain.cons g Chain.nil)` first runs
 This module distinguishes three kinds of information:
 
 * `Chain.run` computes an **actual state** after all transformations.
-* `Chain.propagate` retains the actual base state and its **current difference**.
+* `Chain.propagateState` retains the actual base state and its **current difference**.
 * `Chain.trace` records every intermediate output difference. Its internal
   recursion passes the actual base state to the next step, rather than
   treating independent DDT entries as a joint trajectory.
@@ -167,45 +166,49 @@ theorem run_append {X : Type*} (c d : Chain X) (x : X) :
 
 /-! ## Difference propagation and trajectory observations -/
 
-/-- Carry both the actual base state and its difference through the chain.
-    Keeping the base state is essential for exact multi-step composition. -/
-def propagate {X A : Type*} (c : Chain X)
-    (s : DifferenceSpace X A) (x : X) (a : A) : X × A :=
-  propagateSteps s c.steps x a
+/-- A nonlinear step needs the actual base state as well as its difference.
+    Keeping both coordinates follows the same concrete pair through the chain. -/
+def propagateState {X A : Type*}
+    (c : Chain X) (s : DifferenceSpace X A)
+    (p : StateDifference X A) : StateDifference X A :=
+  let result := propagateSteps s c.steps p.base p.delta
+  ⟨result.1, result.2⟩
 
 @[simp]
-theorem propagate_nil {X A : Type*} (s : DifferenceSpace X A) (x : X) (a : A) :
-    (nil : Chain X).propagate s x a = (x, a) :=
+theorem propagateState_nil {X A : Type*} (s : DifferenceSpace X A) (p : StateDifference X A) :
+    (nil : Chain X).propagateState s p = p :=
   rfl
 
 @[simp]
-theorem propagate_cons {X A : Type*} (s : DifferenceSpace X A) (f : X → X) (c : Chain X) (x : X)
-    (a : A) : (cons f c).propagate s x a = c.propagate s (f x) (derivative s s f a x) :=
+theorem propagateState_cons {X A : Type*} (s : DifferenceSpace X A) (f : X → X) (c : Chain X)
+    (p : StateDifference X A) :
+    (cons f c).propagateState s p = c.propagateState s (p.transport s s f) :=
   rfl
 
-/-- The concrete propagated state is exactly the chain output. -/
-theorem propagate_fst {X A : Type*}
-    (s : DifferenceSpace X A) (c : Chain X) (x : X) (a : A) :
-    (c.propagate s x a).1 = c.run x :=
-  propagateSteps_fst s c.steps x a
+/-- The initial state fixes the concrete output independently of which
+    difference is being studied alongside it. -/
+theorem propagateState_base {X A : Type*}
+    (c : Chain X) (s : DifferenceSpace X A) (p : StateDifference X A) :
+    (c.propagateState s p).base = c.run p.base :=
+  propagateSteps_fst s c.steps p.base p.delta
 
-/-- The final propagated difference is the exact derivative of the
-    composed chain, evaluated at the same original base point. -/
-theorem propagate_snd {X A : Type*}
-    (s : DifferenceSpace X A) (c : Chain X) (x : X) (a : A) :
-    (c.propagate s x a).2 = derivative s s c.run a x :=
-  propagateSteps_snd s c.steps x a
+/-- Retaining the base state connects the final observation to the
+    derivative at the original input, rather than a marginal support path. -/
+theorem propagateState_delta {X A : Type*}
+    (c : Chain X) (s : DifferenceSpace X A) (p : StateDifference X A) :
+    (c.propagateState s p).delta = derivative s s c.run p.delta p.base :=
+  propagateSteps_snd s c.steps p.base p.delta
 
-/-- Appended propagation begins from the actual state and difference left
-    behind by the first chain. -/
-theorem propagate_append {X A : Type*}
-    (s : DifferenceSpace X A) (c d : Chain X) (x : X) (a : A) :
-    (c.append d).propagate s x a =
-      d.propagate s (c.propagate s x a).1 (c.propagate s x a).2 :=
-  propagateSteps_append s c.steps d.steps x a
+/-- The second chain starts with both coordinates left by the first. -/
+theorem propagateState_comp {X A : Type*}
+    (c d : Chain X) (s : DifferenceSpace X A) (p : StateDifference X A) :
+    (c.append d).propagateState s p =
+      d.propagateState s (c.propagateState s p) := by
+  rcases p with ⟨x, a⟩
+  simp only [propagateState, append, propagateSteps_append]
 
-/-- Record the output difference of each step, preserving the correct
-    intermediate base state and difference as the recursion proceeds. -/
+/-- Entries are recorded after steps, so the initial difference has no entry.
+    An empty chain has an empty trace but still propagates its input difference. -/
 def trace {X A : Type*} (c : Chain X)
     (s : DifferenceSpace X A) (x : X) (a : A) : List A :=
   traceSteps s c.steps x a
@@ -233,7 +236,7 @@ theorem trace_append {X A : Type*}
     (s : DifferenceSpace X A) (c d : Chain X) (x : X) (a : A) :
     (c.append d).trace s x a =
       c.trace s x a ++
-      d.trace s (c.propagate s x a).1 (c.propagate s x a).2 :=
+      d.trace s (c.propagateState s ⟨x, a⟩).base (c.propagateState s ⟨x, a⟩).delta :=
   traceSteps_append s c.steps d.steps x a
 
 /-- Finite label of the complete difference trajectory. Using `Option`
@@ -243,48 +246,6 @@ def signature {X A : Type*}
     (c : Chain X) (s : DifferenceSpace X A) (a : A) (x : X) :
     Fin c.steps.length → Option A :=
   fun i => (c.trace s x a)[i.val]?
-
-/-- The concrete state and difference after a homogeneous chain.
-The initial base state fixes the concrete trajectory through every step. -/
-def propagateState {X A : Type*}
-    (c : Chain X) (s : DifferenceSpace X A)
-    (p : StateDifference X A) : StateDifference X A :=
-  ⟨(c.propagate s p.base p.delta).1,
-   (c.propagate s p.base p.delta).2⟩
-
-/-- These two coordinates belong to one trajectory and must travel
-    together when a subsequent nonlinear step is evaluated. -/
-theorem propagateState_toProd {X A : Type*}
-    (c : Chain X) (s : DifferenceSpace X A)
-    (p : StateDifference X A) :
-    ((c.propagateState s p).base,
-     (c.propagateState s p).delta) =
-      c.propagate s p.base p.delta := by
-  rfl
-
-/-- Both state and difference are threaded through the same real chain. -/
-theorem propagateState_comp {X A : Type*}
-    (c d : Chain X) (s : DifferenceSpace X A)
-    (p : StateDifference X A) :
-    (c.append d).propagateState s p =
-      d.propagateState s (c.propagateState s p) := by
-  rcases p with ⟨x, a⟩
-  simp only [propagateState, Chain.propagate_append]
-
-/-- The state produced by propagation is the chain output. -/
-theorem propagateState_base {X A : Type*}
-    (c : Chain X) (s : DifferenceSpace X A)
-    (p : StateDifference X A) :
-    (c.propagateState s p).base = c.run p.base := by
-  exact Chain.propagate_fst s c p.base p.delta
-
-/-- The difference is the derivative of the entire composed chain. -/
-theorem propagateState_delta {X A : Type*}
-    (c : Chain X) (s : DifferenceSpace X A)
-    (p : StateDifference X A) :
-    (c.propagateState s p).delta =
-      Diffan.derivative s s c.run p.delta p.base := by
-  exact Chain.propagate_snd s c p.base p.delta
 
 end Chain
 

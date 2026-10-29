@@ -1,6 +1,6 @@
 module
 
-public import Diffan.JointState
+public import Diffan.Differential
 import all Init.Data.Range.Basic
 
 @[expose] public section

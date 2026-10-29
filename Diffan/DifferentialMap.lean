@@ -11,8 +11,7 @@ import all Init.Data.Range.Basic
 
 A `DifferentialMap` fixes the source and target difference spaces as type
 parameters of a state transformation. Its derivative, DDT and support use
-the common mathematical specifications from `Diffan.Basic` and
-`Diffan.Differential`.
+the common mathematical specifications from `Diffan.Differential`.
 
 Composition requires the same difference convention on the intermediate
 state space. The derivative is evaluated at the actual intermediate state;

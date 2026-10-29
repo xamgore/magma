@@ -1,17 +1,30 @@
 module
 
-public import Diffan.Basic
+public import Mathlib
 import all Init.Data.Range.Basic
 
 @[expose] public section
 
 /-!
-# Coordinates relative to a base state
+# States and differences relative to a base point
 
-For every fixed base state, applying a difference and recovering it are
-inverse maps. The two laws of `DifferenceSpace` give this equivalence
-without requiring group operations on the difference type.
+Applying a difference and recovering it are inverse operations at each
+fixed base state. `atBase` packages this coordinate system as an equivalence.
+XOR uses the same operation in both directions; other difference conventions
+may use distinct operations.
 -/
+
+namespace Diffan
+
+/-- A space of states `X` with differences in `Δ`.
+    The two laws say that fixing an origin identifies states with differences. -/
+structure DifferenceSpace (X Δ : Type*) where
+  shift : X → Δ → X
+  diff : X → X → Δ
+  shift_diff : ∀ x y, shift x (diff x y) = y
+  diff_shift : ∀ x a, diff x (shift x a) = a
+
+end Diffan
 
 namespace Diffan.DifferenceSpace
 

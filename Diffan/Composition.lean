@@ -15,6 +15,16 @@ A numerical factorization requires an additional theorem, not a `mul` method.
 
 namespace Diffan
 
+/-- Pull an output condition back to every input that satisfies it after
+    execution. This keeps all admissible inputs, without selecting an inverse. -/
+def backwardCondition {X Y : Type*} (f : X → Y) (Q : Y → Prop) : X → Prop :=
+  fun x => Q (f x)
+
+/-- Conditions pass through composed steps in reverse execution order. -/
+theorem backwardCondition_comp {X Y Z : Type*}
+    (f : X → Y) (g : Y → Z) (Q : Z → Prop) :
+    backwardCondition (g ∘ f) Q = backwardCondition f (backwardCondition g Q) := rfl
+
 /-- Relational composition of possible transitions, via an intermediate difference. -/
 def composeSupport {A B C : Type*}
     (r : A → B → Prop) (s : B → C → Prop) : A → C → Prop :=

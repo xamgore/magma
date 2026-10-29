@@ -1,6 +1,7 @@
 module
 
 public import Diffan.CertifiedFibers
+public import Diffan.PathCount
 import all Init.Data.Range.Basic
 
 @[expose] public section
