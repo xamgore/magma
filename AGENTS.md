@@ -20,3 +20,5 @@ Enable diagnostic traces only around the specific failing theorem, never across 
 Prepare incoming modules with `--no-register`; add the root import after successful elaboration. Verify a requested fixup commit exists before reporting it created.
 
 For recursion-depth or term-unfolding failures, if the fix is uncertain or an attempted fix makes no progress, stop further proof experiments and prepare a handoff to the user's friend through the user. Annotate only the failing theorem with appropriate scoped traces/diagnostics and provide the log or reproduction command.
+
+Do not write migration-history comments. Explain mathematical meaning, motivation, and useful interpretation for a new reader rather than repeating the adjacent code.
