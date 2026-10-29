@@ -49,9 +49,7 @@ structure SharpMaximum {K A B : Type*}
 /-- Constraints commute with pullback and intersection. -/
 theorem KeyConstraint.pullback_intersect {M K : Type*}
     (f : M → K) (p q : KeyConstraint K) :
-    KeyConstraint.pullback f (KeyConstraint.intersect p q) =
-      KeyConstraint.intersect (KeyConstraint.pullback f p)
-        (KeyConstraint.pullback f q) := by
+    KeyConstraint.pullback f (KeyConstraint.intersect p q) = KeyConstraint.intersect (KeyConstraint.pullback f p) (KeyConstraint.pullback f q) := by
   rfl
 
 end Diffan

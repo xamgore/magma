@@ -8,7 +8,6 @@ import all Init.Data.Range.Basic
 /-!
 # Diffan.Basic — difference spaces and transitions
 
-This module has no dependency on any particular cipher.
 A difference space provides two mutually inverse operations for each fixed origin:
 `shift x a` applies a difference, while `diff x y` extracts it.
 For XOR these operations coincide; in general they need not.
@@ -37,7 +36,8 @@ abbrev RestrictedTransition {A B : Type*}
 
 /-- Output difference of `f`, for an input with base point `x` and difference `a`. -/
 def derivative {X Y A B : Type*}
-    (sx : DifferenceSpace X A) (sy : DifferenceSpace Y B)
+    (sx : DifferenceSpace X A)
+    (sy : DifferenceSpace Y B)
     (f : X → Y) (a : A) (x : X) : B :=
   sy.diff (f x) (f (sx.shift x a))
 
@@ -50,11 +50,12 @@ theorem derivative_id {X A : Type*}
 /-- The derivative chain rule at a *specific intermediate state*.
     The base point `f x` cannot generally be discarded. -/
 theorem derivative_comp {X Y Z A B C : Type*}
-    (sx : DifferenceSpace X A) (sy : DifferenceSpace Y B)
+    (sx : DifferenceSpace X A)
+    (sy : DifferenceSpace Y B)
     (sz : DifferenceSpace Z C)
-    (f : X → Y) (g : Y → Z) (a : A) (x : X) :
-    derivative sx sz (g ∘ f) a x =
-      derivative sy sz g (derivative sx sy f a x) (f x) := by
+    (f : X → Y) (g : Y → Z)
+    (a : A) (x : X) :
+    derivative sx sz (g ∘ f) a x = derivative sy sz g (derivative sx sy f a x) (f x) := by
   unfold derivative
   simp only [Function.comp_apply]
   rw [sy.shift_diff]

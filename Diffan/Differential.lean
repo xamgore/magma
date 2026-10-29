@@ -19,8 +19,7 @@ namespace Diffan
 def ddt {X Y A B : Type*} [Fintype X] [DecidableEq B]
     (sx : DifferenceSpace X A) (sy : DifferenceSpace Y B)
     (f : X → Y) (a : A) (b : B) : Nat :=
-  ((Finset.univ : Finset X).filter
-    (fun x => derivative sx sy f a x = b)).card
+  ((Finset.univ : Finset X).filter (fun x => derivative sx sy f a x = b)).card
 
 /-- A difference transition is supported when at least one base point realizes it. -/
 def support {X Y A B : Type*}

@@ -23,8 +23,7 @@ def composeSupport {A B C : Type*}
 /-- Every realized composed transition has a compatible *difference path*.
     The reverse implication is false in general, because base points may differ. -/
 theorem support_comp_subset {X Y Z A B C : Type*}
-    (sx : DifferenceSpace X A) (sy : DifferenceSpace Y B)
-    (sz : DifferenceSpace Z C)
+    (sx : DifferenceSpace X A) (sy : DifferenceSpace Y B) (sz : DifferenceSpace Z C)
     (f : X → Y) (g : Y → Z) (a : A) (c : C) :
     support sx sz (g ∘ f) a c →
       composeSupport (support sx sy f) (support sy sz g) a c := by
