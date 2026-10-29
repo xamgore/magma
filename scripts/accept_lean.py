@@ -227,12 +227,37 @@ def check(args: argparse.Namespace) -> None:
     raise SystemExit(code)
 
 
+def stageable_paths(paths: list[str]) -> list[str]:
+    """Keep deleted tracked files, but omit vanished files never committed."""
+    known = set()
+    for command in [
+        ['git', 'ls-files', '--cached', '-z', '--', *paths],
+        ['git', 'ls-tree', '-r', '--name-only', '-z', 'HEAD', '--', *paths],
+    ]:
+        known.update(subprocess.check_output(command, cwd=ROOT, text=True).split('\0'))
+    return [owned for owned in paths if (ROOT / owned).exists() or owned in known]
+
+
+def commit_owned_paths(args: argparse.Namespace, paths: list[str]) -> None:
+    changed = subprocess.check_output(
+        ['git', 'diff', '--no-renames', '--name-only', '-z', 'HEAD', '--', *paths],
+        cwd=ROOT, text=True)
+    changed_paths = [owned for owned in changed.split('\0') if owned]
+    if not changed_paths:
+        raise ValueError('No task-owned changes to commit')
+    command = ['git', 'commit', '--only',
+               *(['--fixup', args.fixup] if args.fixup else ['-m', args.message]),
+               '--', *changed_paths]
+    print('+', repr(command), flush=True)
+    subprocess.run(command, cwd=ROOT, check=True)
+
+
 def finish(args: argparse.Namespace) -> None:
     path = relative_file(args.file)
     paths = list(dict.fromkeys([str(path.relative_to(ROOT))] + args.paths))
     for owned in paths:
         (ROOT / owned).resolve().relative_to(ROOT)
-    lean_files = [owned for owned in paths if owned.endswith('.lean') and owned != 'Magma.lean']
+    lean_files = [owned for owned in paths if owned.endswith('.lean') and owned != 'Magma.lean' and (ROOT / owned).is_file()]
     commands = [
         ['lake', 'exe', 'fmt', 'format', '--workers', '1', *lean_files],
         *[[sys.executable, str(Path(__file__).resolve()), 'check', owned, '--append-log']
@@ -240,9 +265,7 @@ def finish(args: argparse.Namespace) -> None:
         ['lake', 'build', 'Magma'],
         ['lake', 'exe', 'axiom-audit', '--root', module_name(path)],
         ['git', 'diff', '--check', '--', *paths],
-        ['git', 'add', '--', *paths],
-        ['git', 'commit', '--only',
-         *(['--fixup', args.fixup] if args.fixup else ['-m', args.message]), '--', *paths],
+        ['git', 'add', '--', *stageable_paths(paths)],
     ]
     code = 0
     failure_reported = False
@@ -250,6 +273,7 @@ def finish(args: argparse.Namespace) -> None:
         for command in commands:
             print('+', repr(command), flush=True)
             subprocess.run(command, cwd=ROOT, check=True)
+        commit_owned_paths(args, paths)
     except subprocess.CalledProcessError as exc:
         code = exc.returncode
         failure_reported = exc.cmd[:3] == [sys.executable, str(Path(__file__).resolve()), 'check']
@@ -281,7 +305,7 @@ def main() -> None:
     check_parser = sub.add_parser('check', help='Elaborate proofs before formatting; log failures')
     check_parser.add_argument('file')
     check_parser.add_argument('--append-log', action='store_true',
-                              help='Preserve output from a concurrent finishing job')
+                              help='Append an internal step to the current workflow log')
     for action in ['run', '_run', 'finish', '_finish']:
         final = sub.add_parser(action, help='Detach formatting, validation, audit and commit')
         final.add_argument('file')
@@ -298,7 +322,7 @@ def main() -> None:
         finish(args)
     elif args.action == '_run':
         files = list(dict.fromkeys([args.file] + [owned for owned in args.paths
-                                  if owned.endswith('.lean') and owned != 'Magma.lean']))
+                                  if owned.endswith('.lean') and owned != 'Magma.lean' and (ROOT / owned).is_file()]))
         for owned in files:
             try:
                 check(argparse.Namespace(file=owned, append_log=True))
@@ -311,16 +335,14 @@ def main() -> None:
         for owned in args.paths:
             (ROOT / owned).resolve().relative_to(ROOT)
         lean_files = [path] + [relative_file(owned) for owned in args.paths
-                               if owned.endswith('.lean') and owned != 'Magma.lean']
+                               if owned.endswith('.lean') and owned != 'Magma.lean' and (ROOT / owned).is_file()]
         if args.action == 'finish':
             for checked in lean_files:
                 stamp = proof_stamp(checked)
                 if not stamp.exists() or stamp.read_text() != fingerprint(checked):
                     raise ValueError(f'Run check successfully before finish: {checked}')
         LOG.parent.mkdir(exist_ok=True)
-        if args.action == 'run':
-            LOG.write_text('')
-        with LOG.open('a') as log:
+        with LOG.open('w') as log:
             action = '_run' if args.action == 'run' else '_finish'
             subprocess.Popen([sys.executable, str(Path(__file__).resolve()), action, *sys.argv[2:]],
                              cwd=ROOT, stdin=subprocess.DEVNULL, stdout=log,

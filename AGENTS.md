@@ -7,6 +7,8 @@ Keep project-wide Lean options in `leanOptions` in `lakefile.toml`, rather than 
 
 First elaborate changed Lean modules and fix proof errors before running the formatter. Then run mechanical formatting, final validation, axiom audit, and commit steps as one detached job. Redirect all output to `.lake/out.txt` and use `osascript` to notify completion or failure. Do not poll these jobs; inspect failures only when debugging. Stage and commit only task-owned paths.
 
+Each new check/run/finish starts a fresh `.lake/out.txt`. Use `--append-log` only for subsequent steps of the same workflow, never to preserve earlier runs.
+
 Use `python3 scripts/accept_lean.py prepare/check/run/finish` for incoming modules. `run` detaches the full check-before-format workflow; failures notify the desktop and request a resume of the originating chat through the Codex CLI, once per identical failure. Review actual `example`/`#eval` commands for Evidence before choosing the destination. Do not run `git status` during routine intake or detached finishing. For heartbeat/recursion failures, request targeted Lean diagnostics before changing resource limits.
 
 `check` automatically replaces compiler-reported unnecessary `<;>` tokens and rechecks the proof. Remaining warnings in the checked module block formatting and commits; fix them rather than suppressing the linters. Use `--fixup REV` instead of `--message` when a fixup commit is requested.

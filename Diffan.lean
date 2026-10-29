@@ -19,6 +19,7 @@ public import Diffan.WeightedKernel
 public import Diffan.CertifiedFibers
 public import Diffan.KernelFactorization
 public import Diffan.ExamplesWeights
+public import Diffan.MatrixBridge
 import all Init.Data.Range.Basic
 
 @[expose] public section
