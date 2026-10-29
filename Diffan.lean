@@ -22,6 +22,10 @@ public import Diffan.ExamplesWeights
 public import Diffan.MatrixBridge
 public import Diffan.WeightedAutomaton
 public import Diffan.LocalTransducer
+public import Diffan.DifferenceSpaceAPI
+public import Diffan.StateDifference
+public import Diffan.DifferentialMap
+public import Diffan.Examples.StateDifference16
 import all Init.Data.Range.Basic
 
 @[expose] public section

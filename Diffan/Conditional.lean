@@ -1,6 +1,7 @@
 module
 
 public import Diffan.Composition
+public import Diffan.StateDifference
 import all Init.Data.Range.Basic
 
 @[expose] public section
@@ -25,7 +26,9 @@ structure ConditionalTransition (X A B : Type*) where
 def conditionalSupport {X Y A B : Type*}
     (sx : DifferenceSpace X A) (sy : DifferenceSpace Y B)
     (f : X → Y) (t : ConditionalTransition X A B) : Prop :=
-  ∃ x, t.pre x ∧ derivative sx sy f t.input x = t.output
+  ∃ x,
+    let p : StateDifference X A := ⟨x, t.input⟩
+    t.pre p.base ∧ (p.transport sx sy f).delta = t.output
 
 /-- A Hoare-style guarantee uses a universal condition on all inputs. -/
 def preserves {X Y : Type*}
@@ -40,9 +43,11 @@ def exactPath {X Y Z A B C : Type*}
     (f : X → Y) (g : Y → Z)
     (P : X → Prop) (Q : Y → Prop)
     (a : A) (b : B) (c : C) : Prop :=
-  ∃ x, P x ∧ Q (f x) ∧
-    derivative sx sy f a x = b ∧
-    derivative sy sz g b (f x) = c
+  ∃ x,
+    let initial : StateDifference X A := ⟨x, a⟩
+    let intermediate := initial.transport sx sy f
+    P initial.base ∧ Q intermediate.base ∧ intermediate.delta = b ∧
+      ((⟨intermediate.base, b⟩ : StateDifference Y B).transport sy sz g).delta = c
 
 /-- Exact composition quantified over the intermediate *difference and
     base state*. This is an equivalence, not a loose support inclusion. -/
@@ -62,6 +67,8 @@ theorem composed_conditional_iff_exact_path
     rw [derivative_comp sx sy sz f g a x] at hcomp
     exact hcomp
   · rintro ⟨b, x, hP, hQ, hb, hc⟩
+    change derivative sx sy f a x = b at hb
+    change derivative sy sz g b (f x) = c at hc
     refine ⟨x, hP, hQ, ?_⟩
     rw [derivative_comp sx sy sz f g a x, hb]
     exact hc

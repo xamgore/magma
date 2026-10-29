@@ -31,9 +31,9 @@ example (k₀ k₁ x : V 32) : (gTwice k₀ k₁).run x = g k₁ (g k₀ x) :=
     difference. Keeping both quantities follows the same pair of executions
     through the whole chain. -/
 example (k₀ k₁ x a : V 32) :
-    ((gTwice k₀ k₁).propagate xor32 x a).2 =
+    ((gTwice k₀ k₁).propagateState xor32 ⟨x, a⟩).delta =
       Diffan.derivative xor32 xor32 (gTwice k₀ k₁).run a x :=
-  Diffan.Chain.propagate_snd xor32 (gTwice k₀ k₁) x a
+  Diffan.Chain.propagateState_delta (gTwice k₀ k₁) xor32 ⟨x, a⟩
 
 /-- Trace entries are recorded after each call. The initial difference
     `a` precedes the chain and does not occupy an entry in the trace. -/

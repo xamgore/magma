@@ -51,7 +51,7 @@ structure ChainFiberModel {X A L : Type*}
   Small : L → Type*
   smallFinite : ∀ l, Fintype (Small l)
   equiv : ∀ l,
-    {x : X // admissibleChain s c P Q a b x ∧ label x = l} ≃ Small l
+    {x : X // admissibleChain s c P Q ⟨x, a⟩ b ∧ label x = l} ≃ Small l
 
 /-- Fiber equivalences can replace a large-state count with a sum of
     more tractable model cardinalities. This is a symbolic theorem, not a big
@@ -70,7 +70,7 @@ theorem chainCount_eq_sum_small {X A L : Type*}
   let : Fintype (model.Small l) := model.smallFinite l
   change
     Fintype.card
-      {x : X // admissibleChain s c P Q a b x ∧ label x = l} =
+      {x : X // admissibleChain s c P Q ⟨x, a⟩ b ∧ label x = l} =
       Fintype.card (model.Small l)
   exact Fintype.card_congr (model.equiv l)
 

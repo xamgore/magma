@@ -1,28 +1,35 @@
 module
 
 public import Diffan.GeneralLaws
+public import Diffan.StateDifference
 import all Init.Data.Range.Basic
 
 @[expose] public section
 
 /-!
-# Diffan.JointState — exact paired-state semantics
+# Concrete pairs and state/difference coordinates
 
-DDT projects away the concrete base state. `pairedBase` retains both
-members of a differential pair, so pair transport always composes
-exactly, with no Markov or independence assumptions.
+A base state and its difference determine both members of an ordered
+pair. Transporting that pair applies the same function to both states;
+the inverse laws of the difference space identify the result with
+transport in state/difference coordinates.
 -/
 
 namespace Diffan
 
-/-- The concrete state pair associated with base point `x` and
-    input difference `a`. -/
+/-- The concrete pair encoded by a base point and input difference.
+Both states are fixed once the base point and difference are chosen. -/
 def pairedBase {X A : Type*}
     (sx : DifferenceSpace X A) (a : A) (x : X) : X × X :=
-  (x, sx.shift x a)
+  (StateDifference.mk x a).toPair sx
 
-/-- Transport of a concrete pair agrees exactly with the derivative
-    together with the *actual* intermediate base state. -/
+/-- Conversion lemmas for `StateDifference` also apply to paired-state
+    calculations through this coordinate identity. -/
+theorem pairedBase_eq_toPair {X A : Type*}
+    (sx : DifferenceSpace X A) (a : A) (x : X) :
+    pairedBase sx a x = (StateDifference.mk x a).toPair sx := rfl
+
+/-- Transport of a concrete state pair agrees with difference transport. -/
 theorem pairMap_pairedBase {X Y A B : Type*}
     (sx : DifferenceSpace X A) (sy : DifferenceSpace Y B)
     (f : X → Y) (a : A) (x : X) :
@@ -32,11 +39,9 @@ theorem pairMap_pairedBase {X Y A B : Type*}
   · rfl
   · exact (sy.shift_diff (f x) (f (sx.shift x a))).symm
 
-/-- Concrete trajectories always compose exactly on pairs.
-    Contrast with the mere inclusion for support relations. -/
+/-- Concrete trajectories compose exactly on pairs of states. -/
 theorem concrete_two_steps {X Y Z : Type*}
     (f : X → Y) (g : Y → Z) (xy : X × X) :
-    pairMap (g ∘ f) xy = pairMap g (pairMap f xy) := by
-  rfl
+    pairMap (g ∘ f) xy = pairMap g (pairMap f xy) := rfl
 
 end Diffan
