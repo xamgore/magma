@@ -15,6 +15,10 @@ public import Diffan.Chain
 public import Diffan.ChainCount
 public import Diffan.ChainSimulation
 public import Diffan.ExamplesChain
+public import Diffan.WeightedKernel
+public import Diffan.CertifiedFibers
+public import Diffan.KernelFactorization
+public import Diffan.ExamplesWeights
 import all Init.Data.Range.Basic
 
 @[expose] public section
