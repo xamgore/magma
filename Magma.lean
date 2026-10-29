@@ -71,6 +71,7 @@ public import Magma.TwoHot.CrossPeakExactKeyCount
 public import Magma.DiffanBridge
 public import Magma.DiffanCarryBridge
 public import Magma.DiffanTwoHot
+public import Magma.DiffanThreeRound
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/

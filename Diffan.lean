@@ -7,6 +7,10 @@ public import Diffan.Composition
 public import Diffan.Examples
 public import Diffan.Conditional
 public import Diffan.Simulation
+public import Diffan.GeneralLaws
+public import Diffan.JointState
+public import Diffan.PathCount
+public import Diffan.ExamplesPath
 import all Init.Data.Range.Basic
 
 @[expose] public section
