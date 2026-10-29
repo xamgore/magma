@@ -228,13 +228,13 @@ def check(args: argparse.Namespace) -> None:
 
 
 def stageable_paths(paths: list[str]) -> list[str]:
-    """Keep deleted tracked files, but omit vanished files never committed."""
-    known = set()
-    for command in [
+    """Stage existing paths and deletions still present in the index.
+
+    A source already removed by git mv needs no additional git add.
+    """
+    known = set(subprocess.check_output(
         ['git', 'ls-files', '--cached', '-z', '--', *paths],
-        ['git', 'ls-tree', '-r', '--name-only', '-z', 'HEAD', '--', *paths],
-    ]:
-        known.update(subprocess.check_output(command, cwd=ROOT, text=True).split('\0'))
+        cwd=ROOT, text=True).split('\0'))
     return [owned for owned in paths if (ROOT / owned).exists() or owned in known]
 
 

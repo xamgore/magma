@@ -39,7 +39,7 @@ supportInterpreter = true
 
 [[lean_exe]]
 name = "deps"
-root = "Dependencies"
+root = "Deps"
 needs = ["Magma"]
 supportInterpreter = true
 

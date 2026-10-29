@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="fmt" type="LakeCommandConfiguration" factoryName="Lake">
+    <option name="arguments" value="exe fmt" />
+    <method v="2" />
+  </configuration>
+</component>

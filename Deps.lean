@@ -27,7 +27,7 @@ edges also point from the importing module to its dependencies. Existing
 declaration fields are unchanged.
 -/
 
-namespace Dependencies
+namespace Deps
 
 open Lean
 
@@ -99,7 +99,7 @@ def run : IO Unit := do
         ("declarations", Json.arr <| decls.map (fun (_, info) => declarationJson env info))]
   IO.println report.pretty
 
-end Dependencies
+end Deps
 
 def main : IO Unit :=
-  Dependencies.run
+  Deps.run
