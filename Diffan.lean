@@ -11,6 +11,10 @@ public import Diffan.GeneralLaws
 public import Diffan.JointState
 public import Diffan.PathCount
 public import Diffan.ExamplesPath
+public import Diffan.Chain
+public import Diffan.ChainCount
+public import Diffan.ChainSimulation
+public import Diffan.ExamplesChain
 import all Init.Data.Range.Basic
 
 @[expose] public section
