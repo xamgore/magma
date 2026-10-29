@@ -96,6 +96,7 @@ public import Magma.Diffan.DiagonalSupportScheduledWindows
 public import Magma.Diffan.DiagonalMasterKeyClasses
 public import Magma.Diffan.DiagonalMasterCountReduction
 public import Magma.Diffan.OuterKeySplitCertificate
+public import Magma.Diffan.RepeatedWindowIntersections
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
