@@ -1,7 +1,7 @@
 module
 
-public import Magma.FastSearch
-meta import Magma.FastSearch
+public import Magma.Search.FastSearch
+meta import Magma.Search.FastSearch
 -- Kernel checks unfold the legacy range loops used by the search code.
 import all Init.Data.Range.Basic
 

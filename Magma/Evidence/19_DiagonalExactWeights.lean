@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHot.DiagonalExactWeights
+public import Magma.DDT.OneHot.Coefficients.DiagonalExactWeights
 import all Init.Data.Range.Basic
 
 @[expose] public section

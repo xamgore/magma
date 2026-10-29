@@ -1,88 +1,87 @@
 module
 
 public import Magma.RFC8891
-public import Magma.CryptoProperties
-public import Magma.CarryAutomaton
-public import Magma.MultiRoundDDT
-public import Magma.Pruning
-public import Magma.Certificates
-public import Magma.FastSearch
-public import Magma.BatchSearch
-public import Magma.BatchFamily
-public import Magma.UInt8NoPathCertificates
-public import Magma.OneHot.CompleteSupport
-public import Magma.OneHot.KeyClasses
-public import Magma.OneHot.ClassCertificates
-public import Magma.OneHot.CarryPrefix
-public import Magma.OneHot.SilentNibbleStructure
-public import Magma.OneHot.BoundaryReduction
-public import Magma.OneHot.TraceSplit5
-public import Magma.OneHot.PrefixArithmeticBridge
-public import Magma.OneHot.FullKeyClassInvariant
-public import Magma.OneHot.ThreeRoundColumns
-public import Magma.OneHot.ExactColumnMass
-public import Magma.OneHot.LinearPrefixMass
-public import Magma.OneHot.QuantitativeTraceFactorization
-public import Magma.OneHot.ExactCoefficientMasks
-public import Magma.OneHot.GlobalMaximum
-public import Magma.OneHot.FixedKeyPeak
-public import Magma.OneHot.ActualKeyCardinality
-public import Magma.OneHot.CompletePeakHistogram
-public import Magma.OneHot.MaximizingBitMultiplicity
-public import Magma.OneHot.JointPeakMultiplicity
-public import Magma.OneHot.JointPeakMultiplicityHistogram
-public import Magma.ZeroLeft.ColumnTransport
-public import Magma.ZeroLeft.EightEntries
-public import Magma.UnitInputParity
-public import Magma.ZeroLeft.KeyParity
-public import Magma.OddUnitInput77
-public import Magma.ZeroLeft.OddKey
-public import Magma.ZeroLeft.ParityCompleteSlice
-public import Magma.ZeroLeft.IndividualCoefficientMaxima
-public import Magma.OneHot.UniversalLowerNibbleZeros
-public import Magma.OneHot.ActiveNibbleNecessary
-public import Magma.OneHot.DiagonalCarryMasks
-public import Magma.OneHot.CandidateSharpWitnesses
-public import Magma.OneHot.FixedKeySupportAudit
-public import Magma.OneHot.FixedKeySupport72
-public import Magma.OneHot.ExactCarryRegimes
-public import Magma.OneHot.ExactLocalSupportCompleteness
-public import Magma.OneHot.Support72KeyClasses
-public import Magma.OneHot.Support72ActualKeyCardinality
-public import Magma.OneHot.SupportHistogramDP
-public import Magma.OneHot.SupportHistogramSemanticScan
-public import Magma.OneHot.DiagonalExactWeights
-public import Magma.OneHot.DiagonalQuantitativeFibers
-public import Magma.OneHot.DiagonalQuantitativeBridge
-public import Magma.OneHot.ExactCoefficientGlobalMaximum
-public import Magma.OneHot.PeakKeyClasses
-public import Magma.OneHot.PeakKeyClassesSemanticClosure
-public import Magma.OneHot.PeakPairMultiplicity
-public import Magma.OneHot.EightPeakPairsExactKeyCount
-public import Magma.TwoHot.OutputOneFirstActiveNibble
-public import Magma.TwoHot.OutputOneSevenLocalCandidates
-public import Magma.TwoHot.OutputOneSevenSoundness
-public import Magma.TwoHot.OutputOneSevenExactCounts
-public import Magma.TwoHot.UniformTwoDigitKernel
-public import Magma.TwoHot.SevenTraceKernelBridge
-public import Magma.TwoHot.SevenQuantitativeClosure
-public import Magma.TwoHot.SevenCoefficientExtrema
-public import Magma.TwoHot.CrossPeakExactKeyCount
-public import Magma.DiffanBridge
-public import Magma.DiffanCarryBridge
-public import Magma.DiffanTwoHot
-public import Magma.DiffanThreeRound
-public import Magma.DiffanWeightedCarry
-public import Magma.DiffanLocalTransducer
-public import Magma.DiffanChainExample
-public import Magma.DiffanReverseRound
-public import Magma.DiffanRoundDDTBridge
-public import Magma.DiffanMiddleMeet
-public import Magma.ScheduledKeyConstraints
+public import Magma.Core.CryptoProperties
+public import Magma.Carry.Automaton
+public import Magma.Composition.MultiRoundDDT
+public import Magma.Search.Pruning
+public import Magma.Certificates.Framework
+public import Magma.Search.FastSearch
+public import Magma.Search.BatchSearch
+public import Magma.Search.BatchFamily
+public import Magma.Certificates.UInt8NoPath
+public import Magma.DDT.OneHot.Support.CompleteSupport
+public import Magma.DDT.OneHot.KeyClasses.KeyClasses
+public import Magma.DDT.OneHot.KeyClasses.ClassCertificates
+public import Magma.DDT.OneHot.Mechanics.CarryPrefix
+public import Magma.DDT.OneHot.Mechanics.SilentNibbleStructure
+public import Magma.DDT.OneHot.Mechanics.BoundaryReduction
+public import Magma.DDT.OneHot.Mechanics.TraceSplit5
+public import Magma.DDT.OneHot.Mechanics.PrefixArithmeticBridge
+public import Magma.DDT.OneHot.KeyClasses.FullKeyClassInvariant
+public import Magma.DDT.OneHot.ThreeRound.ThreeRoundColumns
+public import Magma.DDT.OneHot.ThreeRound.ExactColumnMass
+public import Magma.DDT.OneHot.Mechanics.LinearPrefixMass
+public import Magma.DDT.OneHot.Mechanics.QuantitativeTraceFactorization
+public import Magma.DDT.OneHot.Coefficients.ExactCoefficientMasks
+public import Magma.DDT.OneHot.Extrema.GlobalMaximum
+public import Magma.DDT.OneHot.Extrema.FixedKeyPeak
+public import Magma.DDT.OneHot.KeyClasses.ActualKeyCardinality
+public import Magma.DDT.OneHot.Extrema.CompletePeakHistogram
+public import Magma.DDT.OneHot.Extrema.MaximizingBitMultiplicity
+public import Magma.DDT.OneHot.Extrema.JointPeakMultiplicity
+public import Magma.DDT.OneHot.Extrema.JointPeakMultiplicityHistogram
+public import Magma.Composition.ZeroLeft.ColumnTransport
+public import Magma.Composition.ZeroLeft.EightEntries
+public import Magma.DDT.UnitInput.Parity
+public import Magma.Composition.ZeroLeft.KeyParity
+public import Magma.DDT.UnitInput.Odd77
+public import Magma.Composition.ZeroLeft.OddKey
+public import Magma.Composition.ZeroLeft.ParityCompleteSlice
+public import Magma.Composition.ZeroLeft.IndividualCoefficientMaxima
+public import Magma.DDT.OneHot.Mechanics.UniversalLowerNibbleZeros
+public import Magma.DDT.OneHot.Support.ActiveNibbleNecessary
+public import Magma.DDT.OneHot.Mechanics.DiagonalCarryMasks
+public import Magma.DDT.OneHot.Extrema.CandidateSharpWitnesses
+public import Magma.DDT.OneHot.Support.FixedKeySupportAudit
+public import Magma.DDT.OneHot.Support.FixedKeySupport72
+public import Magma.DDT.OneHot.Mechanics.ExactCarryRegimes
+public import Magma.DDT.OneHot.Support.ExactLocalSupportCompleteness
+public import Magma.DDT.OneHot.KeyClasses.Support72KeyClasses
+public import Magma.DDT.OneHot.KeyClasses.Support72ActualKeyCardinality
+public import Magma.DDT.OneHot.Support.SupportHistogramDP
+public import Magma.DDT.OneHot.Support.SupportHistogramSemanticScan
+public import Magma.DDT.OneHot.Coefficients.DiagonalExactWeights
+public import Magma.DDT.OneHot.Mechanics.DiagonalQuantitativeFibers
+public import Magma.DDT.OneHot.Mechanics.DiagonalQuantitativeBridge
+public import Magma.DDT.OneHot.Extrema.ExactCoefficientGlobalMaximum
+public import Magma.DDT.OneHot.KeyClasses.PeakKeyClasses
+public import Magma.DDT.OneHot.KeyClasses.PeakKeyClassesSemanticClosure
+public import Magma.DDT.OneHot.Extrema.PeakPairMultiplicity
+public import Magma.DDT.OneHot.KeyClasses.EightPeakPairsExactKeyCount
+public import Magma.DDT.TwoHot.OutputOne.Support.OutputOneFirstActiveNibble
+public import Magma.DDT.TwoHot.OutputOne.Support.OutputOneSevenLocalCandidates
+public import Magma.DDT.TwoHot.OutputOne.Support.OutputOneSevenSoundness
+public import Magma.DDT.TwoHot.OutputOne.Exact.OutputOneSevenExactCounts
+public import Magma.DDT.TwoHot.OutputOne.Exact.UniformTwoDigitKernel
+public import Magma.DDT.TwoHot.OutputOne.Exact.SevenTraceKernelBridge
+public import Magma.DDT.TwoHot.OutputOne.Exact.SevenQuantitativeClosure
+public import Magma.DDT.TwoHot.OutputOne.Extrema.SevenCoefficientExtrema
+public import Magma.DDT.TwoHot.OutputOne.KeyClasses.CrossPeakExactKeyCount
+public import Magma.Diffan.DiffanBridge
+public import Magma.Diffan.DiffanCarryBridge
+public import Magma.Diffan.DiffanTwoHot
+public import Magma.Diffan.DiffanThreeRound
+public import Magma.Diffan.DiffanWeightedCarry
+public import Magma.Diffan.DiffanLocalTransducer
+public import Magma.Diffan.DiffanChainExample
+public import Magma.Diffan.DiffanReverseRound
+public import Magma.Diffan.DiffanRoundDDTBridge
+public import Magma.Diffan.DiffanMiddleMeet
+public import Magma.Diffan.ScheduledKeyConstraints
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
-
 -- set_option maxHeartbeats 5000
 -- set_option maxRecDepth 100
 -- set_option trace.profiler true
@@ -91,7 +90,6 @@ import all Init.Data.Range.Basic
 -- set_option diagnostics.threshold 100
 -- set_option trace.Meta.isDefEq true
 -- set_option trace.Meta.synthInstance true
-
 -- set_option trace.Meta.synthInstance false
 -- set_option trace.Meta.isDefEq false
 -- set_option diagnostics false

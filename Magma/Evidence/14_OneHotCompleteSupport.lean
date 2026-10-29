@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHot.CompleteSupport
+public import Magma.DDT.OneHot.Support.CompleteSupport
 import all Init.Data.Range.Basic
 
 @[expose] public section
@@ -27,20 +27,23 @@ open Magma.Internal Magma.CarryAutomaton Magma.MultiRoundDDT Magma.OneHotComplet
 
 namespace Magma.Evidence.OneHotCompleteSupport
 
-def zeroKeyPossibleBits : List (Fin 32) := [23]
-def oneKeyPossibleBits : List (Fin 32) := [20, 22, 23]
+def zeroKeyPossibleBits : List (Fin 32) :=
+  [23]
+
+def oneKeyPossibleBits : List (Fin 32) :=
+  [20, 22, 23]
 
 def checkZeroKeyOneHot : Bool :=
   verifyOneHotUpperBound (0#32) (1#32) zeroKeyPossibleBits &&
-  verifyOneHotLowerBound (0#32) (1#32) zeroKeyPossibleBits
+    verifyOneHotLowerBound (0#32) (1#32) zeroKeyPossibleBits
 
 def checkUnitKeyOneHot : Bool :=
   verifyOneHotUpperBound (1#32) (1#32) oneKeyPossibleBits &&
-  verifyOneHotLowerBound (1#32) (1#32) oneKeyPossibleBits
+    verifyOneHotLowerBound (1#32) (1#32) oneKeyPossibleBits
 
 def checkPatternKeyOneHot : Bool :=
   verifyOneHotUpperBound (0x01010101#32) (1#32) oneKeyPossibleBits &&
-  verifyOneHotLowerBound (0x01010101#32) (1#32) oneKeyPossibleBits
+    verifyOneHotLowerBound (0x01010101#32) (1#32) oneKeyPossibleBits
 
 /-- Both inclusions of the zero-key support are checked by the kernel. -/
 theorem checkZeroKeyOneHot_checked : checkZeroKeyOneHot = true := by

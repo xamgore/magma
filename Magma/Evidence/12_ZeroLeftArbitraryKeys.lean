@@ -1,9 +1,9 @@
 module
 
-public import Magma.MultiRoundDDT
-public import Magma.FastSearch
-meta import Magma.MultiRoundDDT
-meta import Magma.FastSearch
+public import Magma.Composition.MultiRoundDDT
+public import Magma.Search.FastSearch
+meta import Magma.Composition.MultiRoundDDT
+meta import Magma.Search.FastSearch
 import all Init.Data.Range.Basic
 
 @[expose] public section
@@ -47,19 +47,18 @@ def excludedOneBitBR (k₁ aR : V 32) : List (Fin 32) :=
 
 /-! ### Materialized four-state UInt8 feasibility scan -/
 
-private def nextCarryMask
-    (i : Fin 8) (keyDigit inputDiff outputDiff : Fin 16)
-    (reachable : UInt8) : UInt8 := Id.run do
-  let table := fastSboxTables.getD i.val #[]
-  let mut result : UInt8 := 0
-  for s in [:4] do
-    if carryStateMemFast reachable s then
-      for x in [:16] do
-        let (out, next) :=
-          fastSboxCarryStep table keyDigit.val inputDiff.val x s
-        if out == outputDiff.val then
-          result := result ||| carryStateBitFast next
-  return result
+private def nextCarryMask (i : Fin 8) (keyDigit inputDiff outputDiff : Fin 16) (reachable : UInt8) :
+    UInt8 :=
+  Id.run do
+    let table := fastSboxTables.getD i.val #[]
+    let mut result : UInt8 := 0
+    for s in [:4] do
+      if carryStateMemFast reachable s then
+        for x in [:16] do
+          let (out, next) := fastSboxCarryStep table keyDigit.val inputDiff.val x s
+          if out == outputDiff.val then
+            result := result ||| carryStateBitFast next
+    return result
 
 /-- Experimental feasibility test. Bit zero encodes the initial carry pair
     `(0, 0)`; final carries are unrestricted modulo `2^32`. -/

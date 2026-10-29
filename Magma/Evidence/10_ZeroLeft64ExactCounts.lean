@@ -1,6 +1,6 @@
 module
 
-public import Magma.MultiRoundDDT
+public import Magma.Composition.MultiRoundDDT
 import all Init.Data.Range.Basic
 
 @[expose] public section

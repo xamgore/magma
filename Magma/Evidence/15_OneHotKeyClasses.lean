@@ -1,8 +1,8 @@
 module
 
-public import Magma.OneHot.KeyClasses
+public import Magma.DDT.OneHot.KeyClasses.KeyClasses
 public import Magma.Evidence.«12_ZeroLeftArbitraryKeys»
-meta import Magma.OneHot.KeyClasses
+meta import Magma.DDT.OneHot.KeyClasses.KeyClasses
 meta import Magma.Evidence.«12_ZeroLeftArbitraryKeys»
 import all Init.Data.Range.Basic
 
@@ -27,17 +27,13 @@ open Magma.Internal Magma.OneHotKeyClasses
 
 namespace Magma.Evidence.OneHotKeyClasses
 
-theorem predicted_zeroKey :
-    (predictedOneHotPositions (0#32)).map Fin.val = [23] := by
-  decide
+theorem predicted_zeroKey : (predictedOneHotPositions (0#32)).map Fin.val = [23] := by decide
 
-theorem predicted_unitKey :
-    (predictedOneHotPositions (1#32)).map Fin.val = [20, 22, 23] := by
+theorem predicted_unitKey : (predictedOneHotPositions (1#32)).map Fin.val = [20, 22, 23] := by
   decide
 
 theorem predicted_patternKey :
-    (predictedOneHotPositions (0x01010101#32)).map Fin.val = [20, 22, 23] := by
-  decide
+    (predictedOneHotPositions (0x01010101#32)).map Fin.val = [20, 22, 23] := by decide
 
 /-- Key nibble eight with forced zero carry predicts no one-bit support. -/
 theorem predicted_emptySupportKey :
@@ -46,8 +42,7 @@ theorem predicted_emptySupportKey :
 
 def fastSupportPositions (k : V 32) : List (Fin 32) :=
   (List.finRange 32).filter fun j =>
-    Magma.Evidence.ZeroLeftArbitraryKeys.xorDiffPossibleUInt8
-      k (BitVec.ofNat 32 (2 ^ j.val)) (1#32)
+    Magma.Evidence.ZeroLeftArbitraryKeys.xorDiffPossibleUInt8 k (BitVec.ofNat 32 (2 ^ j.val)) (1#32)
 
 /-- 32 representative keys, no large Finset, and no slow verifier. -/
 @[noinline]

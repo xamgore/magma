@@ -1,7 +1,7 @@
 module
 
-public import Magma.OneHot.ExactColumnMass
-meta import Magma.OneHot.ExactColumnMass
+public import Magma.DDT.OneHot.ThreeRound.ExactColumnMass
+meta import Magma.DDT.OneHot.ThreeRound.ExactColumnMass
 import all Init.Data.Range.Basic
 
 @[expose] public section

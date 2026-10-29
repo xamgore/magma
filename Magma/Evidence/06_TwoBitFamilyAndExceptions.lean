@@ -1,7 +1,7 @@
 module
 
-public import Magma.BatchFamily
-meta import Magma.BatchFamily
+public import Magma.Search.BatchFamily
+meta import Magma.Search.BatchFamily
 import all Init.Data.Range.Basic
 
 @[expose] public section
@@ -67,27 +67,21 @@ def example493TwoBitBatch : BatchCertificate :=
 
 /-! ### Pure membership lemmas (no expensive crypto evaluation) -/
 
-private theorem twoBitDifferences32_mem
-    (i j : Fin 32) (hij : i.val < j.val) :
+private theorem twoBitDifferences32_mem (i j : Fin 32) (hij : i.val < j.val) :
     BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val) ∈ twoBitDifferences32 := by
   unfold twoBitDifferences32
   apply List.mem_flatMap.mpr
   refine ⟨i.val, List.mem_range.mpr i.isLt, ?_⟩
   apply List.mem_map.mpr
   refine ⟨j.val, ?_, rfl⟩
-  exact List.mem_filter.mpr
-    ⟨List.mem_range.mpr j.isLt, (decide_eq_true_eq).mpr hij⟩
+  exact List.mem_filter.mpr ⟨List.mem_range.mpr j.isLt, (decide_eq_true_eq).mpr hij⟩
 
-private theorem selectedTwoBitDifferences32_mem
-    (i j : Fin 32) (hij : i.val < j.val)
-    (hnot : BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val) ∉
-      unresolvedTwoBitDifferences32) :
-    BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val) ∈
-      selectedTwoBitDifferences32 := by
+private theorem selectedTwoBitDifferences32_mem (i j : Fin 32) (hij : i.val < j.val)
+    (hnot : BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val) ∉ unresolvedTwoBitDifferences32) :
+    BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val) ∈ selectedTwoBitDifferences32 := by
   unfold selectedTwoBitDifferences32
   apply List.mem_filter.mpr
-  exact ⟨twoBitDifferences32_mem i j hij,
-    (decide_eq_true_eq).mpr hnot⟩
+  exact ⟨twoBitDifferences32_mem i j hij, (decide_eq_true_eq).mpr hnot⟩
 
 /-! ### Whole-family cryptographic soundness -/
 
@@ -141,8 +135,7 @@ theorem twoBitCase_impossible_of_checks
 
 -- Runtime inputs keep proposal construction inside the measured run.
 @[noinline]
-private def profileThreeUnresolvedAt
-    (b : SearchBase) (differences : List (V 32)) : IO Unit := do
+private def profileThreeUnresolvedAt (b : SearchBase) (differences : List (V 32)) : IO Unit := do
   let t₀ ← IO.monoMsNow
   let p := proposeSearchBase b
   let t₁ ← IO.monoMsNow
@@ -152,7 +145,8 @@ private def profileThreeUnresolvedAt
     let filtered := quickWiringContradiction aL p
     let groupedOK := verifyGroupedMaskCover aL p.carry.next next
     let empty := verifyEmptyMaskedDomain next
-    IO.println s!"[3-exceptions] aL={aL.toNat}; fast={filtered}; groupedSound={groupedOK}; empty={empty}"
+    IO.println
+        s!"[3-exceptions] aL={aL.toNat}; fast={filtered}; groupedSound={groupedOK}; empty={empty}"
     IO.println s!"[3-exceptions] final Y={next.1} C={next.2}"
 
 /-- Distinguish failure to empty a domain from rejection by the grouped checker. -/
@@ -160,16 +154,16 @@ def profileThreeUnresolved : IO Unit :=
   profileThreeUnresolvedAt exampleBase unresolvedTwoBitDifferences32
 
 @[noinline]
-private def profileThreeUnresolvedSaturationAt
-    (b : SearchBase) (differences : List (V 32)) (passes : Nat) : IO Unit := do
+private def profileThreeUnresolvedSaturationAt (b : SearchBase) (differences : List (V 32))
+    (passes : Nat) : IO Unit := do
   let p := proposeSearchBase b
   for aL in differences do
     let first := proposeWiring aL p
     let t₀ ← IO.monoMsNow
-    let saturated := fastCoupledCarryWiringPropagate
-      b.k₀ b.k₁ aL b.aR b.bL p.initial passes
+    let saturated := fastCoupledCarryWiringPropagate b.k₀ b.k₁ aL b.aR b.bL p.initial passes
     let t₁ ← IO.monoMsNow
-    IO.println s!"[saturation] aL={aL.toNat} firstEmpty={emptyUInt16BitDomain first}; repeatedEmpty={emptyUInt16BitDomain saturated}; time={t₁-t₀}ms"
+    IO.println
+        s!"[saturation] aL={aL.toNat} firstEmpty={emptyUInt16BitDomain first}; repeatedEmpty={emptyUInt16BitDomain saturated}; time={t₁-t₀}ms"
     IO.println s!"[saturation] result Y={saturated.1} C={saturated.2}"
 
 /-- Explore bounded repeated passes; their results are not single-step certificates. -/
@@ -177,8 +171,8 @@ def profileThreeUnresolvedSaturation (passes : Nat := 16) : IO Unit :=
   profileThreeUnresolvedSaturationAt exampleBase unresolvedTwoBitDifferences32 passes
 
 @[noinline]
-private def profile493BatchAt
-    (b : SearchBase) (targets : List (V 32)) (excludedCount : Nat) : IO Unit := do
+private def profile493BatchAt (b : SearchBase) (targets : List (V 32)) (excludedCount : Nat) :
+    IO Unit := do
   let p := proposeSearchBase b
   let t₀ ← IO.monoMsNow
   let baseOK := verifySearchBase b p

@@ -1,6 +1,6 @@
 module
 
-public import Magma.TwoHot.OutputOneSevenExactCounts
+public import Magma.DDT.TwoHot.OutputOne.Exact.OutputOneSevenExactCounts
 import all Init.Data.Range.Basic
 
 @[expose] public section

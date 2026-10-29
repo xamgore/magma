@@ -1,7 +1,7 @@
 module
 
-public import Magma.MultiRoundDDT
-meta import Magma.MultiRoundDDT
+public import Magma.Composition.MultiRoundDDT
+meta import Magma.Composition.MultiRoundDDT
 import all Init.Data.Range.Basic
 
 @[expose] public section
@@ -66,8 +66,7 @@ def checkThreeResidualWitnesses : Bool :=
       (inputDifference 8404992) = residualOutput)
 
 set_option maxHeartbeats 0 in
-example : checkThreeResidualWitnesses = true := by
-  decide +kernel
+example : checkThreeResidualWitnesses = true := by decide +kernel
 
 /-- A witness gives positive cardinality without enumerating the type. -/
 private theorem filter_univ_card_pos_of_witness
@@ -117,7 +116,9 @@ theorem exceptional_14_23_nonzero :
 
 -- Inside this namespace the theorem names can be written without their full prefix.
 #print axioms exceptional_12_23_nonzero
+
 #print axioms exceptional_13_23_nonzero
+
 #print axioms exceptional_14_23_nonzero
 
 end Magma.Evidence.ThreeExceptionalWitnesses

@@ -1,6 +1,6 @@
 module
 
-public import Magma.MultiRoundDDT
+public import Magma.Composition.MultiRoundDDT
 import all Init.Data.Range.Basic
 
 @[expose] public section
@@ -32,23 +32,23 @@ open Magma.Internal Magma.MultiRoundDDT
 namespace Magma.Evidence.ZeroLeftExactDDT
 
 theorem exceptional_12_23_exact_count (k₂ : V 32) :
-    xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂)
-      (BitVec.ofNat 32 8392704, 1#32)
-      (0#32, BitVec.ofNat 32 8388608) = 2 ^ 58 := by
+    xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂) (BitVec.ofNat 32 8392704, 1#32)
+        (0#32, BitVec.ofNat 32 8388608) =
+      2 ^ 58 := by
   rw [zeroLeft_three_round_exact_sbox_product]
   decide +kernel
 
 theorem exceptional_13_23_exact_count (k₂ : V 32) :
-    xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂)
-      (BitVec.ofNat 32 8396800, 1#32)
-      (0#32, BitVec.ofNat 32 8388608) = 2 ^ 58 := by
+    xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂) (BitVec.ofNat 32 8396800, 1#32)
+        (0#32, BitVec.ofNat 32 8388608) =
+      2 ^ 58 := by
   rw [zeroLeft_three_round_exact_sbox_product]
   decide +kernel
 
 theorem exceptional_14_23_exact_count (k₂ : V 32) :
-    xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂)
-      (BitVec.ofNat 32 8404992, 1#32)
-      (0#32, BitVec.ofNat 32 8388608) = 2 ^ 58 := by
+    xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂) (BitVec.ofNat 32 8404992, 1#32)
+        (0#32, BitVec.ofNat 32 8388608) =
+      2 ^ 58 := by
   rw [zeroLeft_three_round_exact_sbox_product]
   decide +kernel
 

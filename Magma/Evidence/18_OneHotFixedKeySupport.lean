@@ -1,6 +1,6 @@
 module
 
-public import Magma.OneHot.FixedKeySupportAudit
+public import Magma.DDT.OneHot.Support.FixedKeySupportAudit
 import all Init.Data.Range.Basic
 
 @[expose] public section

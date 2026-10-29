@@ -1,7 +1,7 @@
 module
 
-public import Magma.UInt8NoPathCertificates
-meta import Magma.UInt8NoPathCertificates
+public import Magma.Certificates.UInt8NoPath
+meta import Magma.Certificates.UInt8NoPath
 import all Init.Data.Range.Basic
 
 @[expose] public section

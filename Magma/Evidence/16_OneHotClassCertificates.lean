@@ -1,7 +1,7 @@
 module
 
-public import Magma.OneHot.ClassCertificates
-meta import Magma.OneHot.ClassCertificates
+public import Magma.DDT.OneHot.KeyClasses.ClassCertificates
+meta import Magma.DDT.OneHot.KeyClasses.ClassCertificates
 import all Init.Data.Range.Basic
 
 @[expose] public section

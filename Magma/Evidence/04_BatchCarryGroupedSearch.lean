@@ -1,7 +1,7 @@
 module
 
-public import Magma.BatchSearch
-meta import Magma.BatchSearch
+public import Magma.Search.BatchSearch
+meta import Magma.Search.BatchSearch
 -- Kernel checks unfold the legacy range loops used by the search code.
 import all Init.Data.Range.Basic
 

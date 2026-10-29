@@ -1,12 +1,12 @@
 module
 
-public import Magma.TwoHot.OutputOneSevenExactCounts
-public import Magma.FastSearch
-meta import Magma.TwoHot.OutputOneSevenExactCounts
-meta import Magma.FastSearch
+public import Magma.DDT.TwoHot.OutputOne.Exact.OutputOneSevenExactCounts
+public import Magma.Search.FastSearch
+meta import Magma.DDT.TwoHot.OutputOne.Exact.OutputOneSevenExactCounts
+meta import Magma.Search.FastSearch
 import all Init.Data.Range.Basic
-import Magma.TwoHot.OutputOneSevenExactCounts
-import Magma.FastSearch
+import Magma.DDT.TwoHot.OutputOne.Exact.OutputOneSevenExactCounts
+import Magma.Search.FastSearch
 
 @[expose] public section
 
