@@ -85,6 +85,7 @@ public import Magma.Diffan.ThreeRoundCouplingDefect
 public import Magma.Diffan.ThreeRoundConvolutionDefect
 public import Magma.Diffan.ThreeRoundRightHistogram
 public import Magma.Diffan.ThreeRoundConditionalSlices
+public import Magma.Diffan.ThreeRoundPeriodSymmetry
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
