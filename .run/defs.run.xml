@@ -1,6 +1,15 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="defs (short)" type="LakeCommandConfiguration" factoryName="Lake">
-    <option name="arguments" value="exe defs" />
+  <configuration default="false" name="defs" type="ShConfigurationType">
+    <option name="SCRIPT_TEXT" value="lake build defs &amp;&amp;&#10;lake env .lake/build/bin/defs &gt; .lake/defs.txt &amp;&amp;&#10;python3 scripts/export_sources.py -o .lake/sources.txt" />
+    <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+    <option name="SCRIPT_PATH" value="" />
+    <option name="SCRIPT_OPTIONS" value="" />
+    <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+    <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="INTERPRETER_PATH" value="/bin/zsh" />
+    <option name="INTERPRETER_OPTIONS" value="-l" />
+    <option name="EXECUTE_IN_TERMINAL" value="false" />
+    <option name="EXECUTE_SCRIPT_FILE" value="false" />
     <method v="2" />
   </configuration>
 </component>
