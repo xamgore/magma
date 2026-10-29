@@ -22,8 +22,8 @@ theorem simulation_chain {X A : Type*}
     (observe : X → A)
     (steps : List ((X → X) × (A → A))) :
     (∀ p ∈ steps, ∀ x, observe (p.1 x) = p.2 (observe x)) →
-      ∀ x, observe (runChain (steps.map Prod.fst) x) =
-        runChain (steps.map Prod.snd) (observe x) := by
+      ∀ x, observe ((⟨steps.map Prod.fst⟩ : Chain X).run x) =
+        (⟨steps.map Prod.snd⟩ : Chain A).run (observe x) := by
   induction steps with
   | nil =>
       intro _ x
@@ -36,8 +36,8 @@ theorem simulation_chain {X A : Type*}
           observe (q.1 x) = q.2 (observe x) := by
         intro q hq
         exact h q (by simp [hq])
-      change observe (runChain (rest.map Prod.fst) (p.1 x)) =
-        runChain (rest.map Prod.snd) (p.2 (observe x))
+      change observe ((⟨rest.map Prod.fst⟩ : Chain X).run (p.1 x)) =
+        (⟨rest.map Prod.snd⟩ : Chain A).run (p.2 (observe x))
       rw [ih htail (p.1 x), hhead x]
 
 end Diffan

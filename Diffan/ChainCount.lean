@@ -18,35 +18,35 @@ namespace Diffan
 /-- Conditional final-path predicate. `Q` examines the actual final
     base state (not merely the final difference). -/
 def admissibleChain {X A : Type*}
-    (s : DifferenceSpace X A) (steps : List (X → X))
+    (s : DifferenceSpace X A) (c : Chain X)
     (P Q : X → Prop) (a b : A) (x : X) : Prop :=
-  P x ∧ Q (runChain steps x) ∧
-    derivative s s (runChain steps) a x = b
+  P x ∧ Q (c.run x) ∧
+    derivative s s c.run a x = b
 
 /-- Exact number of admissible initial states. -/
 noncomputable def chainCount {X A : Type*} [Fintype X]
-    (s : DifferenceSpace X A) (steps : List (X → X))
+    (s : DifferenceSpace X A) (c : Chain X)
     (P Q : X → Prop) (a b : A) : Nat := by
   classical
-  exact Fintype.card {x : X // admissibleChain s steps P Q a b x}
+  exact Fintype.card {x : X // admissibleChain s c P Q a b x}
 
 /-- Exact number of admitted initial states with a chosen finite label.
     The label can be the full state, the sequence of differences, or
     a certified abstract observation (e.g. a carry state). -/
 noncomputable def labeledChainCount {X A L : Type*} [Fintype X]
-    (s : DifferenceSpace X A) (steps : List (X → X))
+    (s : DifferenceSpace X A) (c : Chain X)
     (P Q : X → Prop) (a b : A)
     (label : X → L) (l : L) : Nat := by
   classical
   exact Fintype.card
-    {x : X // admissibleChain s steps P Q a b x ∧ label x = l}
+    {x : X // admissibleChain s c P Q a b x ∧ label x = l}
 
 /-- Every admitted state belongs to a *unique* label fiber. -/
 def chainFiberEquiv {X A L : Type*}
-    (s : DifferenceSpace X A) (steps : List (X → X))
+    (s : DifferenceSpace X A) (c : Chain X)
     (P Q : X → Prop) (a b : A) (label : X → L) :
-    {x : X // admissibleChain s steps P Q a b x} ≃
-      Σ l : L, {x : X // admissibleChain s steps P Q a b x ∧ label x = l} where
+    {x : X // admissibleChain s c P Q a b x} ≃
+      Σ l : L, {x : X // admissibleChain s c P Q a b x ∧ label x = l} where
   toFun w := ⟨label w.1, ⟨w.1, w.2, rfl⟩⟩
   invFun w := ⟨w.2.1, w.2.2.1⟩
   left_inv := by
@@ -63,27 +63,27 @@ def chainFiberEquiv {X A L : Type*}
     This is a mathematical theorem, not a claim of fast evaluation. -/
 theorem chainCount_eq_sum_labels {X A L : Type*}
     [Fintype X] [Fintype L]
-    (s : DifferenceSpace X A) (steps : List (X → X))
+    (s : DifferenceSpace X A) (c : Chain X)
     (P Q : X → Prop) (a b : A) (label : X → L) :
-    chainCount s steps P Q a b =
-      ∑ l : L, labeledChainCount s steps P Q a b label l := by
+    chainCount s c P Q a b =
+      ∑ l : L, labeledChainCount s c P Q a b label l := by
   classical
   unfold chainCount labeledChainCount
   calc
-    Fintype.card {x : X // admissibleChain s steps P Q a b x} =
+    Fintype.card {x : X // admissibleChain s c P Q a b x} =
         Fintype.card
-          (Σ l : L, {x : X // admissibleChain s steps P Q a b x ∧
+          (Σ l : L, {x : X // admissibleChain s c P Q a b x ∧
             label x = l}) :=
-      Fintype.card_congr (chainFiberEquiv s steps P Q a b label)
+      Fintype.card_congr (chainFiberEquiv s c P Q a b label)
     _ = _ := by simp only [Fintype.card_sigma]
 
 /-- With trivial preconditions, the exact chain count is the ordinary
     DDT of its actual composed transformation. -/
 theorem chainCount_true_eq_ddt {X A : Type*}
     [Fintype X] [DecidableEq A]
-    (s : DifferenceSpace X A) (steps : List (X → X)) (a b : A) :
-    chainCount s steps (fun _ => True) (fun _ => True) a b =
-      ddt s s (runChain steps) a b := by
+    (s : DifferenceSpace X A) (c : Chain X) (a b : A) :
+    chainCount s c (fun _ => True) (fun _ => True) a b =
+      ddt s s c.run a b := by
   classical
   simp [chainCount, admissibleChain, ddt, Fintype.card_subtype]
 
@@ -95,16 +95,16 @@ theorem chainCount_true_eq_ddt {X A : Type*}
     NOT a proposed efficient algorithm when n is large. -/
 theorem ddt_chain_eq_sum_signatures {X A : Type*}
     [Fintype X] [Fintype A] [DecidableEq A]
-    (s : DifferenceSpace X A) (steps : List (X → X)) (a b : A) :
-    ddt s s (runChain steps) a b =
-      ∑ sig : (Fin steps.length → Option A),
-        labeledChainCount s steps (fun _ => True) (fun _ => True)
-          a b (chainSignature s steps a) sig := by
+    (s : DifferenceSpace X A) (c : Chain X) (a b : A) :
+    ddt s s c.run a b =
+      ∑ sig : (Fin c.steps.length → Option A),
+        labeledChainCount s c (fun _ => True) (fun _ => True)
+          a b (c.signature s a) sig := by
   calc
-    ddt s s (runChain steps) a b =
-        chainCount s steps (fun _ => True) (fun _ => True) a b :=
-      (chainCount_true_eq_ddt s steps a b).symm
-    _ = _ := chainCount_eq_sum_labels s steps (fun _ => True)
-      (fun _ => True) a b (chainSignature s steps a)
+    ddt s s c.run a b =
+        chainCount s c (fun _ => True) (fun _ => True) a b :=
+      (chainCount_true_eq_ddt s c a b).symm
+    _ = _ := chainCount_eq_sum_labels s c (fun _ => True)
+      (fun _ => True) a b (c.signature s a)
 
 end Diffan

@@ -20,7 +20,6 @@ public import Diffan.CertifiedFibers
 public import Diffan.KernelFactorization
 public import Diffan.ExamplesWeights
 public import Diffan.MatrixBridge
-public import Diffan.ChainAPI
 public import Diffan.WeightedAutomaton
 public import Diffan.LocalTransducer
 import all Init.Data.Range.Basic

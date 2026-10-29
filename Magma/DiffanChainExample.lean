@@ -1,6 +1,6 @@
 module
 
-public import Diffan.ChainAPI
+public import Diffan.Chain
 public import Magma.DiffanBridge
 import all Init.Data.Range.Basic
 
