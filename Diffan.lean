@@ -30,6 +30,8 @@ public import Diffan.ReversibleChain
 public import Diffan.Meet
 public import Diffan.ReversibleMeet
 public import Diffan.ScheduledConstraints
+public import Diffan.Composition.StateConstraint
+public import Diffan.Parameters.KeyStateConstraint
 import all Init.Data.Range.Basic
 
 @[expose] public section
