@@ -13,6 +13,7 @@ import sys
 from typing import Iterator
 
 ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOTS = ('Diffan', 'Magma')
 
 
 def name_parts(name: str) -> list[str]:
@@ -35,7 +36,7 @@ def name_parts(name: str) -> list[str]:
 
 
 def project_module(name: str) -> bool:
-    return name_parts(name)[0] == 'Magma'
+    return name_parts(name)[0] in PROJECT_ROOTS
 
 
 def header_tokens(source: str) -> Iterator[str]:
@@ -113,7 +114,8 @@ def ordered_modules(report: dict, root: Path, include_evidence: bool = True) -> 
     }
     by_path = {module.path: module.name for module in modules.values()}
     if include_evidence:
-        for path in sorted((root / 'Magma').rglob('*.lean')):
+        for path in sorted(path for library in PROJECT_ROOTS
+                           for path in (root / library).rglob('*.lean')):
             relative = path.relative_to(root).as_posix()
             if relative in by_path:
                 continue
@@ -165,14 +167,19 @@ def ordered_modules(report: dict, root: Path, include_evidence: bool = True) -> 
         raise ValueError(f'Project import cycle: {cycle}')
     if [module.name for module in result if module.name in set(preferred)] != preferred:
         raise ValueError('Compiled moduleOrder is not dependency-first; rebuild deps')
-    # The root only reexports the library. Bypass it in reading exports while
-    # retaining prerequisites for sources that import the aggregate module.
-    aggregate_imports = modules['Magma'].imports if 'Magma' in modules else ()
+    # Aggregate roots reexport libraries. Flatten either root, including nested
+    # aggregate imports, while preserving dependencies across both libraries.
+    def prerequisites(name: str) -> tuple[str, ...]:
+        if name not in PROJECT_ROOTS:
+            return (name,)
+        return tuple(dependency for imported in modules[name].imports
+                     for dependency in prerequisites(imported))
+
     return [Module(module.name, module.path, tuple(dict.fromkeys(
         dependency
         for imported in module.imports
-        for dependency in (aggregate_imports if imported == 'Magma' else (imported,))
-    ))) for module in result if module.name != 'Magma']
+        for dependency in prerequisites(imported)
+    ))) for module in result if module.name not in PROJECT_ROOTS]
 
 
 def render_bundle(modules: list[Module], root: Path) -> str:

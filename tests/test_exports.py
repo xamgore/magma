@@ -20,13 +20,16 @@ class ExportTests(unittest.TestCase):
 module
 -- import Magma.Fake
 public import Magma.A
+public import Diffan.Chain
+import DiffanExtra.NotProject
 meta import all Magma.Evidence.«08_Test»
 import Mathlib.Data.Nat.Basic
 /- import Magma.Fake -/
 @[expose] public section
 def text := "import Magma.Fake"
 '''
-        self.assertEqual(source_imports(source), ('Magma.A', 'Magma.Evidence.«08_Test»'))
+        self.assertEqual(source_imports(source),
+                         ('Magma.A', 'Diffan.Chain', 'Magma.Evidence.«08_Test»'))
         self.assertEqual(name_parts('Magma.«Part.With.Dot».Item'), ['Magma', 'Part.With.Dot', 'Item'])
 
     def test_malformed_header(self):
@@ -105,6 +108,42 @@ def text := "import Magma.Fake"
             (root / 'Magma/Extra.lean').write_text('module\nimport Lean\n', encoding='utf-8')
             modules = ordered_modules(report, root)
             self.assertEqual(set(module.name for module in modules), {'Magma.Extra'})
+
+    def test_both_libraries_and_nested_aggregate_imports(self):
+        report = metadata([
+            ('Diffan.Core', []), ('Diffan.Unused', ['Diffan.Core']),
+            ('Diffan', ['Diffan.Core', 'Diffan.Unused']),
+            ('Magma.RFC8891', []), ('Magma.Bridge', ['Magma.RFC8891', 'Diffan']),
+            ('Magma', ['Magma.Bridge']),
+        ])
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for item in report['modules']:
+                path = root / item['path']
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('module\n', encoding='utf-8')
+            (root / 'Diffan/Extra.lean').write_text('import Diffan.Core\n', encoding='utf-8')
+            folder = root / 'Magma/Evidence'
+            folder.mkdir()
+            (folder / '01_Test.lean').write_text('import Diffan\nimport Magma\n', encoding='utf-8')
+            modules = ordered_modules(report, root)
+            by_name = {module.name: module for module in modules}
+            self.assertNotIn('Magma', by_name)
+            self.assertNotIn('Diffan', by_name)
+            self.assertIn('Diffan.Extra', by_name)
+            self.assertEqual(by_name['Magma.Bridge'].imports,
+                             ('Magma.RFC8891', 'Diffan.Core', 'Diffan.Unused'))
+            self.assertEqual(by_name['Magma.Evidence.«01_Test»'].imports,
+                             ('Diffan.Core', 'Diffan.Unused', 'Magma.Bridge'))
+            positions = {module.name: index for index, module in enumerate(modules)}
+            for module in modules:
+                for dependency in module.imports:
+                    self.assertLess(positions[dependency], positions[module.name])
+            self.assertIn('-- BEGIN MODULE: Diffan.Extra', render_bundle(modules, root))
+            render_mermaid(modules)
+            self.assertEqual([module.name for module in ordered_modules(
+                report, root, include_evidence=False)],
+                ['Diffan.Core', 'Diffan.Unused', 'Magma.RFC8891', 'Magma.Bridge'])
 
 
 if __name__ == '__main__':

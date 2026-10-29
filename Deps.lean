@@ -8,7 +8,7 @@ public section
 /-!
 # Declaration dependencies
 
-`lake exe deps` exports direct dependencies from the compiled `Magma` environment.
+`lake exe deps` exports direct dependencies from the compiled `Diffan` and `Magma` libraries.
 The `declarations` array includes generated declarations so every local dependency
 has a corresponding node. Each node has `name`, `module`, `kind`,
 `typeDependencies`, and `bodyDependencies`; both dependency sets are split into
@@ -20,23 +20,25 @@ This export does not compute a transitive closure or guarantee acyclicity:
 recursive definitions can introduce cycles. Module ownership, rather than a
 declaration's namespace, determines whether it belongs to the project.
 
-Schema version 2 adds `moduleOrder` and `modules`. The former is Lean's
-dependency-first import traversal; `defs` and the source bundle use the same
-order. Each module records its source path and direct project imports. Module
-edges also point from the importing module to its dependencies. Existing
-declaration fields are unchanged.
+`rootModules` lists both libraries. `moduleOrder` records Lean's dependency-first
+import traversal; `defs` and the source bundle use the same order. Each entry in
+`modules` records its source path and direct imports from either library. Module
+edges also point from the importing module to its dependencies.
 -/
 
 namespace Deps
 
 open Lean
 
+private def isProjectModule (name : Name) : Bool :=
+  (`Diffan).isPrefixOf name || (`Magma).isPrefixOf name
+
 private def moduleOf? (env : Environment) (name : Name) : Option Name := do
   let idx ← env.getModuleIdxFor? name
   env.header.moduleNames[idx]?
 
 private def isLocal (env : Environment) (name : Name) : Bool :=
-  (moduleOf? env name).any ((`Magma).isPrefixOf ·)
+  (moduleOf? env name).any isProjectModule
 
 private def kind (env : Environment) : ConstantInfo → String
   | .axiomInfo _ => "axiom"
@@ -71,7 +73,7 @@ private def declarationJson (env : Environment) (info : ConstantInfo) : Json :=
 def run : IO Unit := do
   initSearchPath (← findSysroot)
   unsafe enableInitializersExecution
-  let env ← importModules #[{ module := `Magma }] {} (loadExts := true)
+  let env ← importModules #[{ module := `Diffan }, { module := `Magma }] {} (loadExts := true)
   let decls :=
     env.constants.toList.toArray.filter (fun (name, _) => isLocal env name) |>.qsort
       (fun a b => a.1.toString < b.1.toString)
@@ -79,11 +81,10 @@ def run : IO Unit := do
   let mut moduleOrder : Array String := #[]
   for idx in [:env.header.moduleNames.size] do
     let name := env.header.moduleNames[idx]!
-    if !(`Magma).isPrefixOf name then
+    if !isProjectModule name then
       continue
     moduleOrder := moduleOrder.push name.toString
-    let imports :=
-      env.header.moduleData[idx]!.imports.map (·.module) |>.filter ((`Magma).isPrefixOf ·)
+    let imports := env.header.moduleData[idx]!.imports.map (·.module) |>.filter isProjectModule
     modules :=
       modules.push <|
         Json.mkObj
@@ -93,7 +94,7 @@ def run : IO Unit := do
             ("imports", toJson <| imports.map Name.toString)]
   let report :=
     Json.mkObj
-      [("schemaVersion", toJson (2 : Nat)), ("rootModule", toJson "Magma"),
+      [("schemaVersion", toJson (3 : Nat)), ("rootModules", toJson #["Diffan", "Magma"]),
         ("edgeDirection", toJson "declaration -> dependency"), ("moduleOrder", toJson moduleOrder),
         ("modules", Json.arr modules),
         ("declarations", Json.arr <| decls.map (fun (_, info) => declarationJson env info))]

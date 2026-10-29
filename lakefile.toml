@@ -34,13 +34,13 @@ name = "Diffan"
 [[lean_exe]]
 name = "defs"
 root = "Defs"
-needs = ["Magma"]
+needs = ["Diffan", "Magma"]
 supportInterpreter = true
 
 [[lean_exe]]
 name = "deps"
 root = "Deps"
-needs = ["Magma"]
+needs = ["Diffan", "Magma"]
 supportInterpreter = true
 
 [[lean_exe]]
