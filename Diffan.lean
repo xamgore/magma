@@ -27,6 +27,8 @@ public import Diffan.Examples.StateDifference16
 public import Diffan.Product
 public import Diffan.InverseDDT
 public import Diffan.ReversibleChain
+public import Diffan.Meet
+public import Diffan.ReversibleMeet
 import all Init.Data.Range.Basic
 
 @[expose] public section
