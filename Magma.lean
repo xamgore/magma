@@ -80,6 +80,7 @@ public import Magma.Diffan.DiffanRoundDDTBridge
 public import Magma.Diffan.DiffanMiddleMeet
 public import Magma.Diffan.ScheduledKeyConstraints
 public import Magma.Diffan.ScheduledMeet
+public import Magma.Diffan.ThreeRoundCoordinateCertificate
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/

@@ -357,7 +357,7 @@ def twoRoundKeys (k₀ k₁ : V 32) : Fin 2 → V 32 :=
   ![k₀, k₁]
 
 /-- Ordinary XOR difference of the 32-bit round function at a base word. -/
-private def gDifference (k x d : V 32) : V 32 :=
+def gDifference (k x d : V 32) : V 32 :=
   xor (g k (xor x d)) (g k x)
 
 /-- Cancelling two XOR operations by the same right operand. -/
@@ -404,7 +404,7 @@ private theorem twoRoundDelta_formula (k₀ k₁ aL aR L R : V 32) :
 
 /-- Change coordinates from `(L,R)` to `(R, g[k₀](R) XOR L)`.
     The transformation is a bijection for every fixed first-round key. -/
-private def twoRoundCoordinates (k₀ : V 32) :
+def twoRoundCoordinates (k₀ : V 32) :
     FeistelState ≃ FeistelState where
   toFun := fun p => (p.2, xor (g k₀ p.2) p.1)
   invFun := fun q => (xor (g k₀ q.1) q.2, q.1)
@@ -427,7 +427,7 @@ private def twoRoundCoordinates (k₀ : V 32) :
 
 /-- The exact two-round differential condition splits across the
     bijective coordinates `(R, g[k₀](R) XOR L)`. -/
-private theorem twoRoundCondition
+theorem twoRoundCondition
     (k₀ k₁ aL aR bL bR L R : V 32) :
     (multiRoundDelta 2 (twoRoundKeys k₀ k₁) (L, R) (aL, aR) =
        (bL, bR)) ↔
