@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import json
 import os
 from pathlib import Path
 import re
@@ -17,40 +16,30 @@ from typing import TextIO
 ROOT = Path(__file__).resolve().parents[1]
 LOG = ROOT / '.lake/out.txt'
 HANDOFF = ROOT / '.lake/handoff'
-WORKFLOW = ROOT / '.lake/intake/workflow.json'
 RANGE_IMPORT = 'import all Init.Data.Range.Basic'
 
 
-def remember_files(paths: list[str], *, reset: bool = False) -> None:
-    """Track this workflow's files independently of other working-tree edits."""
-    remembered = [] if reset or not WORKFLOW.exists() else json.loads(WORKFLOW.read_text())
-    for value in paths:
-        name = str((ROOT / value).resolve().relative_to(ROOT))
-        if name not in remembered:
-            remembered.append(name)
-    if reset and HANDOFF.exists():
-        shutil.rmtree(HANDOFF)
-    WORKFLOW.parent.mkdir(parents=True, exist_ok=True)
-    WORKFLOW.write_text(json.dumps(remembered))
-
-
-def write_handoff(*, open_folder: bool = True) -> None:
-    """Replace the handoff with current sources and compact diagnostics."""
-    paths = json.loads(WORKFLOW.read_text()) if WORKFLOW.exists() else []
+def write_handoff(files: list[tuple[str, str]], *, open_folder: bool = True) -> None:
+    """Export only explicitly supplied Lean files changed from their originals."""
+    sources = {}
+    for project_file, original_file in files:
+        source = relative_file(project_file)
+        original = Path(original_file).expanduser().resolve()
+        if source.read_bytes() == original.read_bytes():
+            continue
+        if source.name in sources and sources[source.name] != source:
+            raise ValueError(f'Duplicate handoff filename: {source.name}')
+        sources[source.name] = source
+    if not LOG.is_file():
+        raise FileNotFoundError(f'No diagnostics to export: {LOG}')
     if HANDOFF.exists():
         shutil.rmtree(HANDOFF)
     HANDOFF.mkdir(parents=True)
-    for value in paths:
-        source = (ROOT / value).resolve()
-        name = source.relative_to(ROOT)
-        if source.is_file():
-            dest = HANDOFF / name
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source, dest)
-    if LOG.exists():
-        with LOG.open('rb') as source, (HANDOFF / 'out.txt').open('wb') as dest:
-            for line in source:
-                dest.write(line.lstrip(b' \t'))
+    for name, source in sources.items():
+        shutil.copy2(source, HANDOFF / name)
+    with LOG.open('rb') as source, (HANDOFF / 'out.txt').open('wb') as dest:
+        for line in source:
+            dest.write(line.lstrip(b' \t'))
     if open_folder:
         subprocess.run(['/usr/bin/open', str(HANDOFF)], check=False,
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -206,12 +195,6 @@ def fix_seq_focus(path: Path, diagnostics: str) -> bool:
 
 def notify_failure(path: Path, stage: str) -> None:
     """Notify the desktop and resume the originating chat once per failure."""
-    remember_files([str(path.relative_to(ROOT))])
-    try:
-        write_handoff()
-        print(f'Handoff: {HANDOFF}', flush=True)
-    except OSError as exc:
-        print(f'Could not prepare handoff: {exc}', flush=True)
     subprocess.run(['/usr/bin/osascript', '-', f'{path.stem}: {stage} failed.'],
                    input='''on run argv
   display notification (item 1 of argv) with title "Magma"
@@ -249,7 +232,6 @@ end run
 
 def check(args: argparse.Namespace) -> None:
     path = relative_file(args.file)
-    remember_files([str(path.relative_to(ROOT))], reset=not args.append_log)
     LOG.parent.mkdir(exist_ok=True)
     stamp = proof_stamp(path)
     stamp.unlink(missing_ok=True)
@@ -318,7 +300,6 @@ def finish(args: argparse.Namespace) -> None:
     paths = list(dict.fromkeys([str(path.relative_to(ROOT))] + args.paths))
     for owned in paths:
         (ROOT / owned).resolve().relative_to(ROOT)
-    remember_files(paths)
     lean_files = [owned for owned in paths if owned.endswith('.lean') and owned != 'Magma.lean' and (ROOT / owned).is_file()]
     commands = [
         ['lake', 'exe', 'fmt', 'format', '--workers', '1', *lean_files],
@@ -339,7 +320,6 @@ def finish(args: argparse.Namespace) -> None:
             if advisory and result.returncode:
                 print(f'Axiom audit exited {result.returncode}; continuing (advisory).', flush=True)
         commit_owned_paths(args, paths)
-        write_handoff()
     except subprocess.CalledProcessError as exc:
         code = exc.returncode
         failure_reported = exc.cmd[:3] == [sys.executable, str(Path(__file__).resolve()), 'check']
@@ -372,6 +352,10 @@ def main() -> None:
     check_parser.add_argument('file')
     check_parser.add_argument('--append-log', action='store_true',
                               help='Append an internal step to the current workflow log')
+    handoff = sub.add_parser('handoff', help='Explicitly export edited inputs and open the flat handoff folder')
+    handoff.add_argument('--file', dest='files', action='append', nargs=2, required=True,
+                         metavar=('PROJECT_FILE', 'ORIGINAL'),
+                         help='Pair an imported Lean module with the exact received source')
     for action in ['run', '_run', 'finish', '_finish']:
         final = sub.add_parser(action, help='Detach formatting, validation, audit and commit')
         final.add_argument('file')
@@ -384,6 +368,9 @@ def main() -> None:
         prepare(args)
     elif args.action == 'check':
         check(args)
+    elif args.action == 'handoff':
+        write_handoff(args.files)
+        print(f'Handoff: {HANDOFF}')
     elif args.action == '_finish':
         finish(args)
     elif args.action == '_run':
@@ -408,7 +395,6 @@ def main() -> None:
                 if not stamp.exists() or stamp.read_text() != fingerprint(checked):
                     raise ValueError(f'Run check successfully before finish: {checked}')
         LOG.parent.mkdir(exist_ok=True)
-        remember_files([str(path.relative_to(ROOT)), *args.paths], reset=True)
         LOG.write_text('')
         with LOG.open('a') as log:
             action = '_run' if args.action == 'run' else '_finish'
