@@ -5,16 +5,71 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import os
 from pathlib import Path
 import re
 import shutil
 import subprocess
 import sys
+from typing import TextIO
 
 ROOT = Path(__file__).resolve().parents[1]
 LOG = ROOT / '.lake/out.txt'
+HANDOFF = ROOT / '.lake/handoff'
+WORKFLOW = ROOT / '.lake/intake/workflow.json'
 RANGE_IMPORT = 'import all Init.Data.Range.Basic'
+
+
+def remember_files(paths: list[str], *, reset: bool = False) -> None:
+    """Track this workflow's files independently of other working-tree edits."""
+    remembered = [] if reset or not WORKFLOW.exists() else json.loads(WORKFLOW.read_text())
+    for value in paths:
+        name = str((ROOT / value).resolve().relative_to(ROOT))
+        if name not in remembered:
+            remembered.append(name)
+    if reset and HANDOFF.exists():
+        shutil.rmtree(HANDOFF)
+    WORKFLOW.parent.mkdir(parents=True, exist_ok=True)
+    WORKFLOW.write_text(json.dumps(remembered))
+
+
+def write_handoff(*, open_folder: bool = True) -> None:
+    """Replace the handoff with current sources and compact diagnostics."""
+    paths = json.loads(WORKFLOW.read_text()) if WORKFLOW.exists() else []
+    if HANDOFF.exists():
+        shutil.rmtree(HANDOFF)
+    HANDOFF.mkdir(parents=True)
+    for value in paths:
+        source = (ROOT / value).resolve()
+        name = source.relative_to(ROOT)
+        if source.is_file():
+            dest = HANDOFF / name
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, dest)
+    if LOG.exists():
+        with LOG.open('rb') as source, (HANDOFF / 'out.txt').open('wb') as dest:
+            for line in source:
+                dest.write(line.lstrip(b' \t'))
+    if open_folder:
+        subprocess.run(['/usr/bin/open', str(HANDOFF)], check=False,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+def run_compact(command: list[str], output: TextIO, *,
+                check: bool = False) -> subprocess.CompletedProcess:
+    """Stream merged command output without leading spaces or tabs."""
+    with subprocess.Popen(command, cwd=ROOT, stdout=subprocess.PIPE,
+                          stderr=subprocess.STDOUT, text=True,
+                          encoding='utf-8', errors='replace') as process:
+        assert process.stdout is not None
+        for line in process.stdout:
+            output.write(line.lstrip(' \t'))
+        code = process.wait()
+    output.flush()
+    if check and code:
+        raise subprocess.CalledProcessError(code, command)
+    return subprocess.CompletedProcess(command, code)
 
 
 def code_only(source: str) -> str:
@@ -151,6 +206,12 @@ def fix_seq_focus(path: Path, diagnostics: str) -> bool:
 
 def notify_failure(path: Path, stage: str) -> None:
     """Notify the desktop and resume the originating chat once per failure."""
+    remember_files([str(path.relative_to(ROOT))])
+    try:
+        write_handoff()
+        print(f'Handoff: {HANDOFF}', flush=True)
+    except OSError as exc:
+        print(f'Could not prepare handoff: {exc}', flush=True)
     subprocess.run(['/usr/bin/osascript', '-', f'{path.stem}: {stage} failed.'],
                    input='''on run argv
   display notification (item 1 of argv) with title "Magma"
@@ -188,6 +249,7 @@ end run
 
 def check(args: argparse.Namespace) -> None:
     path = relative_file(args.file)
+    remember_files([str(path.relative_to(ROOT))], reset=not args.append_log)
     LOG.parent.mkdir(exist_ok=True)
     stamp = proof_stamp(path)
     stamp.unlink(missing_ok=True)
@@ -197,8 +259,7 @@ def check(args: argparse.Namespace) -> None:
         checked_hash = fingerprint(path)
         with LOG.open('a' if args.append_log or attempt else 'w') as log:
             start = log.tell()
-            result = subprocess.run(['lake', 'build', str(path.relative_to(ROOT))],
-                                    cwd=ROOT, stdout=log, stderr=subprocess.STDOUT)
+            result = run_compact(['lake', 'build', str(path.relative_to(ROOT))], log)
         with LOG.open() as log:
             log.seek(start)
             diagnostics = log.read()
@@ -249,7 +310,7 @@ def commit_owned_paths(args: argparse.Namespace, paths: list[str]) -> None:
                *(['--fixup', args.fixup] if args.fixup else ['-m', args.message]),
                '--', *changed_paths]
     print('+', repr(command), flush=True)
-    subprocess.run(command, cwd=ROOT, check=True)
+    run_compact(command, sys.stdout, check=True)
 
 
 def finish(args: argparse.Namespace) -> None:
@@ -257,6 +318,7 @@ def finish(args: argparse.Namespace) -> None:
     paths = list(dict.fromkeys([str(path.relative_to(ROOT))] + args.paths))
     for owned in paths:
         (ROOT / owned).resolve().relative_to(ROOT)
+    remember_files(paths)
     lean_files = [owned for owned in paths if owned.endswith('.lean') and owned != 'Magma.lean' and (ROOT / owned).is_file()]
     commands = [
         ['lake', 'exe', 'fmt', 'format', '--workers', '1', *lean_files],
@@ -273,10 +335,11 @@ def finish(args: argparse.Namespace) -> None:
         for command in commands:
             print('+', repr(command), flush=True)
             advisory = command[:3] == ['lake', 'exe', 'axiom-audit']
-            result = subprocess.run(command, cwd=ROOT, check=not advisory)
+            result = run_compact(command, sys.stdout, check=not advisory)
             if advisory and result.returncode:
                 print(f'Axiom audit exited {result.returncode}; continuing (advisory).', flush=True)
         commit_owned_paths(args, paths)
+        write_handoff()
     except subprocess.CalledProcessError as exc:
         code = exc.returncode
         failure_reported = exc.cmd[:3] == [sys.executable, str(Path(__file__).resolve()), 'check']
@@ -345,7 +408,9 @@ def main() -> None:
                 if not stamp.exists() or stamp.read_text() != fingerprint(checked):
                     raise ValueError(f'Run check successfully before finish: {checked}')
         LOG.parent.mkdir(exist_ok=True)
-        with LOG.open('w') as log:
+        remember_files([str(path.relative_to(ROOT)), *args.paths], reset=True)
+        LOG.write_text('')
+        with LOG.open('a') as log:
             action = '_run' if args.action == 'run' else '_finish'
             subprocess.Popen([sys.executable, str(Path(__file__).resolve()), action, *sys.argv[2:]],
                              cwd=ROOT, stdin=subprocess.DEVNULL, stdout=log,

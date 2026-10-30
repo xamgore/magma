@@ -145,6 +145,7 @@ public import Magma.Diffan.FourRoundForcedMiddleDifference
 public import Magma.Diffan.FourRoundMiddleCoordinateKernel
 public import Magma.Diffan.FourRoundProjectionDefect
 public import Magma.Diffan.FourRoundOneBitProjectionDefect
+public import Magma.Diffan.FourRoundIntrinsicRectangularity
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
