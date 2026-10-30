@@ -149,6 +149,7 @@ public import Magma.Diffan.FourRoundIntrinsicRectangularity
 public import Magma.Diffan.FourRoundGeneralBoundaryEquations
 public import Magma.Diffan.FourRoundOneSidedBaseFiber
 public import Magma.Diffan.FiveRoundOverlappingWindows
+public import Magma.Diffan.FiveRoundSinglePointOverlap
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
