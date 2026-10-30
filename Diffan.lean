@@ -40,6 +40,7 @@ public import Diffan.FiniteSupportSymmetry
 public import Diffan.FiniteInvolutionOrbits
 public import Diffan.FiniteTranslationOrbits
 public import Diffan.CanonicalTranslationOrbits
+public import Diffan.AutomaticXorOrbits
 import all Init.Data.Range.Basic
 
 @[expose] public section
