@@ -122,6 +122,7 @@ public import Magma.Diffan.ZeroKeyEightTranslationTiling
 public import Magma.Diffan.ZeroKeyEightCanonicalOrbits
 public import Magma.Diffan.ZeroKeyEightAutomaticOrbits
 public import Magma.Diffan.UnitInputAutomaticSymmetryAudit
+public import Magma.Diffan.ThreeRoundLeftTranslationAudit
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
