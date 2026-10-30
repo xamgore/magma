@@ -41,6 +41,7 @@ public import Diffan.FiniteInvolutionOrbits
 public import Diffan.FiniteTranslationOrbits
 public import Diffan.CanonicalTranslationOrbits
 public import Diffan.AutomaticXorOrbits
+public import Diffan.MiddleObservation
 import all Init.Data.Range.Basic
 
 @[expose] public section

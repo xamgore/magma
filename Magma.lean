@@ -124,6 +124,7 @@ public import Magma.Diffan.ZeroKeyEightAutomaticOrbits
 public import Magma.Diffan.UnitInputAutomaticSymmetryAudit
 public import Magma.Diffan.ThreeRoundLeftTranslationAudit
 public import Magma.Diffan.ScheduledWindowLeftSymmetries
+public import Magma.Diffan.ScheduledMiddleObservation
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
