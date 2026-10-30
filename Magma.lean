@@ -100,6 +100,7 @@ public import Magma.Diffan.RepeatedWindowIntersections
 public import Magma.Diffan.BoundaryWindowIntersections
 public import Magma.Diffan.ArbitraryWindowIntersections
 public import Magma.Diffan.MultiWindowIntersections
+public import Magma.Diffan.RoundConstraints
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
