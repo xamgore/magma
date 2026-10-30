@@ -103,6 +103,7 @@ public import Magma.Diffan.MultiWindowIntersections
 public import Magma.Diffan.RoundConstraints
 public import Magma.Diffan.ZeroLeftSupportOverlap
 public import Magma.Diffan.EvenUnitOverlapEight
+public import Magma.Diffan.ZeroKeySingletonOverlap
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
