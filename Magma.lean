@@ -138,6 +138,7 @@ public import Magma.Diffan.ScheduledCorrectionMaskedOutputs
 public import Magma.Diffan.TwoRoundSuffixObservation
 public import Magma.Diffan.TwoRoundRawOutputMasks
 public import Magma.Diffan.AutomaticOutputMasks
+public import Magma.Diffan.HighNibbleOutputMaskCertificates
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
