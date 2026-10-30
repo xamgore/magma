@@ -141,6 +141,7 @@ public import Magma.Diffan.AutomaticOutputMasks
 public import Magma.Diffan.HighNibbleOutputMaskCertificates
 public import Magma.Diffan.AdjacentHighNibbleMaskCertificates
 public import Magma.Diffan.FourRoundScheduledMiddleFibers
+public import Magma.Diffan.FourRoundForcedMiddleDifference
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
