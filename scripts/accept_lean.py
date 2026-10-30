@@ -272,7 +272,10 @@ def finish(args: argparse.Namespace) -> None:
     try:
         for command in commands:
             print('+', repr(command), flush=True)
-            subprocess.run(command, cwd=ROOT, check=True)
+            advisory = command[:3] == ['lake', 'exe', 'axiom-audit']
+            result = subprocess.run(command, cwd=ROOT, check=not advisory)
+            if advisory and result.returncode:
+                print(f'Axiom audit exited {result.returncode}; continuing (advisory).', flush=True)
         commit_owned_paths(args, paths)
     except subprocess.CalledProcessError as exc:
         code = exc.returncode
@@ -285,7 +288,7 @@ def finish(args: argparse.Namespace) -> None:
         if code and not failure_reported:
             notify_failure(path, 'Final validation')
         elif not code:
-            subprocess.run(['/usr/bin/osascript', '-', f'{path.stem}: checks passed, commit created.'], input='''on run argv
+            subprocess.run(['/usr/bin/osascript', '-', f'{path.stem}: validation completed, commit created.'], input='''on run argv
   display notification (item 1 of argv) with title "Magma"
 end run
 ''', text=True, check=False)

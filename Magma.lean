@@ -98,6 +98,7 @@ public import Magma.Diffan.DiagonalMasterCountReduction
 public import Magma.Diffan.OuterKeySplitCertificate
 public import Magma.Diffan.RepeatedWindowIntersections
 public import Magma.Diffan.BoundaryWindowIntersections
+public import Magma.Diffan.ArbitraryWindowIntersections
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
