@@ -112,6 +112,7 @@ public import Magma.Diffan.OtherExceptionalZeroSecond
 public import Magma.Diffan.ZeroKeyEightColumn
 public import Magma.Diffan.ZeroKeyEightSharpBound
 public import Magma.Diffan.ZeroKeyEightMultiplicity
+public import Magma.Diffan.ZeroKeyEightDefectClassification
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
