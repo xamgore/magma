@@ -129,6 +129,7 @@ public import Magma.Diffan.ScheduledMeetFiberTransport
 public import Magma.Diffan.FeistelDeltaPropagation
 public import Magma.Diffan.FeistelCorrectionObstructions
 public import Magma.Diffan.AllKeyFeistelCorrection
+public import Magma.Diffan.CorrectionFiberSlices
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
