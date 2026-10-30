@@ -89,6 +89,19 @@ private theorem rectangle_mem_iff (master : Master) (aL bR inputMask outputMask 
 
 attribute [local irreducible] occupied rectangle
 
+/-- Missing pairs have individually attainable coordinates but no jointly
+    admissible midpoint base. -/
+theorem missingPairs_mem_iff (master : Master)
+    (aL bR inputMask outputMask : Word) (R : Point → Prop)
+    (u v : Word) :
+    (u, v) ∈ missingPairs master aL bR inputMask outputMask R ↔
+      rowPossible master aL bR inputMask outputMask R u ∧
+      columnPossible master aL bR inputMask outputMask R v ∧
+      ¬ admissible master aL bR inputMask outputMask R u v := by
+  classical
+  simp only [missingPairs, Finset.mem_sdiff,
+    rectangle_mem_iff, occupied_mem_iff, and_assoc]
+
 private theorem occupied_subset_rectangle (master : Master) (aL bR inputMask outputMask : Word)
     (R : Point → Prop) :
     occupied master aL bR inputMask outputMask R ⊆
