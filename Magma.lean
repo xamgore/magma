@@ -118,6 +118,7 @@ public import Magma.Diffan.ZeroKeyEightDefectSpectrum
 public import Magma.Diffan.ZeroKeyEightColumnSymmetry
 public import Magma.Diffan.ZeroKeyEightGenericSymmetry
 public import Magma.Diffan.ZeroKeyEightOrbitReduction
+public import Magma.Diffan.ZeroKeyEightTranslationTiling
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
