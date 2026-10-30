@@ -9,7 +9,8 @@ public section
 /-!
 # Project declarations
 
-`lake exe defs` prints authored declarations from the compiled `Diffan` and `Magma` modules.
+`lake exe defs` writes authored declarations from the compiled `Diffan` and `Magma`
+modules to `.lake/defs.txt` and the complete source bundle to `.lake/sources.txt`.
 Modules follow Lean's dependency-first import order, also exported by `deps` for
 the source bundle. Within a module, Tarjan components order declarations by all
 type and body dependencies, including theorem proofs and hidden generated helpers.
@@ -56,9 +57,8 @@ private def before (a b : Entry) : Bool :=
 private def compact (s : String) : String :=
   String.intercalate "\n" (s.splitOn "\n" |>.map (·.trimAsciiStart.toString))
 
-private def printDeclaration (info : ConstantInfo) : MetaM Unit := do
+private def printDeclaration (out : IO.FS.Handle) (info : ConstantInfo) : MetaM Unit := do
   let env ← getEnv
-  let out ← IO.getStdout
   let type ← PrettyPrinter.ppExpr info.type
   let visibility := if isPrivateName info.name then "private " else ""
   let safety :=
@@ -99,9 +99,8 @@ private def printDeclaration (info : ConstantInfo) : MetaM Unit := do
     out.putStrLn (compact header)
   out.putStrLn ""
 
-private def printDeclarations : MetaM Unit := do
+private def printDeclarations (out : IO.FS.Handle) : MetaM Unit := do
   let env ← getEnv
-  let out ← IO.getStdout
   let mut entries : Array Entry := #[]
   for (name, info) in env.constants.toList do
     if !isLocal env name then
@@ -154,7 +153,7 @@ private def printDeclarations : MetaM Unit := do
             out.putStrLn s!"namespace {ns}\n"
           active := ns
         withTheReader Core.Context (fun ctx => { ctx with currNamespace := ns }) do
-            printDeclaration (← getConstInfo name)
+            printDeclaration out (← getConstInfo name)
     if !active.isAnonymous then
       out.putStrLn s!"end {active}\n"
 
@@ -163,9 +162,20 @@ def run : IO Unit := do
   unsafe enableInitializersExecution
   let env ← importModules #[{ module := `Diffan }, { module := `Magma }] {} (loadExts := true)
   let options := ({} : Options).setBool `pp.proofs false |>.setBool `pp.piBinderNames true
-  let _ ←
-    printDeclarations.run' {} {} |>.toIO
-        { fileName := "<project declarations>", fileMap := default, options } { env }
+  IO.FS.createDirAll ".lake"
+  IO.FS.withFile ".lake/defs.txt.tmp" .write fun out => do
+      let _ ←
+        (printDeclarations out).run' {} {} |>.toIO
+            { fileName := "<project declarations>", fileMap := default, options } { env }
+      pure ()
+  let sources ←
+    IO.Process.output
+        { cmd := "python3"
+          args := #["scripts/export_sources.py", "-o", ".lake/sources.txt.tmp"] }
+  if sources.exitCode != 0 then
+    throw <| IO.userError s!"Source export failed:\n{sources.stderr}"
+  IO.FS.rename ".lake/defs.txt.tmp" ".lake/defs.txt"
+  IO.FS.rename ".lake/sources.txt.tmp" ".lake/sources.txt"
 
 end Defs
 
