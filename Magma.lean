@@ -114,6 +114,7 @@ public import Magma.Diffan.ZeroKeyEightSharpBound
 public import Magma.Diffan.ZeroKeyEightMultiplicity
 public import Magma.Diffan.ZeroKeyEightDefectClassification
 public import Magma.Diffan.ZeroKeyEightDefectWeights
+public import Magma.Diffan.ZeroKeyEightDefectSpectrum
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
