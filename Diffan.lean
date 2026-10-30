@@ -42,6 +42,7 @@ public import Diffan.FiniteTranslationOrbits
 public import Diffan.CanonicalTranslationOrbits
 public import Diffan.AutomaticXorOrbits
 public import Diffan.MiddleObservation
+public import Diffan.MeetFiberTransport
 import all Init.Data.Range.Basic
 
 @[expose] public section
