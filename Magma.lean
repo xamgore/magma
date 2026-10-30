@@ -143,6 +143,7 @@ public import Magma.Diffan.AdjacentHighNibbleMaskCertificates
 public import Magma.Diffan.FourRoundScheduledMiddleFibers
 public import Magma.Diffan.FourRoundForcedMiddleDifference
 public import Magma.Diffan.FourRoundMiddleCoordinateKernel
+public import Magma.Diffan.FourRoundProjectionDefect
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
