@@ -131,6 +131,7 @@ public import Magma.Diffan.FeistelCorrectionObstructions
 public import Magma.Diffan.AllKeyFeistelCorrection
 public import Magma.Diffan.CorrectionFiberSlices
 public import Magma.Diffan.ScheduledCorrectionReachability
+public import Magma.Diffan.ScheduledCorrectionHomogeneity
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
