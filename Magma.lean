@@ -107,6 +107,7 @@ public import Magma.Diffan.ZeroKeySingletonOverlap
 public import Magma.Diffan.UnitColumnLow20AndUniqueEven
 public import Magma.Diffan.OddUnitLow20CollisionClasses
 public import Magma.Diffan.PositiveDefectConcreteWitness
+public import Magma.Diffan.ExactPositiveDefectMass
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
