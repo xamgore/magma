@@ -110,6 +110,7 @@ public import Magma.Diffan.PositiveDefectConcreteWitness
 public import Magma.Diffan.ExactPositiveDefectMass
 public import Magma.Diffan.OtherExceptionalZeroSecond
 public import Magma.Diffan.ZeroKeyEightColumn
+public import Magma.Diffan.ZeroKeyEightSharpBound
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
