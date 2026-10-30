@@ -134,6 +134,7 @@ public import Magma.Diffan.ScheduledCorrectionReachability
 public import Magma.Diffan.ScheduledCorrectionHomogeneity
 public import Magma.Diffan.ScheduledCorrectionPartnerFibers
 public import Magma.Diffan.ScheduledCorrectionMaskedInputs
+public import Magma.Diffan.ScheduledCorrectionMaskedOutputs
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
