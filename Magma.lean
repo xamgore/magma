@@ -151,6 +151,7 @@ public import Magma.Diffan.FourRoundOneSidedBaseFiber
 public import Magma.Diffan.FiveRoundOverlappingWindows
 public import Magma.Diffan.FiveRoundSinglePointOverlap
 public import Magma.Diffan.FiveRoundMiddleFiberMass
+public import Magma.Diffan.FiveRoundLabelJoinDefect
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
