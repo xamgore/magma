@@ -36,6 +36,7 @@ public import Diffan.KeyedMeet
 public import Diffan.CoordinateSeparation
 public import Diffan.FiberDefect
 public import Diffan.FiberUniformity
+public import Diffan.FiniteSupportSymmetry
 import all Init.Data.Range.Basic
 
 @[expose] public section
