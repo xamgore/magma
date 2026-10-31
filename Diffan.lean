@@ -44,6 +44,7 @@ public import Diffan.AutomaticXorOrbits
 public import Diffan.MiddleObservation
 public import Diffan.MeetFiberTransport
 public import Diffan.LabelJoinDefect
+public import Diffan.GraphSupportedJoin
 import all Init.Data.Range.Basic
 
 @[expose] public section

@@ -154,6 +154,7 @@ public import Magma.Diffan.FiveRoundMiddleFiberMass
 public import Magma.Diffan.FiveRoundLabelJoinDefect
 public import Magma.Diffan.FiveRoundBaseDeltaLabelAudit
 public import Magma.Diffan.FiveRoundZeroBoundaryBaseLabel
+public import Magma.Diffan.FiveRoundFixedInputGraphJoin
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
