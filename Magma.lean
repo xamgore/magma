@@ -155,6 +155,7 @@ public import Magma.Diffan.FiveRoundLabelJoinDefect
 public import Magma.Diffan.FiveRoundBaseDeltaLabelAudit
 public import Magma.Diffan.FiveRoundZeroBoundaryBaseLabel
 public import Magma.Diffan.FiveRoundFixedInputGraphJoin
+public import Magma.Diffan.FixedInputMaskedObservation
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
