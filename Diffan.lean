@@ -45,6 +45,7 @@ public import Diffan.MiddleObservation
 public import Diffan.MeetFiberTransport
 public import Diffan.LabelJoinDefect
 public import Diffan.GraphSupportedJoin
+public import Diffan.LabelRefinementDefect
 import all Init.Data.Range.Basic
 
 @[expose] public section
