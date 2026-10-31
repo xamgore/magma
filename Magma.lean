@@ -170,6 +170,7 @@ public import Magma.Diffan.FiveRoundPrefixKeyFamily
 public import Magma.Diffan.FiveRoundTwoBaseExactMask
 public import Magma.Diffan.FiveRoundBitCubeExactMask
 public import Magma.Diffan.FiveRoundCertifiedFastPath
+public import Magma.Diffan.FiveRoundTwoRegionJoin
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
