@@ -163,6 +163,7 @@ public import Magma.Diffan.FiveRoundFixedInputGraphDefect
 public import Magma.Diffan.FiveRoundOffGraphMass
 public import Magma.Diffan.FiveRoundDualBoundaryGraphJoin
 public import Magma.Diffan.FiveRoundGraphSyndrome
+public import Magma.Diffan.FiveRoundGraphMaskRefinement
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
