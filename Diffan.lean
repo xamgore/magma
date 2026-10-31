@@ -53,6 +53,7 @@ public import Diffan.ObservedGraphJoin
 public import Diffan.ObservedGraphRefinement
 public import Diffan.TwoBaseSupportExactness
 public import Diffan.IndexedSupportExactness
+public import Diffan.CertifiedFastPath
 import all Init.Data.Range.Basic
 
 @[expose] public section
