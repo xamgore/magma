@@ -52,6 +52,7 @@ public import Diffan.TwoGraphJoinMass
 public import Diffan.ObservedGraphJoin
 public import Diffan.ObservedGraphRefinement
 public import Diffan.TwoBaseSupportExactness
+public import Diffan.IndexedSupportExactness
 import all Init.Data.Range.Basic
 
 @[expose] public section
