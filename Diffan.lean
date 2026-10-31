@@ -55,6 +55,7 @@ public import Diffan.TwoBaseSupportExactness
 public import Diffan.IndexedSupportExactness
 public import Diffan.CertifiedFastPath
 public import Diffan.TwoRegionCertifiedJoin
+public import Diffan.PriorityRegionTree
 import all Init.Data.Range.Basic
 
 @[expose] public section
