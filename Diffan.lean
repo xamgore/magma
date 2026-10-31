@@ -49,6 +49,7 @@ public import Diffan.LabelRefinementDefect
 public import Diffan.GraphLabelExactness
 public import Diffan.GraphDefectMass
 public import Diffan.TwoGraphJoinMass
+public import Diffan.ObservedGraphJoin
 import all Init.Data.Range.Basic
 
 @[expose] public section
