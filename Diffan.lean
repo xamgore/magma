@@ -47,6 +47,7 @@ public import Diffan.LabelJoinDefect
 public import Diffan.GraphSupportedJoin
 public import Diffan.LabelRefinementDefect
 public import Diffan.GraphLabelExactness
+public import Diffan.GraphDefectMass
 import all Init.Data.Range.Basic
 
 @[expose] public section
