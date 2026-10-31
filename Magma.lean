@@ -167,6 +167,7 @@ public import Magma.Diffan.FiveRoundGraphMaskRefinement
 public import Magma.Diffan.FiveRoundConcreteMaskGain
 public import Magma.Diffan.FiveRoundNonemptyMaskGain
 public import Magma.Diffan.FiveRoundPrefixKeyFamily
+public import Magma.Diffan.FiveRoundTwoBaseExactMask
 import all Init.Data.Range.Basic
 
 /-! Root module for the Magma specification and differential-analysis library. -/
