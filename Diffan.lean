@@ -56,6 +56,10 @@ public import Diffan.IndexedSupportExactness
 public import Diffan.CertifiedFastPath
 public import Diffan.TwoRegionCertifiedJoin
 public import Diffan.PriorityRegionTree
+public import Diffan.XorFiberCorrelation
+public import Diffan.BlockwiseXorCorrelation
+public import Diffan.ShiftedBlockSlice
+public import Diffan.OneBitWalsh
 import all Init.Data.Range.Basic
 
 @[expose] public section
