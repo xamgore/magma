@@ -93,6 +93,7 @@ public import Magma.Diffan.FirstRoundDeletion
 public import Magma.Diffan.FiveRoundCoreDefect
 public import Magma.Diffan.FiveRoundDDTReverse
 public import Magma.Diffan.FiveRoundUniversalSupport
+public import Magma.Diffan.OneHotKeyFreeCarryBridge
 public import Magma.Diffan.ThreeRoundMiddleDiagonal
 public import Magma.Diffan.DiagonalSupportScheduledWindows
 public import Magma.Diffan.DiagonalMasterKeyClasses
