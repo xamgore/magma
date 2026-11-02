@@ -57,9 +57,13 @@ private theorem stateXor_cancel (x y : State) : stateXor y (stateXor x y) = x :=
   rcases y with ⟨yl, yr⟩
   apply Prod.ext
   · change yl ^^^ (xl ^^^ yl) = xl
-    bv_decide
+    calc
+      _ = (yl ^^^ yl) ^^^ xl := by ac_rfl
+      _ = xl := by rw [BitVec.xor_self, BitVec.zero_xor]
   · change yr ^^^ (xr ^^^ yr) = xr
-    bv_decide
+    calc
+      _ = (yr ^^^ yr) ^^^ xr := by ac_rfl
+      _ = xr := by rw [BitVec.xor_self, BitVec.zero_xor]
 
 private theorem stateXor_reconstruct (x y d : State) (h : stateXor x y = d) : x = stateXor y d :=
   (stateXor_cancel x y).symm.trans (congrArg (stateXor y) h)
@@ -91,9 +95,13 @@ theorem reverse_witness
   rcases a with ⟨al, ar⟩
   apply Prod.ext
   · change (pr ^^^ ar) ^^^ pr = ar
-    bv_decide
+    calc
+      _ = (pr ^^^ pr) ^^^ ar := by ac_rfl
+      _ = ar := by rw [BitVec.xor_self, BitVec.zero_xor]
   · change (pl ^^^ al) ^^^ pl = al
-    bv_decide
+    calc
+      _ = (pl ^^^ pl) ^^^ al := by ac_rfl
+      _ = al := by rw [BitVec.xor_self, BitVec.zero_xor]
 
 /-- A bijection between concrete forward DDT witnesses and the
     reverse-key, half-swapped DDT witnesses. -/
