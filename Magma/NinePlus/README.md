@@ -44,16 +44,44 @@ the complete one-round row for input difference `1`.
 ## Executable experiments
 
 `local_key_coupling.py` encodes genuine 32-bit Magma `g` with actual
-S-boxes and modular carries in two Z3 models. It has two timeout
-parameters: independent and shared-key models both use the requested
-per-cell limit. Run from repository root:
+S-boxes and modular carries in two Z3 models. Both use a **single
+per-cell timeout**; the default is now **600000 ms (10 minutes)**.
+It also supports unrestricted input/output 64-bit differences via
+`--family general` and explicit input/output fixture files.
+A checkpoint is atomically saved after every cell, and every local
+SAT model is replayed by an independent Python implementation of g.
+Run from repository root:
 
 ```bash
-python3 Magma/Diffan/Research/NinePlus/local_key_coupling.py --limit 10 --timeout-ms 1500
-python3 Magma/Diffan/Research/NinePlus/local_key_coupling.py --limit 3 --timeout-ms 12000 \
-  --output Magma/Diffan/Research/NinePlus/results/local_support_12s.json
-lake build Magma.Diffan.Research.NinePlus.ParityCollision
+python3 Magma/NinePlus/local_key_coupling.py --limit 10 --timeout-ms 1500
+python3 Magma/NinePlus/local_key_coupling.py --limit 3 --timeout-ms 12000 \
+  --output Magma/NinePlus/results/local_support_12s.json
+lake build Magma.NinePlus.ParityCollision
 ```
+
+Full 10-minute-budget Z3 baseline, RFC rounds 20..28:
+
+```bash
+python3 Magma/NinePlus/local_key_coupling.py --limit 0 --timeout-ms 600000 \
+  --output Magma/NinePlus/results/linked_600s_all64.json
+python3 Magma/NinePlus/local_key_coupling.py --family general \
+  --input-file Magma/NinePlus/fixtures/general_inputs.txt \
+  --output-file Magma/NinePlus/fixtures/general_outputs.txt \
+  --start-index 16 --limit 4 --timeout-ms 600000 \
+  --output Magma/NinePlus/results/general_linked_600s_row2_first4.json
+```
+
+**Observed:** all 64/64 outer cells are SAT in both independent
+and schedule-linked local-support models (190.48 s for all cells).
+Four previously untested general 64-bit cells with two active halves
+are also SAT in both models (19.14 s). No UNSAT or UNKNOWN in either
+completed experiment; every local model passes independent Python
+evaluation of all g-derivatives. The Z3 timeout is a **limit per
+individual query**, not actual computation time.
+
+These are **necessary-support SAT witnesses**, not full-round
+Feistel witnesses, and do not prove that the key-linked relaxation
+is useless on every difference class.
 
 First 10 sparse outer pairs: independent 10 SAT;
 shared-key 2 SAT and 8 UNKNOWN at 1500 ms each.
@@ -74,7 +102,7 @@ small original matrices, their SHA-256 metadata, compressed SAT
 witnesses and independent verification reports. Re-run all witnesses:
 
 ```bash
-python3 research/verify_nround.py   Magma/Diffan/Research/NinePlus/results/sat_runs/round9_window20_general_hard6_120s
+python3 research/verify_nround.py   Magma/NinePlus/results/sat_runs/round9_window20_general_hard6_120s
 ```
 
 The old `reflection_window20.py`, original 8x8 outer inputs/outputs,

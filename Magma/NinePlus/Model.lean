@@ -21,7 +21,7 @@ explicitly as a hypothesis when proving a conditional zero rule.
 No sorry or axiom is promoted into the core library.
 -/
 
-namespace Magma.DiffanResearchNinePlus
+namespace Magma.NinePlus
 
 open Magma
 open Magma.MultiRoundDDT
@@ -112,4 +112,4 @@ theorem nine_round_zero_if_linked_model_sound
     exact hno (sound base h)
   simp [hbad]
 
-end Magma.DiffanResearchNinePlus
+end Magma.NinePlus

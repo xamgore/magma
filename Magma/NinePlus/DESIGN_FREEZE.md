@@ -17,6 +17,12 @@ Status: 2026-11-03.
 - Generic refactors of unrelated `Magma/Diffan` sources and
   retroactive rewrite of Git history.
 
+- Repeating the 8x8 sparse outer comparison at longer Z3 timeouts:
+  design-frozen after **64 SAT in both models** at a 600000-ms
+  per-cell limit; see `results/linked_600s_all64.json`.
+- Generating additional one-hot or two-hot positive certificates
+  for the already SAT-covered nine-round outer family.
+
 ## ACTIVE, with explicit stop conditions
 
 - Does RFC linked-key support give strict pruning beyond independent

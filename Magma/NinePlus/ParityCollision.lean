@@ -1,6 +1,6 @@
 module
 import all Init.Data.Range.Basic
-public import Magma.Diffan.Research.NinePlus.Model
+public import Magma.NinePlus.Model
 public import Magma.Composition.ZeroLeft.ParityCompleteSlice
 
 @[expose] public section
@@ -16,7 +16,7 @@ one repeated subkey cannot. This is a local obstruction ONLY:
 it does not claim a 9-round impossible differential.
 -/
 
-namespace Magma.DiffanResearchNinePlus
+namespace Magma.NinePlus
 
 open Magma
 open Magma.CarryAutomaton
@@ -96,4 +96,4 @@ theorem no_shared_key_for_parity_clash :
   have hodd := support_2800_only_odd k h2
   omega
 
-end Magma.DiffanResearchNinePlus
+end Magma.NinePlus
