@@ -1,0 +1,43 @@
+{
+  "fixture": "one-hot to four-hot",
+  "full_width_32_bit_Magma": true,
+  "key_words": [
+    "0x00002056",
+    "0xfdfa7789",
+    "0xf0f8d960"
+  ],
+  "alpha": "0x00000080",
+  "sigma": "0xc0000820",
+  "fixed_middle_h_high": "0x10f8fac0",
+  "free_middle_h_low_bits": 4,
+  "middle_h_words": 16,
+  "exact_fixed_h_counts": [
+    0,
+    0,
+    16,
+    16,
+    0,
+    0,
+    0,
+    16,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "exact_weighted_subcube_sum": 48,
+  "maximum_observed_frontier": 18,
+  "total_accepted_local_edges": 34594,
+  "dp_seconds": 0.038,
+  "independent_z3_enumeration": {
+    "status": "exact_verified_by_independent_Z3",
+    "count": 48,
+    "seconds": 0.057
+  },
+  "limitation": "restricted middle h subcube; NOT total five-round DDT",
+  "proof_status": "Python exact weighted DP and independent #SMT where completed"
+}

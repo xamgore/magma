@@ -111,13 +111,34 @@ naive convolution gives **40**. Toy transfer frontier
 had **8** states for the positive case. The full 32-bit Magma DDT
 has NOT yet been calculated with this DP.
 
-**Next actual local lemma:** the precise rotate-left-11
-nibble mixing rule, with correct cyclic closure; then
-the full eight-nibble weighted transfer and measured
-frontier width. The basic `bv_decide` attempt did not
-preprocess custom digit/Nat terms, so this is still open.
-Detailed tests and limitations:
-`Magma/Composition/TAGGED_TRANSFER.md`.
+**Rotate-left-11 local lemma — COMPLETED:**
+`Rotate11Nibble.lean` proves the exact two-source nibble
+wiring for any 32-bit word, and the same statement for
+the emitted eight-element base/difference tag arrays.
+It uses eight fixed-position bitvector proofs with
+`bv_decide`, after unfolding the true BitVec nibble
+operation. Also proves local reconstruction of the
+completed eight-step tagged carry stream. No `sorry`.
+
+**Exact real 32-bit conditional transfer — PROTOTYPED:**
+`fixed_middle_transfer.py` fixes the middle word h and
+inverts the middle round to determine its base z, reducing
+the cyclic E/U boundary to **11 E bits plus six carries**.
+It computes exact weighted conditional fiber counts
+**16 and 96** for two real fixed-key Magma 5-round
+positive witnesses. Independent Z3 exhaustion agrees.
+The maximum observed frontier is **18**.
+The degenerate a=b=0 case yields 2^32 as required.
+`fixed_middle_subcube.py` sums over 256 h values:
+**96 and 576**, also independently verified by #SMT.
+
+**P0 remaining blocker:** eliminate h **inside** the
+full-width transfer, rather than running it 2^32
+times. The local count algorithm is still Python and
+its weighted counting bijection is not yet kernel-proved.
+Do not claim to have calculated the full five-round
+DDT using the new transfer. See
+`Magma/Composition/FIXED_MIDDLE_TRANSFER.md`.
 
 ## Priority P1 — reusable exact weighted composition, at a fixed key
 

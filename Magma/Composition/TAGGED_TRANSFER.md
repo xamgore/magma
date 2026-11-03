@@ -1,8 +1,12 @@
 # Tagged Magma carry steps → exact triple-fiber transfer research
 
-Status: 2026-11-03. Core Lean whole-word reconstruction **PROVED**;
-local full-width triple factor and a toy exact weighted transfer **TESTED**;
-full-width compressed five-round DDT transfer **NOT YET IMPLEMENTED**.
+Status: 2026-11-03. Lean whole-word reconstruction and
+**two-source rotate-left-11 nibble wiring are PROVED**.
+The toy exact weighted transfer is TESTED; the new eight-nibble,
+real 32-bit Magma weighted DP now computes **exact fixed-middle-h
+conditional fibers**, and is independently #SMT-checked.
+An efficient full-five-round DDT sum over ALL h remains OPEN.
+See FIXED_MIDDLE_TRANSFER.md for exact definitions and numbers.
 
 ## 1. Reusable kernel-checked one-round lemma
 
@@ -121,27 +125,48 @@ they are not Lean-certified toy theorems.
 Run: `python3 Magma/Composition/toy_triple_exact_regression.py`.
 Report: `toy_triple_exact_regression.json`.
 
-## 4. What is still missing
+## 4. Exact 32-bit fixed-middle transfer (new P0 result)
 
-**Next P0 obligation:** formalize the rotate-left-11 nibble
-mixing identity above in Lean and give the same exact cyclic
-boundary-closure implementation for **eight** nibbles.
-The first direct `bv_decide` attempt did not preprocess
-the custom digit/Nat operations into supported BitVec terms;
-no unproved theorem was added as a workaround.
+`Rotate11Nibble.lean` now **kernel-proves** the precise
+two-source nibble wiring of RFC rotate-left-11, and the same
+local formula applied directly to both completed eight-step
+tagged traces. That closes the previously open Lean rotation
+interface.
 
-**Next experimental gate:** measure the maximum frontier
-width and runtime on real 32-bit key/difference fixtures.
-The naive 28-bit interface is only a design upper estimate;
-a practical algorithm might require better elimination
-ordering or a different factorization. A first large DP
-that still enumerates all 2^64 `(r,z)` values would not
-be a successful optimization.
+`fixed_middle_transfer.py` counts the real 32-bit Magma
+five-round inner triple for ONE fixed middle base h using a
+weighted eight-nibble transfer. It needs **11 guessed cyclic
+E-tag bits and six carry bits**, rather than enumerating all
+2^32 possible r values. Two Lean-certified positive Magma
+witnesses give exact conditional counts **16** and **96**,
+independently exhausted by Z3, with maximal observed
+frontier **18 states**.
 
-**Then P1/P2:** prove that the weighted full-width contraction
-equals `fiveRound_eq_three_carry_traces`, and regress it
-against established true/false fibers and strict joining
-defects before attempting any 7/9+ round composition.
+Moreover, summing over 256 values of the middle base h,
+the transfer counts **96** and **576** respectively.
+The independent #SMT sum over both r and z confirms exactly
+the same values. The script also returns 2^32 for the trivial
+zero/zero conditional fiber.
+
+`FIXED_MIDDLE_TRANSFER.md` contains the full algorithm,
+equations, seed-closure reasoning, performance data, commands,
+and limits of these results.
+
+## 5. Remaining genuine bottleneck
+
+The *full* five-round outer DDT still requires a sum over
+**all 2^32 middle base words h**. Directly repeating the
+fixed-h weighted DP 2^32 times is NOT efficient.
+Letting h vary introduces the second delayed tag stream U,
+with a naive 22-bit cyclic boundary interface.
+Find an exact compressed state or a better elimination order
+that sums over h **inside** the transfer.
+
+The existing fixed-h Python DP has not yet been proved
+equivalent to the mathematical fiber in Lean, although the
+individual transition/rotation lemmas are kernel-proved and
+the computed finite counts were exhaustively cross-checked
+by an independent solver.
 
 The nine-round SAT/motif branch remains frozen:
 `Magma/NinePlus/DESIGN_FREEZE.md`.

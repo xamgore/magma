@@ -1,0 +1,41 @@
+{
+  "fixture": "one-hot to four-hot",
+  "fixed_keys": [
+    "0x00002056",
+    "0xfdfa7789",
+    "0xf0f8d960"
+  ],
+  "alpha": "0x00000080",
+  "sigma": "0xc0000820",
+  "actual_positive_witness_r": "0xdfffdf48",
+  "stats": {
+    "fixed_h": "0x10f8fac2",
+    "unique_z": "0x52d3be05",
+    "cyclic_seed_guesses": 2048,
+    "accepting_seeds": 1,
+    "carry_bits": 6,
+    "cyclic_seed_bits": 11,
+    "max_frontier": 18,
+    "max_frontier_by_digit": [
+      2,
+      4,
+      7,
+      6,
+      18,
+      1,
+      2,
+      1
+    ],
+    "accepted_local_edges": 2166,
+    "seconds": 0.002,
+    "exact_conditional_count": 16
+  },
+  "scope": "exact fixed-middle-h 32-bit conditional fiber, not full five-round DDT",
+  "no_full_9_round_claim": true,
+  "proof_status": "Python executable; Lean certifies underlying tagged steps, not the DP count",
+  "independent_z3_check": {
+    "status": "exact_verified_by_independent_Z3",
+    "count": 16,
+    "seconds": 0.018
+  }
+}

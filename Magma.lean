@@ -202,6 +202,7 @@ public import Magma.Diffan.GNibbleBlockCorrelation
 public import Magma.Diffan.GFiberNibbleCorrelation
 public import Magma.Diffan.GBaseTaggedCarryStep
 public import Magma.Composition.TaggedCarryWord
+public import Magma.Composition.Rotate11Nibble
 public import Magma.Diffan.FiveRoundImageJoin
 public import Magma.Diffan.MiddleInverseDerivative
 public import Magma.Diffan.ThreeCarryTraceJoin
