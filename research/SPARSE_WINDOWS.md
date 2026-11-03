@@ -144,3 +144,131 @@ directory `research/adjacent_runs/boundary21_first256/`.
 The schedule correlation may reduce reachable support, but these
 eight timeouts are **unknown**, not exclusions. Do not extrapolate
 this 256-cell comparison to the entire class.
+
+## 2026-11-03: correlated five-round macro for arbitrary-length windows
+
+Lean module: Magma/Diffan/CorrelatedFiveMacro.lean.
+
+The earlier key-free Path n graph forgets 64-bit base states. The new
+Correlated n predicate carries the exact base and XOR difference
+through each round; it supports splitting at any m+n boundary and
+reification as a genuine sequence of Magma rounds.
+
+For outer transitions (a,0) -> (0,s), a key-independent *exact*
+existence relation has been proved:
+
+  OuterCoupled a s :=
+    exists k1 k2 k3 R Z,
+      threeRoundCoupled k1 k2 k3 0 a s 0 R Z.
+
+  universal_outer_zero_iff_no_coupled:
+    (forall five independently chosen k0..k4,
+      DDT5[k0..k4] ((a,0),(0,s)) = 0)
+    iff NOT OuterCoupled a s.
+
+This equivalence is Lean-proved. It is *not* a Markov approximation
+or a product of independent DDT counts: R, Z and the three middle
+round constraints remain correlated. OuterCoupled is also symmetric
+under reversing five round keys.
+
+The refined Macro5 checks the existing key-free five-edge relation,
+certified outer structural obstructions, and the exact existential
+three-round core whenever the cut has the outer shape. Its soundness
+follows from Correlated.reify. Theorems for six and seven rounds
+(sixRound_zero_of_no_one_five and sevenRound_zero_of_no_one_five_one)
+and for arbitrary m+5+r use this refined middle condition without
+assuming independent actual round keys or base states.
+
+Limits and research target:
+- OuterCoupled is a mathematical EXISTS predicate, not yet a fast
+  executable kernel-certified SAT-free decision procedure. Derive an
+  eight-nibble joint carry transducer retaining the R/Z constraints,
+  and prove it sound (ideally complete on the outer slice).
+- The macro only adds the exact outer-core condition when the five-
+  round cut has zero right-input and zero left-output difference.
+  Work out which six-/seven-round boundary patterns FORCE such a cut.
+- For a window with repeated RFC 8891 master-key words,
+  universal impossibility over five independent keys remains sound,
+  but the converse may fail due to schedule restrictions.
+- The refined relation is contained in the earlier key-free Path
+  graph. No *strict* separation example between the two relations has
+  yet been proved; measure this before claiming a quantitative gain.
+
+## 2026-11-03: exact 5..32 round SAT runner + verified 6/7 core reduction
+
+The new `research/magma_exact_matrix_nround.rs` is a separate,
+parameterized fork of the corrected v3 solver, not a modification of the
+original file under Downloads. Use `--rounds N` (5..32) and
+`--window-start S` with S+N <= 32; all are **ordinary** Feistel rounds
+(the RFC terminal G* convention is not silently substituted).
+`--mode universal` uses ONE symbolic 256-bit master key with the real
+RFC 8891 schedule. Each SAT model is rechecked with exactly N real
+rounds. Every UNSAT conclusion remains dependent on the CNF and solver,
+not Lean/kernel certification.
+
+Lean module `Magma/Diffan/SixSevenOuterReduction.lean` specializes
+the already proved `twoSided_boundary_ddt_eq_inner` exactly:
+`D6((a,0),(0,s)) = D4_inner((0,a),(s,0))`,
+`D7((a,0),(0,s)) = D5_inner((0,a),(s,0))`.
+The first and last subkeys do not affect these coefficients if inner
+round keys are held fixed (even when some words are repeated).
+The SAT runner therefore by default strips both boundary rounds for
+outer pairs when N>5, returning the same full-N status, and reconstructs
+the original base state by undoing the first actual round.
+`--no-outer-reduction` forces the full CNF, for A/B verification.
+For N=5 the original verified three-round special core is retained.
+
+**Observed verified first trials (same cell sets, start=0):**
+
+| Family / cells processed | N=5 SAT/UNSAT | N=6 SAT/UNSAT | N=7 SAT/UNSAT |
+|---|---:|---:|---:|
+| General (both halves active), first 16 cells of 8x8 | 5/11 | 14/2 | 16/0 |
+| Outer (1-hot input to 2-hot output), all 16 cells of 4x4 | 0/16 | 1/15 | 10/6 |
+
+No unknowns/errors in those completed cells. The N=5 general status
+matrix matched the old corrected v3 runner byte-for-byte. For the N=6
+and N=7 outer 4x4 matrices, new reduced CNF, explicit
+`--no-outer-reduction` full CNF and pre-optimization baseline all
+matched **exactly** cell-by-cell, including solver UNSAT statuses.
+All positive witnesses across these runs were independently replayed
+with the separate `research/verify_nround.py` implementation.
+
+**Measured SAT solving time for the outer 4x4 sample (6 threads):**
+N=6 full 1.1 s, reduced 0.4 s; N=7 full 3.4 s, reduced 1.7 s.
+Small-sample timing only; not a general speedup bound.
+
+Two positive transitions with exactly the same external differences
+`(0x00000001,0) -> (0,0x00000021)` have additionally been **proved
+in Lean**, for both 6 and 7 rounds, with explicit valid 256-bit RFC
+master-key schedules:
+`Magma/Diffan/SixSevenRoundOuterPositive.lean`, theorems
+`sixRound_master_positive` and `sevenRound_master_positive`.
+The N=5 UNSAT cell for this particular pair is NOT yet Lean-proved:
+its first active input/output nibbles coincide, so the existing
+different-nibble theorem does not apply.
+
+A reproducible example, from the repository root:
+
+```bash
+./research/magma_exact_matrix_nround.rs -- \
+  --rounds 7 --family outer \
+  --input-file research/nround_fixtures/outer_4_inputs.txt \
+  --output-file research/nround_fixtures/outer_4_outputs.txt \
+  --mode universal --solver cadical --threads 6 --timeout-ms 5000 \
+  --max-cells 0 --out research/nround_runs/my_new_7_round_probe
+python3 research/verify_nround.py research/nround_runs/my_new_7_round_probe
+```
+
+Each run directory retains its compressed matrix, metadata, witnesses,
+SHA256 checks and independent verification JSON. Different N and
+reduction modes use separate output directories. Run `--self-test`
+with N=5 to exercise RFC vectors and CNF. The full solver self-test at
+N=6 exceeded its 12s per-cell SAT limit; this is an unresolved
+**timeout**, not evidence for a wrong encoding. Actual N=6/7 SAT
+witnesses have been exhaustively independently replayed on the test
+matrices.
+
+Next research step: determine whether the exact inner 4/5-round
+cut can be represented as a compact **joint-carry transducer** and use
+that to prove n-round impossible cells efficiently; avoid deriving
+universal 6/7 restrictions from the five-round outer B5 candidate.
