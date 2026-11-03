@@ -272,3 +272,68 @@ Next research step: determine whether the exact inner 4/5-round
 cut can be represented as a compact **joint-carry transducer** and use
 that to prove n-round impossible cells efficiently; avoid deriving
 universal 6/7 restrictions from the five-round outer B5 candidate.
+
+## 2026-11-03: two- and three-word core support geometry
+
+Lean: `Magma/Diffan/OuterCoreCarryGeometry.lean`.
+
+After *exact* deletion of the two outer rounds, the necessary
+key-free support for six rounds is equivalent to the four-edge
+difference diamond
+
+```text
+(0,a) -> (a,p) -> (p,q) -> (q,s) -> (s,0)
+```
+
+with just two unknown 32-bit differences p,q. The four
+`keyFreePossible` constraints are exactly:
+`F(a,p)`, `F(p,q XOR a)`, `F(q,s XOR p)`, `F(s,q)`.
+
+For seven rounds, the five-edge core forms a pentagon
+
+```text
+(0,a) -> (a,p) -> (p,q) -> (q,r) -> (r,s) -> (s,0)
+```
+
+with three unknown words p,q,r, and five local constraints:
+`F(a,p)`, `F(p,q XOR a)`, `F(q,r XOR p)`,
+`F(r,s XOR q)`, `F(s,r)`.
+
+Lean proves `fourCore_path_iff_diamond`,
+`fiveCore_path_iff_pentagon`,
+`sixRound_outer_zero_of_no_diamond` and
+`sevenRound_outer_zero_of_no_pentagon`, all for arbitrary fixed
+round-key sequences. It also proves `reverse_path` for ALL n,
+and the corresponding diamond/pentagon endpoint symmetries.
+
+**Scope:** the iff results characterize the overapproximating
+key-free path relation, not a fixed-master real DDT. The
+`keyFreePossible` carry automaton permits independently selected
+nibble-local key/base digits, so false positives remain possible.
+An efficient exact joint-carry/base correlation solver is the
+next substantive target.
+
+### Independent 6/7/8-round one-hot spot check
+
+Fixture: `nround_fixtures/onehot_8_inputs.txt` and
+`onehot_8_outputs.txt`. The **first 32 of 64** cells were run
+for each round count, starting at RFC round 0.
+
+| Rounds | SAT | UNSAT | TIMEOUT | NOT_RUN |
+|---|---:|---:|---:|---:|
+| 6 | 9 | 23 | 0 | 32 |
+| 7 | 24 | 6 | 2 | 32 |
+| 8 | 32 | 0 | 0 | 32 |
+
+All 9+24+32 SAT witnesses were independently replayed with the
+Python round evaluator and matrix SHA-256 checked. The two
+seven-round timeouts remain UNKNOWN. The selected 32-cell subset
+is not an exhaustive result for all one-hot pairs; no monotonicity
+claim over all differences or fixed keys follows.
+
+**Big-picture opportunity:** the six/seven outer coefficient is
+exactly a four/five inner-round coefficient, so a compact carry
+constraint system should keep only two/three intermediate XOR
+differences. Building a complete, correlated transducer would
+yield stronger *provable* n-round exclusions than treating all
+Feistel edges independently.
