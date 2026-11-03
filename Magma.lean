@@ -111,7 +111,8 @@ public import Magma.Diffan.SixSevenOuterReduction
 public import Magma.Diffan.OuterCoreCarryGeometry
 public import Magma.Diffan.OuterWordRecurrence
 public import Magma.Diffan.IndependentRoundSupport
-public import Magma.Diffan.NineRoundAllOneHotPositive
+-- Generated finite positive witnesses are optional:
+-- lake build Magma.Diffan.Certificates
 public import Magma.Diffan.AdjacentPositiveExample
 public import Magma.Diffan.ThreeRoundMiddleDiagonal
 public import Magma.Diffan.DiagonalSupportScheduledWindows
