@@ -4,7 +4,6 @@ module
 -- including machine-checked proofs of encryption/decryption invertibility and conformance
 -- tests against the published test vectors.
 --
--- Lean v4.36.0-rc1 with mathlib, cslib
 -- https://www.rfc-editor.org/info/rfc8891/
 
 public import Std

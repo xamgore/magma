@@ -6,7 +6,7 @@
       <excludeFolder url="file:///Users/strebz/Documents/magma/.plugin" />
       <excludeFolder url="file:///Users/strebz/Documents/magma/.lean-fmt-cache" />
     </content>
-    <orderEntry type="jdk" jdkName="lean4 v4.36.0-rc1" jdkType="Lean4" />
+    <orderEntry type="jdk" jdkName="lean4 v4.36.0-rc2" jdkType="Lean4" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
