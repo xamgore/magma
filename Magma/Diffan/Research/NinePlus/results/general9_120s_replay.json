@@ -1,0 +1,83 @@
+{
+  "conclusion": "All 4 initial UNKNOWN cells were resolved SAT, no 9-round ID found in selected cells",
+  "general8_first16": {
+    "name": "round9_window20_general8_30s",
+    "rounds": 9,
+    "window_start": 20,
+    "timeout_ms": 30000,
+    "input_difference_hex": [
+      "0x0000000100080000",
+      "0x0000004020000000",
+      "0x0000100000000080",
+      "0x0001000000000010",
+      "0x0008000002000000",
+      "0x0040000000004000",
+      "0x0200000000000008",
+      "0x1000000001000000"
+    ],
+    "output_difference_hex": [
+      "0x0000000100080000",
+      "0x0000000800000100",
+      "0x0000004020000000",
+      "0x0000020000040000",
+      "0x0000400000200000",
+      "0x0010000080000000",
+      "0x0400000000000200",
+      "0x2000000040000000"
+    ],
+    "status_counts": [
+      48,
+      12,
+      0,
+      4,
+      0
+    ],
+    "independently_verified_sat": 12,
+    "sha256_matrix_compressed": "9f40556c966e0f1598a93006aa71ce63d2dfd8441d2fa1ae02481529b7e547ed"
+  },
+  "hard2_by3": {
+    "name": "round9_window20_general_hard6_120s",
+    "rounds": 9,
+    "window_start": 20,
+    "timeout_ms": 120000,
+    "input_difference_hex": [
+      "0x0000000100080000",
+      "0x0000004020000000"
+    ],
+    "output_difference_hex": [
+      "0x0000000800000100",
+      "0x0000004020000000",
+      "0x0010000080000000"
+    ],
+    "status_counts": [
+      0,
+      6,
+      0,
+      0,
+      0
+    ],
+    "independently_verified_sat": 6,
+    "sha256_matrix_compressed": "4c3f9e214486e1c41deb1197046ce99dfd4e39ae3bb85227d00e6616cccfe7c5"
+  },
+  "original_unknown_cells": [
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      0,
+      5
+    ],
+    [
+      1,
+      5
+    ]
+  ],
+  "unknowns_resolved_to_sat": 4,
+  "source": "actual RFC 8891 master schedule; SAT verified by independent Python replay",
+  "proof_status": "computational SAT evidence, not a universal Lean theorem"
+}

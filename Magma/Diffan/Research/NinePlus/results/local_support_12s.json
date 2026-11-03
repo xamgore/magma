@@ -1,0 +1,51 @@
+{
+  "rounds": 9,
+  "window_start": 20,
+  "indices": [
+    5,
+    6,
+    7,
+    7,
+    6,
+    5,
+    4
+  ],
+  "timeout_ms": 12000,
+  "observations": [
+    {
+      "i": 0,
+      "j": 0,
+      "a": "00000001",
+      "s": "00000001",
+      "independent": "sat",
+      "independent_ms": 637,
+      "key_linked": "sat",
+      "key_linked_ms": 1615
+    },
+    {
+      "i": 0,
+      "j": 1,
+      "a": "00000001",
+      "s": "00100000",
+      "independent": "sat",
+      "independent_ms": 1060,
+      "key_linked": "sat",
+      "key_linked_ms": 1980
+    },
+    {
+      "i": 0,
+      "j": 2,
+      "a": "00000001",
+      "s": "01000000",
+      "independent": "sat",
+      "independent_ms": 965,
+      "key_linked": "sat",
+      "key_linked_ms": 1884
+    }
+  ],
+  "summary": {
+    "('sat', 'sat')": 3
+  },
+  "seconds": 8.2,
+  "status": "Z3 experiment; unknown is not UNSAT"
+}

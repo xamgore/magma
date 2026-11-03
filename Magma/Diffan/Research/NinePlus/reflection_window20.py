@@ -13,7 +13,7 @@ differential, nor a new cryptanalytic attack.
 import random
 import sys
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0,str(Path(__file__).resolve().parents[4] / "research"))
 from verify_nround import g, key_index
 
 MASK=(1<<32)-1

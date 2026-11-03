@@ -1,5 +1,9 @@
 # Sparse windows: research status and decision points
 
+> Active nine-round research, Lean models, scripts and fixtures have
+> moved to `Magma/Diffan/Research/NinePlus/README.md`. This file remains
+> a broader index and history of earlier sparse-difference studies.
+
 This is the **current** guide for the Magma differential project. The older
 append-only chronology is in `research/archive/SPARSE_WINDOWS_HISTORY.md`.
 The archive contains earlier hypotheses and intermediate outcomes, some

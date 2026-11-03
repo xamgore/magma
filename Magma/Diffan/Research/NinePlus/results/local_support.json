@@ -1,0 +1,122 @@
+{
+  "rounds": 9,
+  "window_start": 20,
+  "indices": [
+    5,
+    6,
+    7,
+    7,
+    6,
+    5,
+    4
+  ],
+  "timeout_ms": 1500,
+  "observations": [
+    {
+      "i": 0,
+      "j": 0,
+      "a": "00000001",
+      "s": "00000001",
+      "independent": "sat",
+      "independent_ms": 622,
+      "key_linked": "unknown",
+      "key_linked_ms": 1505
+    },
+    {
+      "i": 0,
+      "j": 1,
+      "a": "00000001",
+      "s": "00100000",
+      "independent": "sat",
+      "independent_ms": 1028,
+      "key_linked": "unknown",
+      "key_linked_ms": 1505
+    },
+    {
+      "i": 0,
+      "j": 2,
+      "a": "00000001",
+      "s": "01000000",
+      "independent": "sat",
+      "independent_ms": 937,
+      "key_linked": "unknown",
+      "key_linked_ms": 1505
+    },
+    {
+      "i": 0,
+      "j": 3,
+      "a": "00000001",
+      "s": "10000000",
+      "independent": "sat",
+      "independent_ms": 1154,
+      "key_linked": "unknown",
+      "key_linked_ms": 1505
+    },
+    {
+      "i": 0,
+      "j": 4,
+      "a": "00000001",
+      "s": "10000001",
+      "independent": "sat",
+      "independent_ms": 878,
+      "key_linked": "unknown",
+      "key_linked_ms": 1505
+    },
+    {
+      "i": 0,
+      "j": 6,
+      "a": "00000001",
+      "s": "81000000",
+      "independent": "sat",
+      "independent_ms": 1070,
+      "key_linked": "unknown",
+      "key_linked_ms": 1505
+    },
+    {
+      "i": 0,
+      "j": 7,
+      "a": "00000001",
+      "s": "90000000",
+      "independent": "sat",
+      "independent_ms": 1245,
+      "key_linked": "sat",
+      "key_linked_ms": 1033
+    },
+    {
+      "i": 1,
+      "j": 1,
+      "a": "00100000",
+      "s": "00100000",
+      "independent": "sat",
+      "independent_ms": 1077,
+      "key_linked": "unknown",
+      "key_linked_ms": 1505
+    },
+    {
+      "i": 1,
+      "j": 4,
+      "a": "00100000",
+      "s": "10000001",
+      "independent": "sat",
+      "independent_ms": 1066,
+      "key_linked": "sat",
+      "key_linked_ms": 1362
+    },
+    {
+      "i": 2,
+      "j": 4,
+      "a": "01000000",
+      "s": "10000001",
+      "independent": "sat",
+      "independent_ms": 1112,
+      "key_linked": "unknown",
+      "key_linked_ms": 1502
+    }
+  ],
+  "summary": {
+    "('sat', 'unknown')": 8,
+    "('sat', 'sat')": 2
+  },
+  "seconds": 24.7,
+  "status": "Z3 experiment; unknown is not UNSAT"
+}
