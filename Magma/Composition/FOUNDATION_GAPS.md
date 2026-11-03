@@ -1,6 +1,13 @@
 # Bottom-up fiber composition: what is proved, what is missing
 
 Status: 2026-11-03. Scope: **research roadmap, not a new theorem**.
+
+The three supplied full-text papers are distilled in
+[LITERATURE.md](LITERATURE.md): Liu et al. on carry-dependent tables,
+Qin–Wu on adjacent-addition non-independence and #SAT, and
+Kwon–Song on multistage characteristic graphs. These establish
+precedents for our COMPONENT METHODS, not exact fixed-key Magma
+DDT composition.
 The nine-round SAT/parity motif branch is design-frozen in
 `Magma/NinePlus/DESIGN_FREEZE.md`.
 
