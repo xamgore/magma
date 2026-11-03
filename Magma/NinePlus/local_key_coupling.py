@@ -24,7 +24,7 @@ from z3 import (
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "research"))
-from verify_nround import BOX, g as plain_g, key_index
+from verify_nround import BOX, g as plain_g, key_index, rounds as plain_rounds
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--family", choices=("outer", "general"), default="outer")
@@ -33,6 +33,9 @@ parser.add_argument("--output-file", type=Path, help="64-bit difference list for
 parser.add_argument("--window-start", type=int, default=20)
 parser.add_argument("--rounds", type=int, default=9)
 parser.add_argument("--timeout-ms", type=int, default=600000)
+parser.add_argument("--base-link-bits", type=int, default=0,
+                    choices=(0, 4, 8, 12, 16, 20, 24, 28, 32),
+                    help="low bits of exact Feistel base recurrence to enforce")
 parser.add_argument("--limit", type=int, default=8, help="0 means all remaining cells")
 parser.add_argument("--start-index", type=int, default=0, help="0-based index in the chosen ordering")
 parser.add_argument("--output", type=Path, help="checkpoint JSON")
@@ -115,6 +118,14 @@ def mkmodel(linked):
         k = master[indices[i]] if linked else separate[i]
         solver.add((G(k, base[i] ^ delta[i + 1]) ^ G(k, base[i]))
                    == (delta[i] ^ delta[i + 2]))
+    if cfg.base_link_bits:
+        mask = BitVecVal((1 << cfg.base_link_bits) - 1, 32)
+        for i in range(n - 2):
+            # For a genuine Feistel trajectory, x_i = right half
+            # before round i; x_(i+2) = x_i XOR g(k_(i+1), x_(i+1)).
+            k = master[indices[i + 1]] if linked else separate[i + 1]
+            residual = base[i + 2] ^ base[i] ^ G(k, base[i + 1])
+            solver.add((residual & mask) == BitVecVal(0, 32))
     return solver
 
 
@@ -152,6 +163,28 @@ def replay_local(solver, linked, alpha, beta):
         x = value(base[i])
         assert (plain_g(k, x ^ ds[i + 1]) ^ plain_g(k, x)) == (
             ds[i] ^ ds[i + 2]), (i, k, x)
+    if cfg.base_link_bits:
+        mask = (1 << cfg.base_link_bits) - 1
+        for i in range(n - 2):
+            k = value(master[indices[i + 1]] if linked else separate[i + 1])
+            residual = (value(base[i + 2]) ^ value(base[i]) ^
+                        plain_g(k, value(base[i + 1])))
+            assert residual & mask == 0, (i, cfg.base_link_bits)
+
+    if cfg.base_link_bits == 32 and linked and cfg.family == "general":
+        # The full right-half recurrence reconstructs the entire
+        # ordinary Feistel base trajectory. Replay all RFC rounds
+        # independently, not merely the local one-round equations.
+        xs = [value(z) for z in base]
+        first_k = value(master[indices[0]])
+        initial_left = xs[1] ^ plain_g(first_k, xs[0])
+        initial_state = (initial_left << 32) | xs[0]
+        master_words = [value(z) for z in master]
+        actual = (plain_rounds(master_words, initial_state,
+                               cfg.window_start, cfg.rounds) ^
+                  plain_rounds(master_words, initial_state ^ alpha,
+                               cfg.window_start, cfg.rounds))
+        assert actual == beta, (f"full RFC replay mismatch: {actual:#x}", beta)
 
 
 pairs = [(i, j) for i in range(len(inputs)) for j in range(len(outputs))]
@@ -184,6 +217,7 @@ def save_report(final=False):
         "window_start": cfg.window_start,
         "rfc_key_indices": indices,
         "timeout_ms": cfg.timeout_ms,
+        "base_link_bits": cfg.base_link_bits,
         "start_index": cfg.start_index,
         "planned_cells": len(pairs),
         "completed_cells": len(completed),

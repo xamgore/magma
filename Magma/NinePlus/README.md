@@ -14,8 +14,9 @@ the seven inner round-key indices are `[5,6,7,7,6,5,4]`.
 
 The same 32-bit key is used more than once. A linked-key local-support
 filter may reject transitions that survive an independent-key filter.
-All base words remain independent in BOTH models. This tests only
-repeated-subkey constraints, *not* true state/base correlation.
+At `--base-link-bits 0`, all base words remain independent in
+both models. Partial base-state correlation is now available as an
+additional experimental axis; see [BASE_CORRELATION.md](BASE_CORRELATION.md).
 
 Crucial for XOR differences: `(x XOR d)+k != (x+k) XOR d` in general.
 Thus a shared additive key cannot be eliminated by reparametrizing
@@ -115,6 +116,19 @@ You may set `--timeout-ms 86400000` (24 hours) for a nominated hard
 query, but don't saturate a whole matrix with 24-hour cells before
 observing useful partial progress. Check logs and keep `unknown`
 distinct from `unsat`. Independent replay of SAT witnesses is mandatory.
+
+## Partial base-state correlation: experiment completed
+
+A second model parameter `--base-link-bits` retains respectively
+0, 4, 8, 16 or 32 low bits of the *actual Feistel base recurrence*.
+See [BASE_CORRELATION.md](BASE_CORRELATION.md) for the algebra,
+solver commands and the intermediate SAT reports.
+
+For four general 64-bit endpoint pairs, all were SAT in both models
+at 0, 8, and 16 bits, with every local derivative independently replayed.
+At full 32-bit coupling, one general SAT example was also independently
+replayed through **all nine RFC rounds**. No candidate nine-round
+key-independent impossible differential arose in those tests.
 
 ## Next *meaningful* gate
 
