@@ -1,0 +1,36 @@
+{
+  "rounds": 9,
+  "window_start": 20,
+  "indices": [
+    4,
+    5,
+    6,
+    7,
+    7,
+    6,
+    5,
+    4,
+    3
+  ],
+  "endpoint_form": "(0,A)->(0,S)",
+  "force_parity_motif": {
+    "d3": "0x1801",
+    "d4": "0x00000001",
+    "d5": "0x00000001",
+    "d6": "0x2801"
+  },
+  "max_word_weight": 2,
+  "timeout_ms": 20000,
+  "model_status": {
+    "independent": {
+      "status": "unsat",
+      "seconds": 0.208
+    },
+    "key_linked": {
+      "status": "unsat",
+      "seconds": 0.04
+    }
+  },
+  "caveat": "internal motif only; do not infer an impossible external endpoint",
+  "proof_status": "Z3 computational; local conflict Lean proved independently"
+}

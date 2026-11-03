@@ -2,6 +2,26 @@
 
 Status: 2026-11-03.
 
+## EXPLICIT FREEZE: nine-round SAT motif hunting
+
+The existing one-key parity collision and four-hot internal route
+are retained as scientific fixtures. Both the exact CaDiCaL
+and exact Z3 queries for the nominated full nine-round endpoint
+`(0,0x00102402) -> (0,0x0080080a)` ended UNKNOWN at 600000 ms
+per query. UNKNOWN is NOT impossibility.
+
+No further large SAT runs, one-off witnesses, additional motif
+certificates, or source-tree reshuffles in this branch until a
+bottom-up exact join engine provides new *measured* reachability
+information. Pure reproducibility fixes and tests against the
+existing established local parity filter are allowed.
+
+Next active work is **outside this frozen branch**:
+`Magma/Composition/FOUNDATION_GAPS.md`, priority P0:
+localize the 3-carry exact join; then exact fixed-key composition,
+five-round regression, and only then 7/9+ exploration.
+
+
 ## FROZEN until a concrete downstream gain
 
 - The 1024 certified nine-round one-hot positives. They are still
@@ -22,6 +42,17 @@ Status: 2026-11-03.
   per-cell limit; see `results/linked_600s_all64.json`.
 - Generating additional one-hot or two-hot positive certificates
   for the already SAT-covered nine-round outer family.
+
+## Current path-level improvement (not an endpoint theorem)
+
+A reusable one-bit-per-master-key parity transducer now rejects
+all 740 additional pairs of output-support masks when two
+reused-key g derivatives both have input difference 1.
+Soundness is grounded in `ParityCollision.lean` and the already
+kernel-proved even/odd support lists. The next gate is whether it
+prunes actual longer-round DP paths after existing local filters.
+The forced nine-round motif alone is **NOT** a proved impossible
+endpoint differential. No more large SAT/Lean witness tables for it.
 
 ## ACTIVE, with explicit stop conditions
 

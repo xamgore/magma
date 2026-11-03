@@ -1,5 +1,11 @@
 # NinePlus: RFC 8891 impossible differentials beyond 8 rounds
 
+> **DESIGN FREEZE (2026-11-03):** No additional nine-round
+> SAT/motif sweeps without a new compositional theory result.
+> See [DESIGN_FREEZE.md](DESIGN_FREEZE.md) for experimental status
+> and [../Composition/FOUNDATION_GAPS.md](../Composition/FOUNDATION_GAPS.md)
+> for the active bottom-up exact-fiber and carry-DP plan.
+
 **Status (2026-11-03): ACTIVE EXPLORATION — no nine-round impossible differential established.**
 
 This research package intentionally lives inside `Magma/`, alongside
@@ -129,6 +135,28 @@ at 0, 8, and 16 bits, with every local derivative independently replayed.
 At full 32-bit coupling, one general SAT example was also independently
 replayed through **all nine RFC rounds**. No candidate nine-round
 key-independent impossible differential arose in those tests.
+
+## Exact unit-input parity filter (reusable search component)
+
+[PARITY_TRANSDUCER.md](PARITY_TRANSDUCER.md) documents the new
+`parity_transducer.py` fast prefilter, backed by the Lean theorem
+`same_key_pair_parity_necessary`. Its even-key row has 8 output
+masks, the odd-key row has 77, and their intersection has 3.
+When two reused-key rounds BOTH have local input difference 1,
+sharing the key excludes **740 of 6724 output-mask pairs
+(11.00535%)** beyond independent one-round supports. This is a
+mask-counting fraction, not DDT probability mass or pruning of
+arbitrary endpoint pairs.
+
+The filter rejects a forced internal difference stream around
+the adjacent reused `k7` in nine ordinary RFC rounds. A constrained
+SMT witness with right-only 4-hot input/output differences exists
+with independent keys, but key reuse forbids THAT internal route.
+After dropping the internal constraints, the key-linked
+local-support model becomes SAT. Thus **no nine-round endpoint
+impossible differential has been established**. The complete
+RFC SAT benchmark for this exact endpoint is stored under
+`results/sat_runs/`, with timeouts clearly distinguished from UNSAT.
 
 ## Next *meaningful* gate
 

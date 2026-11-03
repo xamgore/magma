@@ -1,0 +1,47 @@
+{
+  "family": "general",
+  "rounds": 9,
+  "window_start": 20,
+  "rfc_key_indices": [
+    4,
+    5,
+    6,
+    7,
+    7,
+    6,
+    5,
+    4,
+    3
+  ],
+  "timeout_ms": 30000,
+  "base_link_bits": 8,
+  "start_index": 0,
+  "planned_cells": 1,
+  "completed_cells": 1,
+  "input_difference_hex": [
+    "0x0000000000102402"
+  ],
+  "output_difference_hex": [
+    "0x000000000080080a"
+  ],
+  "observations": [
+    {
+      "i": 0,
+      "j": 0,
+      "alpha": "0000000000102402",
+      "beta": "000000000080080a",
+      "independent": "sat",
+      "independent_ms": 1620,
+      "independent_sat_replayed": true,
+      "key_linked": "sat",
+      "key_linked_ms": 4161,
+      "key_linked_sat_replayed": true
+    }
+  ],
+  "summary": {
+    "('sat', 'sat')": 1
+  },
+  "elapsed_seconds": 5.8,
+  "status": "complete",
+  "proof_status": "Z3 only; local SAT replayed; UNKNOWN not UNSAT"
+}

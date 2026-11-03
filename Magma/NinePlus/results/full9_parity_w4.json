@@ -1,0 +1,76 @@
+{
+  "rounds": 9,
+  "window_start": 20,
+  "indices": [
+    4,
+    5,
+    6,
+    7,
+    7,
+    6,
+    5,
+    4,
+    3
+  ],
+  "endpoint_form": "(0,A)->(0,S)",
+  "force_parity_motif": {
+    "d3": "0x1801",
+    "d4": "0x00000001",
+    "d5": "0x00000001",
+    "d6": "0x2801"
+  },
+  "max_word_weight": 4,
+  "timeout_ms": 20000,
+  "model_status": {
+    "independent": {
+      "status": "sat",
+      "seconds": 0.355,
+      "alpha": "0x00102402",
+      "sigma": "0x0080080a",
+      "alpha_bits": 4,
+      "sigma_bits": 4,
+      "stream": [
+        "0x00000000",
+        "0x00102402",
+        "0x71901801",
+        "0x00001801",
+        "0x00000001",
+        "0x00000001",
+        "0x00002801",
+        "0x3bb05001",
+        "0x0080080a",
+        "0x00000000",
+        "0x0080080a"
+      ],
+      "round_keys": [
+        "0x0195debc",
+        "0x71767847",
+        "0x188a56c6",
+        "0x08028a1a",
+        "0x2b96b139",
+        "0x3f4eead0",
+        "0xc46c77c4",
+        "0x222219e1",
+        "0x00000000"
+      ],
+      "round_bases": [
+        "0xe589199e",
+        "0x154bc941",
+        "0xd804a2b6",
+        "0x83118c02",
+        "0x29220550",
+        "0xede722fb",
+        "0x64e52b1f",
+        "0xdc43ebf8",
+        "0x00000000"
+      ],
+      "independently_replayed": true
+    },
+    "key_linked": {
+      "status": "unsat",
+      "seconds": 0.022
+    }
+  },
+  "caveat": "internal motif only; do not infer an impossible external endpoint",
+  "proof_status": "Z3 computational; local conflict Lean proved independently"
+}

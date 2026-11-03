@@ -1,0 +1,87 @@
+{
+  "family": "general",
+  "rounds": 7,
+  "window_start": 21,
+  "rfc_key_indices": [
+    5,
+    6,
+    7,
+    7,
+    6,
+    5,
+    4
+  ],
+  "timeout_ms": 600000,
+  "base_link_bits": 0,
+  "start_index": 0,
+  "planned_cells": 4,
+  "completed_cells": 4,
+  "input_difference_hex": [
+    "0x39606ff651956801",
+    "0x87a067a5d9e02bfb",
+    "0x0000000000000001",
+    "0x0000000000000001"
+  ],
+  "output_difference_hex": [
+    "0xec8068275ebbb28f",
+    "0x1f6073bf00000000",
+    "0x47e0d6e55d9c38ed",
+    "0x47e0d6e55d9c38ed"
+  ],
+  "observations": [
+    {
+      "i": 0,
+      "j": 0,
+      "alpha": "39606ff651956801",
+      "beta": "ec8068275ebbb28f",
+      "independent": "sat",
+      "independent_ms": 758,
+      "independent_sat_replayed": true,
+      "key_linked": "sat",
+      "key_linked_ms": 1345,
+      "key_linked_sat_replayed": true
+    },
+    {
+      "i": 0,
+      "j": 1,
+      "alpha": "39606ff651956801",
+      "beta": "1f6073bf00000000",
+      "independent": "sat",
+      "independent_ms": 630,
+      "independent_sat_replayed": true,
+      "key_linked": "sat",
+      "key_linked_ms": 1425,
+      "key_linked_sat_replayed": true
+    },
+    {
+      "i": 0,
+      "j": 2,
+      "alpha": "39606ff651956801",
+      "beta": "47e0d6e55d9c38ed",
+      "independent": "sat",
+      "independent_ms": 932,
+      "independent_sat_replayed": true,
+      "key_linked": "sat",
+      "key_linked_ms": 1285,
+      "key_linked_sat_replayed": true
+    },
+    {
+      "i": 0,
+      "j": 3,
+      "alpha": "39606ff651956801",
+      "beta": "47e0d6e55d9c38ed",
+      "independent": "sat",
+      "independent_ms": 3,
+      "independent_sat_replayed": true,
+      "key_linked": "sat",
+      "key_linked_ms": 3,
+      "key_linked_sat_replayed": true
+    }
+  ],
+  "summary": {
+    "('sat', 'sat')": 4
+  },
+  "elapsed_seconds": 6.4,
+  "status": "complete",
+  "proof_status": "Z3 only; local SAT replayed; UNKNOWN not UNSAT"
+}

@@ -96,4 +96,71 @@ theorem no_shared_key_for_parity_clash :
   have hodd := support_2800_only_odd k h2
   omega
 
+
+/-- A compact shared-subkey parity predicate for TWO genuine Magma
+    one-round derivatives with input XOR difference 1.
+
+    The exact possible outputs for even and odd round keys are the
+    kernel-certified finite sets eightOffsets and oddOutputSupport.
+    This predicate is suitable for cheap necessary-condition checks
+    on reused RFC key words in a carry/difference transducer. -/
+def PairParityFeasible (e f : Word) : Prop :=
+  (e ∈ eightOffsets ∧ f ∈ eightOffsets) ∨
+  (e ∈ oddOutputSupport ∧ f ∈ oddOutputSupport)
+
+/-- Every two genuine derivatives using the same key and input
+    difference 1 must admit ONE common key parity. This holds for
+    arbitrary output differences, not just 0x1800/0x2800. -/
+theorem same_key_pair_parity_necessary (k e f : Word)
+    (he : SupportAt k (1#32) e)
+    (hf : SupportAt k (1#32) f) :
+    PairParityFeasible e f := by
+  have hme := support_mem_parityRow k e he
+  have hmf := support_mem_parityRow k f hf
+  unfold PairParityFeasible
+  by_cases hk : k.toNat % 2 = 0
+  · left
+    constructor
+    · simpa [parityRowSupport, hk] using hme
+    · simpa [parityRowSupport, hk] using hmf
+  · right
+    constructor
+    · simpa [parityRowSupport, hk] using hme
+    · simpa [parityRowSupport, hk] using hmf
+
+/-- A forbidden four-word tile in a recurrence around two consecutive
+    occurrences of the SAME key. In a difference stream
+      d_i = 0x1801, d_(i+1) = 1,
+      d_(i+2) = 1, d_(i+3) = 0x2801,
+    the two g differences would be 1->0x1800 and 1->0x2800.
+    This is an internal-path prohibition, NOT by itself an ID
+    at observable 9-round input/output differences. -/
+theorem no_adjacent_reused_key_tile (k : Word)
+    (hleft : SupportAt k (1#32)
+      (Magma.xor (0x00001801#32) (1#32)))
+    (hright : SupportAt k (1#32)
+      (Magma.xor (1#32) (0x00002801#32))) : False := by
+  have heq : Magma.xor (0x00001801#32) (1#32) =
+      0x00001800#32 := by decide
+  have hfq : Magma.xor (1#32) (0x00002801#32) =
+      0x00002800#32 := by decide
+  exact no_shared_key_for_parity_clash
+    ⟨k, heq ▸ hleft, hfq ▸ hright⟩
+
+
+/-- Precisely three g-output XOR differences are possible for
+    unit input difference 1 under BOTH even and odd round keys.
+    This closed 8-by-77 computation uses the exact reference
+    supports already proved in the imported Magma library. -/
+theorem unit_input_even_odd_overlap_three :
+    (eightOffsets.filter (fun x => x ∈ oddOutputSupport)).card = 3 := by
+  decide +kernel
+
+/-- The quantitative gain in ordered pairs of locally supported
+    output MASKS when two input-1 g derivatives must share one key.
+    This counts masks, not DDT probability mass. -/
+theorem parity_pair_extra_forbidden_masks :
+    (82 * 82 : Nat) - (8 * 8 + 77 * 77 - 3 * 3) = 740 := by
+  decide
+
 end Magma.NinePlus

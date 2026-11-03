@@ -1,0 +1,71 @@
+{
+  "claim": "forced internal repeated-key parity collision",
+  "keys": [
+    5,
+    6,
+    7,
+    7,
+    6,
+    5,
+    4
+  ],
+  "family": "general",
+  "rounds": 9,
+  "window_start": 20,
+  "motif": "k7_adjacent",
+  "zero_left": false,
+  "zero_right": true,
+  "fixed_differences": {
+    "d0": 0,
+    "d2": 6145,
+    "d3": 1,
+    "d4": 1,
+    "d5": 10241,
+    "d8": 0
+  },
+  "output_s_constraint": null,
+  "solver_timeout_ms": 20000,
+  "model_status": {
+    "independent": {
+      "status": "sat",
+      "seconds": 0.099,
+      "s": "0x1f6073bf",
+      "differences": [
+        "0x87a067a5",
+        "0xd9e02bfb",
+        "0x00001801",
+        "0x00000001",
+        "0x00000001",
+        "0x00002801",
+        "0x5ca9e806",
+        "0x1f6073bf",
+        "0x00000000"
+      ],
+      "round_keys": [
+        "0x25bd17f9",
+        "0xb585fb95",
+        "0x3cef0f78",
+        "0x423d9b65",
+        "0x7006628f",
+        "0xacbfc48d",
+        "0x80f95450"
+      ],
+      "round_bases": [
+        "0x0650a281",
+        "0xca7a02a5",
+        "0x99cb5d84",
+        "0x899931a4",
+        "0x405995c0",
+        "0xb453c9df",
+        "0x7006a4c4"
+      ],
+      "witness_replayed": true
+    },
+    "key_linked": {
+      "status": "unsat",
+      "seconds": 0.032
+    }
+  },
+  "scope": "only the constrained INTERNAL motif; not an observable 9-round ID",
+  "proof_status": "local shared-key impossibility independently Lean-proved in ParityCollision.lean; internal independent witness Z3-replayed"
+}

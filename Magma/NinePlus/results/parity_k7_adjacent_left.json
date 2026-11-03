@@ -1,0 +1,40 @@
+{
+  "claim": "forced internal repeated-key parity collision",
+  "keys": [
+    5,
+    6,
+    7,
+    7,
+    6,
+    5,
+    4
+  ],
+  "family": "general",
+  "rounds": 9,
+  "window_start": 20,
+  "motif": "k7_adjacent",
+  "zero_left": true,
+  "zero_right": false,
+  "fixed_differences": {
+    "d0": 0,
+    "d2": 6145,
+    "d3": 1,
+    "d4": 1,
+    "d5": 10241,
+    "d8": 0
+  },
+  "output_s_constraint": null,
+  "solver_timeout_ms": 20000,
+  "model_status": {
+    "independent": {
+      "status": "unsat",
+      "seconds": 0.057
+    },
+    "key_linked": {
+      "status": "unsat",
+      "seconds": 0.033
+    }
+  },
+  "scope": "only the constrained INTERNAL motif; not an observable 9-round ID",
+  "proof_status": "local shared-key impossibility independently Lean-proved in ParityCollision.lean; internal independent witness Z3-replayed"
+}

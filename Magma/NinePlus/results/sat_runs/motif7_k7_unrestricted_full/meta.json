@@ -1,0 +1,56 @@
+{
+  "elapsed_seconds": 60.025194625,
+  "format": "magma-p8-exact-sat-matrix-nround-v1",
+  "input_difference_hex": [
+    "0x39606ff651956801",
+    "0x87a067a5d9e02bfb"
+  ],
+  "notes": [
+    "SAT models are directly checked with the configured number of real Magma rounds.",
+    "UNSAT is solver-certified computational evidence, not a Lean proof.",
+    "ALL_KEYS uses one symbolic master with RFC 8891 key schedule.",
+    "Consecutive ORDINARY Feistel rounds, never the terminal G* round."
+  ],
+  "output_difference_hex": [
+    "0x1f6073bf00000000",
+    "0xec8068275ebbb28f"
+  ],
+  "scenarios": [
+    {
+      "counts_by_status": [
+        0,
+        0,
+        0,
+        4,
+        0
+      ],
+      "filename": "matrix_0000.bin.zst",
+      "id": "all_keys",
+      "key": {
+        "description": "one symbolic 256-bit master, RFC 8891 key schedule",
+        "scope": "ALL_MASTER_KEYS"
+      },
+      "sha256_compressed": "ad9899276cd4887c82ad50fcae7e0d914afa28b24ca9491ad79e4be4f407bba0",
+      "total_cells": 4,
+      "witness_file": null
+    }
+  ],
+  "settings": {
+    "family": "general",
+    "mode": "universal",
+    "reduce_outer": true,
+    "rounds": 7,
+    "seed": 20261102,
+    "solver": "cadical",
+    "threads": 4,
+    "timeout_ms": 60000,
+    "window_start": 21
+  },
+  "statuses": {
+    "0": "NOT_RUN",
+    "1": "SAT_VERIFIED",
+    "2": "UNSAT_SOLVER",
+    "3": "UNKNOWN_TIMEOUT",
+    "4": "UNKNOWN_ERROR"
+  }
+}

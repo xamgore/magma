@@ -1,0 +1,13 @@
+{
+  "rounds": 7,
+  "window_start": 21,
+  "dimensions": [
+    2,
+    2
+  ],
+  "status_histogram": {
+    "3": 4
+  },
+  "sha256_verified": true,
+  "independent_positive_witnesses_verified": 0
+}
