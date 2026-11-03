@@ -110,6 +110,7 @@ public import Magma.Diffan.SixSevenRoundOuterPositive
 public import Magma.Diffan.SixSevenOuterReduction
 public import Magma.Diffan.OuterCoreCarryGeometry
 public import Magma.Diffan.OuterWordRecurrence
+public import Magma.Diffan.IndependentRoundSupport
 public import Magma.Diffan.NineRoundAllOneHotPositive
 public import Magma.Diffan.AdjacentPositiveExample
 public import Magma.Diffan.ThreeRoundMiddleDiagonal

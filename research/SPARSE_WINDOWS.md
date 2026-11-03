@@ -337,3 +337,93 @@ constraint system should keep only two/three intermediate XOR
 differences. Building a complete, correlated transducer would
 yield stronger *provable* n-round exclusions than treating all
 Feistel edges independently.
+
+## 2026-11-03: what is genuinely new at eight rounds (and what is not)
+
+The 1024 **positive** one-hot to one-hot nine-round DDT cells
+have already been certified via 1024 concrete RFC master keys and
+base-state trajectories in Lean. This is valuable for regression and
+to rule out *universally* impossible cells in that small family,
+but it is not itself a structural theorem about eight-round zeros.
+It does NOT exhibit one common master key for all 1024 pairs.
+
+The structurally interesting result concerns **eight** ordinary
+Feistel rounds in the outer slice, with the exact algebraic reduction
+to six inner rounds:
+
+    D8((a,0),(0,s)) = D6_inner((0,a),(s,0)).
+
+The six inner XOR-difference words are described by
+
+    d0=0, d1=a, d2=p, d3=q, d4=r, d5=t, d6=s, d7=0.
+
+For each i=0..5 the actual Feistel derivative requires
+
+    exists ki,xi : V32,
+      g(ki,xi XOR d(i+1)) XOR g(ki,xi)
+        = d(i) XOR d(i+2).
+
+All six local (ki,xi) are allowed to vary **independently**.
+This is a sound overapproximation of real six-round reachability
+and is stronger than checking only the first active nibble.
+There are four free intermediate 32-bit *difference* words.
+
+**New Lean bridge:**
+`Magma/Diffan/IndependentRoundSupport.lean` defines
+`IndependentChain` and `SixIndependentCore` using the
+previously formalized `anyKeyGSupport`, and proves
+`chain_of_correlated`, `chain_of_actual`,
+`six_chain_iff_four_words` and
+`eight_round_outer_zero_of_no_six_local_support`.
+The last theorem is universal over **all eight fixed round keys**.
+An independently verified Lean theorem
+`six_independent_core_symmetric` reverses the six independent
+local-support constraints. Consequently, to rule out the five
+observed nibble rectangles we only need three structurally distinct
+certificates; this is formalized as
+`five_rectangles_of_three_certificates`.
+
+**Experimental Z3 facts, NOT yet Lean UNSAT certificates:**
+The reproducible script `research/outer8_local_support_z3.py`
+uses actual RFC S-box table, 32-bit modular additions and rotations,
+and six independent genuine g-difference relations. It separately
+checks its S-box transcription against the Python evaluator.
+It returned UNSAT on all 80 previously observed one-hot eight-round
+UNSAT cells. More strongly, it returned UNSAT for the full five
+four-bit-supported input/output rectangles (indices start at the
+least-significant nibble):
+
+    (input nibble, output nibble):
+    (5,7), (6,7), (7,5), (7,6), (7,7)
+
+Each rectangle covers 15*15=225 nonzero difference pairs; hence
+**1125** individual nonzero-pair candidates, including the
+80 earlier one-hot cells. The five rectangles are pairwise disjoint.
+Runtime for the 80 cells plus five rectangles was 64.4 s on the
+connected Mac. No timeout/UNKNOWN occurred in that run.
+
+The much weaker first-active-nibble-only Z3 experiment in
+`research/first_nibble_8round_z3_explore.py` found SAT on
+representatives of every forbidden rectangle. This demonstrates why
+the S-box/carry support refinement is material.
+
+**Proof-status warning:** The five Z3 UNSAT results are computational,
+NOT currently Lean kernel theorems. The Lean module proves that a
+*certified* absent six-round local support implies an exact
+eight-round Magma DDT zero, and that three certificates imply all five
+by reversal. It does not assert that those certificates have been
+established. No UNSAT property was added as an axiom.
+
+Reproduce from the repository root:
+
+```bash
+python3 research/outer8_local_support_z3.py
+python3 research/first_nibble_8round_z3_explore.py
+lake build Magma.Diffan.IndependentRoundSupport
+```
+
+Research priority: implement a small, proof-producing carry/nibble
+search that decides the three rectangles, and establish its soundness
+in Lean (or certify solver-produced refutations in Lean). Avoid
+devoting further time to thousands of separate positive DDT witnesses
+unless they establish a new structural boundary.
