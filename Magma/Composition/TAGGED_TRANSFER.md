@@ -106,8 +106,12 @@ DDT and the exact 2^8×2^8 triple fiber enumeration:
 |---|---:|---:|---:|---:|
 | zero input/output | 65,536 | 65,536 | 65,536 | 65,536 |
 | `a=0x87, b=0x3f` | **12** | **12** | **12** | **656** |
+| `a=0x87, b=0x00` | **0** | **0** | **0** | **40** |
 
-The nonzero case exhibits a **coupling defect of 644**. The
+The nonzero positive case exhibits a **coupling defect of 644**;
+the nonzero-input impossible case exhibits a **defect of 40**,
+with the same fixed five toy round keys. Both defects represent
+false paths introduced by naive marginal-DDT multiplication. The
 weighted transfer agrees exactly; naive DDT multiplication
 overcounts. Its maximum observed frontier width in this test
 was **8 states** (toy only). The zero case saw width 44.

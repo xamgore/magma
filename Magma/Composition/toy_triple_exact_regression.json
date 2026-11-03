@@ -56,8 +56,36 @@
       "naive_DDT_convolution": 656,
       "coupling_defect": 644,
       "strict_defect": true
+    },
+    {
+      "keys": [
+        "a7",
+        "57",
+        "f6",
+        "8c",
+        "a4"
+      ],
+      "alpha": "0x87",
+      "sigma": "0x00",
+      "full_Feistel_count": 0,
+      "exact_three_fiber_count": 0,
+      "exact_local_tagged_three_fiber_count": 0,
+      "exact_weighted_transfer_count": 0,
+      "transfer_frontier": {
+        "max_frontier": 0,
+        "visited_local_transition_edges": 0,
+        "nonempty_cyclic_boundary_guesses": 0,
+        "boundary_guesses": 64,
+        "carry_bits": 6,
+        "delayed_rotation_tag_bits": 6,
+        "total_interface_bits": 12
+      },
+      "naive_DDT_convolution": 40,
+      "coupling_defect": 40,
+      "strict_defect": true,
+      "expected_zero_case": true
     }
   ],
-  "elapsed_seconds": 1.378,
+  "elapsed_seconds": 2.008,
   "proof_status": "exhaustive Python finite computation, no new Lean theorem"
 }

@@ -104,8 +104,11 @@ true weighted finite-state transfer over two 4-bit nibbles
 (using two RFC S-boxes, 8-bit addition, rotate-left-3).
 Direct Feistel DDT, exact triple sum and weighted DP all give
 **12** in one nonzero test, while the naive DDT convolution
-gives **656** (coupling defect **644**). Toy transfer frontier
-had **8** states for that case. The full 32-bit Magma DDT
+gives **656** (coupling defect **644**).
+A second test for the **same nonzero input and keys** has
+true DDT **0**, exact weighted transfer **0**, yet the
+naive convolution gives **40**. Toy transfer frontier
+had **8** states for the positive case. The full 32-bit Magma DDT
 has NOT yet been calculated with this DP.
 
 **Next actual local lemma:** the precise rotate-left-11

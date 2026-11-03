@@ -266,6 +266,38 @@ def main():
             coupling_defect=conv-count,
             strict_defect=conv>count))
         print('TOY_5ROUND_EXACT',json.dumps(fixtures[-1],sort_keys=True),flush=True)
+    # A real impossible (zero-count) output under the SAME nonzero
+    # fixed key/input pair. This checks that the transfer does not
+    # invent spurious paths, not merely that positives agree.
+    if cfg.samples >= 2:
+        example=fixtures[1]
+        zero_keys=tuple(int(w,16) for w in example['keys'])
+        zero_a=int(example['alpha'],16)
+        zero_hist=outer5_ddt(*zero_keys,zero_a)
+        zero_b=next((b for b in range(256) if b not in zero_hist),None)
+        assert zero_b is not None, "need a fixed-key zero-output fixture"
+        zero_exact,_=triple_exact(zero_keys[1],zero_keys[2],zero_keys[3],zero_a,zero_b)
+        zero_local=triple_local_count(zero_keys[1],zero_keys[2],zero_keys[3],zero_a,zero_b)
+        zero_transfer,zero_stats=toy_transfer_count(
+            zero_keys[1],zero_keys[2],zero_keys[3],zero_a,zero_b)
+        zero_conv=naive_two_ddt_convolution(
+            zero_keys[1],zero_keys[2],zero_a,zero_b)
+        assert zero_exact==zero_local==zero_transfer==0
+        assert zero_conv>=0
+        zero_row=dict(keys=[f'{x:02x}' for x in zero_keys],
+            alpha=f'0x{zero_a:02x}',sigma=f'0x{zero_b:02x}',
+            full_Feistel_count=0,
+            exact_three_fiber_count=zero_exact,
+            exact_local_tagged_three_fiber_count=zero_local,
+            exact_weighted_transfer_count=zero_transfer,
+            transfer_frontier=zero_stats,
+            naive_DDT_convolution=zero_conv,
+            coupling_defect=zero_conv,
+            strict_defect=zero_conv>0,
+            expected_zero_case=True)
+        fixtures.append(zero_row)
+        print('TOY_5ROUND_EXACT',json.dumps(zero_row,sort_keys=True),flush=True)
+
     # Specifically find one pair of matching first/middle constraints
     # which the third derivative rejects; it exposes false joins.
     assert any(t['strict_defect'] for t in fixtures), "need a strict-defect example"
