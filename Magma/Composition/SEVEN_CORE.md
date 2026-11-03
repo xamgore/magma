@@ -203,6 +203,19 @@ model hashes; UNKNOWN/LIMIT is never recorded as UNSAT.
 
 ## Next gate: actual seven-/nine-round compositional algorithm
 
+**2026-11-04 update:** [FIVE_FACTOR_PROBE.md](FIVE_FACTOR_PROBE.md)
+adds a real five-g dual-carry/tag local encoding, independent SMT
+cross-checks for completed 2,0,0,8 fiber counts, and graph-width
+analysis of a full correlated join. This closes the *factor-graph
+semantics/structural-width experiment*, but not the seven-round
+DP goal. A first true integer-weight sparse join now completes ten
+one-nibble toy tests; the real 32-bit problem reaches an explicit
+LIMIT even at one million factor rows (173/307 variables eliminated).
+The naive dense factor width is far too large, and simple sparse
+joining does not resolve it: a compressed symbolic elimination is
+still needed. Reproduce with `five_factor_gate.py` and
+`five_factor_sparse_regression.py`.
+
 Phase 1 of ROADMAP.md has now achieved exact numeric
 fixed-key seven-round controls and the correct five-core
 fiber formula; a **fast full five-core carryDP is NOT

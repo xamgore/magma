@@ -108,6 +108,20 @@ two side-base values and their S-box/carry correlations.
 The central three-round support + outer local supports is
 a sound necessary filter, NOT an exact five-core count.
 
+**2026-11-04 factor-probe gate completed (NOT full-width weighted DP):**
+[FIVE_FACTOR_PROBE.md](FIVE_FACTOR_PROBE.md) provides an independently
+replayed five-chain dual-carry/tag #SMT model (exact fibers 2,0,0,8)
+and a local factor-graph width analysis. Even after splitting emitted
+tags into bits and exploiting the top-nibble first derivative, a
+simple greedy min-fill has a peak *dense scope* estimate of 103 bits.
+This is NOT an observed frontier or lower bound. A first *exact
+integer-weight* sparse factor contraction now exists in
+`five_factor_sparse.py`: 10 one-nibble five-round toy DDTs match
+independent exhaustive Feistel counting, but the real 32-bit
+case reaches resource LIMIT after 173/307 variables with a
+one-million-row cap. Stronger compressed elimination is OPEN;
+see the measurements and stop rules in FIVE_FACTOR_PROBE.md.
+
 Construct an exact weighted two-block join across a
 full intermediate (base state, XOR difference) point.
 Use existing five-round middle-fiber mathematics to

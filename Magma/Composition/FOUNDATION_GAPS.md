@@ -271,7 +271,15 @@ differentials may follow from its zero coefficients.
   separately named module; it is never evidence that the property
   was kernel-proved.
 
-**Next concrete research target:** prove the exact cardinality
-of the joint Rust weighted paths in Lean, then generalize
-its carry/tag boundary as a composable interface for 7/9+
-round cores, with genuine base/key correlation throughout.
+**Next concrete research target (2026-11-04):** compress the exact
+five-chain weighted factor join in
+[FIVE_FACTOR_PROBE.md](FIVE_FACTOR_PROBE.md). Its local tag/carry #SMT
+model reproduces 2,0,0,8 exact fixed-key counts. Its independent
+Python integer-weight sparse elimination completes ten four-bit toy
+DDTs exactly, but full 32-bit five-chain elimination reaches LIMIT
+at 173/307 variables even with a million factor-row cap.
+The immediate obstacle is an efficient representation for the
+correlated intermediate base/tag constraints, NOT the correctness
+of an independent-marginal product. The weighted Rust aggregation
+theorem remains DESIGN-FROZEN under [ROADMAP.md](ROADMAP.md);
+do not reactivate it merely to close formalization tasks.
