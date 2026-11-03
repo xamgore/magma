@@ -105,6 +105,7 @@ public import Magma.Diffan.OneHotFourHotPositive
 public import Magma.Diffan.OneHotTwoHotStructuralZero
 public import Magma.Diffan.FiveRoundOuterWeightBound
 public import Magma.Diffan.KeyFreeRoundTransducer
+public import Magma.Diffan.AdjacentPositiveExample
 public import Magma.Diffan.ThreeRoundMiddleDiagonal
 public import Magma.Diffan.DiagonalSupportScheduledWindows
 public import Magma.Diffan.DiagonalMasterKeyClasses
