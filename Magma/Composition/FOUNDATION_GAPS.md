@@ -2,6 +2,17 @@
 
 Status: 2026-11-03. Scope: **research roadmap, not a new theorem**.
 
+**CURRENT P0 MILESTONE COMPLETED:**
+[JOINT_MIDDLE_TRANSFER.md](JOINT_MIDDLE_TRANSFER.md) documents
+full 32-bit *fixed-key five-round* DDT counts **768** and **30,720**,
+using one joint weighted transfer that sums over all 2^32 middle
+base words h. Both exact counts were independently exhausted by Z3
+with direct five-round Feistel replay. The general Lean
+`jointTaggedAccept_iff_real` proves the symbolic local tag semantics.
+The next proof obligation is the Rust **weighted aggregation/
+bijection**, not elimination of h itself.
+
+
 The three supplied full-text papers are distilled in
 [LITERATURE.md](LITERATURE.md): Liu et al. on carry-dependent tables,
 Qin–Wu on adjacent-addition non-independence and #SAT, and
@@ -58,8 +69,9 @@ The nine-round SAT/parity motif branch is design-frozen in
    `taggedPrefix_correct` proves all eight steps chain correctly;
    `taggedPrefix_eight_g` proves both real 32-bit outputs
    (base `g` and the XOR derivative) after rotate-left-11.
-   **Whole-word reconstruction DONE; a full-width exact
-   triple-fiber transfer matrix is still missing.**
+   Whole-word reconstruction DONE; the full-width joint triple
+   transfer now exists as a Rust executable. Its weighted
+   aggregation is not yet kernel-certified.
 
 8. `Magma/NinePlus/ParityCollision.lean` and
    `parity_transducer.py`: key parity is a sound reusable path
@@ -116,7 +128,9 @@ A second test for the **same nonzero input and keys** has
 true DDT **0**, exact weighted transfer **0**, yet the
 naive convolution gives **40**. Toy transfer frontier
 had **8** states for the positive case. The full 32-bit Magma DDT
-has NOT yet been calculated with this DP.
+was not calculated by this EARLIER toy DP; the later full-width
+joint transfer now calculates it for fixed key/test cases
+(see JOINT_MIDDLE_TRANSFER.md).
 
 **Rotate-left-11 local lemma — COMPLETED:**
 `Rotate11Nibble.lean` proves the exact two-source nibble
@@ -139,13 +153,24 @@ The degenerate a=b=0 case yields 2^32 as required.
 `fixed_middle_subcube.py` sums over 256 h values:
 **96 and 576**, also independently verified by #SMT.
 
-**P0 remaining blocker:** eliminate h **inside** the
-full-width transfer, rather than running it 2^32
-times. The local count algorithm is still Python and
-its weighted counting bijection is not yet kernel-proved.
-Do not claim to have calculated the full five-round
-DDT using the new transfer. See
-`Magma/Composition/FIXED_MIDDLE_TRANSFER.md`.
+**P0 middle-base elimination — COMPLETED computationally:**
+`joint_middle_transfer.rs` eliminates all 2^32 values of h
+WITHIN the full eight-nibble correlated carry transfer,
+preserving both E and U tag streams.
+For two fixed RFC-compatible 5-round key vectors, it computes
+the complete outer DDT counts **768** and **30,720**,
+independently exhausted by Z3 with full Feistel replay.
+`JointTaggedAcceptance.lean` proves that the local tagged
+acceptance condition matches exact 32-bit triple-derivative
+equations for arbitrary keys/bases.
+
+**Remaining P1 proof obligation:** formalize weighted
+HashMap/cyclic-boundary DP path-count equality in Lean and
+expose a reusable, provably exact interface for composing
+additional correlated cores. This distinction matters:
+the reported numeric counts are exact computational
+calculations, NOT yet kernel-proved count theorems.
+See `Magma/Composition/JOINT_MIDDLE_TRANSFER.md`.
 
 ## Priority P1 — reusable exact weighted composition, at a fixed key
 
@@ -221,7 +246,7 @@ differentials may follow from its zero coefficients.
   separately named module; it is never evidence that the property
   was kernel-proved.
 
-**Concrete first coding target:** the whole-word correctness lemma
-for `GBaseTaggedCarryStep` followed by a prototype transfer table
-for **one** small inverse-middle correlation block. This is the
-highest-leverage bottom-up foundation for all four planned steps.
+**Next concrete research target:** prove the exact cardinality
+of the joint Rust weighted paths in Lean, then generalize
+its carry/tag boundary as a composable interface for 7/9+
+round cores, with genuine base/key correlation throughout.

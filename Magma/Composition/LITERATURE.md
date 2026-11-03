@@ -78,12 +78,19 @@ Open access under CC BY (as stated in the uploaded PDF).
    fiber transfer; independent exhaustive #SMT regression for
    fixed `h` and 4-/8-bit subcubes; see
    [FIXED_MIDDLE_TRANSFER.md](FIXED_MIDDLE_TRANSFER.md).
-3. **Active/open:** eliminate symbolic middle base `h` *within*
-   the weighted finite-state transfer. Carry-tag correlation and
-   cyclic rotate-left-11 links must remain represented exactly.
-4. Prove the resulting weighted DP ↔ fixed-key full-fiber bijection
-   in Lean, before claiming complete five-round DDT counts or
-   applying the engine to seven- and nine-round cores.
+3. **Done experimentally:** joint_middle_transfer.rs now
+   eliminates the *full* 32-bit middle base `h` inside one
+   weighted eight-nibble carry transfer, preserving both
+   S-box tag streams and exact cyclic rotate-left-11 links.
+   Full 5-round counts 768 and 30,720 were independently
+   exhausted by Z3 and directly replayed as real Magma
+   Feistel pairs; see JOINT_MIDDLE_TRANSFER.md.
+4. **Still open formally:** prove the weighted DP ↔ full
+   fixed-key fiber cardinality theorem in Lean (currently
+   only local acceptance semantics are kernel-proved).
+   Then compose correlated cores for seven/nine rounds.
+   Distinguish computationally verified exact counts
+   from kernel-certified count theorems.
 
 Research novelty, if any, must be formulated at the precise point
 of the **correlation-preserving, fixed-key, exact Magma fiber

@@ -5,8 +5,10 @@ Status: 2026-11-03. Lean whole-word reconstruction and
 The toy exact weighted transfer is TESTED; the new eight-nibble,
 real 32-bit Magma weighted DP now computes **exact fixed-middle-h
 conditional fibers**, and is independently #SMT-checked.
-An efficient full-five-round DDT sum over ALL h remains OPEN.
-See FIXED_MIDDLE_TRANSFER.md for exact definitions and numbers.
+The full-h sum has NOW been implemented in a separate
+joint Rust transfer and independently Z3-verified:
+see JOINT_MIDDLE_TRANSFER.md. The Rust weighted-count
+bijection is not yet a Lean theorem.
 
 ## 1. Reusable kernel-checked one-round lemma
 
@@ -152,21 +154,21 @@ zero/zero conditional fiber.
 equations, seed-closure reasoning, performance data, commands,
 and limits of these results.
 
-## 5. Remaining genuine bottleneck
+## 5. Full middle-word elimination — DONE computationally
 
-The *full* five-round outer DDT still requires a sum over
-**all 2^32 middle base words h**. Directly repeating the
-fixed-h weighted DP 2^32 times is NOT efficient.
-Letting h vary introduces the second delayed tag stream U,
-with a naive 22-bit cyclic boundary interface.
-Find an exact compressed state or a better elimination order
-that sums over h **inside** the transfer.
+`joint_middle_transfer.rs` now simultaneously carries
+both delayed E and U streams, with a 22-bit cyclic seed
+and genuine six-bit carry state. It sums over *all*
+middle h values INSIDE the weighted finite-state machine.
+The complete five-round fixed-key counts **768** and
+**30,720** were independently exhausted by Z3; see
+`JOINT_MIDDLE_TRANSFER.md` for exact keys, times,
+frontier widths and reproducibility.
 
-The existing fixed-h Python DP has not yet been proved
-equivalent to the mathematical fiber in Lean, although the
-individual transition/rotation lemmas are kernel-proved and
-the computed finite counts were exhaustively cross-checked
-by an independent solver.
+The core Lean semantics are proved in
+`JointTaggedAcceptance.lean`; the *Rust integer-weighted
+aggregation and cyclic-seed bijection* still require a
+general kernel theorem.
 
 The nine-round SAT/motif branch remains frozen:
 `Magma/NinePlus/DESIGN_FREEZE.md`.

@@ -1,0 +1,333 @@
+{
+  "description": "RFC 8891 exact fixed-key five-round outer DDT via joint-h carry transfer",
+  "full_test": true,
+  "rust_source_sha256": "9603306691dcc398ac00c94e7c0376902fed327b3dca633160cd5b7d2396135e",
+  "counts": [
+    {
+      "weighted_count": 16,
+      "seeds": 2048,
+      "active_seeds": 128,
+      "accepting_seeds": 1,
+      "edges": 2166,
+      "max_frontier": 18,
+      "elapsed_ms": 0,
+      "args": [
+        "--fixture",
+        "0",
+        "--free-bits",
+        "0"
+      ],
+      "expected": 16,
+      "seconds": 0.147,
+      "fixture": 0,
+      "free_h_bits": 0
+    },
+    {
+      "weighted_count": 48,
+      "seeds": 32768,
+      "active_seeds": 2048,
+      "accepting_seeds": 3,
+      "edges": 34594,
+      "max_frontier": 18,
+      "elapsed_ms": 1,
+      "args": [
+        "--fixture",
+        "0",
+        "--free-bits",
+        "4"
+      ],
+      "expected": 48,
+      "seconds": 0.005,
+      "fixture": 0,
+      "free_h_bits": 4
+    },
+    {
+      "weighted_count": 96,
+      "seeds": 524288,
+      "active_seeds": 32768,
+      "accepting_seeds": 6,
+      "edges": 538812,
+      "max_frontier": 18,
+      "elapsed_ms": 25,
+      "args": [
+        "--fixture",
+        "0",
+        "--free-bits",
+        "8"
+      ],
+      "expected": 96,
+      "seconds": 0.028,
+      "fixture": 0,
+      "free_h_bits": 8
+    },
+    {
+      "weighted_count": 192,
+      "seeds": 4194304,
+      "active_seeds": 262144,
+      "accepting_seeds": 12,
+      "edges": 8557796,
+      "max_frontier": 18,
+      "elapsed_ms": 159,
+      "args": [
+        "--fixture",
+        "0",
+        "--free-bits",
+        "12"
+      ],
+      "expected": 192,
+      "seconds": 0.163,
+      "fixture": 0,
+      "free_h_bits": 12
+    },
+    {
+      "weighted_count": 192,
+      "seeds": 4194304,
+      "active_seeds": 1572864,
+      "accepting_seeds": 12,
+      "edges": 69797860,
+      "max_frontier": 28,
+      "elapsed_ms": 578,
+      "args": [
+        "--fixture",
+        "0",
+        "--free-bits",
+        "16"
+      ],
+      "expected": 192,
+      "seconds": 0.582,
+      "fixture": 0,
+      "free_h_bits": 16
+    },
+    {
+      "weighted_count": 192,
+      "seeds": 4194304,
+      "active_seeds": 1572864,
+      "accepting_seeds": 12,
+      "edges": 97458148,
+      "max_frontier": 448,
+      "elapsed_ms": 897,
+      "args": [
+        "--fixture",
+        "0",
+        "--free-bits",
+        "20"
+      ],
+      "expected": 192,
+      "seconds": 0.901,
+      "fixture": 0,
+      "free_h_bits": 20
+    },
+    {
+      "weighted_count": 192,
+      "seeds": 4194304,
+      "active_seeds": 1572864,
+      "accepting_seeds": 12,
+      "edges": 293385332,
+      "max_frontier": 5376,
+      "elapsed_ms": 3180,
+      "args": [
+        "--fixture",
+        "0",
+        "--free-bits",
+        "24"
+      ],
+      "expected": 192,
+      "seconds": 3.184,
+      "fixture": 0,
+      "free_h_bits": 24
+    },
+    {
+      "weighted_count": 192,
+      "seeds": 4194304,
+      "active_seeds": 1572864,
+      "accepting_seeds": 12,
+      "edges": 1614257908,
+      "max_frontier": 43008,
+      "elapsed_ms": 17597,
+      "args": [
+        "--fixture",
+        "0",
+        "--free-bits",
+        "28"
+      ],
+      "expected": 192,
+      "seconds": 17.602,
+      "fixture": 0,
+      "free_h_bits": 28
+    },
+    {
+      "weighted_count": 768,
+      "seeds": 4194304,
+      "active_seeds": 1572864,
+      "accepting_seeds": 12,
+      "edges": 4104397200,
+      "max_frontier": 43008,
+      "elapsed_ms": 34138,
+      "args": [
+        "--fixture",
+        "0",
+        "--free-bits",
+        "32"
+      ],
+      "expected": 768,
+      "seconds": 34.142,
+      "fixture": 0,
+      "free_h_bits": 32,
+      "independent_z3_pair_hash": "b370c33f90b4a18d0d7cd7dadc4e8417328a49c903b23ddbf63d2c26d8c148c1"
+    },
+    {
+      "weighted_count": 96,
+      "seeds": 2048,
+      "active_seeds": 128,
+      "accepting_seeds": 1,
+      "edges": 2310,
+      "max_frontier": 18,
+      "elapsed_ms": 0,
+      "args": [
+        "--fixture",
+        "1",
+        "--free-bits",
+        "0"
+      ],
+      "expected": 96,
+      "seconds": 0.004,
+      "fixture": 1,
+      "free_h_bits": 0
+    },
+    {
+      "weighted_count": 288,
+      "seeds": 32768,
+      "active_seeds": 2048,
+      "accepting_seeds": 3,
+      "edges": 36729,
+      "max_frontier": 18,
+      "elapsed_ms": 1,
+      "args": [
+        "--fixture",
+        "1",
+        "--free-bits",
+        "4"
+      ],
+      "expected": 288,
+      "seconds": 0.004,
+      "fixture": 1,
+      "free_h_bits": 4
+    },
+    {
+      "weighted_count": 576,
+      "seeds": 524288,
+      "active_seeds": 32768,
+      "accepting_seeds": 6,
+      "edges": 556670,
+      "max_frontier": 18,
+      "elapsed_ms": 19,
+      "args": [
+        "--fixture",
+        "1",
+        "--free-bits",
+        "8"
+      ],
+      "expected": 576,
+      "seconds": 0.022,
+      "fixture": 1,
+      "free_h_bits": 8
+    },
+    {
+      "weighted_count": 576,
+      "seeds": 4194304,
+      "active_seeds": 262144,
+      "accepting_seeds": 6,
+      "edges": 8545918,
+      "max_frontier": 18,
+      "elapsed_ms": 181,
+      "args": [
+        "--fixture",
+        "1",
+        "--free-bits",
+        "12"
+      ],
+      "expected": 576,
+      "seconds": 0.184,
+      "fixture": 1,
+      "free_h_bits": 12
+    },
+    {
+      "weighted_count": 576,
+      "seeds": 4194304,
+      "active_seeds": 262144,
+      "accepting_seeds": 6,
+      "edges": 68967038,
+      "max_frontier": 144,
+      "elapsed_ms": 591,
+      "args": [
+        "--fixture",
+        "1",
+        "--free-bits",
+        "16"
+      ],
+      "expected": 576,
+      "seconds": 0.594,
+      "fixture": 1,
+      "free_h_bits": 16
+    },
+    {
+      "weighted_count": 30720,
+      "seeds": 4194304,
+      "active_seeds": 262144,
+      "accepting_seeds": 12,
+      "edges": 679108392,
+      "max_frontier": 10240,
+      "elapsed_ms": 6505,
+      "args": [
+        "--fixture",
+        "1",
+        "--free-bits",
+        "32"
+      ],
+      "expected": 30720,
+      "seconds": 6.51,
+      "fixture": 1,
+      "free_h_bits": 32,
+      "independent_z3_pair_hash": "2d7806cc07eef135409b37585cc72480f382d0848bd0f9bde718a8e1df1ae51e"
+    }
+  ],
+  "zero_fixture": {
+    "weighted_count": 0,
+    "seeds": 4194304,
+    "active_seeds": 0,
+    "accepting_seeds": 0,
+    "edges": 0,
+    "max_frontier": 0,
+    "elapsed_ms": 60,
+    "args": [
+      "--keys",
+      "0x2056,0xfdfa7789,0xf0f8d960",
+      "--alpha",
+      "0x80",
+      "--beta",
+      "0x1",
+      "--free-bits",
+      "32"
+    ],
+    "expected": 0,
+    "seconds": 0.064,
+    "name": "nontrivial_nonzero_input_output_zero_fiber",
+    "independent_z3_zero": {
+      "status": "exact_verified_by_independent_Z3",
+      "count": 0,
+      "seconds": 0.006
+    }
+  },
+  "independently_completed_full_z3": [
+    {
+      "fixture": 0,
+      "sha256_pairs": "b370c33f90b4a18d0d7cd7dadc4e8417328a49c903b23ddbf63d2c26d8c148c1"
+    },
+    {
+      "fixture": 1,
+      "sha256_pairs": "2d7806cc07eef135409b37585cc72480f382d0848bd0f9bde718a8e1df1ae51e"
+    }
+  ],
+  "wall_seconds": 64.488,
+  "caveat": "Only the local tagged acceptance is kernel-proved in Lean; Rust weighted aggregation is independently tested, not formally verified."
+}

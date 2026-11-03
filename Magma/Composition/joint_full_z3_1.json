@@ -1,0 +1,19 @@
+{
+  "fixture": "two-hot-to-three-hot",
+  "input": "0x80000080",
+  "output": "0x20200020",
+  "keys": [
+    "0x00000000",
+    "0xb3900250",
+    "0xddfc38c3",
+    "0xca24f050",
+    "0x00000000"
+  ],
+  "status": "complete_unsat_after_enumeration",
+  "verified_models": 30720,
+  "expected": 30720,
+  "sha256_pairs": "2d7806cc07eef135409b37585cc72480f382d0848bd0f9bde718a8e1df1ae51e",
+  "elapsed_seconds": 44.948,
+  "independent_full_five_round_feistel_replay": true,
+  "limitation": "UNKNOWN and model_cap are not complete counts"
+}

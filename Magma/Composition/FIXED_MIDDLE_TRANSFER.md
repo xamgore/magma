@@ -5,7 +5,9 @@ counting algorithm is implemented and computationally cross-checked
 against independent Z3 enumeration. Its one-round semantics and
 rotate-left-11 digit wiring are kernel-proved in Lean. The **weighted
 DP ↔ full fiber bijection itself has NOT yet been formalized in Lean**.
-The *complete* five-round DDT still requires summing over all h.
+This fixed-h script does not sum over all h. The later
+joint-middle transfer now computes the complete fixed-key
+five-round counts; see JOINT_MIDDLE_TRANSFER.md.
 
 ## The exact conditional fiber
 
@@ -142,6 +144,12 @@ plus six carry bits). To solve this, find a variable-elimination
 ordering or a compressed weighted transfer that eliminates h
 **inside the local join**, instead of enumerating its values.
 
-Keep the two distinct benchmarks: correct exact fixed-h counting
-is DONE; efficiently performing the full sum over h remains OPEN.
-Do not begin new nine-round SAT/motif sweeps (design freeze).
+**2026-11-03 update:** The later joint_middle_transfer.rs
+now eliminates h INSIDE a two-tag-stream weighted automaton,
+rather than invoking this fixed-h DP 2^32 times.
+It computed full fixed-key DDT counts 768 and 30,720, both
+independently exhausted by Z3.
+See [JOINT_MIDDLE_TRANSFER.md](JOINT_MIDDLE_TRANSFER.md).
+The exact weighted Rust algorithm still needs a Lean
+counting-bijection theorem. The nine-round SAT/motif branch
+remains frozen.
