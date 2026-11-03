@@ -1,0 +1,332 @@
+{
+  "certified_positive_regressions": [
+    {
+      "name": "Lean one-hot to four-hot",
+      "a": "0x00000080",
+      "b": "0xc0000820",
+      "inner_r": "0xdfffdf48",
+      "inner_z": "0x52d3be05",
+      "true_triple_accepted": true,
+      "local_accepted_counts": [
+        32,
+        6,
+        4,
+        32,
+        96,
+        10,
+        32,
+        2
+      ],
+      "local_distinct_next_states": [
+        4,
+        6,
+        4,
+        32,
+        96,
+        10,
+        22,
+        2
+      ]
+    },
+    {
+      "name": "Lean two-hot to three-hot",
+      "a": "0x80000080",
+      "b": "0x20200020",
+      "inner_r": "0xe3effd57",
+      "inner_z": "0x72f30685",
+      "true_triple_accepted": true,
+      "local_accepted_counts": [
+        256,
+        32,
+        16,
+        32,
+        20,
+        40,
+        32,
+        4
+      ],
+      "local_distinct_next_states": [
+        16,
+        32,
+        14,
+        32,
+        20,
+        40,
+        6,
+        4
+      ]
+    }
+  ],
+  "scope": "one-nibble exact 3-carry join with real boundary tags",
+  "not_a_full_five_round_DDT_count": true,
+  "seed": 8891,
+  "checked_full_word_cases": 512,
+  "accepted_full_triples": 1,
+  "sampled_local_rows": 32,
+  "nontrivial_local_rows": 5,
+  "sampled_accepted_assignments": 272,
+  "local_transition_options_per_row": 256,
+  "naive_three_carry_bits": 6,
+  "extra_delay_bits_for_rol11_two_tag_streams": 22,
+  "naive_upper_bound_bits_before_constraints": 28,
+  "sampled_rows": [
+    {
+      "digit_index": 0,
+      "assignments": 256,
+      "accepted_assignments": 256,
+      "distinct_next_tagged_states": 32,
+      "max_multiplicity": 8,
+      "min_multiplicity": 8
+    },
+    {
+      "digit_index": 1,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 2,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 3,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 4,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 5,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 6,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 7,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 0,
+      "assignments": 256,
+      "accepted_assignments": 4,
+      "distinct_next_tagged_states": 4,
+      "max_multiplicity": 1,
+      "min_multiplicity": 1
+    },
+    {
+      "digit_index": 1,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 2,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 3,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 4,
+      "assignments": 256,
+      "accepted_assignments": 2,
+      "distinct_next_tagged_states": 2,
+      "max_multiplicity": 1,
+      "min_multiplicity": 1
+    },
+    {
+      "digit_index": 5,
+      "assignments": 256,
+      "accepted_assignments": 4,
+      "distinct_next_tagged_states": 4,
+      "max_multiplicity": 1,
+      "min_multiplicity": 1
+    },
+    {
+      "digit_index": 6,
+      "assignments": 256,
+      "accepted_assignments": 4,
+      "distinct_next_tagged_states": 4,
+      "max_multiplicity": 1,
+      "min_multiplicity": 1
+    },
+    {
+      "digit_index": 7,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 0,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 1,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 2,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 3,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 4,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 5,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 6,
+      "assignments": 256,
+      "accepted_assignments": 2,
+      "distinct_next_tagged_states": 2,
+      "max_multiplicity": 1,
+      "min_multiplicity": 1
+    },
+    {
+      "digit_index": 7,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 0,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 1,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 2,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 3,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 4,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 5,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 6,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    },
+    {
+      "digit_index": 7,
+      "assignments": 256,
+      "accepted_assignments": 0,
+      "distinct_next_tagged_states": 0,
+      "max_multiplicity": 0,
+      "min_multiplicity": 0
+    }
+  ],
+  "elapsed_seconds": 0.063,
+  "proof_status": "Python regression vs full actual Magma g; Lean proved one-step and eight-step g reconstruction"
+}

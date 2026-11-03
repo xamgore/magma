@@ -45,12 +45,14 @@ The nine-round SAT/parity motif branch is design-frozen in
    carry-trace predicates. **The sum is still over full
    32-bit variables `r,h`; it is not a fast DP.**
 
-7. `Magma/Diffan/GBaseTaggedCarryStep.lean`:
-   the base S-box digit and derivative digit are emitted by the
-   SAME incoming carry pair. At present it only proves preservation
-   of the existing local step and correct local base tagging.
-   It does NOT yet prove a whole-word reconstruction theorem or
-   a multi-round transfer matrix.
+7. `Magma/Diffan/GBaseTaggedCarryStep.lean` and now
+   **`Magma/Composition/TaggedCarryWord.lean`**:
+   the two S-box outputs share the SAME genuine incoming carry pair.
+   `taggedPrefix_correct` proves all eight steps chain correctly;
+   `taggedPrefix_eight_g` proves both real 32-bit outputs
+   (base `g` and the XOR derivative) after rotate-left-11.
+   **Whole-word reconstruction DONE; a full-width exact
+   triple-fiber transfer matrix is still missing.**
 
 8. `Magma/NinePlus/ParityCollision.lean` and
    `parity_transducer.py`: key parity is a sound reusable path
@@ -87,13 +89,32 @@ eight. Before promising performance, **measure frontier width**
 and transition cardinality; 4 states for one g chain do not imply
 4 states for the three-chain join.
 
-**Smallest immediately useful missing lemma:**
-from `taggedCarryStep`, prove concatenation of eight emitted base
-digits equals the real pre-rotation S-box word (same actual base
-`x+k`), and prove the corresponding 32-bit `g` output after
-rotation. This fills the explicit TODO in
-`GBaseTaggedCarryStep.lean` and provides the needed observable
-for adjoining the third carry chain.
+**Smallest previous missing lemma — COMPLETED (2026-11-03):**
+`TaggedCarryWord.lean` proves that eight sequential
+`taggedCarryStep` transitions reconstruct both the actual
+32-bit base S-box output and its XOR derivative, with proper
+carry propagation and rotation. No `sorry` or new `axiom`.
+
+**First executable transfer + regressions — PROTOTYPED:**
+`triple_carry_nibble_probe.py` verifies the one-nibble
+three-carry factor against 512 full RFC g triples and replays
+two already kernel-certified nontrivial five-round positive
+trajectories. `toy_triple_exact_regression.py` builds a
+true weighted finite-state transfer over two 4-bit nibbles
+(using two RFC S-boxes, 8-bit addition, rotate-left-3).
+Direct Feistel DDT, exact triple sum and weighted DP all give
+**12** in one nonzero test, while the naive DDT convolution
+gives **656** (coupling defect **644**). Toy transfer frontier
+had **8** states for that case. The full 32-bit Magma DDT
+has NOT yet been calculated with this DP.
+
+**Next actual local lemma:** the precise rotate-left-11
+nibble mixing rule, with correct cyclic closure; then
+the full eight-nibble weighted transfer and measured
+frontier width. The basic `bv_decide` attempt did not
+preprocess custom digit/Nat terms, so this is still open.
+Detailed tests and limitations:
+`Magma/Composition/TAGGED_TRANSFER.md`.
 
 ## Priority P1 — reusable exact weighted composition, at a fixed key
 
