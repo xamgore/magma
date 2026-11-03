@@ -2,6 +2,13 @@
 
 Status: 2026-11-03. Scope: **research roadmap, not a new theorem**.
 
+**Current execution plan and freezes:** [ROADMAP.md](ROADMAP.md).
+Its next mandatory problem is the opposite-orientation five-round
+inner core that arises from the exact seven-round outer cut;
+the broad Rust formal proof and premature Rayon work are
+design-frozen, with targeted independent verification retained.
+
+
 **CURRENT P0 MILESTONE COMPLETED:**
 [JOINT_MIDDLE_TRANSFER.md](JOINT_MIDDLE_TRANSFER.md) documents
 full 32-bit *fixed-key five-round* DDT counts **768** and **30,720**,

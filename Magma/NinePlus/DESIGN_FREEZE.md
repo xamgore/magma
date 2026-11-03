@@ -2,6 +2,17 @@
 
 Status: 2026-11-03.
 
+**Update after exact five-round joint carryDP:** The algorithmic
+five-round prerequisite is now complete (two unrestricted
+fixed-key counts independently exhausted by #SMT). See
+[../Composition/ROADMAP.md](../Composition/ROADMAP.md).
+This does **not** lift the broad nine-round SAT/motif freeze:
+the next valid step is exact correlated five-core counting in
+the opposite orientation, then seven-round cuts and targeted
+nine-round linked-key pruning. Focused external SMT tests of
+new compositional claims remain allowed.
+
+
 ## EXPLICIT FREEZE: nine-round SAT motif hunting
 
 The existing one-key parity collision and four-hot internal route
