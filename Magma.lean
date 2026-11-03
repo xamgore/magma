@@ -98,6 +98,7 @@ public import Magma.Diffan.OneHotStructuralZero
 public import Magma.Diffan.KeyFreeCarryAutomaton
 public import Magma.Diffan.OneHotCarryMiddleThree
 public import Magma.Diffan.PairedCarryRefutation
+public import Magma.Diffan.CachedPairedCarry
 public import Magma.Diffan.ThreeRoundMiddleDiagonal
 public import Magma.Diffan.DiagonalSupportScheduledWindows
 public import Magma.Diffan.DiagonalMasterKeyClasses
