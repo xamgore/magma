@@ -6,6 +6,31 @@ counts**, independently exhausted by Z3, using a jointly weighted
 Lean*; the Rust weighted-count ↔ witness-count correspondence is NOT
 yet itself a kernel theorem. Nine-round SAT motif hunting stays frozen.
 
+## Extension: general 64-bit three-round DDT (2026-11-03)
+
+The SAME joint_middle_transfer.rs now accepts arbitrary
+ordinary three-round input `(A,P)` and output `(T,B)`.
+New flags `--core-input-left A` and
+`--core-output-right B` default to zero; historical
+`--alpha P`, `--beta T` are unchanged. Algebraically,
+the first g output E determines second input
+`Q=A XOR rot11(E)`; middle output is `P XOR T`
+and third output `rot11(E) XOR A XOR B`. Both
+cyclic S-box streams and six carry bits are still shared.
+
+Independent full three-round Z3 and the generalized
+Rust transfer give exact **48** for
+`(0x12345678,0x9abcde12)->(0x216ed12f,0x3f6e53d2)`,
+and exact **0** for the strict-correlation central block
+`(0x80000000,0x00000580)->(0xa7018a3d,0x681e60a6)`.
+All 15 old five-round DDT regressions still pass.
+See [SEVEN_CORE.md](SEVEN_CORE.md) for the exact
+derivative equations, fixed keys, and reproducible tests.
+
+The new general three-round block does NOT yet compose
+with the two outside genuine base states of the opposite
+five-round core; this is the next targeted algorithmic task.
+
 ## The mathematical identity
 
 For any three fixed 32-bit Magma round keys k1,k2,k3 and differences
@@ -188,10 +213,17 @@ both full counts, and independent zero-count feasibility.
 
 ## Next actual research barrier
 
-The 32-bit middle word h has now been **eliminated for five
-rounds**. Next prove the exact weighted transfer/witness
-bijection in Lean, and expose a composable interface for
-multiple correlated cores. Seven- and nine-round analysis
-must preserve shared RFC key identities and genuine base
-state correlations at every cut. The nine-round SAT/motif
-branch remains under design freeze.
+The full 32-bit middle word h has been eliminated for
+the five-round OUTER slice. The same weighted engine
+now handles GENERAL three-round DDTs; the direct
+five-round OPPOSITE core has independently verified
+seven-round fixed-key counts (2, 0, 0). See
+SEVEN_CORE.md for the precise constraints and inputs.
+
+**Next active goal:** compose the general three-round
+block with the genuine outer base/difference constraints
+to calculate the opposite five-core efficiently.
+General Rust weighted-bijection Lean formalization is
+explicitly frozen by ROADMAP.md, as is bulk nine-round
+SAT motif hunting. Only targeted independent Z3 checks
+of new correlated composition are allowed.

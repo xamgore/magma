@@ -74,12 +74,16 @@ struct LUT {
     alpha: u32,
     beta: u32,
     reference_h: u32,
+    input_left: u32,
+    output_right: u32,
 }
 impl LUT {
     fn new(
         fixture: usize,
         free_bits: usize,
         override_parameters: Option<([u32; 3], u32, u32, u32)>,
+        input_left: u32,
+        output_right: u32,
     ) -> Self {
         let (keys, alpha, beta, reference_h): ([u32; 3], u32, u32, u32) = match override_parameters
         {
@@ -110,7 +114,12 @@ impl LUT {
         };
         let free_u = free_h.rotate_right(11);
         let reference_u = reference_h.rotate_right(11);
+        // General 3-round DDT:
+        // input (input_left, alpha), output (beta, output_right).
+        // Round-2 XOR output = alpha XOR beta.
+        // Round-3 XOR output = round-1 output XOR input_left XOR output_right.
         let target = (alpha ^ beta).rotate_right(11);
+        let last_offset = (input_left ^ output_right).rotate_right(11);
         let mut mid: Vec<Vec<Mid>> = vec![vec![]; 8 * 4 * 16];
         let mut lr: Vec<Vec<LR>> = vec![vec![]; 8 * 4 * 4 * 16];
         for i in 0..8 {
@@ -118,6 +127,7 @@ impl LUT {
             let a = nib(alpha, i);
             let b = nib(beta, i);
             let target_i = nib(target, i);
+            let last_offset_i = nib(last_offset, i);
             let fixed_u_mask = !(nib(free_u, i)) & 15;
             let fixed_u_value = nib(reference_u, i) & fixed_u_mask;
             for cb in 0..4 {
@@ -138,7 +148,7 @@ impl LUT {
                         for r in 0..16u8 {
                             let (_, e, ca_next) = pair_step(i, k1, a, r, ca as u8);
                             let (_, last, cc_next) = pair_step(i, k3, b, r ^ (h as u8), cc as u8);
-                            if e == last {
+                            if (e ^ last) == last_offset_i {
                                 dst.push(LR {
                                     e,
                                     ca: ca_next,
@@ -159,6 +169,8 @@ impl LUT {
             alpha,
             beta,
             reference_h,
+            input_left,
+            output_right,
         }
     }
     #[inline(always)]
@@ -261,7 +273,10 @@ fn count_joint(
                             let up3 = ((state >> 18) & 15) as usize;
                             let up2 = ((state >> 22) & 15) as usize;
                             let up1 = ((state >> 26) & 15) as u8;
-                            let c = (ep3 >> 1) | ((ep2 & 1) << 3);
+                            // The second-round input difference is the
+                            // first g derivative XOR the input left half.
+                            let c =
+                                ((ep3 >> 1) | ((ep2 & 1) << 3)) ^ (nib(lut.input_left, i) as usize);
                             let h = (up3 >> 1) | ((up2 & 1) << 3);
                             let middles = lut.mids(i, cb, c);
                             let lefts = lut.lrs(i, ca, cc, h);
@@ -377,9 +392,16 @@ fn main() {
     let max_edges = param_u64(&args, "--max-edges", 100_000_000);
     let max_seconds = param_u64(&args, "--max-seconds", 120);
     let overrides = custom_arguments(&args, free_bits);
-    let lut = LUT::new(fixture, free_bits, overrides);
-    eprintln!("PARAMETERS k1=0x{:08x} k2=0x{:08x} k3=0x{:08x} alpha=0x{:08x} beta=0x{:08x} reference_h=0x{:08x} free_h_bits={free_bits}",
-        lut.keys[0],lut.keys[1],lut.keys[2],lut.alpha,lut.beta,lut.reference_h);
+    let input_left = arg_value(&args, "--core-input-left")
+        .map(parse_word)
+        .unwrap_or(0);
+    let output_right = arg_value(&args, "--core-output-right")
+        .map(parse_word)
+        .unwrap_or(0);
+    let lut = LUT::new(fixture, free_bits, overrides, input_left, output_right);
+    eprintln!("PARAMETERS 3-round input=(0x{:08x},0x{:08x}) output=(0x{:08x},0x{:08x}) k1=0x{:08x} k2=0x{:08x} k3=0x{:08x} reference_h=0x{:08x} free_h_bits={free_bits}",
+        lut.input_left,lut.alpha,lut.beta,lut.output_right,
+        lut.keys[0],lut.keys[1],lut.keys[2],lut.reference_h);
     let start = Instant::now();
     let result = count_joint(&lut, max_seeds, max_frontier, max_edges, max_seconds);
     let elapsed = start.elapsed().as_millis();

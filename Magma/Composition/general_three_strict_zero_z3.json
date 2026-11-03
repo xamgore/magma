@@ -1,0 +1,22 @@
+{
+  "keys": [
+    "0x00002056",
+    "0xfdfa7789",
+    "0xf0f8d960"
+  ],
+  "input": [
+    "0x80000000",
+    "0x00000580"
+  ],
+  "output": [
+    "0xa7018a3d",
+    "0x681e60a6"
+  ],
+  "status": "complete_unsat_after_enumeration",
+  "count_or_lower_bound": 0,
+  "sha256_middle_bases": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "every_model_directly_replayed": true,
+  "first_solutions": [],
+  "seconds": 0.018,
+  "limitation": "UNKNOWN and model_cap do NOT prove exactness"
+}

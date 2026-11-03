@@ -1,0 +1,53 @@
+{
+  "keys": [
+    "0x00002056",
+    "0xfdfa7789",
+    "0xf0f8d960"
+  ],
+  "input": [
+    "0x12345678",
+    "0x9abcde12"
+  ],
+  "output": [
+    "0x216ed12f",
+    "0x3f6e53d2"
+  ],
+  "status": "complete_unsat_after_enumeration",
+  "count_or_lower_bound": 48,
+  "sha256_middle_bases": "5c0e13e4c6d20695d541c4d3380543f2beb66d923a9e817abfc14de1fdf03865",
+  "every_model_directly_replayed": true,
+  "first_solutions": [
+    {
+      "plaintext": "0xbbe6861596efb886",
+      "r": "0x96efb886",
+      "z": "0xdc90019a"
+    },
+    {
+      "plaintext": "0xc02789b41231811a",
+      "r": "0x1231811a",
+      "z": "0xbd39ea27"
+    },
+    {
+      "plaintext": "0x1828c65a188d811a",
+      "r": "0x188d811a",
+      "z": "0xbd36a5a7"
+    },
+    {
+      "plaintext": "0x0c1c902282318f08",
+      "r": "0x82318f08",
+      "z": "0x7119ea31"
+    },
+    {
+      "plaintext": "0xf21a8bb48234864a",
+      "r": "0x8234864a",
+      "z": "0xb748e9a7"
+    },
+    {
+      "plaintext": "0xf21d0bb48234866a",
+      "r": "0x8234866a",
+      "z": "0xb748e9a7"
+    }
+  ],
+  "seconds": 1.062,
+  "limitation": "UNKNOWN and model_cap do NOT prove exactness"
+}

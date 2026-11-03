@@ -60,6 +60,16 @@ Retain small deterministic CI fixtures.
 
 ## Phase 1 (P0) — unlock the *correct* seven-round core orientation
 
+**Completed computationally (2026-11-03):** the exact inverse-oriented
+five-round fiber is parameterized by two middle 32-bit base words;
+two independent five-round SMT encodings and a full, independently
+replayed seven-round Feistel SMT produced identical completed counts:
+**2** for a nontrivial positive, **0** for a one-hot zero, and
+**0** for a strict base-correlation zero. See
+[SEVEN_CORE.md](SEVEN_CORE.md) and executable
+`seven_core_regression.py`. The NEXT algorithmic improvement is a
+fast weighted five-core transfer, not another fixed-key SAT witness.
+
 The existing kernel theorem gives exactly:
 
     D7[(a,0) -> (0,b)] = D5_inner[(0,a) -> (b,0)].
@@ -81,6 +91,22 @@ nontrivial seven-round fixed-key counts. No guessed
 orientation equivalences.
 
 ## Phase 2 (P0/P1) — composable correlated block interface
+
+**New exact building block (2026-11-03):** the Rust joint
+three-g carry transfer now accepts arbitrary 64-bit differences
+`(aL,aR)->(bL,bR)`, instead of only `(0,a)->(b,0)`.
+The full 32-bit RFC Magma count **48** for a nontrivial
+four-active-half endpoint and a strict correlated **0** were
+independently exhausted by Z3. The latter detects an obstruction
+that survives all five independent local DDTs. The same
+generalized executable passed all 15 legacy exact five-round
+regressions, including 768 and 30,720. See SEVEN_CORE.md.
+
+**Remaining P0:** join the general three-round kernel with
+both outer one-round derivatives while retaining the *actual*
+two side-base values and their S-box/carry correlations.
+The central three-round support + outer local supports is
+a sound necessary filter, NOT an exact five-core count.
 
 Construct an exact weighted two-block join across a
 full intermediate (base state, XOR difference) point.
@@ -151,8 +177,10 @@ The science target is new reusable exact elimination or
 all-keys impossibility criteria, not additional huge
 certificate files.
 
-**Next action:** formulate and test the inverse-oriented
-five-round core (0,a)->(b,0), then turn it into an exact
-seven-round outer count using the existing boundary theorem.
-This is the shortest mathematically valid route from our
-new five-round tool to additional rounds.
+**Next action:** compose the now-general exact three-round
+carry/tag kernel with the FIRST and LAST g-derivative constraints
+of the opposite-oriented five-round core, retaining real
+base-state consistency. Benchmark the resulting state graph
+against the independently completed seven-round fixed-key
+counts (2, 0, 0) and the strict local-SAT/middle-UNSAT control.
+Only then advance to nine-round key-linked cores.

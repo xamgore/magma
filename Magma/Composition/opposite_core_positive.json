@@ -1,0 +1,73 @@
+{
+  "input_5core": [
+    "0x00000000",
+    "0x80000000"
+  ],
+  "output_5core": [
+    "0x681e60a7",
+    "0x00000000"
+  ],
+  "input_7outer": [
+    "0x80000000",
+    "0x00000000"
+  ],
+  "output_7outer": [
+    "0x00000000",
+    "0x681e60a7"
+  ],
+  "keys_5": [
+    "0x00000000",
+    "0x00002056",
+    "0xfdfa7789",
+    "0xf0f8d960",
+    "0x00000000"
+  ],
+  "keys_7": [
+    "0x12345678",
+    "0x00000000",
+    "0x00002056",
+    "0xfdfa7789",
+    "0xf0f8d960",
+    "0x00000000",
+    "0x87654321"
+  ],
+  "methods": [
+    {
+      "method": "middle",
+      "status": "complete_unsat_after_enumeration",
+      "count_or_lower_bound": 2,
+      "sha256_sorted_middle_bases": "120fb94a79c1f666068a50a105966b644d22810adf27457633cd198157a0e9e9",
+      "seconds": 1.196,
+      "sample_pairs": [
+        [
+          "0xd1ffda2c",
+          "0xdb2d0880"
+        ],
+        [
+          "0xd1ffdfac",
+          "0x80ce88e2"
+        ]
+      ]
+    },
+    {
+      "method": "direct",
+      "status": "complete_unsat_after_enumeration",
+      "count_or_lower_bound": 2,
+      "sha256_sorted_middle_bases": "120fb94a79c1f666068a50a105966b644d22810adf27457633cd198157a0e9e9",
+      "seconds": 0.667,
+      "sample_pairs": [
+        [
+          "0xd1ffda2c",
+          "0xdb2d0880"
+        ],
+        [
+          "0xd1ffdfac",
+          "0x80ce88e2"
+        ]
+      ]
+    }
+  ],
+  "discovery": null,
+  "formal_status": "kernel-proved 7->5 boundary count identity in FirstRoundDeletion.lean; computational opposite-core counts",
+  "note": "Fixed-key counts ONLY, not universal 7-round impossible differences."
+}

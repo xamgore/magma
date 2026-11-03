@@ -1,0 +1,41 @@
+{
+  "scope": "seven RFC ordinary Feistel rounds, full 64-bit base, no 7->5 SMT shortcut",
+  "key_words": [
+    "0x11223344",
+    "0x00000000",
+    "0x00002056",
+    "0xfdfa7789",
+    "0xf0f8d960",
+    "0x00000000",
+    "0xabcdef01",
+    "0xdeadbeef"
+  ],
+  "keys7": [
+    "0x11223344",
+    "0x00000000",
+    "0x00002056",
+    "0xfdfa7789",
+    "0xf0f8d960",
+    "0x00000000",
+    "0xabcdef01"
+  ],
+  "alpha": "0x80000000",
+  "beta": "0x681e60a7",
+  "status": "complete_unsat_after_enumeration",
+  "count_or_lower_bound": 2,
+  "sha256_sorted_middle_bases": "120fb94a79c1f666068a50a105966b644d22810adf27457633cd198157a0e9e9",
+  "all_models_independently_replayed": true,
+  "first_models": [
+    {
+      "outer_base": "0x2173829e5b483937",
+      "inner_r": "0xd1ffdfac",
+      "inner_z": "0x80ce88e2"
+    },
+    {
+      "outer_base": "0xa173829e5b483937",
+      "inner_r": "0xd1ffda2c",
+      "inner_z": "0xdb2d0880"
+    }
+  ],
+  "seconds": 1.519
+}

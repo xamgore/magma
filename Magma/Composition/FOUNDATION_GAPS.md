@@ -2,11 +2,22 @@
 
 Status: 2026-11-03. Scope: **research roadmap, not a new theorem**.
 
+**2026-11-03 seven-round update:** [SEVEN_CORE.md](SEVEN_CORE.md)
+contains the exact inverse-oriented five-round two-word formula,
+three independently completed seven-round fixed-key counts (2,0,0),
+a strict local-DDT SAT -> real base-linked UNSAT example, and a
+GENERAL three-round weighted carry transfer with Z3-verified counts
+48 and 0. The remaining computational barrier is joining first
+and last derivative BASE correlations to this inner three-round
+block; the Rust-weight formalization remains frozen.
+
 **Current execution plan and freezes:** [ROADMAP.md](ROADMAP.md).
-Its next mandatory problem is the opposite-orientation five-round
-inner core that arises from the exact seven-round outer cut;
-the broad Rust formal proof and premature Rayon work are
-design-frozen, with targeted independent verification retained.
+The opposite-orientation five-round fiber and exact seven-round
+fixed-key counts have now been worked out computationally.
+The NEXT algorithmic task is exact composition of our
+general three-round transfer with both outer g derivatives,
+preserving their original base states. Broad Rust formal
+proof and premature Rayon work remain design-frozen.
 
 
 **CURRENT P0 MILESTONE COMPLETED:**
@@ -16,8 +27,10 @@ using one joint weighted transfer that sums over all 2^32 middle
 base words h. Both exact counts were independently exhausted by Z3
 with direct five-round Feistel replay. The general Lean
 `jointTaggedAccept_iff_real` proves the symbolic local tag semantics.
-The next proof obligation is the Rust **weighted aggregation/
-bijection**, not elimination of h itself.
+The Rust **weighted aggregation/bijection** remains an
+UNPROVED formal obligation but is explicitly DESIGN-FROZEN
+in ROADMAP.md. Current work targets multi-block correlated
+composition rather than another proof-only branch.
 
 
 The three supplied full-text papers are distilled in
@@ -171,12 +184,17 @@ independently exhausted by Z3 with full Feistel replay.
 acceptance condition matches exact 32-bit triple-derivative
 equations for arbitrary keys/bases.
 
-**Remaining P1 proof obligation:** formalize weighted
-HashMap/cyclic-boundary DP path-count equality in Lean and
-expose a reusable, provably exact interface for composing
-additional correlated cores. This distinction matters:
-the reported numeric counts are exact computational
-calculations, NOT yet kernel-proved count theorems.
+**Formal P1 obligation — FROZEN:** weighted HashMap/
+cyclic-boundary DP path-count equality in Lean has
+not been established. The complete counts are
+independently exhausted computational calculations,
+NOT kernel-proved count theorems. Unfreeze only if
+the new mathematical reduction actually requires it.
+
+**ACTIVE next algorithm:** join the now-general exact
+three-round carry block with the two outer Feistel
+derivatives, maintaining true base-state identities.
+See SEVEN_CORE.md and ROADMAP.md.
 See `Magma/Composition/JOINT_MIDDLE_TRANSFER.md`.
 
 ## Priority P1 — reusable exact weighted composition, at a fixed key

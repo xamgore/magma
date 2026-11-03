@@ -1,0 +1,126 @@
+{
+  "research_scope": "RFC 8891 real five opposite / seven outer / general three carryDP",
+  "five_core_inverse_orientation": "(0,a) -> (b,0)",
+  "seven_round_outer_orientation": "(a,0) -> (0,b)",
+  "keys7": [
+    "0x12345678",
+    "0x00000000",
+    "0x00002056",
+    "0xfdfa7789",
+    "0xf0f8d960",
+    "0x00000000",
+    "0x87654321"
+  ],
+  "three_independent_seven_models": [
+    {
+      "name": "positive",
+      "alpha": "0x80000000",
+      "beta": "0x681e60a7",
+      "actual_fixed_key_seven_round_ddt": 2,
+      "independent_oracles": [
+        "middle_two_word_Z3",
+        "direct_five_round_Z3",
+        "full_seven_round_Z3"
+      ],
+      "z3_times_seconds": [
+        1.196,
+        0.667,
+        1.269
+      ],
+      "sorted_solution_sha256": "120fb94a79c1f666068a50a105966b644d22810adf27457633cd198157a0e9e9"
+    },
+    {
+      "name": "unit_zero",
+      "alpha": "0x00000001",
+      "beta": "0x00000001",
+      "actual_fixed_key_seven_round_ddt": 0,
+      "independent_oracles": [
+        "middle_two_word_Z3",
+        "direct_five_round_Z3",
+        "full_seven_round_Z3"
+      ],
+      "z3_times_seconds": [
+        0.147,
+        0.122,
+        0.332
+      ],
+      "sorted_solution_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "strict_zero",
+      "alpha": "0x80000000",
+      "beta": "0x681e60a6",
+      "actual_fixed_key_seven_round_ddt": 0,
+      "independent_oracles": [
+        "middle_two_word_Z3",
+        "direct_five_round_Z3",
+        "full_seven_round_Z3"
+      ],
+      "z3_times_seconds": [
+        0.364,
+        0.167,
+        0.624
+      ],
+      "sorted_solution_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "seven_outer_boundary_key_control": "completed_exact2_same_middle_pair_set",
+  "base_correlation_hierarchy": [
+    "SAT",
+    "UNSAT",
+    "UNSAT",
+    "UNSAT"
+  ],
+  "general_three_rust_and_Z3": [
+    {
+      "name": "general_positive",
+      "input": [
+        "0x12345678",
+        "0x9abcde12"
+      ],
+      "output": [
+        "0x216ed12f",
+        "0x3f6e53d2"
+      ],
+      "exact_three_round_ddt": 48,
+      "independent_Z3_status": "complete_unsat_after_enumeration",
+      "z3_seconds": 1.062,
+      "rust_seconds": 0.87,
+      "rust_max_frontier": 544,
+      "rust_local_edges": 29778182,
+      "z3_replayed_model_sha256": "5c0e13e4c6d20695d541c4d3380543f2beb66d923a9e817abfc14de1fdf03865"
+    },
+    {
+      "name": "correlation_zero",
+      "input": [
+        "0x80000000",
+        "0x00000580"
+      ],
+      "output": [
+        "0xa7018a3d",
+        "0x681e60a6"
+      ],
+      "exact_three_round_ddt": 0,
+      "independent_Z3_status": "complete_unsat_after_enumeration",
+      "z3_seconds": 0.018,
+      "rust_seconds": 1.055,
+      "rust_max_frontier": 2048,
+      "rust_local_edges": 58689120,
+      "z3_replayed_model_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_sha256": {
+    "opposite_five_fiber.py": "49898005dc3872e6c16471efcbddaea7859672a612dc74dca7f16e42b1968fd3",
+    "verify_seven_direct.py": "4f5e0585a6fec316385122abcab58464e8fbf57ac0cd77a75681bb48644bccb8",
+    "opposite_support_hierarchy.py": "7aeca44345ae394a76156fddd2aaa3aa19a692d2de18b95245e74cc57b711137",
+    "joint_middle_transfer.rs": "3751e86f2d5732a31ee2691958cdc99116fec22ca2e80c2298a29c8b8ee71a2e",
+    "verify_joint_three.py": "6ad94f50fb41235ca7b472d2b570de6562eab1684935d712db31125fbefc72c6"
+  },
+  "claim_limits": [
+    "zero per fixed key does NOT imply universal impossible differential",
+    "local SAT model with independent bases is NOT a real Feistel witness",
+    "Rust weighted aggregation not yet a Lean kernel theorem",
+    "seven-round full counts use independent Z3, not the new Rust three-core alone"
+  ],
+  "wall_seconds": 10.693
+}

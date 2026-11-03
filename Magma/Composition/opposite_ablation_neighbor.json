@@ -1,0 +1,65 @@
+{
+  "keys": [
+    "0x00000000",
+    "0x00002056",
+    "0xfdfa7789",
+    "0xf0f8d960",
+    "0x00000000"
+  ],
+  "alpha": "0x80000000",
+  "beta": "0x681e60a6",
+  "models": [
+    {
+      "model": "independent_local_5g",
+      "status": "SAT",
+      "seconds": 0.071,
+      "added_base_links": [],
+      "difference_trace": [
+        "0x00000000",
+        "0x80000000",
+        "0x00000580",
+        "0x5be38006",
+        "0xa7018a3d",
+        "0x681e60a6",
+        "0x00000000"
+      ],
+      "base_words_x1_to_x5": [
+        "0x30000000",
+        "0xcadfda30",
+        "0xdb0d5027",
+        "0x47047c06",
+        "0x10471088"
+      ],
+      "all_constraints_independently_replayed": true
+    },
+    {
+      "model": "middle_base_coupled",
+      "status": "UNSAT",
+      "seconds": 0.128,
+      "added_base_links": [
+        "mid"
+      ]
+    },
+    {
+      "model": "middle_and_left_base",
+      "status": "UNSAT",
+      "seconds": 0.057,
+      "added_base_links": [
+        "mid",
+        "left"
+      ]
+    },
+    {
+      "model": "fully_coupled_five_round",
+      "status": "UNSAT",
+      "seconds": 0.049,
+      "added_base_links": [
+        "mid",
+        "left",
+        "right"
+      ]
+    }
+  ],
+  "scope": "Five exact independent round derivative supports with progressively restored Feistel base equality; necessary-only when not fully linked",
+  "caveat": "SAT of a relaxation does not imply actual Feistel reachability; UNKNOWN does not mean UNSAT."
+}
