@@ -3,6 +3,7 @@ module
 public import Diffan.DifferenceSpace
 public import Diffan.ConjugatedDifferenceSpace
 public import Diffan.TwistedConditionalGram
+public import Diffan.ReflectedMacroSchedule
 public import Diffan.Differential
 public import Diffan.Constraints
 public import Diffan.Composition

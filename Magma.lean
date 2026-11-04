@@ -165,6 +165,7 @@ public import Magma.Diffan.HighNibbleOutputMaskCertificates
 public import Magma.Diffan.SevenTopNibbleImpossible
 public import Magma.Diffan.SevenNibbleValuationClasses
 public import Magma.Diffan.NineReflection
+public import Magma.Diffan.FullScheduleConjugacy
 public import Magma.Diffan.AdjacentHighNibbleMaskCertificates
 public import Magma.Diffan.FourRoundScheduledMiddleFibers
 public import Magma.Diffan.FourRoundForcedMiddleDifference

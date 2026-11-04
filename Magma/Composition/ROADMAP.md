@@ -23,6 +23,26 @@ criteria at 9+ rounds or a well-understood computational barrier.
   differential. A nine-round impossible differential is NOT
   presently established.
 
+## Full RFC structural composition: 2026-11-04 milestone
+
+The native round-key schedule is H|H|H|reverse(H), where H is the
+same eight-round Feistel block. Because the RFC final round is
+GStar (no final swap), the actual cipher C obeys
+C = H^-1 o J o H^3 and H o C o H^-1 = J o H^2.
+This is proved against native roundKey and encrypt in
+Magma/Diffan/FullScheduleConjugacy.lean. Its exact DDT
+reduction is only in the H-pulled-back difference geometry,
+NOT in ordinary XOR. The cipher-independent n-fold generalization
+is in Diffan/ReflectedMacroSchedule.lean.
+See [FULL_SCHEDULE_REFLECTION.md](FULL_SCHEDULE_REFLECTION.md).
+
+**F4 — exact carry/frontier local-variable exclusion: FROZEN NOW.**
+Do not pursue faster 32-bit join/ADD/BDD or a new SAT batch merely
+because the tool exists. The primary research target is new
+compositional laws and conditions for retaining or discarding
+state labels. Targeted SAT checks up to 600 seconds remain allowed
+when they settle a concrete mathematical uncertainty.
+
 ## Explicit design freezes
 
 **F1 — formal verification of the Rust weight aggregator: FROZEN.**

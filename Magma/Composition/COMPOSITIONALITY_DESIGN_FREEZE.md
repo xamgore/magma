@@ -3,6 +3,17 @@
 **Frozen 2026-11-04. Priority: REUSABLE DIFFAN COMPOSITION, not
 maximizing searched round counts or chasing isolated impossible cells.**
 
+**2026-11-04 P0 UPDATE: LOCAL SPARSE/CARRY/BDD EXCLUSION IS ALSO FROZEN.**
+It has proved useful as an engineering diagnostic, but it is NOT
+needed to establish the general composition algebra. See
+[FULL_SCHEDULE_REFLECTION.md](FULL_SCHEDULE_REFLECTION.md):
+actual RFC 32-round encryption is formally H-conjugate to
+J o H², and the exact integer DDT reduces from 32 rounds
+to 16 only in the nonlinear H-transferred difference geometry.
+Diffan/ReflectedMacroSchedule.lean proves the generic law
+for arbitrary reflected/repeated permutation blocks.
+The frozen next P0 is new exact **theorems**, not a larger solver.
+
 The source of truth is genuine fixed-key Feistel/bitvector semantics,
 exact integer counts, actual base correlations, and complete/LIMIT
 separation. Any future proposed shortcut must satisfy the gates below.
