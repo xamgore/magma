@@ -220,6 +220,23 @@ This is a SAT-reflection trust dependency; do NOT describe
 this proof as pure Lean-kernel-only. All other steps are
 ordinary Lean proof terms.
 
+## 5b. The actual related-key oracle test, and why it is not standard
+
+The separate Lean module
+Magma/Diffan/RelatedKeyOracleDistinguisher.lean
+packages the full native encryption into a public
+TWO-query test with a K oracle and a distinct (K xor M)
+oracle. It ALWAYS passes for Magma, versus conditional
+probability 2^-64 for independent keyed ideal permutations.
+This is a legitimate related-key distinguisher, but it
+cannot be run with only ONE unknown-key oracle.
+Diffan/OracleObservableBarrier.lean proves that every
+arbitrary permutation admits such a conjugate partner,
+so the bare cross-key gauge implies no fixed-key bias.
+See [FULL_32_ATTACK_GATE.md](FULL_32_ATTACK_GATE.md) for
+the explicit threat model and original-XOR full-cipher
+attack acceptance criteria.
+
 ## 6. Big-picture and limits
 
 This is a FULL 32-round base-free equivalence

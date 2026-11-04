@@ -169,6 +169,8 @@ public import Magma.Diffan.FullScheduleConjugacy
 public import Magma.Diffan.FullScheduleXorSymmetries
 public import Magma.Diffan.FullKeyMSBGauge
 public import Magma.Diffan.FullKeyMSBBoomerang
+public import Magma.Diffan.PalindromicOracle
+public import Magma.Diffan.RelatedKeyOracleDistinguisher
 public import Magma.Diffan.AdjacentHighNibbleMaskCertificates
 public import Magma.Diffan.FourRoundScheduledMiddleFibers
 public import Magma.Diffan.FourRoundForcedMiddleDifference

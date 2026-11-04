@@ -137,6 +137,40 @@ the same round-function top-bit gauge and does not
 constitute a full-Magma cryptanalytic break.
 Carry/BDD/SAT optimization F4 remains FROZEN.
 
+## 2026-11-05: attack-observability gate (no fake full-key break)
+
+**Read [FULL_32_ATTACK_GATE.md](FULL_32_ATTACK_GATE.md) first.**
+For the TRUE 16-round palindrome [0..7,7..0], Lean now proves
+EXACTLY 2^32 publicly detectable matches E16(x)=J(x)
+for all keys. This yields a genuine unknown-key 16-round
+oracle distinguisher using ~2^32 chosen inputs, against
+an ideal-permutation single-input probability 2^-64.
+
+For the full native C32=Q16 o H², the same test does
+NOT directly survive: the needed H²(x) is unknown.
+Across 600 random 8-bit-total-state toy keys, the full
+cipher has ~1 fixed/swap match, not 16. A real RFC test
+refutes ALL 12,285 nontrivial reduced public operator
+identities of length <=12 on {C,C^-1,J}. An exact
+small-group image test finds all even cycle TYPES
+represented in an abstract 8-state full-macro model.
+Neither test is a full-width security proof.
+
+A FULL 32-round TWO-query RELATED-KEY distinguisher does
+exist (real RFC K and K xor highest bit of each word),
+with ideal independent-key false positive 2^-64;
+Lean now specifies its actual oracle interface.
+Diffan/OracleObservableBarrier.lean proves that such a
+related-key gauge alone cannot restrict ANY individual
+single-key permutation: every arbitrary permutation
+admits a formal conjugate partner.
+
+**Standard one-unknown-key 32-round distinguisher/key
+recovery remains OPEN.** New research must start with
+a public test, a random-permutation baseline, and a
+concrete data/time estimate before building a solver.
+F4 sparse carry/BDD/SAT optimization stays FROZEN.
+
 ## Explicit design freezes
 
 **F1 — formal verification of the Rust weight aggregator: FROZEN.**

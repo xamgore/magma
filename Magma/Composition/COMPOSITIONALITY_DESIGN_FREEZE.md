@@ -26,6 +26,19 @@ but no small sufficient ORIGINAL-XOR quotient is yet proved.
 The next P0 is a proof obligation on the quotient of the
 full input/central/output relational transducer, not SAT.
 
+**2026-11-05 observability gate:** [FULL_32_ATTACK_GATE.md](FULL_32_ATTACK_GATE.md).
+The palindromic suffix DOES yield an unknown-key 16-round
+oracle distinguisher via exactly 2^32 matches E16(x)=Jx;
+this does NOT lift without the unknown H² interface to the
+full C32. A related-key two-query distinguisher for full
+C32 is now explicitly formalized, but the generic no-go
+lemma shows it imposes no single-key restriction by itself.
+Plain public C,C^-1,J identities of length <=12 are ALL
+refuted by a real-key counterexample. The new acceptance
+gate is a key-free observable on full C with an ideal
+random-permutation baseline and below-birthday costs,
+not another algebraic symmetry. F4 remains FROZEN.
+
 **Cross-key full 32-round result (not within-key quotient):**
 [FULL_KEY_MSB_GAUGE.md](FULL_KEY_MSB_GAUGE.md).
 For every actual 256-bit master key, flipping bit 31 of
