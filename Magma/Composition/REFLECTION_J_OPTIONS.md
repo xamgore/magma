@@ -181,6 +181,21 @@ exploit the palindromic key schedule.
 - Prior checked 8-round palindrome/involution:
   Magma/NinePlus/reflection_window20.py.
 
+**2026-11-04 new formal close:** the entire reflected
+nine-round DDT composition, Q involution, exact symmetry,
+2^32 fixed-point count, and the exact two-forward-G
+crossing **fiber bijection** have all been checked in
+Magma/Diffan/NineReflection.lean. See
+[NINE_REFLECTION_CERTIFIED.md](NINE_REFLECTION_CERTIFIED.md)
+for full proof and performance gates. The main exact
+nine-round crossing count theorem uses ZERO native
+bv_decide proof-reflection axioms. The Z3 toy benchmark
+includes an 8-bit zero found in 2s by the 4-round
+crossing while direct nine reached UNKNOWN after 5s;
+full 32-bit controls BOTH reached UNKNOWN at six seconds.
+No full-width nine-round zero, fast integer counter, or
+all-key impossible differential has been claimed.
+
 No aggressive optimization, broad nine-round SAT searches,
 or unrelated Lean weight-aggregator proof work has been
 unfrozen. The P0 is now a measured compressed conditional

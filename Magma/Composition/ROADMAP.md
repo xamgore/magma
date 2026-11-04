@@ -196,6 +196,47 @@ false-join regression and independent #SMT counts.
 or soundly prunes at least one case beyond the five-round
 outer family, with measured runtime, frontier and errors.
 
+## 2026-11-04: exact nine-round reflected four-G crossing is Lean-certified
+
+**New rigorous P0 result.** The true RFC 20..28 ordinary Feistel key
+schedule `[4,5,6,7,7,6,5,4,3]` permits a reflection
+`Q = J o H_rev o H = H^{-1} o J o H` where H consists of the first
+FOUR rounds. `Magma/Diffan/NineReflection.lean` proves
+`Q_involutive`, the exact integer DDT identity
+`D9((a,0),(0,b))=D_Q((a,0),(0,b))`, D_Q symmetry, and exactly
+2^32 fixed points for ALL selected key words.
+
+**Most relevant new interface:**
+`nine_ddt_eq_fourCrossingMass` proves by an explicit state-pair
+BIJECTION that the original nine-round integer DDT equals the count
+of `(x,y)` with BOTH `H(y)=J H(x)` and
+`H(y xor (0,b))=J H(x xor (a,0))`.
+The first equation uniquely fixes the correlated partner y.
+There is NO product of independent four-round DDT coefficients.
+The main nine-round theorem, fixed-point cardinality and symmetric
+DDT have ZERO native `bv_decide` axiom dependencies according to
+`#print axioms` (only the standard Lean propext, choice, quotient
+axioms as applicable). See
+[NINE_REFLECTION_CERTIFIED.md](NINE_REFLECTION_CERTIFIED.md).
+
+A real-S-box first-active-digit support rule was independently checked
+with fully symbolic RFC 32-bit key, base, and difference. Its complete
+192-cell 7/8/9 outer nibble-class grid still excludes ONLY the six
+existing seven-round classes. Thus single-round first-S-box-digit
+support cannot by itself extend the universal zero to nine rounds.
+
+Bounded Z3: the two-four-G crossing and direct nine match exact
+toy counts `2,0,2` for 4-bit words. An 8-bit toy returns
+crossing `complete zero` in 2.0s vs direct 9 `UNKNOWN` at 5s.
+For full 32-bit actual RFC Magma, BOTH tested methods returned
+`UNKNOWN` at 6s. This is NOT a 32-bit nine-round zero or a
+fast exact full-width counter. The next P0 is compressed,
+carry-tag-aware H-crossing elimination preserving shared real base
+words, measured on a full-width exact fixed-key control.
+
+Bulk nine-round SAT, speculative parallel optimization and the
+unrelated Rust aggregation proof remain FROZEN.
+
 ## Phase 3 — investigate nine-round obstacles, not more witnesses
 
 The exact boundary theorem reduces nine-round outer
