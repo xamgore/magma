@@ -52,6 +52,31 @@ for arbitrary DifferenceSpaces. This remains a 2-element
 CROSS-KEY gauge, not an intrakey compact factor of
 the 2^64-state DDT. Frozen carry/SAT/BDD work remains frozen.
 
+**2026-11-05 RESTORED GOAL:**
+[HALF_ZERO_32_COMPOSITION.md](HALF_ZERO_32_COMPOSITION.md).
+One FIXED actual master key, 32 genuine rounds, exact
+compositional computation of OUTER half-zero XOR DDT
+slices (a,0)->(0,b), and aggregate versions of them.
+New native RFC Lean theorem gives exact 16+16 join with
+ONE matching middle base and a FUNCTIONAL middle delta;
+a second theorem eliminates the output label b from
+sum_b D_C((a,0),(0,b)), yielding a 32-bit left-ciphertext
+projection collision count. Generic fiber-square energy
+and output-label elimination are proved in Diffan.
+
+**DO NOT PROJECT middle differences onto a zero-half slice.**
+This is NOT compositional: the full-32 one-Sbox toy
+loses 194/210 correct witnesses at cut16 and creates
+false zeros. Keep the mixed (nonzero,nonzero) type,
+with actual base/state correlation, in any exact join.
+
+The user prioritized exact recombination and simplification
+for differential TYPES, not searching key families or a
+full-32 key-recovery attack. A faster full-width evaluator
+remains a mathematically UNPROVED open problem; F4 carry
+elimination/BDD/SMT implementation is still frozen until
+an exact quotient/compression law supports it.
+
 The source of truth is genuine fixed-key Feistel/bitvector semantics,
 exact integer counts, actual base correlations, and complete/LIMIT
 separation. Any future proposed shortcut must satisfy the gates below.

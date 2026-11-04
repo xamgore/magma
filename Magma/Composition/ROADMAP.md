@@ -171,6 +171,50 @@ a public test, a random-permutation baseline, and a
 concrete data/time estimate before building a solver.
 F4 sparse carry/BDD/SAT optimization stays FROZEN.
 
+## 2026-11-05: restored PRIMARY goal — exact full-32 HALF-ZERO slice composition
+
+**Read [HALF_ZERO_32_COMPOSITION.md](HALF_ZERO_32_COMPOSITION.md).**
+The actual task is fixed-key kernel recombination of native
+RFC 32-round Magma, not seeking a key change or early attack.
+External XOR difference endpoints (a,0)->(0,b) are legitimate
+restricted DDT queries; true first Feistel G deterministically
+maps (a,0)->(0,a), for ALL real keys and bases.
+
+**NEW Lean exact full-RFC 16+16 join:** with F=H² and
+Q=H^-1 J H, the native cipher is C=Q o F. The exact
+S_K(a,b) is a SUM over actual midpoint bases u with
+functional mu=F(F^-1(u) XOR (a,0)) XOR u and predicate
+d_Q(u,mu)=(0,b). There is NO independently sampled
+midpoint difference and NO lost shared-base correlation.
+Diffan/ExactBaseJoin.lean is generic for any DifferenceSpace;
+Magma/Diffan/Full32SlicedJoin.lean proves this for actual
+256-bit RFC master keys and encrypt/GStar.
+
+**IMPORTANT COUNTEREXAMPLE to internal zero-half projection:**
+one-Sbox full-32 toy exactly counts 210 nontrivial boundary
+witnesses. Of these, 194 carry BOTH difference halves
+nonzero at cut16. A naive half-zero-only projection retains
+just 16/210, even falsely declaring D_toy(1,4)=0 rather
+than its true positive count 2. The full 16+16 conditioned
+join recovers all 225 slice coefficients exactly.
+
+**NEW simpler difference TYPES:** sum_b S_K(a,b) equals
+one exact 32-bit projected-left ciphertext collision count
+at fixed right input and XOR-left perturbation. This is
+proved in Lean for actual full native RFC encryption.
+Sum over a as well yields E_K=sum_(r,y)m_K(r,y)^2,
+where m_K counts left-output-projection fiber sizes;
+its grouping law is separately proved in generic Lean.
+600-key toy versus independent random permutations shows
+NO decisive bias (~226 vs ~225 nontrivial energy).
+
+Next P0: seek a mathematically certified SMALL state or
+fiber statistic that computes these exact slice aggregates
+without enumerating all 2^64 midpoint/base states.
+Freeze expensive carry/BDD/SAT optimization until there
+is such a theorem. No key-recovery/attack conclusion from
+these identities alone.
+
 ## Explicit design freezes
 
 **F1 — formal verification of the Rust weight aggregator: FROZEN.**

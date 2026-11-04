@@ -8,6 +8,8 @@ public import Diffan.TransportedXorQuotients
 public import Diffan.ConjugacyCycleInvariants
 public import Diffan.BoomerangGauge
 public import Diffan.OracleObservableBarrier
+public import Diffan.ExactBaseJoin
+public import Diffan.SlicedCollisionEnergy
 public import Diffan.Differential
 public import Diffan.Constraints
 public import Diffan.Composition
