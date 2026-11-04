@@ -273,6 +273,15 @@ REJECTED:
   key-Hamming-weight-only full-32 impossible
   differential follows from spectral similarity.
 
+SUBSEQUENT CROSS-KEY ADVANCE:
+- [FULL_KEY_MSB_GAUGE.md](FULL_KEY_MSB_GAUGE.md) now proves
+  original XOR-DDT and BCT equality for paired FULL
+  256-bit RFC master keys differing in the highest bit
+  of each of eight words; LAT absolute values agree.
+  This is an ordinary XOR-translation equivalence
+  BETWEEN KEYS, not a quotient of the input space
+  within a single fixed-key XOR-DDT.
+
 STILL OPEN:
 - a cheap, nontrivial, base-free quotient of the
   ACTUAL full 32-round standard-XOR DDT that

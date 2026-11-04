@@ -6,6 +6,7 @@ public import Diffan.TwistedConditionalGram
 public import Diffan.ReflectedMacroSchedule
 public import Diffan.TransportedXorQuotients
 public import Diffan.ConjugacyCycleInvariants
+public import Diffan.BoomerangGauge
 public import Diffan.Differential
 public import Diffan.Constraints
 public import Diffan.Composition

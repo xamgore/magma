@@ -248,6 +248,18 @@ quotient is STILL OPEN. Conjugacy preserves permutation
 cycle counts at all powers, formalized in
 Diffan/ConjugacyCycleInvariants.lean, not ordinary DDTs.
 
+## 5b. Genuine 32-round cross-key affine gauge
+
+A separate, non-nonlinear-conjugacy result is now proved
+in [FULL_KEY_MSB_GAUGE.md](FULL_KEY_MSB_GAUGE.md): toggling
+bit 31 of EACH of the eight RFC master-key words conjugates
+the WHOLE native 32-round encrypt by the known 64-bit XOR
+translation 0x8000000080000000. This preserves original
+XOR-DDT and inverse-sensitive BCT exactly, and LAT up to
+a known sign. Distinct from the H-conjugacy discussed above,
+this result does NOT need transported difference geometry.
+It still does not compute individual coefficients quickly.
+
 ## 6. Frozen priorities
 
 P0: seek REUSABLE THEOREMS rather than expensive

@@ -26,6 +26,19 @@ but no small sufficient ORIGINAL-XOR quotient is yet proved.
 The next P0 is a proof obligation on the quotient of the
 full input/central/output relational transducer, not SAT.
 
+**Cross-key full 32-round result (not within-key quotient):**
+[FULL_KEY_MSB_GAUGE.md](FULL_KEY_MSB_GAUGE.md).
+For every actual 256-bit master key, flipping bit 31 of
+all eight key words conjugates native RFC encryption by
+the KNOWN 64-bit XOR translation 0x8000000080000000.
+Thus the ORIGINAL XOR-DDT and inverse-sensitive BCT
+are identical across the two key settings, while the
+full LAT transforms by a known sign. Lean proves all
+full-width statements; the generic BCT transport works
+for arbitrary DifferenceSpaces. This remains a 2-element
+CROSS-KEY gauge, not an intrakey compact factor of
+the 2^64-state DDT. Frozen carry/SAT/BDD work remains frozen.
+
 The source of truth is genuine fixed-key Feistel/bitvector semantics,
 exact integer counts, actual base correlations, and complete/LIMIT
 separation. Any future proposed shortcut must satisfy the gates below.

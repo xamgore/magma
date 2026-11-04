@@ -80,6 +80,63 @@ ordinary-XOR DDT has yet been established. F4 remains
 FROZEN; next goal is algebraic labelled-transducer
 congruence, not another long SAT or carry-join run.
 
+## Full-32 original-XOR key gauge: DDT, LAT and BCT
+
+**2026-11-04 follow-up: [FULL_KEY_MSB_GAUGE.md](FULL_KEY_MSB_GAUGE.md)**
+
+For every 256-bit master key K let K' be K XOR the
+256-bit mask 0x80000000 repeated in EACH of its
+eight 32-bit words, and t=0x8000000080000000
+be a 64-bit state-word XOR mask.
+
+For ACTUAL RFC encryption, all 32 rounds including
+the last no-swap GStar,
+
+    E_K'(x XOR t) = E_K(x) XOR t.
+
+This is proved for ALL keys and input states in
+Magma/Diffan/FullKeyMSBGauge.lean using the exact
+modular arithmetic/S-box/ROL11 identity
+g_(k XOR 2^31)(x XOR 2^31)=g_k(x).
+
+The difference geometry is the ORIGINAL XOR, so
+
+    D_E_K'^XOR(a,b) = D_E_K^XOR(a,b)
+
+for ALL full 64-bit a,b, with EXACT natural-number
+multiplicities, not just support. Master-key flip
+orbits have size exactly TWO. This only exhibits a
+two-key equivalence under one action, not a full
+classification of key-equivalence classes.
+
+A new GENERIC exact inverse-sensitive
+boomerang-connectivity table transport theorem in
+Diffan/BoomerangGauge.lean (for any DifferenceSpace)
+gives the full native RFC BCT counterpart
+
+    BCT_E_K'(a,b) = BCT_E_K(a,b).
+
+The full signed LAT transforms by a known sign
+depending on the four top input/output mask bits;
+its absolute values are equal. The generic proof
+transports arbitrary Int observables and their
+translation eigenvalues, without independence.
+
+One-Sbox 4-bit-word toy: independently verified
+ALL 65,536 entries of the FULL 32-round DDT,
+ALL 65,536 signed LAT entries and ALL 65,536 BCT
+entries across the paired keys. Full 32-bit RFC
+pointwise control includes 1024 plaintexts and
+256 independently computed inverse ciphertexts.
+No full-width DDT/BCT is actually enumerated.
+
+This is a key-dependent *affine* isometry invariant,
+NOT a within-one-key compact XOR-DDT quotient.
+It is general to other Feistel schedules with
+the same round-function top-bit gauge and does not
+constitute a full-Magma cryptanalytic break.
+Carry/BDD/SAT optimization F4 remains FROZEN.
+
 ## Explicit design freezes
 
 **F1 — formal verification of the Rust weight aggregator: FROZEN.**
