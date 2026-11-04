@@ -102,11 +102,23 @@ that survives all five independent local DDTs. The same
 generalized executable passed all 15 legacy exact five-round
 regressions, including 768 and 30,720. See SEVEN_CORE.md.
 
-**Remaining P0:** join the general three-round kernel with
-both outer one-round derivatives while retaining the *actual*
-two side-base values and their S-box/carry correlations.
-The central three-round support + outer local supports is
-a sound necessary filter, NOT an exact five-core count.
+**Remaining P0:** implement an EFFICIENT correlated five-core join;
+no all-32-bit non-SMT exact five-core counter is finished yet.
+The central three-round support + outer local supports is a sound
+necessary filter, NOT an exact five-core count.
+
+**2026-11-04 two-J overlap research:**
+[OVERLAPPING_J.md](OVERLAPPING_J.md) derives an exact 5=3+3-1
+counting identity from two conditional three-round J predicates
+sharing the COMPLETE base and XOR-difference state of their
+common round. Independent full Magma #SMT verifies 2,0,0,8
+with identical pair-set hashes. Scalar J DDT multiplication is
+NOT valid: on a one-nibble toy it falsely admits all 136 exact
+zero endpoints. A 24-bit interface ROBDD counts all 225 toy
+DDTs exactly, but construction from unexpanded Boolean circuits
+hits LIMIT already at 8-bit word size with naive variable orders.
+The active challenge is compact nibble-local symbolic or weighted
+carry/tag composition, NOT another brute-force fixed-key witness.
 
 **2026-11-04 factor-probe gate completed (NOT full-width weighted DP):**
 [FIVE_FACTOR_PROBE.md](FIVE_FACTOR_PROBE.md) provides an independently
@@ -191,10 +203,17 @@ The science target is new reusable exact elimination or
 all-keys impossibility criteria, not additional huge
 certificate files.
 
-**Next action:** compose the now-general exact three-round
-carry/tag kernel with the FIRST and LAST g-derivative constraints
-of the opposite-oriented five-round core, retaining real
-base-state consistency. Benchmark the resulting state graph
-against the independently completed seven-round fixed-key
-counts (2, 0, 0) and the strict local-SAT/middle-UNSAT control.
-Only then advance to nine-round key-linked cores.
+**Next action (two complementary P0 routes):**
+(A) a nibble-local compressed interface for the two state-lifted J3
+kernels in OVERLAPPING_J.md, tested on full 32-bit exact counts 2,0,0,8;
+(B) the RFC window 20..28 reflection factorization in
+[REFLECTION_J_OPTIONS.md](REFLECTION_J_OPTIONS.md):
+Q = J o G_rev o G = G^(-1) o J o G, with G the first FOUR
+rounds and [4,5,6,7,7,6,5,4] an eight-round key palindrome.
+For this window, D9((a,0),(0,b))=D_Q((a,0),(0,b)) exactly.
+This is a new *computational interface direction*, NOT a new
+nine-round all-key impossibility theorem. Compare local carry/tag
+contraction with external exact #SAT/#model-counting backends
+(Ganak/d4/DPMC/ADDMC) before optimizing Rust or unfreezing SAT.
+Keep shared real base states, correct key indexing, and explicit
+COMPLETE/LIMIT semantics throughout.

@@ -203,6 +203,17 @@ model hashes; UNKNOWN/LIMIT is never recorded as UNSAT.
 
 ## Next gate: actual seven-/nine-round compositional algorithm
 
+**Second 2026-11-04 update:** [OVERLAPPING_J.md](OVERLAPPING_J.md)
+derives the exact two-overlapping-three-round (5=3+3-1) conditional
+J identity. Its real 32-bit Magma SMT implementation matches the
+same exact counts 2,0,0,8 and sorted middle-base solution hashes.
+This is NOT scalar-J DDT multiplication: on a one-nibble toy that
+naive factorization falsely accepts all 136 actual zero endpoints.
+An exact 24-bit-interface ROBDD toy join reproduces 225/225 DDTs,
+but direct BDD circuit construction still hits LIMIT at 8-bit-word
+scale. The next target is nibble-local conditional-J composition,
+not a bulk 9-round SAT search or redundant formal Rust proof.
+
 **2026-11-04 update:** [FIVE_FACTOR_PROBE.md](FIVE_FACTOR_PROBE.md)
 adds a real five-g dual-carry/tag local encoding, independent SMT
 cross-checks for completed 2,0,0,8 fiber counts, and graph-width

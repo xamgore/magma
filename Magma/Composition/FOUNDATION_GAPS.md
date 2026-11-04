@@ -271,15 +271,17 @@ differentials may follow from its zero coefficients.
   separately named module; it is never evidence that the property
   was kernel-proved.
 
-**Next concrete research target (2026-11-04):** compress the exact
-five-chain weighted factor join in
-[FIVE_FACTOR_PROBE.md](FIVE_FACTOR_PROBE.md). Its local tag/carry #SMT
-model reproduces 2,0,0,8 exact fixed-key counts. Its independent
-Python integer-weight sparse elimination completes ten four-bit toy
-DDTs exactly, but full 32-bit five-chain elimination reaches LIMIT
-at 173/307 variables even with a million factor-row cap.
-The immediate obstacle is an efficient representation for the
-correlated intermediate base/tag constraints, NOT the correctness
-of an independent-marginal product. The weighted Rust aggregation
-theorem remains DESIGN-FROZEN under [ROADMAP.md](ROADMAP.md);
-do not reactivate it merely to close formalization tasks.
+**Next concrete research target (2026-11-04):** compose the
+state-lifted, overlapping three-round kernels in
+[OVERLAPPING_J.md](OVERLAPPING_J.md) using an efficient local
+carry/tag interface. The exact 5=3+3-1 counting identity is now
+explicit and independently #SMT-verified for the real fixed-key
+2,0,0,8 controls. A 4-bit toy BDD implementation completed all 225
+opposite-oriented endpoints; scalar J products caused 136 spurious
+positive zero-endpoints. The local five-chain sparse join of
+[FIVE_FACTOR_PROBE.md](FIVE_FACTOR_PROBE.md) and a monolithic
+circuit BDD still hit practical resource limits when scaled.
+The immediate obstacle is finding a compressed sufficient label for
+correlated base/difference joins, NOT another independent-marginal
+product. The weighted Rust aggregation theorem remains DESIGN-FROZEN
+under [ROADMAP.md](ROADMAP.md).
