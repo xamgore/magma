@@ -90,6 +90,45 @@ zero cases, before applying the proved 7->5 boundary cut.
 nontrivial seven-round fixed-key counts. No guessed
 orientation equivalences.
 
+## 2026-11-04: NEW key-universal seven-round theorem and valuation classes
+
+The first genuinely KEY-UNIVERSAL seven-round obstruction has
+been established for real 32-bit RFC Magma:
+for ANY seven independent round keys, if a and b are nonzero
+and supported entirely in the highest input nibble, then
+
+    D7_K((a,0),(0,b)) = 0.
+
+This gives 225 impossible nontrivial endpoint pairs.
+Magma/Diffan/SevenTopNibbleImpossible.lean proves the
+five-chain contradiction and the exact D7=0 theorem
+using both real Feistel base trajectories; Magma.lean
+imports the file. No sorry/admit. Its #print axioms
+audit reports **40 local native bv_decide proof-reflection
+axioms** plus standard Lean axioms; it is NOT pure
+kernel-only and the exact trust assumption is documented.
+
+**Stronger symbolic mask result:** a key-independent
+first-active-nibble (2-adic) valuation invariant of
+g detects SIX disjoint seven-round endpoint families,
+containing **1,908,225 distinct nonzero (a,b) pairs**.
+The full symbolic Z3 checks use arbitrary keys/bases
+for the local lemma, then arbitrary 32-bit endpoint words
+with higher nibbles FREE for all 64 valuation classes.
+See [NIBBLE_VALUATION_FAMILIES.md](NIBBLE_VALUATION_FAMILIES.md)
+and nibble_universal_family_scan.py. The additional
+1,908,000 pairs are not yet individually formalized
+in Lean. No direct nine-round key-universal claim follows.
+
+The weak valuation abstraction is SAT on the selected
+eight- and nine-round targets, explaining why the
+new seven-round proof does not automatically extend.
+The next research gate is to lift richer S-box/carry
+support constraints, or key-linked reflection, through
+nine rounds without admitting independent marginal
+DDT products. This targeted theorem research is
+distinct from the frozen broad SAT/motif sweeps.
+
 ## Phase 2 (P0/P1) — composable correlated block interface
 
 **New exact building block (2026-11-03):** the Rust joint

@@ -162,6 +162,7 @@ public import Magma.Diffan.TwoRoundSuffixObservation
 public import Magma.Diffan.TwoRoundRawOutputMasks
 public import Magma.Diffan.AutomaticOutputMasks
 public import Magma.Diffan.HighNibbleOutputMaskCertificates
+public import Magma.Diffan.SevenTopNibbleImpossible
 public import Magma.Diffan.AdjacentHighNibbleMaskCertificates
 public import Magma.Diffan.FourRoundScheduledMiddleFibers
 public import Magma.Diffan.FourRoundForcedMiddleDifference

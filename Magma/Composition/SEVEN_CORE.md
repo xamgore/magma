@@ -81,9 +81,25 @@ keys while keeping all five inner keys fixed preserves the
 count **2** and the exact middle-base pair set; this agrees
 with the already proved boundary-key-independence theorem.
 
-**These are fixed-key DDT results, NOT seven-round
-impossible differentials valid for all master keys.**
-The zero controls do not justify universal impossibility.
+**These three specific controls remain fixed-key DDT
+results, NOT universal zero claims.** The zero control
+outputs 0x00000001 and 0x681e60a6 are not justified for
+all master keys by these numerical checks.
+
+**Separate 2026-11-04 breakthrough:** the key-universal
+high/high seven-round family has now been proved as an
+actual D7=0 Lean theorem with arbitrary seven-round keys;
+this includes all 225 nontrivial highest-nibble endpoints.
+A stronger algebraic *necessary valuation* obstruction,
+verified against full symbolic Magma g and 64 symbolic
+five-chain nibble-index cases, excludes 1,908,225 distinct
+seven-round endpoint pairs in six disjoint position classes.
+See [NIBBLE_VALUATION_FAMILIES.md](NIBBLE_VALUATION_FAMILIES.md).
+The 225-pair subfamily has been formalized in Lean; the
+other classes are mathematical/Z3 results, not individual
+Lean theorems. Lean bv_decide uses compiled LRAT-check
+native axioms; the exact trust audit is in that document.
+None of this implies a nine-round impossibility.
 
 ## General three-round g/carry composition (new)
 

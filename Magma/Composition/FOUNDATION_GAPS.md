@@ -39,6 +39,19 @@ Qin–Wu on adjacent-addition non-independence and #SAT, and
 Kwon–Song on multistage characteristic graphs. These establish
 precedents for our COMPONENT METHODS, not exact fixed-key Magma
 DDT composition.
+**New key-universal seven-round result (2026-11-04):**
+[Magma/Diffan/SevenTopNibbleImpossible.lean](../Diffan/SevenTopNibbleImpossible.lean)
+proves the true fixed-key D7=0 family of 225 nonzero
+high/high boundary pairs for ALL independent seven keys.
+The extended 2-adic nibble-valuation abstraction in
+[NIBBLE_VALUATION_FAMILIES.md](NIBBLE_VALUATION_FAMILIES.md)
+excludes 1,908,225 seven-round (a,b) pairs in six
+disjoint nibble-index classes with full symbolic Z3.
+The additional classes have not yet been formalized
+in Lean. Its existing bv_decide proofs have a documented
+compiled-checker/native-axiom trust base; it would be
+incorrect to assert a pure axiom-free kernel certificate.
+
 The nine-round SAT/parity motif branch is design-frozen in
 `Magma/NinePlus/DESIGN_FREEZE.md`.
 
