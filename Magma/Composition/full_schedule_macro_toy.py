@@ -45,6 +45,19 @@ def main():
         linear=(N if swap(alpha)==beta else 0)
         if direct!=linear:mismatches.append((hex(alpha),hex(beta),direct,linear))
     assert mismatches
+    # Every ordinary XOR-DDT coefficient of the 16-round palindrome,
+    # not only selected boundary differences, satisfies the Lean
+    # reflected anti-diagonal symmetry D_E(a,b)=D_E(Jb,Ja).
+    etable=[R(H(u)) for u in range(N)]
+    eddt=[]
+    for a in range(N):
+        row=[0]*N
+        for x in range(N):row[etable[x^a]^etable[x]]+=1
+        eddt.append(row)
+    for a in range(N):
+        for b in range(N):
+            assert eddt[a][b]==eddt[swap(b)][swap(a)],(a,b)
+    print('PALINDROMIC_E16_ALL_XOR_DDT_65536_CELLS_VERIFIED',flush=True)
     print('FULL_MACRO_4BIT_TOY_VERIFIED',json.dumps(dict(
       keys=list(keys),states=N,ddt_checks=225,
       fixed_C=fC,fixed_J_H2=fT,fixed_Q=fQ,

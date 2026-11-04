@@ -43,6 +43,43 @@ compositional laws and conditions for retaining or discarding
 state labels. Targeted SAT checks up to 600 seconds remain allowed
 when they settle a concrete mathematical uncertainty.
 
+## 2026-11-04: the first surviving untransformed XOR invariant
+
+See [TRANSPORTED_XOR_INVARIANT_AUDIT.md](TRANSPORTED_XOR_INVARIANT_AUDIT.md).
+
+The 16-round palindromic REAL Magma block E16, with same
+eight 32-bit key words forward and reverse, obeys the exact
+ordinary-XOR integer-DDT duality
+  D_E16(alpha,beta) = D_E16(J beta,J alpha).
+The same reflected duality holds for the ordinary LAT
+and, more generally, ALL integer two-observable correlations.
+No transported difference convention and no 2^64-base cache.
+Proved in Magma/Diffan/FullScheduleXorSymmetries.lean; an
+independent 4-bit-word toy checked ALL 65,536 DDT cells and
+ALL 65,536 LAT cells, and
+a full-width real-RFC mirror witness was replayed.
+
+The full 32-round C32 is key-dependently H-conjugate to
+L=J H²; its permutation cycle-count power traces
+are conserved for ALL powers (generic Lean theorem
+Diffan/ConjugacyCycleInvariants.lean). Ordinary fixed
+Walsh-mask correlations need NOT match (toy -4 vs +12).
+
+The proposed low-tet layer of tau_H does NOT satisfy
+a sufficient-quotient criterion: two genuine RFC
+8-round states with identical low nibbles of BOTH
+halves have different projected tau for high-only
+alpha=8000000000000000. Diffan/TransportedXorQuotients.lean
+formalizes the exact iff quotient stability criterion
+and the XOR-coset obstruction when all differences
+must descend. It also proves a generic 2-element
+orbit invariant, far too weak for full-width exact DDT.
+
+No base-free small quotient for the actual full-32
+ordinary-XOR DDT has yet been established. F4 remains
+FROZEN; next goal is algebraic labelled-transducer
+congruence, not another long SAT or carry-join run.
+
 ## Explicit design freezes
 
 **F1 — formal verification of the Rust weight aggregator: FROZEN.**

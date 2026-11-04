@@ -216,6 +216,38 @@ DDT or a universal RFC impossibility. They illustrate
 why the conjugacy is mathematically exact but cannot
 be used as a shortcut for untransformed XOR-DDTs.
 
+## 5a. Latest real-XOR invariant and failed coarse quotient
+
+The new audit
+[TRANSPORTED_XOR_INVARIANT_AUDIT.md](TRANSPORTED_XOR_INVARIANT_AUDIT.md)
+proves the key-universal **ordinary-XOR DDT and LAT**
+reflection for the 16-round palindrome, in Lean:
+
+    D_E16(a,b) = D_E16(Jb,Ja),
+    LAT_E16(a,b) = LAT_E16(Jb,Ja).
+
+A stronger Lean theorem proves the same reflected identity
+for arbitrary integer-valued two-point observables.
+ALL 65,536 DDT cells and ALL 65,536 LAT cells were
+independently checked in the one-Sbox toy.
+
+This is mathematically distinct from the trivial 16-round
+DDT under H-transported nonlinear differences. It applies
+to the real 32-bit-word RFC schedule with ALL eight keys,
+without retaining any 2^64 base-state table.
+
+A real RFC eight-round H witness DISPROVES low-nibble-layer
+sufficiency for a high-nibble-only alpha. A separate toy
+counterexample disproves ordinary fixed-mask Walsh equality
+under nonlinear full-cipher conjugacy. The exact criterion
+for a sound quotient is formalized in
+Diffan/TransportedXorQuotients.lean.
+
+For the full C32, the ordinary-XOR base-free sufficient
+quotient is STILL OPEN. Conjugacy preserves permutation
+cycle counts at all powers, formalized in
+Diffan/ConjugacyCycleInvariants.lean, not ordinary DDTs.
+
 ## 6. Frozen priorities
 
 P0: seek REUSABLE THEOREMS rather than expensive

@@ -14,6 +14,18 @@ Diffan/ReflectedMacroSchedule.lean proves the generic law
 for arbitrary reflected/repeated permutation blocks.
 The frozen next P0 is new exact **theorems**, not a larger solver.
 
+**Latest algebraic audit:**
+[TRANSPORTED_XOR_INVARIANT_AUDIT.md](TRANSPORTED_XOR_INVARIANT_AUDIT.md).
+A proposed low-nibble quotient of the full-width H transported
+XOR derivative is demonstrably UNSOUND (real RFC key witness).
+A new key-universal untransformed XOR-DDT duality survives for
+the palindromic 16-round block:
+`D_E16(a,b) = D_E16(Jb,Ja)`; Lean proves the full integer identity.
+For the actual full 32-round C, cycle traces survive conjugacy,
+but no small sufficient ORIGINAL-XOR quotient is yet proved.
+The next P0 is a proof obligation on the quotient of the
+full input/central/output relational transducer, not SAT.
+
 The source of truth is genuine fixed-key Feistel/bitvector semantics,
 exact integer counts, actual base correlations, and complete/LIMIT
 separation. Any future proposed shortcut must satisfy the gates below.
