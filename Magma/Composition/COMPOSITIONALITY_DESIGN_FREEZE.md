@@ -26,6 +26,22 @@ but no small sufficient ORIGINAL-XOR quotient is yet proved.
 The next P0 is a proof obligation on the quotient of the
 full input/central/output relational transducer, not SAT.
 
+**2026-11-05 RETURN TO FIXED-KEY HALF-ZERO SLICE COMPOSITION:**
+[HALF_ZERO_32_COMPOSITION.md](HALF_ZERO_32_COMPOSITION.md).
+One actual 32-round native RFC 16+16 same-base join is proved in
+Lean for the selected (a,0)->(0,b) DDT coefficients. The
+INTERMEDIATE half-zero condition is NOT closed: 194/210
+valid toy trajectories after 16 rounds have both half-word
+differences nonzero. The GOOD simplification is to sum out
+output label b, obtaining the exact left-output projected
+collision statistic A_K(a), or sum out a as well and get
+squared projected fiber masses. These are new differential
+TYPES, not fast computation of arbitrary single DDT cells.
+True full-width computational acceleration and a one-key
+non-random statistic remain separate unproved goals. The
+F4 compression/SAT engine remains frozen pending a
+mathematically certified boundary quotient hypothesis.
+
 **2026-11-05 observability gate:** [FULL_32_ATTACK_GATE.md](FULL_32_ATTACK_GATE.md).
 The palindromic suffix DOES yield an unknown-key 16-round
 oracle distinguisher via exactly 2^32 matches E16(x)=Jx;

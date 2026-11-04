@@ -229,6 +229,35 @@ expected aggregate NONTRIVIAL energy is
 These are expectations over the ideal permutation,
 not fixed-cipher equalities.
 
+### Chosen-plaintext birthday sampling without known key
+
+For q DISTINCT chosen left words L_i at ONE fixed right input R,
+query C_K(L_i,R) and group the 32-bit LEFT ciphertext words.
+Every collision pair yields BOTH a=L_i XOR L_j and
+b=C_K,right(L_i,R) XOR C_K,right(L_j,R), so this
+is an observable sample of the (a,0)->(0,b) slice
+from a single unchanged secret key.
+
+A uniformly random 64-bit PERMUTATION has probability
+p=(2^32-1)/(2^64-1)=1/(2^32+1) that the left halves
+of two DISTINCT ciphertexts agree. Therefore
+    E_ideal[unordered collision pairs] = binom(q,2)/(2^32+1).
+At q=2^16 the expected count is about 0.5.
+At q=2^18 it is about 8. This is a birthday
+observation with ~2^16 encryption queries, not a
+single-key DISTINGUISHER: ideal permutations also collide.
+
+A falsifiable next hypothesis must involve a biased
+DISTRIBUTION of the observed a,b labels or a joint
+multicollision statistic under an experimentally
+or theoretically justified comparison to the ideal
+permutation. A high ordinary collision COUNT alone
+is not evidence of a structural weakness.
+For a FIXED prescribed nonzero a, the projected
+collision probability per queried input pair
+is still ~2^-32, so aggregation across differences
+is central to the cheap observable.
+
 An INDEPENDENT 600-key one-Sbox toy comparison:
   Magma-schedule mean nontrivial energy: 226.0467
   random-permutation mean:              224.8867
