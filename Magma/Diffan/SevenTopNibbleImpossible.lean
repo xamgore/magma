@@ -101,7 +101,7 @@ private theorem modShift_eq_add (k x : Word) :
   rw [Magma.CarryAutomaton.modShift_toNat_bridge, BitVec.toNat_add]
   simp only [show (16 : Nat) ^ 8 = 2 ^ 32 from by decide]
 
-private def deriv (k x d : Word) : Word :=
+def deriv (k x d : Word) : Word :=
   g k (x ^^^ d) ^^^ g k x
 
 /-- Output confined to rotated highest nibble implies input confined
@@ -209,16 +209,21 @@ private theorem iterateG_five
       (Magma.G (keys 0) start)))) := by
   rfl
 
-/-- The actual five-round opposite-oriented Feistel fiber is empty.
-Unlike the relaxed keyFreePossible automaton, this proof explicitly
-maintains both concrete base-word trajectories through all five
-rounds, then invokes the already proved key-independent local
-derivative contradiction. -/
-theorem opposite_five_core_zero
+/-- A reusable exact REAL Feistel bridge. Any key-independent
+contradiction for five g-derivative equations implies an empty
+opposite-oriented five-round fiber for *all fixed keys*.
+No base-state correlation or fixed-key multiplicity is discarded. -/
+def FiveLocalImpossible (a b : Word) : Prop :=
+  ∀ k0 k1 k2 k3 k4 x1 x2 x3 x4 x5 p q t : Word,
+    deriv k0 x1 a = p →
+    deriv k1 x2 p = a ^^^ q →
+    deriv k2 x3 q = p ^^^ t →
+    deriv k3 x4 t = q ^^^ b →
+    deriv k4 x5 b = t → False
+
+theorem opposite_five_core_zero_of_no_local_chain
     (keys : Fin 5 → Word) (a b : Word)
-    (ha : (a &&& (0x0FFFFFFF#32)) = 0#32)
-    (hb : (b &&& (0x0FFFFFFF#32)) = 0#32)
-    (han : a ≠ 0#32) :
+    (hbad : FiveLocalImpossible a b) :
     Magma.MultiRoundDDT.xorDDT_rounds 5 keys
       (0#32, a) (b, 0#32) = 0 := by
   open scoped Classical in
@@ -311,9 +316,23 @@ theorem opposite_five_core_zero
     dsimp [y6, x6, t]
     bv_decide
 
-  exact no_five_local_derivative_chain
+  exact hbad
     (keys 0) (keys 1) (keys 2) (keys 3) (keys 4)
-    x1 x2 x3 x4 x5 a b p q t
+    x1 x2 x3 x4 x5 p q t h0 h1 h2 h3 h4
+
+/-- High-to-high top-nibble subfamily, now an instance of the
+fully general real-state five-core DDT emptiness bridge. -/
+theorem opposite_five_core_zero
+    (keys : Fin 5 → Word) (a b : Word)
+    (ha : (a &&& (0x0FFFFFFF#32)) = 0#32)
+    (hb : (b &&& (0x0FFFFFFF#32)) = 0#32)
+    (han : a ≠ 0#32) :
+    Magma.MultiRoundDDT.xorDDT_rounds 5 keys
+      (0#32, a) (b, 0#32) = 0 := by
+  apply opposite_five_core_zero_of_no_local_chain keys a b
+  intro k0 k1 k2 k3 k4 x1 x2 x3 x4 x5 p q t h0 h1 h2 h3 h4
+  exact no_five_local_derivative_chain
+    k0 k1 k2 k3 k4 x1 x2 x3 x4 x5 a b p q t
     ha hb han h0 h1 h2 h3 h4
 
 /-- Main Lean-checked key-universal impossibility theorem.

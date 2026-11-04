@@ -9,8 +9,13 @@ The 225 high/high cases are a subset of the broader
 **1,908,225 key-universal impossible seven-round endpoints**
 identified by the first-active-nibble valuation obstruction
 in [NIBBLE_VALUATION_FAMILIES.md](NIBBLE_VALUATION_FAMILIES.md).
-The broader symbolic proof is mathematical/Z3-supported;
-only this high/high subfamily is presently a Lean theorem.
+**The broader family is NOW also a Lean theorem.**
+SevenNibbleValuationClasses.lean proves all six classes for
+all independently chosen round keys using the existing
+certified first-active-nibble invariant, finite symbolic
+bv_decide closure, and genuine Feistel-state equivalence.
+Standard bv_decide native proof-reflection trust caveats
+apply to both proofs.
 
 ## Exact mathematical claim
 

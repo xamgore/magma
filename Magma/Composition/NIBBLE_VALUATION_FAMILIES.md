@@ -7,12 +7,24 @@ key/base words free. Six disjoint nibble-index classes
 exclude 1,908,225 nonzero (a,b) boundary pairs for EVERY
 seven-round key sequence.
 
-The 225 high/high subfamily has additionally been
-formalized as a full seven-round DDT equality theorem in
-Magma/Diffan/SevenTopNibbleImpossible.lean. The other
-1,908,000 pairs have NOT yet received individual Lean
-theorems; do not call the whole million-plus family
-kernel-certified.
+**New formal completion:** all six families (all
+1,908,225 nonzero pairs) are covered by ONE parameterized
+full seven-round DDT equality theorem:
+
+    Magma.DiffanSevenNibbleValuationClasses.seven_round_zero_six_nibble_classes
+
+in Magma/Diffan/SevenNibbleValuationClasses.lean. The original
+225 high/high cases also have the independent earlier theorem
+in Magma/Diffan/SevenTopNibbleImpossible.lean.
+
+The uniform proof composes the existing RFC Magma
+first-active-nibble theorem with a finite symbolic
+BitVec contradiction, and then transports that contradiction
+through two actual five-round Feistel base trajectories and
+the exact seven-to-five DDT boundary equivalence.
+It does not enumerate any of the 1,908,225 endpoints.
+It uses the standard native bv_decide proof checker;
+it is NOT free of native proof-reflection axioms.
 
 ## Universal single-round invariant
 
@@ -118,7 +130,7 @@ These exclusions hold for ALL seven independent round
 keys and therefore for every actual Magma master key
 and every seven-round window.
 
-## Two independent Z3 layers and their trust boundary
+## Independent Z3 cross-checks and the Lean theorem
 
 A. The --check-real-g option constructs the ACTUAL
 RFC 8891 g in Z3 with fully free 32-bit key, base
@@ -136,15 +148,47 @@ by their FIRST active nibble, not chosen examples.
 The arithmetic and counting formula is independent
 of solver correctness.
 
-The actual Magma applicability follows from the
-mathematical preservation of first differing nibble
-above, even without trusting a single fixed-key
-count. Z3 reproducibility is computational evidence;
-UNSAT is not an axiom-free Lean proof certificate.
+The full Magma implication is now a Lean theorem in
+SevenNibbleValuationClasses.lean. These Z3 checks are
+independent cross-checks, NOT assumptions of the formal
+proof; the proof invokes FirstActiveNibbleInvariant.lean
+and derives its own exact Feistel-state DDT zero.
 
-## Formal subfamily and explicit axiom audit
+The Lean proof still contains native bv_decide axiom
+dependencies in the bit-vector decision step. A
+successful Lean build is therefore not a certificate
+with strictly the bare kernel as the trust base.
 
-The existing
+## Formal complete family, subfamily, and explicit axiom audit
+
+The new theorem
+
+    Magma.DiffanSevenNibbleValuationClasses.seven_round_zero_six_nibble_classes
+
+covers ALL SIX classes for ANY seven independently chosen
+round keys. Its proof is the composition of these three
+individually checked Lean facts:
+
+- possible_of_real_g: every true 32-bit Magma derivative
+  obeys the first-active-nibble valuation constraint;
+- no_five_valuation_chain: no difference-only five-round
+  stream in the six families satisfies all five local
+  valuation constraints;
+- opposite_five_core_zero_of_no_local_chain and the
+  exact two-sided boundary DDT theorem: such a
+  local contradiction kills the real five-round
+  and seven-round fixed-key DDT, with no loss of
+  correlated base states.
+
+The #print axioms audit reports standard propext,
+Classical.choice, Quot.sound and **18 native
+bv_decide proof-reflection axioms** for the NEW
+fully general theorem (as compared with 40 for the
+earlier high-high-only theorem). No sorry or admit.
+The isolated arithmetic formula theorem for 1,908,225
+has NO native bv_decide dependencies.
+
+The earlier high-high subfamily also has an independent
 Magma/Diffan/SevenTopNibbleImpossible.lean theorem
 
     seven_round_high_nibble_universally_impossible
@@ -191,6 +235,17 @@ weak valuation rule. SAT here only identifies
 a barrier for the relaxation: it does NOT prove
 actual eight/nine-round support.
 
+The Lean theorem
+`nine_high_high_valuation_relaxation_has_path`
+provides an explicit constant 9-word DIFFERENCE-ONLY
+stream satisfying every one of the seven local
+valuation constraints for (0x80000000,0) ->
+(0,0x80000000) in nine outer rounds. It is proved
+by `norm_num` on concrete bitvectors, not by an
+external SAT assumption. It is deliberately NOT a
+real key/base trajectory. This rigorously confirms
+the barrier for the proposed abstraction.
+
 An all-key 9-round impossible differential, if one
 exists, needs a stronger invariant: cross-nibble
 S-box support, linked key conditions, or correlated
@@ -203,11 +258,12 @@ freeze is unchanged.
     python3 Magma/Composition/universal_seven_top_nibble.py
     python3 Magma/Composition/nibble_valuation_relaxation.py
     lake build Magma.Diffan.SevenTopNibbleImpossible
+    lake build Magma.Diffan.SevenNibbleValuationClasses
     lake build Magma
 
 For trust-base inspection:
 
-    printf 'import Magma.Diffan.SevenTopNibbleImpossible\n#print axioms Magma.DiffanSevenTopNibble.seven_round_high_nibble_universally_impossible\n' >/tmp/CheckSeven.lean
+    printf 'import Magma.Diffan.SevenNibbleValuationClasses\n#print axioms Magma.DiffanSevenNibbleValuationClasses.seven_round_zero_six_nibble_classes\n' >/tmp/CheckSeven.lean
     lake env lean /tmp/CheckSeven.lean
 
 DO NOT promote relaxed SAT examples to real Feistel

@@ -117,8 +117,16 @@ for the local lemma, then arbitrary 32-bit endpoint words
 with higher nibbles FREE for all 64 valuation classes.
 See [NIBBLE_VALUATION_FAMILIES.md](NIBBLE_VALUATION_FAMILIES.md)
 and nibble_universal_family_scan.py. The additional
-1,908,000 pairs are not yet individually formalized
-in Lean. No direct nine-round key-universal claim follows.
+1,908,000 pairs are NOW included in the parameterized
+Lean theorem `seven_round_zero_six_nibble_classes`
+(see Magma/Diffan/SevenNibbleValuationClasses.lean).
+This preserves exact Feistel base-state correlations and
+holds for every independent seven-key schedule.
+The #print axioms audit reports 18 native
+bv_decide proof-reflection axioms for the full theorem;
+it is not a bare-kernel-only formal certificate.
+The arithmetic identity 1,908,225 also has its own Lean
+proof. No direct nine-round key-universal claim follows.
 
 The weak valuation abstraction is SAT on the selected
 eight- and nine-round targets, explaining why the
