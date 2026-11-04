@@ -7,6 +7,68 @@ They preserve the same base state across all rounds. This is a
 new formally closed counting interface, NOT a nine-round
 key-universal impossible differential or a fast full-width counter.
 
+## New general composition and reusable twisted self-kernel (2026-11-04)
+
+**Design freeze:**
+[COMPOSITIONALITY_DESIGN_FREEZE.md](COMPOSITIONALITY_DESIGN_FREEZE.md).
+
+The one reuse target is a *conditional, base-labelled* four-round
+kernel, NOT any marginal four-round DDT. In
+Diffan/ConjugatedDifferenceSpace.lean, the finite DDT
+transforms naturally under arbitrary nonlinear coordinate
+equivalences ONLY WHEN the difference structure is
+transported with them. Thus the conjugate
+Q=H^(-1) o J o H is a simple swap in H-adapted geometry,
+but not in the ordinary plaintext XOR geometry.
+
+Diffan/TwistedConditionalGram.lean derives a general finite
+Nat-semiring identity for a deterministic state-labelled
+difference response with arbitrary base/difference actions.
+Magma/Diffan/NineReflection.lean specializes it:
+for any full 64-bit alpha,beta and fixed four keys,
+
+    t_H(u,alpha) = H(H^(-1)(u) XOR alpha) XOR u
+
+    D_Q(alpha,beta)
+      = SUM_(u,lambda) [t_H(u,alpha)=lambda]
+                       [t_H(Ju,beta)=Jlambda]
+      = SUM_u [t_H(Ju,beta)=J(t_H(u,alpha))].
+
+Hence D_Q = T_H^T P T_H, a TWISTED SELF-GRAM of
+ONE conditional four-round transfer. Both sides use
+the SAME keys and mirrored actual base/difference
+labels. The intermediate lambda is a functional
+variable and disappears exactly. This is a
+compositionality theorem, not a fast full-width counter.
+
+Four key theorems (generic coordinate transport,
+generic Gram contraction, adapted-coordinate Q-DDT,
+nine-round twisted self-Gram) all completed a
+#print axioms audit: ZERO native bv_decide dependencies,
+only standard Lean foundational axioms.
+
+The first runnable carry- and S-box-preserving
+Nat-weighted join is
+reflected_four_local_join.py with regression
+reflected_four_local_regression.py. It counts all
+225 nonzero (a,b) opposite-boundary toy 4-bit cells
+EXACTLY, checking independent nine-round brute counts
+(149 zero, 76 positive, total selected count 188).
+For 8-bit two-Sbox toys generic sparse elimination
+still hits LIMIT; full-width 32-bit structural
+min-fill/neighbor peak dense scopes are 238/218 bits
+(heuristic upper bounds, not rigorous lower bounds).
+A prototype reusable conditional-H cache of toy base states
+(twisted_four_cached_kernel.py) answered all 225 4-bit
+opposite-boundary queries in ~0.019s including preparation,
+versus ~0.354s direct 9-round brute (18.8x in one run);
+all counts match. For 8-bit words, four queries took ~0.93s
+versus ~2.06s brute (2.2x in one run); all counts match.
+This materializes 2^(2w) bases and is NOT a viable
+full-width algorithm. The next P0 is bounded *frontier
+compression* of the SAME reusable H kernel, not a
+larger hash join or more isolated SAT cells.
+
 ## The actual RFC key schedule
 
 For the ordinary 9-round window 20..28 of RFC 8891 the

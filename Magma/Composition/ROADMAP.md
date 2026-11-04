@@ -198,6 +198,23 @@ outer family, with measured runtime, frontier and errors.
 
 ## 2026-11-04: exact nine-round reflected four-G crossing is Lean-certified
 
+**LATEST P0 DESIGN FREEZE: [COMPOSITIONALITY_DESIGN_FREEZE.md](COMPOSITIONALITY_DESIGN_FREEZE.md).**
+The reusable target is the BASE-LABELLED conditional four-round kernel
+T_H, composed with its half-swapped image in an exact self-Gram;
+see Diffan/ConjugatedDifferenceSpace.lean,
+Diffan/TwistedConditionalGram.lean and the Lean theorem
+nine_ddt_eq_twisted_four_round_gram.
+The local pair-carry semiring engine is independently exact for
+all 225 4-bit opposite boundary cells, but its 8-bit case LIMITs.
+A materialized conditional-H cache reused one 4-round kernel
+for all 225 toy endpoint queries: ~0.019s cache+joins versus
+~0.354s independent 9-round brute, ~18.8x in one run.
+An 8-bit toy four-query subset gave ~0.93s vs ~2.06s.
+This is a verified MULTI-QUERY benefit but absolutely NOT
+scalable to real 2^64-base-state Magma without compression.
+The 32-bit scopes demand new bounded-frontier compression.
+No new nine-round all-key impossible differential is claimed.
+
 **New rigorous P0 result.** The true RFC 20..28 ordinary Feistel key
 schedule `[4,5,6,7,7,6,5,4,3]` permits a reflection
 `Q = J o H_rev o H = H^{-1} o J o H` where H consists of the first

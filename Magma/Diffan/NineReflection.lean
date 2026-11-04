@@ -3,6 +3,8 @@ import all Init.Data.Range.Basic
 public import Magma.Diffan.FourRoundZeroLeftFactorization
 public import Magma.Diffan.FirstRoundDeletion
 public import Magma.Diffan.DiffanReverseRound
+public import Diffan.ConjugatedDifferenceSpace
+public import Diffan.TwistedConditionalGram
 
 set_option maxRecDepth 2048
 set_option maxHeartbeats 1000000
@@ -425,5 +427,222 @@ theorem Q_has_exactly_two_pow_32_fixed_points (k0 k1 k2 k3 : Word) :
       change Fintype.card (BitVec 32) = 2 ^ 32
       rw [← FinEnum.card_eq_fintypeCard]
       exact FinEnum.card_bitVec 32
+
+/-- The *pulled-back* XOR geometry: this is NOT ordinary
+bitwise XOR in plaintext coordinates. It is the nonlinear
+difference convention obtained by measuring differences after H. -/
+def adaptedXor (k0 k1 k2 k3 : Word) :
+    Diffan.DifferenceSpace State State :=
+  Diffan.ConjugatedDifferenceSpace.pullback
+    (HEquiv k0 k1 k2 k3) xorState
+
+/-- Q is precisely the conjugate of the half-swap by H. -/
+theorem Q_eq_coordinate_conjugate (k0 k1 k2 k3 : Word) :
+    Q k0 k1 k2 k3 =
+      ((HEquiv k0 k1 k2 k3).symm ∘ J ∘
+        (HEquiv k0 k1 k2 k3)) := by
+  funext p
+  apply (HEquiv k0 k1 k2 k3).injective
+  rw [HEquiv_apply]
+  simp only [Function.comp_apply, Equiv.apply_symm_apply]
+  rw [HEquiv_apply]
+  exact H_Q k0 k1 k2 k3 p
+
+/-- The derivative of the half-swap J under ordinary XOR does not
+depend on its base state. This is the AFFINE step that turns
+the conjugated Q-DDT into a trivial monomial entry. -/
+theorem derivative_J (a p : State) :
+    Diffan.derivative xorState xorState J a p = J a := by
+  rcases a with ⟨al,ar⟩
+  rcases p with ⟨pl,pr⟩
+  change (pr ^^^ (pr ^^^ ar), pl ^^^ (pl ^^^ al)) = (ar, al)
+  simp only [← BitVec.xor_assoc, BitVec.xor_self, BitVec.zero_xor]
+
+/-- Explicit DDT of J in the normal XOR difference convention.
+N is 2^64; no symbolic g/carry/S-box occurs in this count. -/
+theorem J_ddt_trivial (a b : State) :
+    Diffan.ddt xorState xorState J a b =
+      if J a = b then Fintype.card State else 0 := by
+  classical
+  unfold Diffan.ddt
+  simp only [derivative_J]
+  by_cases h : J a = b
+  · simp [h]
+  · simp [h]
+
+/-- MAIN REUSABLE DIFFERENTIAL COORDINATE RESULT:
+The DDT of nonlinear Q in the transported geometry is exactly
+the affine DDT of J. It does NOT imply that Q's ordinary XOR
+DDT is trivial: switching between the two difference
+geometries requires the fully correlated H trajectories. -/
+theorem Q_ddt_in_adapted_coordinates (k0 k1 k2 k3 : Word)
+    (a b : State) :
+    Diffan.ddt (adaptedXor k0 k1 k2 k3)
+      (adaptedXor k0 k1 k2 k3) (Q k0 k1 k2 k3) a b =
+    if J a = b then Fintype.card State else 0 := by
+  rw [Q_eq_coordinate_conjugate]
+  exact (Diffan.ConjugatedDifferenceSpace.ddt_conjugate
+    (HEquiv k0 k1 k2 k3) xorState J a b).trans (J_ddt_trivial a b)
+
+/-- A base-indexed, exact CONDITIONAL four-round XOR derivative:
+given the actual forward H-output base u, invert H to recover
+its exact input base, perturb by alpha, and compare forward outputs.
+It is a deterministic one-hot kernel in the output difference. -/
+def conditionalH (k0 k1 k2 k3 : Word) (u a : State) : State :=
+  stateXor
+    (H k0 k1 k2 k3
+      (stateXor ((HEquiv k0 k1 k2 k3).symm u) a)) u
+
+private theorem J_stateXor (u v : State) :
+    J (stateXor u v) = stateXor (J u) (J v) := by
+  rfl
+
+private theorem xor_right_cancel (p w : State) :
+    stateXor (stateXor p w) w = p := by
+  rw [xor_state_comm p w]
+  exact stateXor_cancel w p
+
+private theorem xor_right_eq_iff (p q w : State) :
+    stateXor p w = stateXor q w ↔ p = q := by
+  constructor
+  · intro h
+    have hp := congrArg (fun z : State => stateXor z w) h
+    simpa only [xor_right_cancel] using hp
+  · intro h
+    rw [h]
+
+/-- The reflected partner at intermediate H-coordinate J(u)
+is the Q-image of the partner at u, for arbitrary keys. -/
+theorem H_inverse_swap_eq_Q (k0 k1 k2 k3 : Word) (u : State) :
+    (HEquiv k0 k1 k2 k3).symm (J u) =
+    Q k0 k1 k2 k3 ((HEquiv k0 k1 k2 k3).symm u) := by
+  let E := HEquiv k0 k1 k2 k3
+  apply E.injective
+  calc
+    E (E.symm (J u)) = J u := E.apply_symm_apply _
+    _ = J (E (E.symm u)) := by rw [E.apply_symm_apply]
+    _ = E (Q k0 k1 k2 k3 (E.symm u)) := by
+      change J (H k0 k1 k2 k3 (E.symm u)) =
+        H k0 k1 k2 k3 (Q k0 k1 k2 k3 (E.symm u))
+      exact (H_Q k0 k1 k2 k3 _).symm
+
+/-- Pointwise equality linking the SAME conditional H-kernel
+evaluated at two mirrored bases u and J(u), not two
+independent four-round DDT matrices. -/
+theorem twisted_conditional_iff_Q_differential
+    (k0 k1 k2 k3 : Word) (u a b : State) :
+    (conditionalH k0 k1 k2 k3 (J u) b =
+        J (conditionalH k0 k1 k2 k3 u a)) ↔
+    (stateXor
+      (Q k0 k1 k2 k3
+        (stateXor ((HEquiv k0 k1 k2 k3).symm u) a))
+      (Q k0 k1 k2 k3
+        ((HEquiv k0 k1 k2 k3).symm u)) = b) := by
+  let E := HEquiv k0 k1 k2 k3
+  have hu : H k0 k1 k2 k3 (E.symm u) = u := by
+    rw [← HEquiv_apply]
+    exact E.apply_symm_apply u
+  rw [q_differential_iff_H_crossing]
+  unfold conditionalH
+  rw [H_inverse_swap_eq_Q]
+  rw [J_stateXor]
+  change
+    stateXor
+      (H k0 k1 k2 k3
+        (stateXor (Q k0 k1 k2 k3 (E.symm u)) b))
+      (J u) =
+    stateXor
+      (J (H k0 k1 k2 k3
+        (stateXor (E.symm u) a)))
+      (J u) ↔
+    H k0 k1 k2 k3
+      (stateXor (Q k0 k1 k2 k3 (E.symm u)) b) =
+    J (H k0 k1 k2 k3 (stateXor (E.symm u) a))
+  exact xor_right_eq_iff _ _ _
+
+/-- A direct bijection, valid at all 64-bit XOR differences,
+from witnesses of Q to SAME-BASE matches of the reflected
+conditional derivative H. Its second component is not an
+independent random sample; it is H^{-1}(J(H(x))). -/
+def twistedConditionalFiberEquiv
+    (k0 k1 k2 k3 : Word) (a b : State) :
+    {x : State // stateXor
+      (Q k0 k1 k2 k3 (stateXor x a))
+      (Q k0 k1 k2 k3 x) = b} ≃
+    {u : State //
+      conditionalH k0 k1 k2 k3 (J u) b =
+      J (conditionalH k0 k1 k2 k3 u a)} where
+  toFun := fun x =>
+    ⟨(HEquiv k0 k1 k2 k3) x.1,
+      (twisted_conditional_iff_Q_differential
+        k0 k1 k2 k3 ((HEquiv k0 k1 k2 k3) x.1) a b).mpr
+        (by simpa only [(HEquiv k0 k1 k2 k3).symm_apply_apply]
+          using x.2)⟩
+  invFun := fun u =>
+    ⟨(HEquiv k0 k1 k2 k3).symm u.1,
+      (twisted_conditional_iff_Q_differential
+        k0 k1 k2 k3 u.1 a b).mp u.2⟩
+  left_inv := by
+    intro x
+    apply Subtype.ext
+    exact (HEquiv k0 k1 k2 k3).symm_apply_apply x.1
+  right_inv := by
+    intro u
+    apply Subtype.ext
+    exact (HEquiv k0 k1 k2 k3).apply_symm_apply u.1
+
+/-- MATRIX-FREE GRAM FORMULA for any full 64-bit XOR differences.
+
+D_Q(a,b) = SUM_(u,lambda) T_H(u,a,lambda)
+                             * T_H(Ju,b,Jlambda),
+
+where T_H(u,a,lambda) = 1 iff
+  Delta H(H^{-1}(u),a) = lambda.
+One shared u, one shared lambda; the two T_H queries use the
+SAME four round keys. This is an exact self-composition of
+ONE conditional four-round kernel, not a product of scalar DDTs.
+
+The sum is a mathematical specification, not a claim that
+enumerating 2^128 (u,lambda) pairs is efficient. -/
+theorem qDDT_eq_twisted_conditional_gram
+    (k0 k1 k2 k3 : Word) (a b : State) :
+    qDDT k0 k1 k2 k3 a b =
+      Diffan.TwistedConditionalGram.gram
+        (conditionalH k0 k1 k2 k3) J J a b := by
+  classical
+  rw [Diffan.TwistedConditionalGram.gram_eq_matching_base_count]
+  unfold qDDT
+  calc
+    ((Finset.univ : Finset State).filter (fun x =>
+      stateXor
+        (Q k0 k1 k2 k3 (stateXor x a))
+        (Q k0 k1 k2 k3 x) = b)).card =
+      Fintype.card {x : State // stateXor
+        (Q k0 k1 k2 k3 (stateXor x a))
+        (Q k0 k1 k2 k3 x) = b} := by
+      simp only [Fintype.card_subtype]
+    _ = Fintype.card {u : State //
+        conditionalH k0 k1 k2 k3 (J u) b =
+        J (conditionalH k0 k1 k2 k3 u a)} :=
+      Fintype.card_congr
+        (twistedConditionalFiberEquiv k0 k1 k2 k3 a b)
+    _ = ((Finset.univ : Finset State).filter (fun u =>
+        conditionalH k0 k1 k2 k3 (J u) b =
+        J (conditionalH k0 k1 k2 k3 u a))).card := by
+      simp only [Fintype.card_subtype]
+
+/-- Corollary: the exact nine-round boundary DDT is a
+twisted SELF-CORRELATION of ONE four-round conditional
+transition kernel. The 9th key is irrelevant to this slice,
+but all repeated keys and all base correlations survive. -/
+theorem nine_ddt_eq_twisted_four_round_gram
+    (k0 k1 k2 k3 tail a b : Word) :
+    xorDDT_rounds 9 (keys9 k0 k1 k2 k3 tail)
+      (a,0#32) (0#32,b) =
+      Diffan.TwistedConditionalGram.gram
+        (conditionalH k0 k1 k2 k3) J J
+          (a,0#32) (0#32,b) := by
+  rw [nine_ddt_eq_reflected_qDDT]
+  exact qDDT_eq_twisted_conditional_gram k0 k1 k2 k3 _ _
 
 end Magma.DiffanNineReflection
