@@ -72,7 +72,6 @@ lake lint
 lake exe defs > .lake/defs.txt
 lake exe deps > .lake/deps.json
 python3 scripts/export_sources.py -o .lake/sources.txt --mermaid .lake/modules.mmd
-python3 scripts/theorem_graph.py -o .lake/theorems.mmd
 lake exe axiom-audit
 ```
 
