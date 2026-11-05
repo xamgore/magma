@@ -24,7 +24,7 @@ The implementation lives in `Magma.FastSearch`; this file records the
 experiments in their original order.
 Runs without a transcript have no recorded outcome.
 
-Run explicitly with `lake env lean Magma/Evidence/01_UInt16Search.lean`.
+Run explicitly with `lake env lean Magma/DDT/Experiments/01_UInt16Search.lean`.
 -/
 
 open Magma.Internal Magma.CarryAutomaton Magma.MultiRoundDDT Magma.Pruning Magma.Certificates

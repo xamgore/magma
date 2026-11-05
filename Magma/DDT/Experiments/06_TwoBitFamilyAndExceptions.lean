@@ -26,7 +26,7 @@ certificate; the single-step batch checker does not certify those passes.
 The three exceptions remain unresolved, not proved possible.
 
 Build and run the two diagnostics explicitly:
-`lake build Magma/Evidence/06_TwoBitFamilyAndExceptions.lean`
+`lake build Magma/DDT/Experiments/06_TwoBitFamilyAndExceptions.lean`
 
 This iteration has not been compiled or evaluated during integration. Outputs
 are not recorded yet. The two `#eval` commands at the end run diagnostics only;

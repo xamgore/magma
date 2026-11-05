@@ -26,7 +26,7 @@ also replaces the expensive initial-coverage check discovered during
 certificate verification. These concrete comparisons do not establish
 universal equivalence of the fast and original implementations.
 
-Build explicitly with `lake build Magma/Evidence/02_CarryGroupedPropagation.lean`.
+Build explicitly with `lake build Magma/DDT/Experiments/02_CarryGroupedPropagation.lean`.
 -/
 
 open Magma.Internal Magma.CarryAutomaton Magma.Pruning

@@ -24,7 +24,7 @@ both the shared base and the individual grouped witness to be accepted.
 The three profiles measure proposal/search, shared base verification, and
 selection of one independently verified grouped witness separately. Timings
 are observations from execution, not fixed assertions or speed guarantees.
-Build explicitly with `lake build Magma/Evidence/04_BatchCarryGroupedSearch.lean`.
+Build explicitly with `lake build Magma/DDT/Experiments/04_BatchCarryGroupedSearch.lean`.
 Earlier iterations are not imported or executed.
 -/
 

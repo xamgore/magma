@@ -11,7 +11,7 @@ public section
 
 `lake exe defs` writes authored declarations from the compiled `Difan` and `Magma`
 modules to `.lake/defs.txt` and the complete source bundle to `.lake/sources.txt`.
-Modules follow Lean's dependency-first import order, also exported by `deps` for
+Modules follow Lean's dependency-first import order, also used for
 the source bundle. Within a module, Tarjan components order declarations by all
 type and body dependencies, including theorem proofs and hidden generated helpers.
 Source positions break ties, preserving the progression of the research.

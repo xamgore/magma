@@ -745,7 +745,7 @@ theorem xorDDT_rounds_three_zero_of_maskedGroupedCertificate
 The examples below prove the fixed results during module compilation. A mask trace
 contains grouped steps; carry-value removal uses the separate BackwardMask
 checkers. Concrete search-produced masks are exercised in
-`Magma/Evidence/02_CarryGroupedPropagation.lean`.
+`Magma/DDT/Experiments/02_CarryGroupedPropagation.lean`.
 -/
 
 example :

@@ -17,7 +17,7 @@ The two-bit candidate generator and fast prefilter do not assert impossibility.
 `independentlyVerifiedHits` checks each retained grouped witness; its soundness
 theorem additionally requires acceptance of the shared base.
 Concrete one-bit family proofs and exploratory two-bit runs are recorded in
-`Magma/Evidence/05_BatchFamilyCertificates.lean`.
+`Magma/DDT/Experiments/05_BatchFamilyCertificates.lean`.
 -/
 
 open Magma.Internal Magma.MultiRoundDDT Magma.BatchSearch

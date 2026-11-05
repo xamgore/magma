@@ -32,7 +32,7 @@ old domains is assumed.
 
 Historical record:
 https://chatgpt.com/c/6ade1478-dfa8-83ed-83bc-dc3b84cc42cf
-Build explicitly with `lake build Magma/Evidence/03_FastInitialCover.lean`.
+Build explicitly with `lake build Magma/DDT/Experiments/03_FastInitialCover.lean`.
 Earlier experiments are not imported or executed.
 -/
 

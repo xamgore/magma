@@ -7,7 +7,7 @@ The analysis starts with a single round function, then follows differences throu
 | Scale / question | Start with | Computational investigations |
 | --- | --- | --- |
 | How does the round function transform differences? | [RoundFunction](RoundFunction/GBaseTaggedCarryStep.lean) | [XOR and modular differences](RoundFunction/Experiments/XOR_VS_MOD_REAL_MAGMA.md) |
-| Which local support and DDT coefficients can be proved exactly? | [LocalDDT](LocalDDT), [DDT](../DDT) | [Numbered discovery iterations](../DDT/Experiments/Evidence) |
+| Which local support and DDT coefficients can be proved exactly? | [LocalDDT](LocalDDT), [DDT](../DDT) | [Numbered discovery iterations](../DDT/Experiments/README.md) |
 | How do 2–3 rounds constrain compatible states? | [TwoRounds](TwoRounds), [ThreeRounds](ThreeRounds) | [Three-round carry tests](ThreeRounds/Experiments) |
 | What information must a 4-round join preserve? | [FourRounds](FourRounds/FourRoundGeneralBoundaryEquations.lean) | [Related window probes](Windows/Experiments) |
 | Can 5-round counts be composed exactly? | [FiveRounds](FiveRounds/README.md) | [Fixed and joint middle-state transfers](FiveRounds/Experiments/JOINT_MIDDLE_TRANSFER.md) |

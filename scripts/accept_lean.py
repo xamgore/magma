@@ -114,6 +114,11 @@ def module_name(path: Path) -> str:
     return '.'.join(path.relative_to(ROOT).with_suffix('').parts)
 
 
+def is_ddt_iteration(path: Path) -> bool:
+    """Numbered DDT experiments are opt-in, never registered in Magma.lean."""
+    return path.relative_to(ROOT).parts[:3] == ('Magma', 'DDT', 'Experiments')
+
+
 def prepare(args: argparse.Namespace) -> None:
     dest = relative_file(args.file)
     if dest.exists():
@@ -122,10 +127,10 @@ def prepare(args: argparse.Namespace) -> None:
     masked = code_only(source)
     findings = [(masked.count('\n', 0, m.start()) + 1, m.group(1))
                 for m in re.finditer(r'^[ \t]*(example\b|#eval\b)', masked, re.M)]
-    print('Evidence review: ' + (', '.join(f'{kind} at {line}' for line, kind in findings)
+    print('Experiment commands: ' + (', '.join(f'{kind} at {line}' for line, kind in findings)
                                 if findings else 'no example/#eval commands'))
-    if findings and 'Evidence' not in dest.relative_to(ROOT).parts and not args.keep_examples:
-        raise ValueError('Review example/#eval commands for Evidence first; '
+    if findings and not is_ddt_iteration(dest) and not args.keep_examples:
+        raise ValueError('Review example/#eval commands for research iterations first; '
                          'use --keep-examples only for intentional library certificates')
     # Incoming per-proof resource overrides are replaced by proof adaptation,
     # rather than silently changing project-wide limits.
@@ -149,7 +154,7 @@ def prepare(args: argparse.Namespace) -> None:
     result += '\n'.join(body_lines).lstrip() + '\n'
     dest.parent.mkdir(parents=True, exist_ok=True)
     dest.write_text(result)
-    if not args.no_register and 'Evidence' not in dest.relative_to(ROOT).parts:
+    if not args.no_register and not is_ddt_iteration(dest):
         root_file = ROOT / 'Magma.lean'
         root_source = root_file.read_text()
         entry = f'public import {module_name(dest)}\n'
@@ -341,7 +346,7 @@ end run
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='action', required=True)
-    prep = sub.add_parser('prepare', help='Inspect Evidence commands, add headers and register the module')
+    prep = sub.add_parser('prepare', help='Inspect experiment commands, add headers and register library modules')
     prep.add_argument('source')
     prep.add_argument('file')
     prep.add_argument('--import', dest='imports', action='append', default=[])

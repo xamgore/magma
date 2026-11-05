@@ -16,7 +16,7 @@ accepted grouped witness imply zero three-round DDT for arbitrary `k₂` and `bR
 `firstVerifiedAL` checks grouped witnesses only. Full cryptographic soundness
 also requires `verifySearchBase`; the zero-DDT theorems require both checks.
 Experiment inputs, measurements, and recorded outcomes are in
-`Magma/Evidence/04_BatchCarryGroupedSearch.lean`.
+`Magma/DDT/Experiments/04_BatchCarryGroupedSearch.lean`.
 -/
 
 open Magma.Internal Magma.MultiRoundDDT Magma.Certificates

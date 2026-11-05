@@ -25,7 +25,7 @@ pairs with identical exact counts, uniformly over the third key.
 The reusable list and count proofs live in `Magma.MultiRoundDDT`.
 Earlier search profiles are not imported.
 
-Build explicitly with `lake build Magma/Evidence/10_ZeroLeft64ExactCounts.lean`.
+Build explicitly with `lake build Magma/DDT/Experiments/10_ZeroLeft64ExactCounts.lean`.
 -/
 
 open Magma.Internal Magma.MultiRoundDDT

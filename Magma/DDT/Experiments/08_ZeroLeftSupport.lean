@@ -22,7 +22,7 @@ The fixed results are kernel-checked statements, with no profiling commands:
 64 predicted pairs, no one-bit positions, and two-bit pairs
 `[(12, 23), (13, 23), (14, 23)]`.
 
-Build explicitly with `lake build Magma/Evidence/08_ZeroLeftSupport.lean`.
+Build explicitly with `lake build Magma/DDT/Experiments/08_ZeroLeftSupport.lean`.
 Earlier iterations are not imported or executed.
 -/
 

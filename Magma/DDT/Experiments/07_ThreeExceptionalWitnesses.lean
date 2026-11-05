@@ -28,7 +28,7 @@ below fixes this expectation as a kernel-checked proof obligation. This
 iteration has not been compiled or evaluated during integration.
 
 Build and print the witness check explicitly:
-`lake build Magma/Evidence/07_ThreeExceptionalWitnesses.lean`
+`lake build Magma/DDT/Experiments/07_ThreeExceptionalWitnesses.lean`
 Earlier research iterations are not imported or executed.
 -/
 

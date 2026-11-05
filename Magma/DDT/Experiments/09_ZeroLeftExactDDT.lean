@@ -23,7 +23,7 @@ to sixteen four-bit DDT factors each. Every count is exactly `2^58` for output
 right difference `2^23`, uniformly over the third key. No 32-bit or 64-bit
 state space is enumerated, and no independence or Markov assumption is used.
 
-Build explicitly with `lake build Magma/Evidence/09_ZeroLeftExactDDT.lean`.
+Build explicitly with `lake build Magma/DDT/Experiments/09_ZeroLeftExactDDT.lean`.
 Earlier iterations are not imported or executed.
 -/
 

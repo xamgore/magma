@@ -1,9 +1,9 @@
 module
 
 public import Magma.DDT.OneHot.KeyClasses.KeyClasses
-public import Magma.DDT.Experiments.Evidence.«12_ZeroLeftArbitraryKeys»
+public import Magma.DDT.Experiments.«12_ZeroLeftArbitraryKeys»
 meta import Magma.DDT.OneHot.KeyClasses.KeyClasses
-meta import Magma.DDT.Experiments.Evidence.«12_ZeroLeftArbitraryKeys»
+meta import Magma.DDT.Experiments.«12_ZeroLeftArbitraryKeys»
 import all Init.Data.Range.Basic
 
 @[expose] public section

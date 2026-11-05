@@ -25,7 +25,7 @@ checks prefilter hits. It records outcomes without assuming that any candidate
 is impossible. Proposal construction is outside verification timings. Runtime
 arguments keep the checked computations inside their measured IO actions.
 
-Build explicitly with `lake build Magma/Evidence/05_BatchFamilyCertificates.lean`.
+Build explicitly with `lake build Magma/DDT/Experiments/05_BatchFamilyCertificates.lean`.
 Earlier iterations are not imported or executed.
 -/
 

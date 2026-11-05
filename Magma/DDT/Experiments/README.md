@@ -1,0 +1,36 @@
+# Research iterations
+
+`Magma/DDT/Experiments/` records research iterations in order, outside the default build. Each file states
+its question, preserves experiments and historical observations, and explains what motivated the
+next iteration.
+
+| Iteration                       | Research question                                                                                                        |
+|---------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| `01_UInt16Search`               | Can local deletion find a certificate, and where does search spend time?                                                 |
+| `02_CarryGroupedPropagation`    | Do whole carry paths and grouped wiring expose a contradiction?                                                          |
+| `03_FastInitialCover`           | Can the concrete impossibility proof reuse a faster sound coverage check?                                                |
+| `04_BatchCarryGroupedSearch`    | Can one verified carry base serve many left input differences?                                                           |
+| `05_BatchFamilyCertificates`    | Can the whole one-bit family be certified, and what survives a two-bit scan?                                             |
+| `06_TwoBitFamilyAndExceptions`  | How can the selected two-bit family be certified, and why do three masks remain unresolved?                              |
+| `07_ThreeExceptionalWitnesses`  | Do explicit inputs give positive DDT support for the three exceptional masks?                                            |
+| `08_ZeroLeftSupport`            | Do two exact S-box tables explain 64 predicted pairs and the three two-bit exceptions?                                   |
+| `09_ZeroLeftExactDDT`           | Can sixteen exact S-box factors determine the three exceptional DDT counts for every third key?                          |
+| `10_ZeroLeft64ExactCounts`      | Do all 64 predicted pairs have the same exact DDT count for every third key?                                             |
+| `11_ZeroLeft64Completeness`     | Does conservation of DDT mass prove that the 64-pair list is complete?                                                   |
+| `12_ZeroLeftArbitraryKeys`      | Which one-bit output columns vanish for arbitrary keys, is total mass preserved, and can UInt8 scan them quickly?        |
+| `13_UInt8NoPathCertificates`    | Can original carry arithmetic independently certify the UInt8 scan's one-bit exclusions?                                 |
+| `14_OneHotCompleteSupport`      | Do checked positive witnesses and no-path certificates give exact one-bit support for three keys?                        |
+| `15_OneHotKeyClasses`           | Do 32 local key classes agree with UInt8 scans, and which class predicts empty one-bit support?                          |
+| `16_OneHotClassCertificates`    | Do original-arithmetic certificates establish exact support for all 32 class representatives?                            |
+| `17_OneHotExactColumnMass`      | Do keys with the same one-bit support class also have equal exact column masses?                                         |
+| `18_OneHotFixedKeySupport`      | How many of the 76 globally realizable cells coexist at one key, and what ceiling follows from consistent local carries? |
+| `19_DiagonalExactWeights`       | Do the proposed diagonal weights agree numerically with the carry DP at the zero key and the 72-cell witness key?        |
+| `20_TwoHotOutputOneExactCounts` | What fixed values does the proposed weighted formula give at the zero key and the cross-nibble witness key?              |
+| `21_TwoHotOutputOneDPAgreement` | Does a fast four-state scan agree with the proposed weighted formula on all seven pairs at eight sample keys?            |
+
+Fixed observations are Lean examples and theorems. Measurements use `#eval`. Run an iteration
+explicitly; iterations import the library directly and do not run earlier experiments:
+
+```sh
+lake build Magma/DDT/Experiments/01_UInt16Search.lean
+```
