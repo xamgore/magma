@@ -5,10 +5,10 @@ public import Magma.Differential.FiveRounds.FiveRoundUniversalSupport
 set_option maxRecDepth 8192
 set_option maxHeartbeats 20000000
 @[expose] public section
-namespace Magma.DiffanNineRoundPositiveRows
+namespace Magma.DifanNineRoundPositiveRows
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundUniversalSupport
+open Magma.DifanFiveRoundUniversalSupport
 
 /-- Kernel-checkable real RFC Magma trajectories: input bit 6,
     output bits 16..23. -/
@@ -76,4 +76,4 @@ theorem cell_06_23 :
       = (0#32, 0x00800000#32) := by
   decide +kernel
 
-end Magma.DiffanNineRoundPositiveRows
+end Magma.DifanNineRoundPositiveRows

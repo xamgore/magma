@@ -56,7 +56,7 @@ assert len(witness) == 1024
 
 outdir = root / "Magma/Differential/NinePlus/PositiveRows"
 outdir.mkdir(parents=True, exist_ok=True)
-name = "Magma.DiffanNineRoundPositiveRows"
+name = "Magma.DifanNineRoundPositiveRows"
 head = [
     "module",
     "import all Init.Data.Range.Basic",
@@ -68,7 +68,7 @@ head = [
     "namespace " + name,
     "open Magma",
     "open Magma.MultiRoundDDT",
-    "open Magma.DiffanFiveRoundUniversalSupport",
+    "open Magma.DifanFiveRoundUniversalSupport",
     "",
 ]
 
@@ -116,7 +116,7 @@ for i in rows:
         "namespace " + name,
         "open Magma",
         "open Magma.MultiRoundDDT",
-        "open Magma.DiffanFiveRoundUniversalSupport",
+        "open Magma.DifanFiveRoundUniversalSupport",
         "",
         f"/-- Every output bit j is reachable for input bit {i}. -/",
         f"theorem row{i:02} (j : Fin 32) :",

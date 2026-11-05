@@ -14,15 +14,15 @@ of a two-hot difference is the nibble of its lower bit, by an
 existing independently proved Magma two-hot theorem.
 -/
 
-namespace Magma.DiffanOneHotTwoHotStructuralZero
+namespace Magma.DifanOneHotTwoHotStructuralZero
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFirstActiveNibbleInvariant
-open Magma.DiffanOneHotStructuralZero
-open Magma.DiffanFiveRoundUniversalSupport
-open Magma.DiffanPairedCarryRefutation
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFirstActiveNibbleInvariant
+open Magma.DifanOneHotStructuralZero
+open Magma.DifanFiveRoundUniversalSupport
+open Magma.DifanPairedCarryRefutation
 open Magma.TwoHotOutputOneFirstActive
 
 private abbrev Word :=
@@ -76,9 +76,9 @@ theorem fiveRound_twoHot_oneHot_zero_of_sameNibble_certificate
     (hjk : j.val < k.val) :
     xorDDT_rounds 5 (fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
       (twoHot j k, 0#32) (0#32, oneHotDifference i) = 0 := by
-  rw [← Magma.DiffanFiveRoundDDTReverse.outer_ddt_reverse
+  rw [← Magma.DifanFiveRoundDDTReverse.outer_ddt_reverse
     k₄ k₃ k₂ k₁ k₀ (oneHotDifference i) (twoHot j k)]
   exact fiveRound_oneHot_twoHot_zero_of_sameNibble_certificate
     cert k₄ k₃ k₂ k₁ k₀ i j k hjk
 
-end Magma.DiffanOneHotTwoHotStructuralZero
+end Magma.DifanOneHotTwoHotStructuralZero

@@ -21,11 +21,11 @@ when both previously certified witnesses are admitted.
 
 -/
 
-namespace Magma.DiffanScheduledCorrectionHomogeneity
+namespace Magma.DifanScheduledCorrectionHomogeneity
 
 open Magma
-open Magma.DiffanFeistelDeltaPropagation
-open Magma.DiffanScheduledCorrectionReachability
+open Magma.DifanFeistelDeltaPropagation
+open Magma.DifanScheduledCorrectionReachability
 
 private abbrev Word :=
   V 32
@@ -34,7 +34,7 @@ private abbrev Master :=
   V 256
 
 private abbrev Point :=
-  Diffan.StateDifference (Word × Word) (Word × Word)
+  Difan.StateDifference (Word × Word) (Word × Word)
 
 /-- Exactly those real right midpoint bases which meet both endpoint
     restrictions through the actual scheduled round functions. -/
@@ -202,4 +202,4 @@ theorem two_positive_distinct_correction_slices
   · exact (positive_iff_admitted_midpoint «prefix» suffix master i P Q
       L aL d (0x00006000#32) b₁).mpr ⟨R₁, h1, rfl⟩
 
-end Magma.DiffanScheduledCorrectionHomogeneity
+end Magma.DifanScheduledCorrectionHomogeneity

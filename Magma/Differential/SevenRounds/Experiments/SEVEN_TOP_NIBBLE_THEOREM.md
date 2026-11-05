@@ -116,7 +116,7 @@ performed, and all seven keys remain independent.
 
     seven_round_high_nibble_universally_impossible
 
-  under namespace Magma.DiffanSevenTopNibble.
+  under namespace Magma.DifanSevenTopNibble.
 - It is imported from Magma.lean. No sorry, admit, or
   user-declared axioms occur in this file.
 - IMPORTANT: the Lean version's standard bv_decide

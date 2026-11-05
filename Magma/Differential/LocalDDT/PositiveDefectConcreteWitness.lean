@@ -19,16 +19,16 @@ transition. First-row positivity follows from membership in the certified
 77-entry support table.
 -/
 
-namespace Magma.DiffanPositiveDefectConcreteWitness
+namespace Magma.DifanPositiveDefectConcreteWitness
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanUnitColumnLow20AndUniqueEven
+open Magma.DifanUnitColumnLow20AndUniqueEven
 open Magma.OddUnitInput77
-open Magma.DiffanZeroLeftSupportOverlap
-open Magma.DiffanOddUnitLow20CollisionClasses
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanZeroLeftSupportOverlap
+open Magma.DifanOddUnitLow20CollisionClasses
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -168,4 +168,4 @@ theorem witness_uses_exceptional_prefix :
     low20 witnessAL ∈ oddCollisionPrefixes := by
   constructor <;> decide
 
-end Magma.DiffanPositiveDefectConcreteWitness
+end Magma.DifanPositiveDefectConcreteWitness

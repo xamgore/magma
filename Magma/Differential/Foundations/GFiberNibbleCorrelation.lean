@@ -20,14 +20,14 @@ states) and are explicitly summed. The high and low shifts come from
 the SAME actual 32-bit XOR word; there is no probabilistic assumption.
 -/
 
-namespace Magma.DiffanGFiberNibbleCorrelation
+namespace Magma.DifanGFiberNibbleCorrelation
 
 open Magma
 open Magma.CarryAutomaton
-open Magma.DiffanGCarryHalfSplit
-open Magma.DiffanGCarryFiberTensor
-open Magma.DiffanGNibbleBlockCorrelation
-open Diffan.BlockwiseXorCorrelation
+open Magma.DifanGCarryHalfSplit
+open Magma.DifanGCarryFiberTensor
+open Magma.DifanGNibbleBlockCorrelation
+open Difan.BlockwiseXorCorrelation
 
 private abbrev Word :=
   V 32
@@ -166,4 +166,4 @@ theorem genuine_g_fiber_correlation_eq_16bit_blocks
       (gFiberIndicator_eq_carry_mixture key₁ diff₁ target₁)
       (gFiberIndicator_eq_carry_mixture key₂ diff₂ target₂)
 
-end Magma.DiffanGFiberNibbleCorrelation
+end Magma.DifanGFiberNibbleCorrelation

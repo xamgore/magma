@@ -25,13 +25,13 @@ is bounded by the corresponding unrestricted DDT coefficient.
 All scheduled rounds here are ordinary G rounds, not the final GStar.
 -/
 
-namespace Magma.DiffanScheduledCorrectionReachability
+namespace Magma.DifanScheduledCorrectionReachability
 
 open Magma
 open Magma.CarryAutomaton
-open Magma.DiffanFeistelDeltaPropagation
-open Magma.DiffanCorrectionFiberSlices
-open Magma.DiffanScheduledMeet
+open Magma.DifanFeistelDeltaPropagation
+open Magma.DifanCorrectionFiberSlices
+open Magma.DifanScheduledMeet
 open scoped Classical
 
 private abbrev Word :=
@@ -41,7 +41,7 @@ private abbrev Master :=
   V 256
 
 private abbrev Point :=
-  Diffan.StateDifference (Word × Word) (Word × Word)
+  Difan.StateDifference (Word × Word) (Word × Word)
 
 /-- A full midpoint with three fixed word coordinates and one variable
     *actual* right base coordinate. -/
@@ -114,12 +114,12 @@ theorem admittedAt_has_exact_meet
     (h : admittedAt «prefix» suffix master P Q L aL d R) :
     ∃ initial final : Point,
       P initial ∧ Q final ∧
-      Diffan.Meet.meets (leftEquiv «prefix» master) (rightEquiv suffix master)
+      Difan.Meet.meets (leftEquiv «prefix» master) (rightEquiv suffix master)
         initial final ∧
       leftEquiv «prefix» master initial = middleAt L aL d R := by
   refine ⟨(leftEquiv «prefix» master).symm (middleAt L aL d R),
     rightEquiv suffix master (middleAt L aL d R), h.1, h.2, ?_, ?_⟩
-  · unfold Diffan.Meet.meets
+  · unfold Difan.Meet.meets
     simp
   · simp
 
@@ -213,4 +213,4 @@ theorem two_admitted_midpoints_forbid_constant
   exact two_midpoint_corrections_distinct master i L aL d
     ((h _ h0).trans (h _ h1).symm)
 
-end Magma.DiffanScheduledCorrectionReachability
+end Magma.DifanScheduledCorrectionReachability

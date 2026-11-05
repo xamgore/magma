@@ -24,13 +24,13 @@ independent subkeys. Repeated words of the Magma master key must still be
 identified when instantiating the key schedule.
 -/
 
-namespace Magma.DiffanFiveRoundCoreDefect
+namespace Magma.DifanFiveRoundCoreDefect
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanThreeRoundConvolutionDefect
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundConvolutionDefect
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -53,7 +53,7 @@ theorem fiveRound_eq_threeCore (k₀ k₁ k₂ k₃ k₄ aL bR : Word) :
       (aL, 0#32) (0#32, bR) =
     xorDDT_rounds 3 (threeRoundKeys k₁ k₂ k₃)
       (0#32, aL) (bR, 0#32) := by
-  have h := Magma.DiffanFirstRoundDeletion.twoSided_boundary_ddt_eq_inner 3
+  have h := Magma.DifanFirstRoundDeletion.twoSided_boundary_ddt_eq_inner 3
     (fiveRoundKeys k₀ k₁ k₂ k₃ k₄) aL bR
   rw [innerKeys] at h
   exact h
@@ -155,4 +155,4 @@ theorem fiveRound_zero_of_disjoint_inner_support
   · rw [hc, zero_mul]
   · rw [hc, mul_zero]
 
-end Magma.DiffanFiveRoundCoreDefect
+end Magma.DifanFiveRoundCoreDefect

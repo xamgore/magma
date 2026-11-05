@@ -2,17 +2,17 @@ module
 import all Init.Data.Range.Basic
 public import Magma.Differential.FourRounds.FourRoundZeroLeftFactorization
 public import Magma.Differential.Windows.FirstRoundDeletion
-public import Magma.Differential.Bridges.DiffanReverseRound
-public import Diffan.Symmetry.ConjugatedDifferenceSpace
-public import Diffan.Observables.TwistedConditionalGram
+public import Magma.Differential.Bridges.DifanReverseRound
+public import Difan.Symmetry.ConjugatedDifferenceSpace
+public import Difan.Observables.TwistedConditionalGram
 
 set_option maxRecDepth 2048
 set_option maxHeartbeats 1000000
 
 @[expose] public section
-namespace Magma.DiffanNineReflection
+namespace Magma.DifanNineReflection
 
-open Magma Magma.MultiRoundDDT Magma.DiffanFourRoundZeroLeftFactorization
+open Magma Magma.MultiRoundDDT Magma.DifanFourRoundZeroLeftFactorization
 
 private abbrev Word := V 32
 private abbrev State := FeistelState
@@ -85,7 +85,7 @@ theorem nine_to_eight
       (a,0#32) (0#32,b) =
     xorDDT_rounds 8 (keys8 k0 k1 k2 k3)
       (a,0#32) (b,0#32) := by
-  have h := Magma.DiffanFourRoundZeroLeftFactorization.zeroLeft_succ_ddt_eq_prefix
+  have h := Magma.DifanFourRoundZeroLeftFactorization.zeroLeft_succ_ddt_eq_prefix
     8 (keys9 k0 k1 k2 k3 tail) (a,0#32) b
   have hkeys : (fun i : Fin 8 => (keys9 k0 k1 k2 k3 tail) i.castSucc) =
       keys8 k0 k1 k2 k3 := by
@@ -148,9 +148,9 @@ def QEquiv (k0 k1 k2 k3 : Word) : State ≃ State where
   left_inv := Q_involutive k0 k1 k2 k3
   right_inv := Q_involutive k0 k1 k2 k3
 
-private def xorState : Diffan.DifferenceSpace State State :=
-  Diffan.DifferenceSpace.prod
-    Magma.DiffanBridge.xor32 Magma.DiffanBridge.xor32
+private def xorState : Difan.DifferenceSpace State State :=
+  Difan.DifferenceSpace.prod
+    Magma.DifanBridge.xor32 Magma.DifanBridge.xor32
 
 private theorem xor_state_comm (p q : State) :
     stateXor p q = stateXor q p := by
@@ -158,13 +158,13 @@ private theorem xor_state_comm (p q : State) :
   rcases q with ⟨ql,qr⟩
   exact Prod.ext (BitVec.xor_comm pl ql) (BitVec.xor_comm pr qr)
 
-/-- The reflected DDT is exactly the standard Diffan DDT
+/-- The reflected DDT is exactly the standard Difan DDT
 of the involutive equivalence Q. -/
 theorem qDDT_eq_generic (k0 k1 k2 k3 : Word) (a b : State) :
     qDDT k0 k1 k2 k3 a b =
-      Diffan.ddt xorState xorState
+      Difan.ddt xorState xorState
         (QEquiv k0 k1 k2 k3 : State → State) a b := by
-  unfold qDDT Diffan.ddt
+  unfold qDDT Difan.ddt
   apply congrArg Finset.card
   ext p
   simp only [Finset.mem_filter, Finset.mem_univ, true_and]
@@ -182,12 +182,12 @@ theorem qDDT_symmetric (k0 k1 k2 k3 : Word)
     qDDT k0 k1 k2 k3 a b = qDDT k0 k1 k2 k3 b a := by
   calc
     qDDT k0 k1 k2 k3 a b =
-        Diffan.ddt xorState xorState
+        Difan.ddt xorState xorState
           (QEquiv k0 k1 k2 k3 : State → State) a b :=
       qDDT_eq_generic k0 k1 k2 k3 a b
-    _ = Diffan.ddt xorState xorState
+    _ = Difan.ddt xorState xorState
           ((QEquiv k0 k1 k2 k3).symm : State → State) b a :=
-      Diffan.ddt_equiv_symm xorState xorState
+      Difan.ddt_equiv_symm xorState xorState
         (QEquiv k0 k1 k2 k3) a b
     _ = qDDT k0 k1 k2 k3 b a :=
       (qDDT_eq_generic k0 k1 k2 k3 b a).symm
@@ -432,8 +432,8 @@ theorem Q_has_exactly_two_pow_32_fixed_points (k0 k1 k2 k3 : Word) :
 bitwise XOR in plaintext coordinates. It is the nonlinear
 difference convention obtained by measuring differences after H. -/
 def adaptedXor (k0 k1 k2 k3 : Word) :
-    Diffan.DifferenceSpace State State :=
-  Diffan.ConjugatedDifferenceSpace.pullback
+    Difan.DifferenceSpace State State :=
+  Difan.ConjugatedDifferenceSpace.pullback
     (HEquiv k0 k1 k2 k3) xorState
 
 /-- Q is precisely the conjugate of the half-swap by H. -/
@@ -452,7 +452,7 @@ theorem Q_eq_coordinate_conjugate (k0 k1 k2 k3 : Word) :
 depend on its base state. This is the AFFINE step that turns
 the conjugated Q-DDT into a trivial monomial entry. -/
 theorem derivative_J (a p : State) :
-    Diffan.derivative xorState xorState J a p = J a := by
+    Difan.derivative xorState xorState J a p = J a := by
   rcases a with ⟨al,ar⟩
   rcases p with ⟨pl,pr⟩
   change (pr ^^^ (pr ^^^ ar), pl ^^^ (pl ^^^ al)) = (ar, al)
@@ -461,10 +461,10 @@ theorem derivative_J (a p : State) :
 /-- Explicit DDT of J in the normal XOR difference convention.
 N is 2^64; no symbolic g/carry/S-box occurs in this count. -/
 theorem J_ddt_trivial (a b : State) :
-    Diffan.ddt xorState xorState J a b =
+    Difan.ddt xorState xorState J a b =
       if J a = b then Fintype.card State else 0 := by
   classical
-  unfold Diffan.ddt
+  unfold Difan.ddt
   simp only [derivative_J]
   by_cases h : J a = b
   · simp [h]
@@ -477,11 +477,11 @@ DDT is trivial: switching between the two difference
 geometries requires the fully correlated H trajectories. -/
 theorem Q_ddt_in_adapted_coordinates (k0 k1 k2 k3 : Word)
     (a b : State) :
-    Diffan.ddt (adaptedXor k0 k1 k2 k3)
+    Difan.ddt (adaptedXor k0 k1 k2 k3)
       (adaptedXor k0 k1 k2 k3) (Q k0 k1 k2 k3) a b =
     if J a = b then Fintype.card State else 0 := by
   rw [Q_eq_coordinate_conjugate]
-  exact (Diffan.ConjugatedDifferenceSpace.ddt_conjugate
+  exact (Difan.ConjugatedDifferenceSpace.ddt_conjugate
     (HEquiv k0 k1 k2 k3) xorState J a b).trans (J_ddt_trivial a b)
 
 /-- A base-indexed, exact CONDITIONAL four-round XOR derivative:
@@ -607,10 +607,10 @@ enumerating 2^128 (u,lambda) pairs is efficient. -/
 theorem qDDT_eq_twisted_conditional_gram
     (k0 k1 k2 k3 : Word) (a b : State) :
     qDDT k0 k1 k2 k3 a b =
-      Diffan.TwistedConditionalGram.gram
+      Difan.TwistedConditionalGram.gram
         (conditionalH k0 k1 k2 k3) J J a b := by
   classical
-  rw [Diffan.TwistedConditionalGram.gram_eq_matching_base_count]
+  rw [Difan.TwistedConditionalGram.gram_eq_matching_base_count]
   unfold qDDT
   calc
     ((Finset.univ : Finset State).filter (fun x =>
@@ -639,10 +639,10 @@ theorem nine_ddt_eq_twisted_four_round_gram
     (k0 k1 k2 k3 tail a b : Word) :
     xorDDT_rounds 9 (keys9 k0 k1 k2 k3 tail)
       (a,0#32) (0#32,b) =
-      Diffan.TwistedConditionalGram.gram
+      Difan.TwistedConditionalGram.gram
         (conditionalH k0 k1 k2 k3) J J
           (a,0#32) (0#32,b) := by
   rw [nine_ddt_eq_reflected_qDDT]
   exact qDDT_eq_twisted_conditional_gram k0 k1 k2 k3 _ _
 
-end Magma.DiffanNineReflection
+end Magma.DifanNineReflection

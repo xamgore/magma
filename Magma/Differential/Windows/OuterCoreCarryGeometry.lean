@@ -25,14 +25,14 @@ local nibble keys: this is a sound OUTER impossibility filter,
 not a sufficient condition for a real Magma trajectory.
 -/
 
-namespace Magma.DiffanOuterCoreCarryGeometry
+namespace Magma.DifanOuterCoreCarryGeometry
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanKeyFreeCarryAutomaton
-open Magma.DiffanKeyFreeRoundTransducer
-open Magma.DiffanCorrelatedFiveMacro
-open Magma.DiffanFirstRoundDeletion
+open Magma.DifanKeyFreeCarryAutomaton
+open Magma.DifanKeyFreeRoundTransducer
+open Magma.DifanCorrelatedFiveMacro
+open Magma.DifanFirstRoundDeletion
 
 private abbrev Word :=
   V 32
@@ -205,4 +205,4 @@ theorem fivePentagon_symmetric (a s : Word) :
     exact (fiveCore_path_iff_pentagon a s).mp (by
       simpa [swapDiff] using reverse_path hp)
 
-end Magma.DiffanOuterCoreCarryGeometry
+end Magma.DifanOuterCoreCarryGeometry

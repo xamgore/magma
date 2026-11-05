@@ -1,7 +1,7 @@
 module
 public import Magma.Differential.FullCipher.FullKeyMSBGauge
 public import Magma.Differential.FullCipher.FullScheduleXorSymmetries
-public import Diffan.Symmetry.BoomerangGauge
+public import Difan.Symmetry.BoomerangGauge
 import all Init.Data.Range.Basic
 
 @[expose] public section
@@ -18,11 +18,11 @@ It uses true bijective RFC encrypt, a full symbolic
 key-flip isometry, and generic BCT transport.
 -/
 
-namespace Magma.DiffanFullKeyMSBBoomerang
+namespace Magma.DifanFullKeyMSBBoomerang
 
-open Magma Magma.Internal Magma.MultiRoundDDT Magma.DiffanFullScheduleConjugacy
-open Magma.DiffanFullScheduleXorSymmetries
-open Magma.DiffanFullKeyMSBGauge
+open Magma Magma.Internal Magma.MultiRoundDDT Magma.DifanFullScheduleConjugacy
+open Magma.DifanFullScheduleXorSymmetries
+open Magma.DifanFullKeyMSBGauge
 
 abbrev W := V 32
 abbrev S := FeistelState
@@ -41,11 +41,11 @@ for ALL 64-bit differences and all eight actual
 32-bit key words. Not merely truncated DDT support. -/
 theorem C_bct_master_key_gauge (keys : Fin 8 → W)
     (a b : S) :
-    Diffan.BoomerangGauge.bct pairXor
+    Difan.BoomerangGauge.bct pairXor
       (CEquiv (keyFlip keys)) a b =
-    Diffan.BoomerangGauge.bct pairXor
+    Difan.BoomerangGauge.bct pairXor
       (CEquiv keys) a b := by
-  apply Diffan.BoomerangGauge.bct_intertwiner
+  apply Difan.BoomerangGauge.bct_intertwiner
     pairXor (CEquiv keys) (CEquiv (keyFlip keys)) TEquiv
   · intro p
     change C (keyFlip keys) (T p) = T (C keys p)
@@ -69,12 +69,12 @@ theorem nativeCEquiv_encrypt (K : V 256) (p : S) :
 
 theorem rfc_full32_bct_master_msb_invariant
     (K : V 256) (a b : S) :
-    Diffan.BoomerangGauge.bct pairXor
+    Difan.BoomerangGauge.bct pairXor
       (nativeCEquiv (masterFlip K)) a b =
-    Diffan.BoomerangGauge.bct pairXor
+    Difan.BoomerangGauge.bct pairXor
       (nativeCEquiv K) a b := by
   unfold nativeCEquiv
   rw [master8_flip]
   exact C_bct_master_key_gauge (master8 K) a b
 
-end Magma.DiffanFullKeyMSBBoomerang
+end Magma.DifanFullKeyMSBBoomerang

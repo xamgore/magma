@@ -1,13 +1,13 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Fibers.FiberDefect
+public import Difan.Fibers.FiberDefect
 public import Magma.Differential.Core.MultiRoundDDT
 
 @[expose] public section
 
 /-!
-# Magma.Diffan.ThreeRoundCouplingDefect
+# Magma.Difan.ThreeRoundCouplingDefect
 
 A general three-round output (not necessarily zero-left) has two separate
 conditions in the coordinates `(R,Z)`. The first is the middle-round
@@ -18,7 +18,7 @@ both conditions PLUS the number rejected by the third-round condition.
 This measures the structural *defect* of the naive two-round upper bound.
 -/
 
-namespace Magma.DiffanThreeRoundCouplingDefect
+namespace Magma.DifanThreeRoundCouplingDefect
 
 open Magma
 open Magma.MultiRoundDDT
@@ -56,14 +56,14 @@ theorem coupled_iff_middle_and_final
 noncomputable def middleCandidates
     (k₀ k₁ aL aR bL : Word) : Finset State := by
   classical
-  exact Diffan.FiberDefect.candidates
+  exact Difan.FiberDefect.candidates
     (Finset.univ : Finset State) (middleCondition k₀ k₁ aL aR bL)
 
 /-- The candidates rejected by the exact third-round compatibility. -/
 noncomputable def couplingDefect
     (k₀ k₁ k₂ aL aR bL bR : Word) : Nat := by
   classical
-  exact (Diffan.FiberDefect.rejected
+  exact (Difan.FiberDefect.rejected
     (Finset.univ : Finset State)
     (middleCondition k₀ k₁ aL aR bL)
     (finalCondition k₀ k₁ k₂ aL aR bL bR)).card
@@ -74,7 +74,7 @@ private theorem actual_eq_accepted_card
     (k₀ k₁ k₂ aL aR bL bR : Word) :
     xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂)
       (aL, aR) (bL, bR) =
-      (Diffan.FiberDefect.accepted
+      (Difan.FiberDefect.accepted
         (Finset.univ : Finset State)
         (middleCondition k₀ k₁ aL aR bL)
         (finalCondition k₀ k₁ k₂ aL aR bL bR)).card := by
@@ -84,7 +84,7 @@ private theorem actual_eq_accepted_card
   apply congrArg Finset.card
   ext p
   simp only [Finset.mem_filter, Finset.mem_univ, true_and,
-    Diffan.FiberDefect.accepted]
+    Difan.FiberDefect.accepted]
   exact coupled_iff_middle_and_final k₀ k₁ k₂ aL aR bL bR p
 
 /-- The rejected witnesses account exactly for the gap in the middle-round upper bound. -/
@@ -95,7 +95,7 @@ theorem actual_add_defect_eq_middle
         couplingDefect k₀ k₁ k₂ aL aR bL bR =
           (middleCandidates k₀ k₁ aL aR bL).card := by
   classical
-  have hsplit := Diffan.FiberDefect.card_candidates_eq_accepted_add_rejected
+  have hsplit := Difan.FiberDefect.card_candidates_eq_accepted_add_rejected
     (Finset.univ : Finset State)
     (middleCondition k₀ k₁ aL aR bL)
     (finalCondition k₀ k₁ k₂ aL aR bL bR)
@@ -118,17 +118,17 @@ theorem actual_eq_middle_iff
   classical
   rw [actual_eq_accepted_card]
   change
-    (Diffan.FiberDefect.accepted
+    (Difan.FiberDefect.accepted
       (Finset.univ : Finset State)
       (middleCondition k₀ k₁ aL aR bL)
       (finalCondition k₀ k₁ k₂ aL aR bL bR)).card =
-    (Diffan.FiberDefect.candidates
+    (Difan.FiberDefect.candidates
       (Finset.univ : Finset State)
       (middleCondition k₀ k₁ aL aR bL)).card ↔
     ∀ p : State, middleCondition k₀ k₁ aL aR bL p →
       finalCondition k₀ k₁ k₂ aL aR bL bR p
   simpa only [Finset.mem_univ, true_implies] using
-    (Diffan.FiberDefect.card_accepted_eq_candidates_iff
+    (Difan.FiberDefect.card_accepted_eq_candidates_iff
       (Finset.univ : Finset State)
       (middleCondition k₀ k₁ aL aR bL)
       (finalCondition k₀ k₁ k₂ aL aR bL bR))
@@ -152,4 +152,4 @@ theorem actual_eq_middle_iff_defect_zero
   have h := actual_add_defect_eq_middle k₀ k₁ k₂ aL aR bL bR
   omega
 
-end Magma.DiffanThreeRoundCouplingDefect
+end Magma.DifanThreeRoundCouplingDefect

@@ -31,10 +31,10 @@ This is an equality between TWO master-key classes, not
 a new impossible differential or a computational attack.
 -/
 
-namespace Magma.DiffanFullKeyMSBGauge
+namespace Magma.DifanFullKeyMSBGauge
 
 open Magma Magma.Internal Magma.GProperties
-open Magma.MultiRoundDDT Magma.DiffanFullScheduleConjugacy
+open Magma.MultiRoundDDT Magma.DifanFullScheduleConjugacy
 
 abbrev W := V 32
 abbrev S := FeistelState
@@ -213,10 +213,10 @@ preserves the actual XOR derivative POINTWISE, if we
 translate the input base with T. No DDT averaging here. -/
 theorem C_derivative_keyFlip (keys : Fin 8 → W)
     (a p : S) :
-    Diffan.derivative pairXor pairXor
+    Difan.derivative pairXor pairXor
       (C (keyFlip keys)) a (T p) =
-    Diffan.derivative pairXor pairXor (C keys) a p := by
-  unfold Diffan.derivative
+    Difan.derivative pairXor pairXor (C keys) a p := by
+  unfold Difan.derivative
   rw [T_shift, C_gauge keys (pairXor.shift p a), C_gauge keys p]
   exact T_diff _ _
 
@@ -231,10 +231,10 @@ The proof is an exact bijection of base-state fibers,
 NOT a scalar DDT approximation or an exhaustive count. -/
 theorem C_xorDDT_invariant_under_all_key_msb_flip
     (keys : Fin 8 → W) (a b : S) :
-    Diffan.ddt pairXor pairXor (C (keyFlip keys)) a b =
-      Diffan.ddt pairXor pairXor (C keys) a b := by
+    Difan.ddt pairXor pairXor (C (keyFlip keys)) a b =
+      Difan.ddt pairXor pairXor (C keys) a b := by
   classical
-  unfold Diffan.ddt
+  unfold Difan.ddt
   apply Finset.card_equiv TEquiv
   intro p
   simp only [Finset.mem_filter, Finset.mem_univ, true_and]
@@ -296,10 +296,10 @@ RFC 256-bit encrypt function, at ALL 64-bit differences.
 No key-dependent geometry and no full-base enumeration. -/
 theorem rfc_full32_xorDDT_master_msb_invariant
     (K : V 256) (a b : S) :
-    Diffan.ddt pairXor pairXor
+    Difan.ddt pairXor pairXor
       (fun p : S => split 32 32 (encrypt (masterFlip K) (pack p)))
         a b =
-    Diffan.ddt pairXor pairXor
+    Difan.ddt pairXor pairXor
       (fun p : S => split 32 32 (encrypt K (pack p)))
         a b := by
   have h1 :
@@ -359,4 +359,4 @@ theorem C_observable_eigen_sign_rule (keys : Fin 8 → W)
       intro p _
       ring
 
-end Magma.DiffanFullKeyMSBGauge
+end Magma.DifanFullKeyMSBGauge

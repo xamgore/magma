@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FiveRoundDualBoundaryGraphJoin
-public import Diffan.Fibers.ObservedGraphJoin
+public import Difan.Fibers.ObservedGraphJoin
 
 @[expose] public section
 
@@ -15,16 +15,16 @@ key. A mask on their predicted difference is a sound rejection test; it is
 not automatically an exact join certificate.
 -/
 
-namespace Magma.DiffanFiveRoundGraphSyndrome
+namespace Magma.DifanFiveRoundGraphSyndrome
 
 open Magma
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFiveRoundDualBoundaryGraphJoin
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundDualBoundaryGraphJoin
 
 private abbrev Word :=
   V 32
@@ -36,7 +36,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Observe selected bits of both halves of the middle *difference*. -/
 def maskedDifference (mask : RoundState) (p : Point) : RoundState :=
@@ -55,7 +55,7 @@ noncomputable def baseWeight (master : Master) (a outDelta : RoundState)
 noncomputable def maskCandidateMass (master : Master) (a outDelta : RoundState)
     (R : Point → Prop) (mask : RoundState) : Nat := by
   classical
-  exact Diffan.ObservedGraphJoin.observedMass (maskedDifference mask)
+  exact Difan.ObservedGraphJoin.observedMass (maskedDifference mask)
       (reconstructed master a) (rightReconstructed master outDelta)
       (baseWeight master a outDelta R)
 
@@ -63,7 +63,7 @@ noncomputable def maskCandidateMass (master : Master) (a outDelta : RoundState)
 noncomputable def hiddenMismatchMass (master : Master) (a outDelta : RoundState)
     (R : Point → Prop) (mask : RoundState) : Nat := by
   classical
-  exact Diffan.ObservedGraphJoin.hiddenMass (maskedDifference mask)
+  exact Difan.ObservedGraphJoin.hiddenMass (maskedDifference mask)
       (reconstructed master a) (rightReconstructed master outDelta)
       (baseWeight master a outDelta R)
 
@@ -71,7 +71,7 @@ noncomputable def hiddenMismatchMass (master : Master) (a outDelta : RoundState)
 noncomputable def rejectedMismatchMass (master : Master) (a outDelta : RoundState)
     (R : Point → Prop) (mask : RoundState) : Nat := by
   classical
-  exact Diffan.ObservedGraphJoin.rejectedMass (maskedDifference mask)
+  exact Difan.ObservedGraphJoin.rejectedMass (maskedDifference mask)
       (reconstructed master a) (rightReconstructed master outDelta)
       (baseWeight master a outDelta R)
 
@@ -91,11 +91,11 @@ theorem five_exact_as_graph_mass
     (master : Master) (a outDelta : RoundState) (R : Point → Prop) :
     Fintype.card (FiveRestricted master (inputDifference a)
       (outputDifference outDelta) R) =
-      Diffan.ObservedGraphJoin.exactMass
+      Difan.ObservedGraphJoin.exactMass
         (reconstructed master a) (rightReconstructed master outDelta)
         (baseWeight master a outDelta R) := by
   classical
-  simpa only [Diffan.ObservedGraphJoin.exactMass, baseWeight] using
+  simpa only [Difan.ObservedGraphJoin.exactMass, baseWeight] using
     five_fixed_boundaries_exact_matching_graphs master a outDelta R
 
 open scoped Classical in
@@ -110,7 +110,7 @@ theorem candidate_eq_five_add_hidden
       hiddenMismatchMass master a outDelta R mask := by
   classical
   unfold maskCandidateMass hiddenMismatchMass
-  rw [Diffan.ObservedGraphJoin.observed_eq_exact_add_hidden]
+  rw [Difan.ObservedGraphJoin.observed_eq_exact_add_hidden]
   rw [← five_exact_as_graph_mass master a outDelta R]
 
 open scoped Classical in
@@ -126,9 +126,9 @@ theorem coarse_eq_five_add_hidden_add_rejected
       rejectedMismatchMass master a outDelta R mask := by
   classical
   unfold hiddenMismatchMass rejectedMismatchMass
-  change Diffan.ObservedGraphJoin.coarseMass
+  change Difan.ObservedGraphJoin.coarseMass
     (baseWeight master a outDelta R) = _
-  rw [Diffan.ObservedGraphJoin.coarse_eq_exact_add_hidden_add_rejected
+  rw [Difan.ObservedGraphJoin.coarse_eq_exact_add_hidden_add_rejected
     (maskedDifference mask)
     (reconstructed master a) (rightReconstructed master outDelta)
     (baseWeight master a outDelta R)]
@@ -150,10 +150,10 @@ theorem candidate_exact_of_active_mask_agreement
         (outputDifference outDelta) R) := by
   classical
   unfold maskCandidateMass
-  rw [Diffan.ObservedGraphJoin.observed_exact_of_active_agreement
+  rw [Difan.ObservedGraphJoin.observed_exact_of_active_agreement
     (maskedDifference mask)
     (reconstructed master a) (rightReconstructed master outDelta)
     (baseWeight master a outDelta R) h]
   rw [← five_exact_as_graph_mass master a outDelta R]
 
-end Magma.DiffanFiveRoundGraphSyndrome
+end Magma.DifanFiveRoundGraphSyndrome

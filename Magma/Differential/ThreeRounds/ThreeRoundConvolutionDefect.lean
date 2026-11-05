@@ -18,12 +18,12 @@ For zero left output difference, the accepted count is one convolution
 summand. The other intermediate differences account for the entire defect.
 -/
 
-namespace Magma.DiffanThreeRoundConvolutionDefect
+namespace Magma.DifanThreeRoundConvolutionDefect
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -74,7 +74,7 @@ theorem middleCandidates_card_eq_sum
     (middleCandidates k₀ k₁ aL aR bL).card =
         ∑ R : Word, ∑ Z : Word,
           if middleCondition k₀ k₁ aL aR bL (R, Z) then (1 : Nat) else 0 := by
-      unfold middleCandidates Diffan.FiberDefect.candidates
+      unfold middleCandidates Difan.FiberDefect.candidates
       rw [Finset.card_filter, Fintype.sum_prod_type]
     _ = ∑ R : Word,
           xorDDT_g k₁ (intermediateDifference k₀ aL aR R) (xor bL aR) := by
@@ -141,7 +141,7 @@ theorem zeroLeft_defect_eq_convolution_sub_product
       xorDDT_g k₀ aR (xor bR aL) * xorDDT_g k₁ bR aR := by
   have h := actual_add_defect_eq_convolution
     k₀ k₁ k₂ aL aR (0#32) bR
-  have hf := Magma.DiffanThreeRoundCoordinateCertificate.threeRound_factorization_via_coordinates
+  have hf := Magma.DifanThreeRoundCoordinateCertificate.threeRound_factorization_via_coordinates
     k₀ k₁ k₂ aL aR bR
   have hz : xor (0#32) aR = aR := by
     change (0#32) ^^^ aR = aR
@@ -162,7 +162,7 @@ theorem zeroLeft_defect_eq_offDiagonal
   classical
   have h := actual_add_defect_eq_convolution
     k₀ k₁ k₂ aL aR (0#32) bR
-  have hf := Magma.DiffanThreeRoundCoordinateCertificate.threeRound_factorization_via_coordinates
+  have hf := Magma.DifanThreeRoundCoordinateCertificate.threeRound_factorization_via_coordinates
     k₀ k₁ k₂ aL aR bR
   have hz : xor (0#32) aR = aR := by
     change (0#32) ^^^ aR = aR
@@ -202,4 +202,4 @@ theorem zeroLeft_defect_zero_of_offDiagonal_zero
   intro c hc
   exact h c (Finset.mem_erase.mp hc).1
 
-end Magma.DiffanThreeRoundConvolutionDefect
+end Magma.DifanThreeRoundConvolutionDefect

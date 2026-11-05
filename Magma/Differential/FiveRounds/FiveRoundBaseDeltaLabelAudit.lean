@@ -21,14 +21,14 @@ the base label is equivalent to agreement of the omitted difference on
 all active cross-window pairs; dually for the difference label.
 -/
 
-namespace Magma.DiffanFiveRoundBaseDeltaLabelAudit
+namespace Magma.DifanFiveRoundBaseDeltaLabelAudit
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFourRoundForcedMiddleDifference
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
+open Magma.DifanFourRoundForcedMiddleDifference
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
 
 private abbrev Word :=
   V 32
@@ -40,7 +40,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Completely unrestricted endpoint and middle predicates. -/
 def unrestricted : Point → Prop := fun _ => True
@@ -161,17 +161,17 @@ private theorem defect_pos_of_false_join
       observe m = observe n ∧ m ≠ n ∧
       0 < leftWeight master unrestricted unrestricted m ∧
       0 < rightWeight master unrestricted n) :
-    0 < Diffan.LabelJoinDefect.defectMass observe
+    0 < Difan.LabelJoinDefect.defectMass observe
       (leftWeight master unrestricted unrestricted)
       (rightWeight master unrestricted) := by
   classical
   rcases hex with ⟨m, n, hlabel, hne, hL, hR⟩
   by_contra hnot
-  have hz : Diffan.LabelJoinDefect.defectMass observe
+  have hz : Difan.LabelJoinDefect.defectMass observe
       (leftWeight master unrestricted unrestricted)
       (rightWeight master unrestricted) = 0 := Nat.eq_zero_of_not_pos hnot
   have hzero :=
-    (Diffan.LabelJoinDefect.defect_eq_zero_iff observe
+    (Difan.LabelJoinDefect.defect_eq_zero_iff observe
       (leftWeight master unrestricted unrestricted)
       (rightWeight master unrestricted)).mp hz m n hlabel hne
   have hpos : 0 < leftWeight master unrestricted unrestricted m *
@@ -181,7 +181,7 @@ private theorem defect_pos_of_false_join
 open scoped Classical in
 /-- At every master key, forgetting the difference creates false joins. -/
 theorem base_label_defect_pos (master : Master) :
-    0 < Diffan.LabelJoinDefect.defectMass baseLabel
+    0 < Difan.LabelJoinDefect.defectMass baseLabel
       (leftWeight master unrestricted unrestricted)
       (rightWeight master unrestricted) :=
   defect_pos_of_false_join master baseLabel (base_false_join master)
@@ -189,7 +189,7 @@ theorem base_label_defect_pos (master : Master) :
 open scoped Classical in
 /-- At every master key, forgetting the base also creates false joins. -/
 theorem delta_label_defect_pos (master : Master) :
-    0 < Diffan.LabelJoinDefect.defectMass deltaLabel
+    0 < Difan.LabelJoinDefect.defectMass deltaLabel
       (leftWeight master unrestricted unrestricted)
       (rightWeight master unrestricted) :=
   defect_pos_of_false_join master deltaLabel (delta_false_join master)
@@ -198,13 +198,13 @@ open scoped Classical in
 /-- Every coarse count based only on the base strictly overcounts the
 exact full-point contraction, for unrestricted genuine windows. -/
 theorem base_coarse_strict (master : Master) :
-    Diffan.LabelJoinDefect.exactMass
+    Difan.LabelJoinDefect.exactMass
         (leftWeight master unrestricted unrestricted)
         (rightWeight master unrestricted) <
-      Diffan.LabelJoinDefect.coarseMass baseLabel
+      Difan.LabelJoinDefect.coarseMass baseLabel
         (leftWeight master unrestricted unrestricted)
         (rightWeight master unrestricted) := by
-  have heq := Diffan.LabelJoinDefect.coarse_eq_exact_add_defect baseLabel
+  have heq := Difan.LabelJoinDefect.coarse_eq_exact_add_defect baseLabel
     (leftWeight master unrestricted unrestricted)
     (rightWeight master unrestricted)
   have hp := base_label_defect_pos master
@@ -213,13 +213,13 @@ theorem base_coarse_strict (master : Master) :
 open scoped Classical in
 /-- The difference-only label also strictly overcounts. -/
 theorem delta_coarse_strict (master : Master) :
-    Diffan.LabelJoinDefect.exactMass
+    Difan.LabelJoinDefect.exactMass
         (leftWeight master unrestricted unrestricted)
         (rightWeight master unrestricted) <
-      Diffan.LabelJoinDefect.coarseMass deltaLabel
+      Difan.LabelJoinDefect.coarseMass deltaLabel
         (leftWeight master unrestricted unrestricted)
         (rightWeight master unrestricted) := by
-  have heq := Diffan.LabelJoinDefect.coarse_eq_exact_add_defect deltaLabel
+  have heq := Difan.LabelJoinDefect.coarse_eq_exact_add_defect deltaLabel
     (leftWeight master unrestricted unrestricted)
     (rightWeight master unrestricted)
   have hp := delta_label_defect_pos master
@@ -230,15 +230,15 @@ open scoped Classical in
 all active cross-window matches of bases already have equal differences. -/
 theorem base_exact_iff_active_delta_agrees (master : Master)
     (P Q R : Point → Prop) :
-    Diffan.LabelJoinDefect.coarseMass baseLabel
+    Difan.LabelJoinDefect.coarseMass baseLabel
         (leftWeight master P R) (rightWeight master Q) =
-      Diffan.LabelJoinDefect.exactMass
+      Difan.LabelJoinDefect.exactMass
         (leftWeight master P R) (rightWeight master Q) ↔
       ∀ m n : Point, m.base = n.base →
         0 < leftWeight master P R m → 0 < rightWeight master Q n →
         m.delta = n.delta := by
   classical
-  rw [Diffan.LabelJoinDefect.coarse_eq_exact_iff]
+  rw [Difan.LabelJoinDefect.coarse_eq_exact_iff]
   constructor
   · intro h m n hb hL hR
     by_contra hd
@@ -265,15 +265,15 @@ open scoped Classical in
 matches of differences already have equal bases. -/
 theorem delta_exact_iff_active_base_agrees (master : Master)
     (P Q R : Point → Prop) :
-    Diffan.LabelJoinDefect.coarseMass deltaLabel
+    Difan.LabelJoinDefect.coarseMass deltaLabel
         (leftWeight master P R) (rightWeight master Q) =
-      Diffan.LabelJoinDefect.exactMass
+      Difan.LabelJoinDefect.exactMass
         (leftWeight master P R) (rightWeight master Q) ↔
       ∀ m n : Point, m.delta = n.delta →
         0 < leftWeight master P R m → 0 < rightWeight master Q n →
         m.base = n.base := by
   classical
-  rw [Diffan.LabelJoinDefect.coarse_eq_exact_iff]
+  rw [Difan.LabelJoinDefect.coarse_eq_exact_iff]
   constructor
   · intro h m n hd hL hR
     by_contra hb
@@ -295,4 +295,4 @@ theorem delta_exact_iff_active_base_agrees (master : Master)
     · have hz : leftWeight master P R m = 0 := Nat.eq_zero_of_not_pos hL
       simp [hz]
 
-end Magma.DiffanFiveRoundBaseDeltaLabelAudit
+end Magma.DifanFiveRoundBaseDeltaLabelAudit

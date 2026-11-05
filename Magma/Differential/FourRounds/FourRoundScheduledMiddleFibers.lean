@@ -23,10 +23,10 @@ Neither step multiplies marginal DDT values or claims that a matching
 partial observation is sufficient for a real path.
 -/
 
-namespace Magma.DiffanFourRoundScheduledMiddleFibers
+namespace Magma.DifanFourRoundScheduledMiddleFibers
 
 open Magma
-open Magma.DiffanScheduledMeet
+open Magma.DifanScheduledMeet
 open scoped Classical
 
 private abbrev Word :=
@@ -39,7 +39,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- The first two rounds of the ordinary four-round prefix. -/
 def firstTwo : List (Fin 32) := [0, 1]
@@ -68,7 +68,7 @@ def middleMasked (deltaMask baseMask : Word) (p : Point) : Prop :=
 
 /-- Joint four-round witnesses, including both concrete endpoints. -/
 abbrev joined (master : Master) (P Q R : Point → Prop) : Type _ :=
-  Diffan.Meet.JoinedFiber (left master) (right master)
+  Difan.Meet.JoinedFiber (left master) (right master)
     (fun p => P p ∧ R (left master p)) Q
 
 /-- The exact condition on one *complete* midpoint state/difference. -/
@@ -82,7 +82,7 @@ abbrev middleFiber (master : Master) (P Q R : Point → Prop) : Type _ :=
 
 /-- Transport witnesses exactly through the invertible two-round prefix. -/
 def endpointsToMiddle (master : Master) (P Q R : Point → Prop) :
-    Diffan.Meet.EndpointFiber (left master) (right master)
+    Difan.Meet.EndpointFiber (left master) (right master)
       (fun p => P p ∧ R (left master p)) Q ≃
       middleFiber master P Q R where
   toFun w :=
@@ -110,7 +110,7 @@ theorem joined_card_eq_middle_card (master : Master)
       Fintype.card (middleFiber master P Q R) := by
   classical
   exact Fintype.card_congr
-    ((Diffan.Meet.fiberEquiv (left master) (right master)
+    ((Difan.Meet.fiberEquiv (left master) (right master)
       (fun p => P p ∧ R (left master p)) Q).symm.trans
         (endpointsToMiddle master P Q R))
 
@@ -180,4 +180,4 @@ theorem fourRound_masked_exact (master : Master)
     (inputMasked a inputMask) (outputMasked b outputMask)
     (middleMasked middleDeltaMask middleBaseMask)
 
-end Magma.DiffanFourRoundScheduledMiddleFibers
+end Magma.DifanFourRoundScheduledMiddleFibers

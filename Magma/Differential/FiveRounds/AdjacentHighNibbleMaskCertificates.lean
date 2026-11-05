@@ -17,11 +17,11 @@ The existing `guaranteedMask_sound` establishes universal invariance;
 small concrete witness sets establish maximality for these two directions.
 -/
 
-namespace Magma.DiffanAdjacentHighNibbleMaskCertificates
+namespace Magma.DifanAdjacentHighNibbleMaskCertificates
 
 open Magma Magma.Internal Magma.GProperties
-open Magma.DiffanAutomaticOutputMasks
-open Magma.DiffanHighNibbleOutputMaskCertificates
+open Magma.DifanAutomaticOutputMasks
+open Magma.DifanHighNibbleOutputMaskCertificates
 
 private abbrev Word :=
   V 32
@@ -122,4 +122,4 @@ theorem selected_directions_universal_mask_iff (s m : Word)
   · rw [hs]
     exact second_universal_mask_iff m
 
-end Magma.DiffanAdjacentHighNibbleMaskCertificates
+end Magma.DifanAdjacentHighNibbleMaskCertificates

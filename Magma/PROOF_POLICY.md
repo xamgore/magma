@@ -1,4 +1,4 @@
-# Proof triage policy (Magma/Diffan)
+# Proof triage policy (Magma/Difan)
 
 ## Three kinds of evidence: never conflate them
 

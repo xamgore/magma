@@ -23,12 +23,12 @@ reduces the exact four-round count to a single 32-bit coordinate. This
 works with arbitrary input/output masks and the actual key schedule.
 -/
 
-namespace Magma.DiffanFourRoundProjectionDefect
+namespace Magma.DifanFourRoundProjectionDefect
 
 open Magma
-open Magma.DiffanFourRoundScheduledMiddleFibers
-open Magma.DiffanFourRoundForcedMiddleDifference
-open Magma.DiffanFourRoundMiddleCoordinateKernel
+open Magma.DifanFourRoundScheduledMiddleFibers
+open Magma.DifanFourRoundForcedMiddleDifference
+open Magma.DifanFourRoundMiddleCoordinateKernel
 open scoped Classical
 
 private abbrev Word :=
@@ -41,7 +41,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- The exact first-coordinate projection of the admissible middle fiber. -/
 def rowPossible (master : Master) (aL bR inputMask outputMask : Word)
@@ -276,4 +276,4 @@ theorem fourRound_diagonal_single_word (master : Master)
     _ = _ := Fintype.card_congr
       (diagonalBaseEquiv master aL bR inputMask outputMask)
 
-end Magma.DiffanFourRoundProjectionDefect
+end Magma.DifanFourRoundProjectionDefect

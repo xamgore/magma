@@ -19,14 +19,14 @@ Each joint key class corresponds to three constrained words and a free
 160-bit tail.
 -/
 
-namespace Magma.DiffanBoundaryWindowIntersections
+namespace Magma.DifanBoundaryWindowIntersections
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanDiagonalSupportScheduledWindows
-open Magma.DiffanDiagonalMasterKeyClasses
-open Magma.DiffanDiagonalMasterCountReduction
-open Magma.DiffanRepeatedWindowIntersections
+open Magma.DifanDiagonalSupportScheduledWindows
+open Magma.DifanDiagonalMasterKeyClasses
+open Magma.DifanDiagonalMasterCountReduction
+open Magma.DifanRepeatedWindowIntersections
 
 private abbrev Word :=
   V 32
@@ -301,4 +301,4 @@ theorem boundary_oneHot_joint_card (s : Fin 2) (j t : Fin 32) :
       Fintype.card_congr E
     _ = _ := by rw [Fintype.card_prod, Fintype.card_prod, Fintype.card_prod, hrest]
 
-end Magma.DiffanBoundaryWindowIntersections
+end Magma.DifanBoundaryWindowIntersections

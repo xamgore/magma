@@ -72,7 +72,7 @@ The 16/16 prefix/suffix have the SAME genuine key words
 and the SAME joined base u, with no re-keying.
 
 The generic exact mathematical theorem is
-Diffan/Composition/ExactBaseJoin.lean:
+Difan/Composition/ExactBaseJoin.lean:
   intermediateDelta
   witnessEquiv
   ddt_comp_eq_exactBaseJoin
@@ -167,7 +167,7 @@ encrypt API proves this exact natural-number equality:
 
 Its generic proof uses outputLabelFiberEquiv and
 sum_output_label_eliminates from
-Diffan/Observables/SlicedCollisionEnergy.lean. There are no
+Difan/Observables/SlicedCollisionEnergy.lean. There are no
 independent differential characteristics.
 
 If we additionally sum over all input differences a,
@@ -187,7 +187,7 @@ b is uniquely determined by the two right output
 words, provided left output words match; then
 group all (L,L') by their common left output y.
 
-Diffan/Observables/SlicedCollisionEnergy.lean formally proves
+Difan/Observables/SlicedCollisionEnergy.lean formally proves
 the generic final group-by/fiber-square part:
   collision_energy_eq_fiber_squares.
 
@@ -305,7 +305,7 @@ a publicly testable deviation against an
 ideal random-permutation baseline.
 
 Formal verification completed 2026-11-05:
-  lake build Diffan Magma PASSED (18,755 jobs).
+  lake build Difan Magma PASSED (18,755 jobs).
   Python full-32 one-Sbox toy tests PASSED (225
   boundary entries, 210 real witnesses, three cuts,
   full aggregation/histogram equality, 600-key
@@ -317,6 +317,6 @@ Formal verification completed 2026-11-05:
   Quot.sound appear as applicable.
 
 Reproduction:
-  lake build Diffan Magma
+  lake build Difan Magma
   python3 Magma/Differential/FullCipher/Experiments/full32_halfzero_slice_join.py
   lake env lean /tmp/AuditHalfZeroJoin.lean

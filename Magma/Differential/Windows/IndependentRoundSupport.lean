@@ -19,14 +19,14 @@ six-edge key/base-independent necessary condition. Only the
 soundness direction is kernel-proved here; SAT/UNSAT computations
 are not imported as axioms or proofs.
 -/
-namespace Magma.DiffanIndependentRoundSupport
+namespace Magma.DifanIndependentRoundSupport
 
 open Magma
 open Magma.FeistelDDT
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundUniversalSupport
-open Magma.DiffanCorrelatedFiveMacro
-open Magma.DiffanFirstRoundDeletion
+open Magma.DifanFiveRoundUniversalSupport
+open Magma.DifanCorrelatedFiveMacro
+open Magma.DifanFirstRoundDeletion
 
 private abbrev Word := V 32
 private abbrev State := FeistelState
@@ -257,4 +257,4 @@ theorem five_rectangles_of_three_certificates
   exact ⟨h57, h67, (reject_rectangle_symmetric 5 7).mp h57,
     (reject_rectangle_symmetric 6 7).mp h67, h77⟩
 
-end Magma.DiffanIndependentRoundSupport
+end Magma.DifanIndependentRoundSupport

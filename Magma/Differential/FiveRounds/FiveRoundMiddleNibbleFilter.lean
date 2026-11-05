@@ -15,13 +15,13 @@ Unlike SAT output, the results here are derived from the actual definitions of
 condition quantifies over one intermediate 32-bit word, not a round key.
 -/
 
-namespace Magma.DiffanFiveRoundMiddleNibbleFilter
+namespace Magma.DifanFiveRoundMiddleNibbleFilter
 
 open Magma
 open Magma.CarryAutomaton
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFirstActiveNibbleInvariant
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFirstActiveNibbleInvariant
 
 abbrev Word := V 32
 
@@ -120,4 +120,4 @@ theorem fiveRound_zero_of_no_compatible_middle
     exact (hbad c) ⟨houter, hmiddle⟩
   simp [hn]
 
-end Magma.DiffanFiveRoundMiddleNibbleFilter
+end Magma.DifanFiveRoundMiddleNibbleFilter

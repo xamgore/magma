@@ -33,7 +33,7 @@ This is proved against native roundKey and encrypt in
 Magma/Differential/FullCipher/FullScheduleConjugacy.lean. Its exact DDT
 reduction is only in the H-pulled-back difference geometry,
 NOT in ordinary XOR. The cipher-independent n-fold generalization
-is in Diffan/Symmetry/ReflectedMacroSchedule.lean.
+is in Difan/Symmetry/ReflectedMacroSchedule.lean.
 See [FULL_SCHEDULE_REFLECTION.md](../../FullCipher/Experiments/FULL_SCHEDULE_REFLECTION.md).
 
 **F4 — exact carry/frontier local-variable exclusion: FROZEN NOW.**
@@ -62,14 +62,14 @@ a full-width real-RFC mirror witness was replayed.
 The full 32-round C32 is key-dependently H-conjugate to
 L=J H²; its permutation cycle-count power traces
 are conserved for ALL powers (generic Lean theorem
-Diffan/Symmetry/ConjugacyCycleInvariants.lean). Ordinary fixed
+Difan/Symmetry/ConjugacyCycleInvariants.lean). Ordinary fixed
 Walsh-mask correlations need NOT match (toy -4 vs +12).
 
 The proposed low-tet layer of tau_H does NOT satisfy
 a sufficient-quotient criterion: two genuine RFC
 8-round states with identical low nibbles of BOTH
 halves have different projected tau for high-only
-alpha=8000000000000000. Diffan/Symmetry/TransportedXorQuotients.lean
+alpha=8000000000000000. Difan/Symmetry/TransportedXorQuotients.lean
 formalizes the exact iff quotient stability criterion
 and the XOR-coset obstruction when all differences
 must descend. It also proves a generic 2-element
@@ -111,7 +111,7 @@ classification of key-equivalence classes.
 
 A new GENERIC exact inverse-sensitive
 boomerang-connectivity table transport theorem in
-Diffan/Symmetry/BoomerangGauge.lean (for any DifferenceSpace)
+Difan/Symmetry/BoomerangGauge.lean (for any DifferenceSpace)
 gives the full native RFC BCT counterpart
 
     BCT_E_K'(a,b) = BCT_E_K(a,b).
@@ -160,7 +160,7 @@ A FULL 32-round TWO-query RELATED-KEY distinguisher does
 exist (real RFC K and K xor highest bit of each word),
 with ideal independent-key false positive 2^-64;
 Lean now specifies its actual oracle interface.
-Diffan/Observables/OracleObservableBarrier.lean proves that such a
+Difan/Observables/OracleObservableBarrier.lean proves that such a
 related-key gauge alone cannot restrict ANY individual
 single-key permutation: every arbitrary permutation
 admits a formal conjugate partner.
@@ -186,7 +186,7 @@ S_K(a,b) is a SUM over actual midpoint bases u with
 functional mu=F(F^-1(u) XOR (a,0)) XOR u and predicate
 d_Q(u,mu)=(0,b). There is NO independently sampled
 midpoint difference and NO lost shared-base correlation.
-Diffan/Composition/ExactBaseJoin.lean is generic for any DifferenceSpace;
+Difan/Composition/ExactBaseJoin.lean is generic for any DifferenceSpace;
 Magma/Differential/FullCipher/Full32SlicedJoin.lean proves this for actual
 256-bit RFC master keys and encrypt/GStar.
 
@@ -521,8 +521,8 @@ outer family, with measured runtime, frontier and errors.
 **LATEST P0 DESIGN FREEZE: [COMPOSITIONALITY_DESIGN_FREEZE.md](COMPOSITIONALITY_DESIGN_FREEZE.md).**
 The reusable target is the BASE-LABELLED conditional four-round kernel
 T_H, composed with its half-swapped image in an exact self-Gram;
-see Diffan/Symmetry/ConjugatedDifferenceSpace.lean,
-Diffan/Observables/TwistedConditionalGram.lean and the Lean theorem
+see Difan/Symmetry/ConjugatedDifferenceSpace.lean,
+Difan/Observables/TwistedConditionalGram.lean and the Lean theorem
 nine_ddt_eq_twisted_four_round_gram.
 The local pair-carry semiring engine is independently exact for
 all 225 4-bit opposite boundary cells, but its 8-bit case LIMITs.

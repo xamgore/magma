@@ -18,13 +18,13 @@ the four equations are pointwise constraints on the SAME two-word base
 and two-word difference at the midpoint.
 -/
 
-namespace Magma.DiffanFourRoundGeneralBoundaryEquations
+namespace Magma.DifanFourRoundGeneralBoundaryEquations
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFourRoundScheduledMiddleFibers
-open Magma.DiffanFourRoundForcedMiddleDifference
-open Magma.DiffanFourRoundIntrinsicRectangularity
+open Magma.DifanFourRoundScheduledMiddleFibers
+open Magma.DifanFourRoundForcedMiddleDifference
+open Magma.DifanFourRoundIntrinsicRectangularity
 
 private abbrev Word :=
   V 32
@@ -36,7 +36,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 private theorem xor_unwind (u v w : Word) (h : u = v ^^^ w) : w = v ^^^ u := by
   calc
@@ -331,7 +331,7 @@ def generalJoinedEquiv (master : Master)
       (inputMasked (aL, aR) (0#32))
       (outputMasked (bL, bR) (0#32)) (fun _ => True) ≃
     boundaryEquationFiber master aL aR bL bR := by
-  refine Equiv.trans (Diffan.Meet.fiberEquiv (left master) (right master)
+  refine Equiv.trans (Difan.Meet.fiberEquiv (left master) (right master)
     (fun p => inputMasked (aL, aR) (0#32) p ∧
       (fun _ : Point => True) ((left master) p))
     (outputMasked (bL, bR) (0#32))).symm ?_
@@ -353,4 +353,4 @@ theorem general_fourRound_exact_equation_count (master : Master)
   exact Fintype.card_congr
     (generalJoinedEquiv master aL aR bL bR)
 
-end Magma.DiffanFourRoundGeneralBoundaryEquations
+end Magma.DifanFourRoundGeneralBoundaryEquations

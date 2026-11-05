@@ -1,7 +1,7 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Symmetry.FiniteSupportSymmetry
+public import Difan.Symmetry.FiniteSupportSymmetry
 public import Magma.Differential.EightRounds.ZeroKeyEightColumnSymmetry
 import Std.Tactic.BVDecide
 
@@ -11,16 +11,16 @@ import Std.Tactic.BVDecide
 # The eight-column as a consumer of generic finite-support symmetries
 
 The eight-element column and its two algebraic XOR identities instantiate
-`Diffan.FiniteSupportSymmetry`. The resulting laws describe the complete
+`Difan.FiniteSupportSymmetry`. The resulting laws describe the complete
 stabilizer set and the transport of weighted defects and survivor sets.
 -/
 
-namespace Magma.DiffanZeroKeyEightGenericSymmetry
+namespace Magma.DifanZeroKeyEightGenericSymmetry
 
 open Magma
-open Magma.DiffanZeroKeyEightColumn
-open Magma.DiffanZeroKeyEightColumnSymmetry
-open Diffan.FiniteSupportSymmetry
+open Magma.DifanZeroKeyEightColumn
+open Magma.DifanZeroKeyEightColumnSymmetry
+open Difan.FiniteSupportSymmetry
 
 private abbrev Word :=
   V 32
@@ -73,4 +73,4 @@ theorem survivors_invariant_from_generic (row : Word → Nat) (aL : Word) :
     translate_involutive column_stable xor_translate_right
     xor_translate_both aL
 
-end Magma.DiffanZeroKeyEightGenericSymmetry
+end Magma.DifanZeroKeyEightGenericSymmetry

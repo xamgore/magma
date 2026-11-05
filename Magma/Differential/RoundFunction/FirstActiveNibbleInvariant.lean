@@ -14,13 +14,13 @@ All theorems quantify over arbitrary Magma round-key words.
 No search over 32-bit states or SAT assumptions are used.
 -/
 
-namespace Magma.DiffanFirstActiveNibbleInvariant
+namespace Magma.DifanFirstActiveNibbleInvariant
 
 open Magma
 open Magma.CarryAutomaton
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFiveRoundFirstNibbleObstruction
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFiveRoundFirstNibbleObstruction
 open Magma.OneHotActiveNibbleNecessary
 open Magma.OneHotUniversalLowerNibbleZeros
 
@@ -120,4 +120,4 @@ theorem fiveRound_zero_of_distinct_firstActiveNibble
       k₀ k₁ k₂ k₃ k₄ a s j hs.1 hs.2
     exact mod_prefix_of_mod_prefix a (j.val + 1) i.val (by omega) hai
 
-end Magma.DiffanFirstActiveNibbleInvariant
+end Magma.DifanFirstActiveNibbleInvariant

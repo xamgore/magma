@@ -22,14 +22,14 @@ This distinction matters: translation invariance of a marginal DDT row is
 not the same as a pointwise translation law of the underlying function.
 -/
 
-namespace Magma.DiffanFeistelCorrectionObstructions
+namespace Magma.DifanFeistelCorrectionObstructions
 
 open Magma
 open Magma.CarryAutomaton
 open Magma.ZeroLeftParityCompleteSlice
 open Magma.ZeroLeftEightEntries
 open Magma.OddUnitInput77
-open Magma.DiffanFeistelDeltaPropagation
+open Magma.DifanFeistelDeltaPropagation
 
 private abbrev Word :=
   V 32
@@ -38,7 +38,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- A positive DDT count supplies a genuine input realizing its output. -/
 private theorem output_of_constant_derivative
@@ -153,4 +153,4 @@ theorem zero_key_shift6000_derivative_nonconstant (u : Word) :
     ((correction_uniform_iff_g_constant_derivative
       (0#32) (0x00006000#32) u).mpr h)
 
-end Magma.DiffanFeistelCorrectionObstructions
+end Magma.DifanFeistelCorrectionObstructions

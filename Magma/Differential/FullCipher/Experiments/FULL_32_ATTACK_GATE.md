@@ -109,7 +109,7 @@ second key cannot run it.
 
 ## 4. FORMAL no-go for using the key gauge alone
 
-Diffan/Observables/OracleObservableBarrier.lean proves that
+Difan/Observables/OracleObservableBarrier.lean proves that
 for EVERY arbitrary state permutation f and ANY
 bijective coordinate change e, there is a UNIQUE
 formal partner g=e o f o e^-1 satisfying
@@ -207,13 +207,13 @@ without such an observability argument.
 Design freeze F4 remains in force.
 
 Reproduce:
-  lake build Diffan Magma
+  lake build Difan Magma
   python3 Magma/Differential/FullCipher/Experiments/macro_attack_gate.py
   python3 Magma/Differential/FullCipher/Experiments/public_oracle_word_gate.py
   lake env lean /tmp/AuditFullAttackGate.lean
 
 Verified 2026-11-05:
-  lake build Diffan Magma PASS (18,749 jobs).
+  lake build Difan Magma PASS (18,749 jobs).
   All Python control scripts PASS.
   #print axioms on NINE new statements:
   - Palindromic match equivalence, exact 2^32

@@ -1,7 +1,7 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Symmetry.AutomaticXorOrbits
+public import Difan.Symmetry.AutomaticXorOrbits
 public import Magma.DDT.ZeroLeft.ParityCompleteSlice
 import Std.Tactic.BVDecide
 
@@ -19,7 +19,7 @@ The odd certificate uses one anchor and two support probes to eliminate
 every nonzero candidate shift. Its translation orbits are singletons.
 -/
 
-namespace Magma.DiffanUnitInputAutomaticSymmetryAudit
+namespace Magma.DifanUnitInputAutomaticSymmetryAudit
 
 open Magma
 open Magma.CarryAutomaton
@@ -35,7 +35,7 @@ private theorem even_nonempty : eightOffsets.Nonempty :=
 
 /-- The even-key row has exactly one nonzero translation symmetry. -/
 theorem even_shifts_exact :
-    Diffan.AutomaticXorOrbits.shifts eightOffsets =
+    Difan.AutomaticXorOrbits.shifts eightOffsets =
       ({0#32, 0x00006000#32} : Finset Word) := by
   decide +kernel
 
@@ -46,12 +46,12 @@ theorem even_key_DDT_translation (k d : Word)
     xorDDT_g k (1#32) (d ^^^ 0x00006000#32) =
       xorDDT_g k (1#32) d := by
   have ht : (0x00006000#32 : Word) ∈
-      Diffan.AutomaticXorOrbits.shifts eightOffsets := by
+      Difan.AutomaticXorOrbits.shifts eightOffsets := by
     rw [even_shifts_exact]
     decide
   have hstable : eightOffsets.image (fun x => x ^^^ (0x00006000#32)) =
       eightOffsets :=
-    (Diffan.AutomaticXorOrbits.mem_shifts_iff
+    (Difan.AutomaticXorOrbits.mem_shifts_iff
       eightOffsets even_nonempty (0x00006000#32)).mp ht
   have hmem (x : Word) :
       x ^^^ (0x00006000#32) ∈ eightOffsets ↔ x ∈ eightOffsets := by
@@ -106,18 +106,18 @@ private theorem odd_second_probe_exact : oddSecondProbe = ({0#32} : Finset Word)
   rw [odd_first_probe_exact]
   decide +kernel
 
-attribute [local irreducible] Diffan.AutomaticXorOrbits.shifts
+attribute [local irreducible] Difan.AutomaticXorOrbits.shifts
 
 private theorem mem_support_after_shift (C : Finset Word) (hne : C.Nonempty) (t x : Word)
-    (ht : t ∈ Diffan.AutomaticXorOrbits.shifts C) (hx : x ∈ C) : x ^^^ t ∈ C := by
-  have hstable := (Diffan.AutomaticXorOrbits.mem_shifts_iff C hne t).mp ht
+    (ht : t ∈ Difan.AutomaticXorOrbits.shifts C) (hx : x ∈ C) : x ^^^ t ∈ C := by
+  have hstable := (Difan.AutomaticXorOrbits.mem_shifts_iff C hne t).mp ht
   rw [← hstable]
   exact Finset.mem_image.mpr ⟨x, hx, rfl⟩
 
 /-- The odd-key support has no nonzero translation symmetry: the two probes
     eliminate every nonzero anchored candidate. -/
 theorem odd_shifts_exact :
-    Diffan.AutomaticXorOrbits.shifts oddOutputSupport =
+    Difan.AutomaticXorOrbits.shifts oddOutputSupport =
       ({0#32} : Finset Word) := by
   ext t
   constructor
@@ -142,13 +142,13 @@ theorem odd_shifts_exact :
   · intro ht
     have hz : t = (0#32) := Finset.mem_singleton.mp ht
     subst t
-    exact Diffan.AutomaticXorOrbits.zero_mem_shifts
+    exact Difan.AutomaticXorOrbits.zero_mem_shifts
       oddOutputSupport odd_nonempty
 
 /-- The full XOR-translation group of the exact reference row is
     determined solely by the parity of the actual 32-bit round key. -/
 theorem all_keys_shifts_exact (k : Word) :
-    Diffan.AutomaticXorOrbits.shifts (parityRowSupport k) =
+    Difan.AutomaticXorOrbits.shifts (parityRowSupport k) =
       if k.toNat % 2 = 0 then
         ({0#32, 0x00006000#32} : Finset Word)
       else
@@ -185,10 +185,10 @@ theorem odd_key_support_shift_trivial (k t : Word)
       refine Finset.mem_image.mpr
         ⟨d ^^^ t, (odd_key_positive_iff_support k (d ^^^ t) hk).mp htpos, ?_⟩
       bv_decide
-  have ht : t ∈ Diffan.AutomaticXorOrbits.shifts oddOutputSupport :=
-    (Diffan.AutomaticXorOrbits.mem_shifts_iff
+  have ht : t ∈ Difan.AutomaticXorOrbits.shifts oddOutputSupport :=
+    (Difan.AutomaticXorOrbits.mem_shifts_iff
       oddOutputSupport odd_nonempty t).mpr hstable
   rw [odd_shifts_exact] at ht
   exact Finset.mem_singleton.mp ht
 
-end Magma.DiffanUnitInputAutomaticSymmetryAudit
+end Magma.DifanUnitInputAutomaticSymmetryAudit

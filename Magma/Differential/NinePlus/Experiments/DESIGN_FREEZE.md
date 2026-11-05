@@ -45,7 +45,7 @@ five-round regression, and only then 7/9+ exploration.
 - Five-round full 2-hot -> 2-hot SAT matrix. The computational
   evidence and reusable structural theorems remain; no manual
   pair-by-pair Lean proof without a new generalizable technique.
-- Generic refactors of unrelated `Magma/Diffan` sources and
+- Generic refactors of unrelated `Magma/Difan` sources and
   retroactive rewrite of Git history.
 
 - Repeating the 8x8 sparse outer comparison at longer Z3 timeouts:

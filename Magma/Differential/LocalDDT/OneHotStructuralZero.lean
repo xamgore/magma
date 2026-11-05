@@ -15,15 +15,15 @@ without invoking a SAT solver. Active-nibble positions of one-hot
 differences are exactly their bit indices divided by four.
 -/
 
-namespace Magma.DiffanOneHotStructuralZero
+namespace Magma.DifanOneHotStructuralZero
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFirstActiveNibbleInvariant
-open Magma.DiffanOneHotKeyFreeCarryBridge
-open Magma.DiffanFiveRoundUniversalSupport
-open Magma.DiffanThreeRoundMiddleDiagonal
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFirstActiveNibbleInvariant
+open Magma.DifanOneHotKeyFreeCarryBridge
+open Magma.DifanFiveRoundUniversalSupport
+open Magma.DifanThreeRoundMiddleDiagonal
 
 private abbrev Word :=
   V 32
@@ -62,4 +62,4 @@ theorem fiveRound_oneHot_diagonal_zero
   exact fiveRound_diagonal_impossible
     k₀ k₁ k₂ k₃ k₄ (oneHotDifference i) (oneHot_ne_zero i)
 
-end Magma.DiffanOneHotStructuralZero
+end Magma.DifanOneHotStructuralZero

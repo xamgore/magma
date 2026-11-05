@@ -18,13 +18,13 @@ any number of ordinary Feistel rounds, not merely the outer 5-round
 case. No key-schedule independence or Markov assumption is used.
 -/
 
-namespace Magma.DiffanKeyFreeRoundTransducer
+namespace Magma.DifanKeyFreeRoundTransducer
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.FeistelDDT
-open Magma.DiffanKeyFreeCarryAutomaton
-open Magma.DiffanFiveRoundUniversalSupport
+open Magma.DifanKeyFreeCarryAutomaton
+open Magma.DifanFiveRoundUniversalSupport
 
 private abbrev Word :=
   V 32
@@ -150,4 +150,4 @@ theorem ddt_zero_of_no_five_window_cut
     Path.split (m := m) (n := 5) hprefix
   exact hno u v hleft hmiddle hsuffix
 
-end Magma.DiffanKeyFreeRoundTransducer
+end Magma.DifanKeyFreeRoundTransducer

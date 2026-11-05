@@ -21,18 +21,18 @@ input difference is fixed to any prescribed value `a`, and the right
 output difference is fixed to the value produced by its actual window.
 -/
 
-namespace Magma.DiffanFixedInputLow12ActiveDefect
+namespace Magma.DifanFixedInputLow12ActiveDefect
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFixedInputLow12Factor
-open Magma.DiffanTwoRoundRawOutputMasks
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFixedInputLow12Factor
+open Magma.DifanTwoRoundRawOutputMasks
 
 private abbrev Word :=
   V 32
@@ -44,7 +44,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- The short label that suffices to compute the observed (masked)
 first-common difference at a fixed input difference. -/
@@ -129,7 +129,7 @@ difference, including nonzero differences. -/
 theorem low12_fixed_endpoints_defect_positive (master : Master)
     (a : RoundState) :
     ∃ b : RoundState,
-      0 < Diffan.LabelJoinDefect.defectMass low12JoinLabel
+      0 < Difan.LabelJoinDefect.defectMass low12JoinLabel
         (leftWeight master (inputDifference a) unrestricted)
         (rightWeight master (outputDifference b)) := by
   classical
@@ -137,12 +137,12 @@ theorem low12_fixed_endpoints_defect_positive (master : Master)
     ⟨b, m, n, hlabel, hne, hleft, hright⟩
   refine ⟨b, ?_⟩
   by_contra hnot
-  have hz : Diffan.LabelJoinDefect.defectMass low12JoinLabel
+  have hz : Difan.LabelJoinDefect.defectMass low12JoinLabel
       (leftWeight master (inputDifference a) unrestricted)
       (rightWeight master (outputDifference b)) = 0 :=
     Nat.eq_zero_of_not_pos hnot
   have hzero :=
-    (Diffan.LabelJoinDefect.defect_eq_zero_iff low12JoinLabel
+    (Difan.LabelJoinDefect.defect_eq_zero_iff low12JoinLabel
       (leftWeight master (inputDifference a) unrestricted)
       (rightWeight master (outputDifference b))).mp hz m n hlabel hne
   have hpositive : 0 <
@@ -160,7 +160,7 @@ theorem low12_fixed_endpoints_coarse_strict (master : Master)
       Fintype.card
         (FiveRestricted master (inputDifference a)
           (outputDifference b) unrestricted) <
-      Diffan.LabelJoinDefect.coarseMass low12JoinLabel
+      Difan.LabelJoinDefect.coarseMass low12JoinLabel
         (leftWeight master (inputDifference a) unrestricted)
         (rightWeight master (outputDifference b)) := by
   classical
@@ -179,10 +179,10 @@ theorem nonzero_fixed_input_coarse_strict (master : Master) :
         (FiveRestricted master
           (inputDifference ((1#32), (1#32)))
           (outputDifference b) unrestricted) <
-      Diffan.LabelJoinDefect.coarseMass low12JoinLabel
+      Difan.LabelJoinDefect.coarseMass low12JoinLabel
         (leftWeight master
           (inputDifference ((1#32), (1#32))) unrestricted)
         (rightWeight master (outputDifference b)) := by
   exact low12_fixed_endpoints_coarse_strict master ((1#32), (1#32))
 
-end Magma.DiffanFixedInputLow12ActiveDefect
+end Magma.DifanFixedInputLow12ActiveDefect

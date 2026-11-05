@@ -26,9 +26,9 @@ to the Walsh transfer trace. This is an aggregate over all
 full-32-round Walsh coefficient or a key-recovery method.
 -/
 
-namespace Magma.DiffanSignedReflection
+namespace Magma.DifanSignedReflection
 
-open Magma Magma.DiffanFullScheduleConjugacy
+open Magma Magma.DifanFullScheduleConjugacy
 
 private abbrev W := V 32
 private abbrev S := W × W
@@ -76,4 +76,4 @@ theorem fixedQ16_card (keys : Fin 8 → W) :
       rw [← FinEnum.card_eq_fintypeCard]
       exact FinEnum.card_bitVec 32
 
-end Magma.DiffanSignedReflection
+end Magma.DifanSignedReflection

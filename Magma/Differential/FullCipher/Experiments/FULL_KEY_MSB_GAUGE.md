@@ -153,7 +153,7 @@ definition (in XOR notation)
       #{p : F^-1(F(p) XOR b)
            XOR F^-1(F(p XOR a) XOR b) = a}.
 
-Diffan/Symmetry/BoomerangGauge.lean proves generic exact
+Difan/Symmetry/BoomerangGauge.lean proves generic exact
 BCT invariance for ANY finite DifferenceSpace,
 intertwined permutations and a state equivalence
 preserving the chosen shift/difference geometry.
@@ -177,7 +177,7 @@ notions as well.
 Run:
 
     python3 Magma/Differential/FullCipher/Experiments/full_key_msb_gauge_verify.py
-    lake build Diffan Magma
+    lake build Difan Magma
 
 The Python harness independently replays 32-bit
 modular additions, eight genuine RFC S-boxes and
@@ -204,13 +204,13 @@ any full-width key-recovery complexity.
 
 ## 5a. Trust audit
 
-Full project build: lake build Diffan Magma SUCCEEDED,
+Full project build: lake build Difan Magma SUCCEEDED,
 18,743 jobs. Nine representative statements were audited
 using Lean #print axioms, including the true packed-RFC
 DDT, the generic BCT theorem and the true packed-RFC BCT.
 
 There are ZERO sorry/admit declarations. The generic
-Diffan.BoomerangGauge.bct_intertwiner theorem has only
+Difan.BoomerangGauge.bct_intertwiner theorem has only
 standard Lean axioms (propext, Classical.choice,
 Quot.sound). The full Magma specialization inherits
 exactly ONE DISTINCT named native bitvector proof-reflection
@@ -230,7 +230,7 @@ oracle. It ALWAYS passes for Magma, versus conditional
 probability 2^-64 for independent keyed ideal permutations.
 This is a legitimate related-key distinguisher, but it
 cannot be run with only ONE unknown-key oracle.
-Diffan/Observables/OracleObservableBarrier.lean proves that every
+Difan/Observables/OracleObservableBarrier.lean proves that every
 arbitrary permutation admits such a conjugate partner,
 so the bare cross-key gauge implies no fixed-key bias.
 See [FULL_32_ATTACK_GATE.md](FULL_32_ATTACK_GATE.md) for

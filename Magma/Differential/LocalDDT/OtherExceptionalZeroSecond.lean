@@ -28,16 +28,16 @@ inside the certified odd-key support table. Algebraic sum identities then
 give the complete convolution and coupling defect.
 -/
 
-namespace Magma.DiffanOtherExceptionalZeroSecond
+namespace Magma.DifanOtherExceptionalZeroSecond
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
 open Magma.OddUnitInput77
-open Magma.DiffanOddUnitLow20CollisionClasses
-open Magma.DiffanExactPositiveDefectMass
-open Magma.DiffanZeroLeftSupportOverlap
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanOddUnitLow20CollisionClasses
+open Magma.DifanExactPositiveDefectMass
+open Magma.DifanZeroLeftSupportOverlap
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -245,4 +245,4 @@ theorem one_defect_exact (k₀ k₂ requested : Word)
       _ = overlapWeight k₀ (0#32) oneAL (1#32) oneC := hsum
       _ = 3 * 2 ^ 50 := one_overlapWeight_exact k₀ hk
 
-end Magma.DiffanOtherExceptionalZeroSecond
+end Magma.DifanOtherExceptionalZeroSecond

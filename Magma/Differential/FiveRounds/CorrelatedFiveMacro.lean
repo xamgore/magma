@@ -23,16 +23,16 @@ On (a,0)->(0,b), this incorporates known structural impossibilities
 and kernel-verified paired-carry refutations into cuts m+5+r.
 -/
 
-namespace Magma.DiffanCorrelatedFiveMacro
+namespace Magma.DifanCorrelatedFiveMacro
 
 open Magma
 open Magma.FeistelDDT
 open Magma.MultiRoundDDT
-open Magma.DiffanKeyFreeRoundTransducer
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFirstActiveNibbleInvariant
-open Magma.DiffanThreeRoundMiddleDiagonal
-open Magma.DiffanPairedCarryRefutation
+open Magma.DifanKeyFreeRoundTransducer
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFirstActiveNibbleInvariant
+open Magma.DifanThreeRoundMiddleDiagonal
+open Magma.DifanPairedCarryRefutation
 
 private abbrev Word :=
   V 32
@@ -164,7 +164,7 @@ private theorem no_outerForbidden_of_actual (keys : Fin 5 → Word) (base a b : 
     fin_cases i <;> rfl
   have hpos : 0 < xorDDT_rounds 5 (fiveRoundKeys k₀ k₁ k₂ k₃ k₄) a b := by
     exact
-      Magma.DiffanSparsePositiveWitnesses.ddt_pos_of_concrete_base k₀ k₁ k₂ k₃ k₄ a b base
+      Magma.DifanSparsePositiveWitnesses.ddt_pos_of_concrete_base k₀ k₁ k₂ k₃ k₄ a b base
         (by
           rw [← heq]; exact h)
   have hz := outerForbidden_ddt_zero k₀ k₁ k₂ k₃ k₄ a b hf
@@ -201,7 +201,7 @@ theorem outerCoupled_of_actual
     fin_cases i <;> rfl
   have hp : 0 < xorDDT_rounds 5
       (fiveRoundKeys k₀ k₁ k₂ k₃ k₄) a b := by
-    exact Magma.DiffanSparsePositiveWitnesses.ddt_pos_of_concrete_base
+    exact Magma.DifanSparsePositiveWitnesses.ddt_pos_of_concrete_base
       k₀ k₁ k₂ k₃ k₄ a b base (by rw [← heq]; exact hd)
   have hasa : a = (a.1, 0#32) := by
     cases a with
@@ -321,9 +321,9 @@ theorem outerCoupled_symmetric (a s : Word) :
     have hp : 0 < xorDDT_rounds 5
         (fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
         (x, 0#32) (0#32, y) :=
-      Magma.DiffanSparsePositiveWitnesses.ddt_pos_of_concrete_base
+      Magma.DifanSparsePositiveWitnesses.ddt_pos_of_concrete_base
         k₀ k₁ k₂ k₃ k₄ (x, 0#32) (0#32, y) (bl, br) hw
-    rw [Magma.DiffanFiveRoundDDTReverse.outer_ddt_reverse] at hp
+    rw [Magma.DifanFiveRoundDDTReverse.outer_ddt_reverse] at hp
     have hbase : ∃ base : State,
         multiRoundDelta 5 (fiveRoundKeys k₄ k₃ k₂ k₁ k₀)
           base (y, 0#32) = (0#32, x) := by
@@ -402,7 +402,7 @@ theorem universal_outer_zero_iff_no_coupled (a s : Word) :
     have hp : 0 < xorDDT_rounds 5
         (fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
         (a, 0#32) (0#32, s) :=
-      Magma.DiffanSparsePositiveWitnesses.ddt_pos_of_concrete_base
+      Magma.DifanSparsePositiveWitnesses.ddt_pos_of_concrete_base
         k₀ k₁ k₂ k₃ k₄ (a, 0#32) (0#32, s) (bl, br) hd
     have hz := hall k₀ k₁ k₂ k₃ k₄
     omega
@@ -428,4 +428,4 @@ theorem refinedWindow_implies_keyFreePath
   obtain ⟨u, v, hpre, ⟨hfive, _, _⟩, hpost⟩ := h
   exact Path.append (Path.append hpre hfive) hpost
 
-end Magma.DiffanCorrelatedFiveMacro
+end Magma.DifanCorrelatedFiveMacro

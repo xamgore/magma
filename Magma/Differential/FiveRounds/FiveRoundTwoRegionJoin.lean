@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FiveRoundCertifiedFastPath
-public import Diffan.Fibers.TwoRegionCertifiedJoin
+public import Difan.Fibers.TwoRegionCertifiedJoin
 
 @[expose] public section
 
@@ -22,21 +22,21 @@ certificate, not a statement about running time; geometric recognition
 still has a cost.
 -/
 
-namespace Magma.DiffanFiveRoundTwoRegionJoin
+namespace Magma.DifanFiveRoundTwoRegionJoin
 
 open Magma
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFiveRoundDualBoundaryGraphJoin
-open Magma.DiffanFiveRoundGraphSyndrome
-open Magma.DiffanFiveRoundNonemptyMaskGain
-open Magma.DiffanFiveRoundPrefixKeyFamily
-open Magma.DiffanFiveRoundBitCubeExactMask
-open Magma.DiffanFiveRoundCertifiedFastPath
-open Magma.DiffanFiveRoundTwoBaseExactMask
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundDualBoundaryGraphJoin
+open Magma.DifanFiveRoundGraphSyndrome
+open Magma.DifanFiveRoundNonemptyMaskGain
+open Magma.DifanFiveRoundPrefixKeyFamily
+open Magma.DifanFiveRoundBitCubeExactMask
+open Magma.DifanFiveRoundCertifiedFastPath
+open Magma.DifanFiveRoundTwoBaseExactMask
 
 private abbrev Master :=
   V 256
@@ -45,7 +45,7 @@ private abbrev RoundState :=
   V 32 × V 32
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- First priority: the base of the known real five-round path. -/
 def provenBase (b : RoundState) : Prop := b = trueMiddle.base
@@ -88,7 +88,7 @@ theorem one_bit_certificate (K : Master) (h : sameFirstFive K)
 /-- Two local tests, followed by exact equality outside the cube. -/
 noncomputable def twoRegionCount (K : Master) (R : Point → Prop) : Nat := by
   classical
-  exact Diffan.TwoRegionCertifiedJoin.stagedMass
+  exact Difan.TwoRegionCertifiedJoin.stagedMass
     provenBase otherCube zeroBitObservation
     (maskedDifference separatingMask)
     (reconstructed K chosenInput)
@@ -105,7 +105,7 @@ theorem two_region_exact (K : Master) (h : sameFirstFive K)
         (outputDifference chosenOutput) R) := by
   classical
   unfold twoRegionCount
-  rw [Diffan.TwoRegionCertifiedJoin.staged_eq_exact_of_certificates
+  rw [Difan.TwoRegionCertifiedJoin.staged_eq_exact_of_certificates
     provenBase otherCube zeroBitObservation
     (maskedDifference separatingMask)
     (reconstructed K chosenInput)
@@ -122,19 +122,19 @@ theorem two_region_accounting (K : Master) (h : sameFirstFive K)
     (∑ b : RoundState, baseWeight K chosenInput chosenOutput R b) =
       Fintype.card (FiveRestricted K (inputDifference chosenInput)
         (outputDifference chosenOutput) R) +
-      Diffan.TwoRegionCertifiedJoin.firstRejected provenBase
+      Difan.TwoRegionCertifiedJoin.firstRejected provenBase
         zeroBitObservation
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) +
-      Diffan.TwoRegionCertifiedJoin.secondRejected provenBase otherCube
+      Difan.TwoRegionCertifiedJoin.secondRejected provenBase otherCube
         (maskedDifference separatingMask)
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) +
-      Diffan.TwoRegionCertifiedJoin.fallbackRejected provenBase otherCube
+      Difan.TwoRegionCertifiedJoin.fallbackRejected provenBase otherCube
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) := by
   classical
-  have hc := Diffan.TwoRegionCertifiedJoin.coarse_eq_staged_add_rejections
+  have hc := Difan.TwoRegionCertifiedJoin.coarse_eq_staged_add_rejections
     provenBase otherCube zeroBitObservation
     (maskedDifference separatingMask)
     (reconstructed K chosenInput)
@@ -142,15 +142,15 @@ theorem two_region_accounting (K : Master) (h : sameFirstFive K)
     (baseWeight K chosenInput chosenOutput R)
   change (∑ b : RoundState, baseWeight K chosenInput chosenOutput R b) =
     twoRegionCount K R +
-      Diffan.TwoRegionCertifiedJoin.firstRejected provenBase
+      Difan.TwoRegionCertifiedJoin.firstRejected provenBase
         zeroBitObservation (reconstructed K chosenInput)
         (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) +
-      Diffan.TwoRegionCertifiedJoin.secondRejected provenBase otherCube
+      Difan.TwoRegionCertifiedJoin.secondRejected provenBase otherCube
         (maskedDifference separatingMask)
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) +
-      Diffan.TwoRegionCertifiedJoin.fallbackRejected provenBase otherCube
+      Difan.TwoRegionCertifiedJoin.fallbackRejected provenBase otherCube
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) at hc
   rw [two_region_exact K h R] at hc
@@ -171,12 +171,12 @@ open scoped Classical in
 /-- The second stage does genuine work with positive conditional mass
 on unrestricted five-round trajectories. -/
 theorem second_stage_rejection_positive (K : Master) (h : sameFirstFive K) :
-    0 < Diffan.TwoRegionCertifiedJoin.secondRejected provenBase otherCube
+    0 < Difan.TwoRegionCertifiedJoin.secondRejected provenBase otherCube
       (maskedDifference separatingMask)
       (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
       (baseWeight K chosenInput chosenOutput unrestricted) := by
   classical
-  apply Diffan.TwoRegionCertifiedJoin.second_rejected_pos_of_witness
+  apply Difan.TwoRegionCertifiedJoin.second_rejected_pos_of_witness
     provenBase otherCube (maskedDifference separatingMask)
     (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
     (baseWeight K chosenInput chosenOutput unrestricted)
@@ -199,7 +199,7 @@ theorem exact_nonempty_with_second_stage_gain (K : Master)
     twoRegionCount K unrestricted =
       Fintype.card (FiveRestricted K (inputDifference chosenInput)
         (outputDifference chosenOutput) unrestricted) ∧
-    0 < Diffan.TwoRegionCertifiedJoin.secondRejected provenBase otherCube
+    0 < Difan.TwoRegionCertifiedJoin.secondRejected provenBase otherCube
       (maskedDifference separatingMask)
       (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
       (baseWeight K chosenInput chosenOutput unrestricted) := by
@@ -209,4 +209,4 @@ theorem exact_nonempty_with_second_stage_gain (K : Master)
     (inputDifference chosenInput) (outputDifference chosenOutput) unrestricted]
   exact actual_five_round_count_positive
 
-end Magma.DiffanFiveRoundTwoRegionJoin
+end Magma.DifanFiveRoundTwoRegionJoin

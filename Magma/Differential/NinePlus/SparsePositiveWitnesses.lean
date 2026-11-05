@@ -16,13 +16,13 @@ one-round equations. The positive DDT theorems use only those checked
 equations, without computing a 64-bit DDT by brute force.
 -/
 
-namespace Magma.DiffanSparsePositiveWitnesses
+namespace Magma.DifanSparsePositiveWitnesses
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFiveRoundDDTReverse
-open Magma.DiffanSparseRoundSteps
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFiveRoundDDTReverse
+open Magma.DifanSparseRoundSteps
 
 private abbrev Word :=
   V 32
@@ -89,4 +89,4 @@ theorem positive_reverse_20400020_to_80000080 :
       (0x20400020#32)]
   exact positive_80000080_to_20400020
 
-end Magma.DiffanSparsePositiveWitnesses
+end Magma.DifanSparsePositiveWitnesses

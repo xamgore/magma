@@ -23,18 +23,18 @@ every positive coefficient in this particular three-round slice has
 zero off-diagonal coupling defect, for arbitrary second and third keys.
 -/
 
-namespace Magma.DiffanUnitColumnLow20AndUniqueEven
+namespace Magma.DifanUnitColumnLow20AndUniqueEven
 
 open Magma
 open Magma.Internal
 open Magma.GProperties
 open Magma.CarryAutomaton
 open Magma.MultiRoundDDT
-open Magma.DiffanZeroLeftSupportOverlap
-open Magma.DiffanEvenUnitOverlapEight
+open Magma.DifanZeroLeftSupportOverlap
+open Magma.DifanEvenUnitOverlapEight
 open Magma.ZeroLeftParityCompleteSlice
 open Magma.ZeroLeftEightEntries
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -237,4 +237,4 @@ theorem even_zero_of_no_matching_low20
     even_positive_requires_eight_low20_offsets k₀ k₁ k₂ aL bR hk hp
   exact h d hd heq
 
-end Magma.DiffanUnitColumnLow20AndUniqueEven
+end Magma.DifanUnitColumnLow20AndUniqueEven

@@ -5,7 +5,7 @@ public import Magma.Differential.Windows.FirstRoundDeletion
 import Std.Tactic.BVDecide
 
 @[expose] public section
-namespace Magma.DiffanSevenTopNibble
+namespace Magma.DifanSevenTopNibble
 
 open Magma Magma.Internal Magma.GProperties
 
@@ -349,8 +349,8 @@ theorem seven_round_high_nibble_universally_impossible
     (han : a ≠ 0#32) :
     Magma.MultiRoundDDT.xorDDT_rounds 7 keys
       (a, 0#32) (0#32, b) = 0 := by
-  rw [Magma.DiffanFirstRoundDeletion.twoSided_boundary_ddt_eq_inner 5 keys a b]
+  rw [Magma.DifanFirstRoundDeletion.twoSided_boundary_ddt_eq_inner 5 keys a b]
   exact opposite_five_core_zero
     (fun i : Fin 5 => keys i.castSucc.succ) a b ha hb han
 
-end Magma.DiffanSevenTopNibble
+end Magma.DifanSevenTopNibble

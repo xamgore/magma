@@ -22,14 +22,14 @@ localisation theorem must expose inverse Sboxes, inverse rotation,
 and subtraction borrows, then bound the contraction width.
 -/
 
-namespace Magma.DiffanThreeCarryTraceJoin
+namespace Magma.DifanThreeCarryTraceJoin
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanMiddleInverseDerivative
-open Magma.DiffanFiveRoundImageJoin
-open Magma.DiffanGCarryFiberTensor
+open Magma.DifanMiddleInverseDerivative
+open Magma.DifanFiveRoundImageJoin
+open Magma.DifanGCarryFiberTensor
 
 private abbrev Word :=
   V 32
@@ -102,7 +102,7 @@ sum over r,h, intended for a later certified variable-elimination DP. -/
 theorem fiveRound_eq_three_carry_traces
     (k₀ k₁ k₂ k₃ k₄ a b : Word) :
     Magma.MultiRoundDDT.xorDDT_rounds 5
-        (Magma.DiffanFiveRoundCoreDefect.fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
+        (Magma.DifanFiveRoundCoreDefect.fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
         (a, 0#32) (0#32, b) =
       ∑ r : Word, ∑ h : Word,
         if threeTraceCondition k₁ k₂ k₃ a b
@@ -116,4 +116,4 @@ theorem fiveRound_eq_three_carry_traces
   exact if_congr (inverseTriple_iff_three_traces k₁ k₂ k₃ a b r h)
     rfl rfl
 
-end Magma.DiffanThreeCarryTraceJoin
+end Magma.DifanThreeCarryTraceJoin

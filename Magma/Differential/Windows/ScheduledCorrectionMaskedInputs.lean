@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.Windows.ScheduledCorrectionPartnerFibers
-public import Diffan.Symmetry.FiniteInvolutionOrbits
+public import Difan.Symmetry.FiniteInvolutionOrbits
 import Std.Tactic.BVDecide
 
 @[expose] public section
@@ -29,14 +29,14 @@ about fixed observable ciphertext endpoints or nontrivial scheduled prefixes.
 
 -/
 
-namespace Magma.DiffanScheduledCorrectionMaskedInputs
+namespace Magma.DifanScheduledCorrectionMaskedInputs
 
 open Magma
-open Magma.DiffanScheduledMeet
-open Magma.DiffanScheduledCorrectionReachability
-open Magma.DiffanScheduledCorrectionHomogeneity
-open Magma.DiffanScheduledCorrectionPartnerFibers
-open Magma.DiffanFeistelDeltaPropagation
+open Magma.DifanScheduledMeet
+open Magma.DifanScheduledCorrectionReachability
+open Magma.DifanScheduledCorrectionHomogeneity
+open Magma.DifanScheduledCorrectionPartnerFibers
+open Magma.DifanFeistelDeltaPropagation
 
 private abbrev Word :=
   V 32
@@ -45,7 +45,7 @@ private abbrev Master :=
   V 256
 
 private abbrev Point :=
-  Diffan.StateDifference (Word × Word) (Word × Word)
+  Difan.StateDifference (Word × Word) (Word × Word)
 
 /-- Public-form endpoint condition on the actual right BASE of the
     initial state pair. No master key or round index appears here. -/
@@ -56,14 +56,14 @@ def inputRightMask (mask target : Word) (p : Point) : Prop :=
     on complete state/difference pairs. -/
 theorem empty_prefix_symm (master : Master) (p : Point) :
     (leftEquiv [] master).symm p = p := by
-  change Diffan.StateDifference.transport
-    Magma.DiffanReverseRound.roundXor Magma.DiffanReverseRound.roundXor
+  change Difan.StateDifference.transport
+    Magma.DifanReverseRound.roundXor Magma.DifanReverseRound.roundXor
     (fun x => x) p = p
   rcases p with ⟨x, a⟩
   change
-    (⟨x, Diffan.derivative Magma.DiffanReverseRound.roundXor
-      Magma.DiffanReverseRound.roundXor (fun y => y) a x⟩ : Point) = ⟨x, a⟩
-  rw [Diffan.derivative_id]
+    (⟨x, Difan.derivative Magma.DifanReverseRound.roundXor
+      Magma.DifanReverseRound.roundXor (fun y => y) a x⟩ : Point) = ⟨x, a⟩
+  rw [Difan.derivative_id]
 
 /-- In the empty-prefix, unrestricted-suffix case the condition selects
     an ordinary mask class, not a key-dependent pullback of a midpoint. -/
@@ -137,9 +137,9 @@ private theorem finite_partner_card_even
     have hz : t = 0#32 := by
       bv_decide
     exact ht hz
-  refine ⟨(Diffan.FiniteInvolutionOrbits.representatives
+  refine ⟨(Difan.FiniteInvolutionOrbits.representatives
     C (fun R => R ^^^ t) BitVec.toNat).card, ?_⟩
-  exact Diffan.FiniteInvolutionOrbits.card_eq_twice_representatives
+  exact Difan.FiniteInvolutionOrbits.card_eq_twice_representatives
     C (fun R => R ^^^ t) BitVec.toNat ht2 hstable hrank
 
 /-- Partner closure makes every restricted correction coefficient even,
@@ -251,4 +251,4 @@ theorem threeBit_mask_all_counts_even
   · decide
   · exact threeBit_mask_hides_partner
 
-end Magma.DiffanScheduledCorrectionMaskedInputs
+end Magma.DifanScheduledCorrectionMaskedInputs

@@ -7,12 +7,12 @@ set_option maxHeartbeats 20000000
 
 @[expose] public section
 
-namespace Magma.DiffanNineRoundAllOneHotPositive
+namespace Magma.DifanNineRoundAllOneHotPositive
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundUniversalSupport
-open Magma.DiffanNineRoundAllOneHotTrajectory
+open Magma.DifanFiveRoundUniversalSupport
+open Magma.DifanNineRoundAllOneHotTrajectory
 
 private theorem positive_of_real_delta (n : Nat) (keys : Fin n → V 32) (a b base : FeistelState)
     (h : multiRoundDelta n keys base a = b) : 0 < xorDDT_rounds n keys a b := by
@@ -34,4 +34,4 @@ theorem all_oneHot_nine_round_positive (i j : Fin 32) :
     all_oneHot_nine_round_trajectory i j
   exact ⟨master, positive_of_real_delta 9 _ _ _ _ hd⟩
 
-end Magma.DiffanNineRoundAllOneHotPositive
+end Magma.DifanNineRoundAllOneHotPositive

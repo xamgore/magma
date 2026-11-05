@@ -17,12 +17,12 @@ No assumptions on the actual S-box tables beyond the existing bijectivity
 lemmas. The lemma applies to any five fixed ordinary Feistel round keys.
 -/
 
-namespace Magma.DiffanFiveRoundFirstNibbleObstruction
+namespace Magma.DifanFiveRoundFirstNibbleObstruction
 
 open Magma
 open Magma.CarryAutomaton
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
+open Magma.DifanFiveRoundCoreDefect
 open Magma.OneHotActiveNibbleNecessary
 open Magma.OneHotUniversalLowerNibbleZeros
 
@@ -117,4 +117,4 @@ theorem fiveRound_zero_of_output_earlier_nibble
   exact no_common_difference_of_earlier_nibble
     k₃ k₁ s a (xor (g k₂ Z) R) R i hslow hsactive haprefix
 
-end Magma.DiffanFiveRoundFirstNibbleObstruction
+end Magma.DifanFiveRoundFirstNibbleObstruction

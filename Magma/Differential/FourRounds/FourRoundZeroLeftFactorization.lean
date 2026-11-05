@@ -21,7 +21,7 @@ Both outer keys k0 and k3 disappear. This is an identity of exact
 fixed-key counts, not a product-of-probabilities approximation.
 -/
 
-namespace Magma.DiffanFourRoundZeroLeftFactorization
+namespace Magma.DifanFourRoundZeroLeftFactorization
 
 open Magma
 open Magma.MultiRoundDDT
@@ -128,7 +128,7 @@ theorem fourRound_zeroRightInput_zeroLeftOutput_factorization
     change (0#32) ^^^ aL = aL
     exact BitVec.zero_xor
   rw [fourRound_zeroLeft_eq_three,
-    Magma.DiffanThreeRoundZeroRightInputFactorization.threeRound_zeroRightInput_factorization, hzero]
+    Magma.DifanThreeRoundZeroRightInputFactorization.threeRound_zeroRightInput_factorization, hzero]
 
 /-- Both outer round keys can be changed independently without changing
     this specific coefficient. -/
@@ -159,4 +159,4 @@ theorem fourRound_zero_of_inner_second_zero
       (aL, 0#32) (0#32, bR) = 0 := by
   rw [fourRound_zeroRightInput_zeroLeftOutput_factorization, h, mul_zero]
 
-end Magma.DiffanFourRoundZeroLeftFactorization
+end Magma.DifanFourRoundZeroLeftFactorization

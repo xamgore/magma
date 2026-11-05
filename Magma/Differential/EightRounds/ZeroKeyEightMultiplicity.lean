@@ -27,12 +27,12 @@ They occupy only two 28-bit projection classes. The remaining 2^32 - 564
 left differences have empty intersection.
 -/
 
-namespace Magma.DiffanZeroKeyEightMultiplicity
+namespace Magma.DifanZeroKeyEightMultiplicity
 
 open Magma
 open Magma.OddUnitInput77
-open Magma.DiffanZeroKeyEightColumn
-open Magma.DiffanZeroKeyEightSharpBound
+open Magma.DifanZeroKeyEightColumn
+open Magma.DifanZeroKeyEightSharpBound
 open Magma.ZeroLeftParityCompleteSlice
 
 private abbrev Word :=
@@ -264,4 +264,4 @@ theorem singletonInputs_card : singletonInputs.card = 540 := by
 
 end
 
-end Magma.DiffanZeroKeyEightMultiplicity
+end Magma.DifanZeroKeyEightMultiplicity

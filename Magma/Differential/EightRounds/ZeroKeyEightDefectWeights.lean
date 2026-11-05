@@ -23,16 +23,16 @@ reduced integer multiplied by 2^29, the exact second-round column weight.
 The finite certificates inspect the certified 24-by-eight candidate table.
 -/
 
-namespace Magma.DiffanZeroKeyEightDefectWeights
+namespace Magma.DifanZeroKeyEightDefectWeights
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanZeroLeftSupportOverlap
+open Magma.DifanZeroLeftSupportOverlap
 open Magma.OddUnitInput77
-open Magma.DiffanThreeRoundCouplingDefect
-open Magma.DiffanZeroKeyEightColumn
-open Magma.DiffanZeroKeyEightMultiplicity
-open Magma.DiffanZeroKeyEightDefectClassification
+open Magma.DifanThreeRoundCouplingDefect
+open Magma.DifanZeroKeyEightColumn
+open Magma.DifanZeroKeyEightMultiplicity
+open Magma.DifanZeroKeyEightDefectClassification
 open Magma.ZeroLeftParityCompleteSlice
 
 private abbrev Word :=
@@ -205,4 +205,4 @@ theorem sixfold_witness_weight_comparison :
   · decide +kernel
   · norm_num
 
-end Magma.DiffanZeroKeyEightDefectWeights
+end Magma.DifanZeroKeyEightDefectWeights

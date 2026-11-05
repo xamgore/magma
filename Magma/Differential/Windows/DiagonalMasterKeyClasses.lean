@@ -22,13 +22,13 @@ ordinary three-round windows of the REAL 256-bit Magma key schedule:
 These are predicates on ONE master word, not independent round keys.
 -/
 
-namespace Magma.DiffanDiagonalMasterKeyClasses
+namespace Magma.DifanDiagonalMasterKeyClasses
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanDiagonalSupportScheduledWindows
-open Magma.DiffanThreeRoundMiddleDiagonal
+open Magma.DifanDiagonalSupportScheduledWindows
+open Magma.DifanThreeRoundMiddleDiagonal
 open Magma.OneHotKeyClasses
 open Magma.OneHotFullKeyClassInvariant
 open Magma.ZeroLeftParityCompleteSlice
@@ -176,4 +176,4 @@ theorem scheduledThree_oneHot_same_local_classes
     scheduledThree_oneHot_unit_support_iff]
   simp only [oneHotLocalClass, h₀, hc₀, h₂, hc₂]
 
-end Magma.DiffanDiagonalMasterKeyClasses
+end Magma.DifanDiagonalMasterKeyClasses

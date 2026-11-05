@@ -25,14 +25,14 @@ rather than n unrelated 64-bit intermediate states.
 This is a theorem for ARBITRARY n, independent of round-key schedule.
 -/
 
-namespace Magma.DiffanOuterWordRecurrence
+namespace Magma.DifanOuterWordRecurrence
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanKeyFreeCarryAutomaton
-open Magma.DiffanKeyFreeRoundTransducer
-open Magma.DiffanOuterCoreCarryGeometry
-open Magma.DiffanFirstRoundDeletion
+open Magma.DifanKeyFreeCarryAutomaton
+open Magma.DifanKeyFreeRoundTransducer
+open Magma.DifanOuterCoreCarryGeometry
+open Magma.DifanFirstRoundDeletion
 
 private abbrev Word :=
   V 32
@@ -120,4 +120,4 @@ theorem outerChain_symmetric (n : Nat) (a s : Word) :
   · exact wordChain_reverse
   · exact wordChain_reverse
 
-end Magma.DiffanOuterWordRecurrence
+end Magma.DifanOuterWordRecurrence

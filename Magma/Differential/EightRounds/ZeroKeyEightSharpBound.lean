@@ -26,16 +26,16 @@ odd-row words and their 28-bit projections. Two cardinality checks
 prove injectivity on the 59 ordinary words.
 -/
 
-namespace Magma.DiffanZeroKeyEightSharpBound
+namespace Magma.DifanZeroKeyEightSharpBound
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundCouplingDefect
 open Magma.OddUnitInput77
 open Magma.ZeroLeftParityCompleteSlice
-open Magma.DiffanZeroKeyEightColumn
-open Magma.DiffanZeroLeftSupportOverlap
-open Magma.DiffanUnitColumnLow20AndUniqueEven
+open Magma.DifanZeroKeyEightColumn
+open Magma.DifanZeroLeftSupportOverlap
+open Magma.DifanUnitColumnLow20AndUniqueEven
 
 private abbrev Word :=
   V 32
@@ -349,4 +349,4 @@ theorem sixfold_positive_coefficient_and_defect (k₀ k₂ : Word)
     refine ⟨0x00800000#32, ?_, hc1⟩
     decide
 
-end Magma.DiffanZeroKeyEightSharpBound
+end Magma.DifanZeroKeyEightSharpBound

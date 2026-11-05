@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FiveRoundGraphSyndrome
-public import Diffan.Fibers.ObservedGraphRefinement
+public import Difan.Fibers.ObservedGraphRefinement
 import Std.Tactic.BVDecide
 
 @[expose] public section
@@ -18,15 +18,15 @@ at the bases where the masks begin to disagree.
 Exactness of a mask depends on the active conditional-window support.
 -/
 
-namespace Magma.DiffanFiveRoundGraphMaskRefinement
+namespace Magma.DifanFiveRoundGraphMaskRefinement
 
 open Magma
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFiveRoundDualBoundaryGraphJoin
-open Magma.DiffanFiveRoundGraphSyndrome
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundDualBoundaryGraphJoin
+open Magma.DifanFiveRoundGraphSyndrome
 
 private abbrev Word :=
   V 32
@@ -38,7 +38,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Each bit observed by `coarse` is also observed by `fine`. -/
 def maskIncluded (coarse fine : RoundState) : Prop :=
@@ -68,7 +68,7 @@ theorem fine_agreement_implies_coarse
 noncomputable def newlyRejectedMaskMass (master : Master) (a outDelta : RoundState)
     (R : Point → Prop) (coarse fine : RoundState) : Nat := by
   classical
-  exact Diffan.ObservedGraphRefinement.gainedMass
+  exact Difan.ObservedGraphRefinement.gainedMass
     (maskedDifference coarse) (maskedDifference fine)
     (reconstructed master a) (rightReconstructed master outDelta)
     (baseWeight master a outDelta R)
@@ -83,7 +83,7 @@ theorem coarse_candidate_eq_fine_add_gain
       maskCandidateMass master a outDelta R fine +
         newlyRejectedMaskMass master a outDelta R coarse fine := by
   classical
-  exact Diffan.ObservedGraphRefinement.observed_eq_refined_add_gain
+  exact Difan.ObservedGraphRefinement.observed_eq_refined_add_gain
     (maskedDifference coarse) (maskedDifference fine)
     (reconstructed master a) (rightReconstructed master outDelta)
     (baseWeight master a outDelta R)
@@ -99,7 +99,7 @@ theorem coarse_hidden_eq_fine_add_gain
       hiddenMismatchMass master a outDelta R fine +
         newlyRejectedMaskMass master a outDelta R coarse fine := by
   classical
-  exact Diffan.ObservedGraphRefinement.hidden_eq_refined_add_gain
+  exact Difan.ObservedGraphRefinement.hidden_eq_refined_add_gain
     (maskedDifference coarse) (maskedDifference fine)
     (reconstructed master a) (rightReconstructed master outDelta)
     (baseWeight master a outDelta R)
@@ -120,7 +120,7 @@ theorem fine_mask_strict_of_active_witness
     maskCandidateMass master a outDelta R fine <
       maskCandidateMass master a outDelta R coarse := by
   classical
-  exact Diffan.ObservedGraphRefinement.refined_strict_of_witness
+  exact Difan.ObservedGraphRefinement.refined_strict_of_witness
     (maskedDifference coarse) (maskedDifference fine)
     (reconstructed master a) (rightReconstructed master outDelta)
     (baseWeight master a outDelta R)
@@ -144,7 +144,7 @@ theorem fine_mask_no_gain_of_no_active_witness
       maskCandidateMass master a outDelta R fine := by
   classical
   have hz : newlyRejectedMaskMass master a outDelta R coarse fine = 0 := by
-    unfold newlyRejectedMaskMass Diffan.ObservedGraphRefinement.gainedMass
+    unfold newlyRejectedMaskMass Difan.ObservedGraphRefinement.gainedMass
     apply Finset.sum_eq_zero
     intro b _
     by_cases hc : maskedDifference coarse (reconstructed master a b) =
@@ -157,4 +157,4 @@ theorem fine_mask_no_gain_of_no_active_witness
   rw [coarse_candidate_eq_fine_add_gain master a outDelta R coarse fine hsub, hz]
   omega
 
-end Magma.DiffanFiveRoundGraphMaskRefinement
+end Magma.DifanFiveRoundGraphMaskRefinement

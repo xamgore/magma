@@ -55,7 +55,7 @@ Define the *KEY-DEPENDENT*, NONLINEAR difference geometry
 
   delta_H(x,x') := H(x) XOR H(x').
 
-The generic Diffan.Symmetry.ConjugatedDifferenceSpace theorem,
+The generic Difan.Symmetry.ConjugatedDifferenceSpace theorem,
 instantiated in the above Lean file, gives EXACT integer
 DDT equality, for every 64-bit difference alpha,beta:
 
@@ -122,7 +122,7 @@ entered as a Lean theorem.
 
 ## 3. Generalization independent of Magma
 
-Diffan/Symmetry/ReflectedMacroSchedule.lean proves a theorem
+Difan/Symmetry/ReflectedMacroSchedule.lean proves a theorem
 for ANY state-space equivalence h and ANY involution j.
 With n+1 identical forward h blocks followed by
 r=j h^-1 j and a final j:
@@ -140,7 +140,7 @@ j=half-swap, n=2. This specialization is also formally
 closed in the theorem C_eq_generic_schedule; it is not
 merely a proposed analogy.
 
-Final audit: lake build Diffan Magma succeeded (18,731 jobs).
+Final audit: lake build Difan Magma succeeded (18,731 jobs).
 #print axioms found ZERO native bv_decide dependencies and
 ZERO sorry for seven key full-macro and generic theorems,
 including the native 32-round RFC roundKey/encrypt link,
@@ -241,12 +241,12 @@ sufficiency for a high-nibble-only alpha. A separate toy
 counterexample disproves ordinary fixed-mask Walsh equality
 under nonlinear full-cipher conjugacy. The exact criterion
 for a sound quotient is formalized in
-Diffan/Symmetry/TransportedXorQuotients.lean.
+Difan/Symmetry/TransportedXorQuotients.lean.
 
 For the full C32, the ordinary-XOR base-free sufficient
 quotient is STILL OPEN. Conjugacy preserves permutation
 cycle counts at all powers, formalized in
-Diffan/Symmetry/ConjugacyCycleInvariants.lean, not ordinary DDTs.
+Difan/Symmetry/ConjugacyCycleInvariants.lean, not ordinary DDTs.
 
 ## 5b. Genuine 32-round cross-key affine gauge
 
@@ -283,7 +283,7 @@ remain available, but no CPU optimization is
 authorized as an unfrozen objective in this phase.
 
 Reproduce:
-  lake build Diffan Magma
+  lake build Difan Magma
   python3 Magma/Differential/FullCipher/Experiments/full_schedule_macro_toy.py
   lake env lean /tmp/AuditFullMacro.lean
 

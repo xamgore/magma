@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FiveRoundZeroBoundaryBaseLabel
-public import Diffan.Fibers.GraphSupportedJoin
+public import Difan.Fibers.GraphSupportedJoin
 
 @[expose] public section
 
@@ -25,16 +25,16 @@ the right window at the reconstructed full StateDifference.
 All round keys come from the same Magma master key.
 -/
 
-namespace Magma.DiffanFiveRoundFixedInputGraphJoin
+namespace Magma.DifanFiveRoundFixedInputGraphJoin
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFourRoundForcedMiddleDifference
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFourRoundForcedMiddleDifference
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
 
 private abbrev Word :=
   V 32
@@ -46,7 +46,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- The first common difference is a graph over its base as soon as
 we fix the left window's input difference. -/
@@ -130,7 +130,7 @@ base-only observation: the right weight is evaluated at the unique
 reconstructed full difference. -/
 theorem fixed_input_exact_base_mass (master : Master)
     (a : RoundState) (Q R : Point → Prop) :
-    Diffan.LabelJoinDefect.exactMass
+    Difan.LabelJoinDefect.exactMass
         (leftWeight master (inputDifference a) R)
         (rightWeight master Q) =
       ∑ b : RoundState,
@@ -138,8 +138,8 @@ theorem fixed_input_exact_base_mass (master : Master)
           (reconstructed master a b) *
         rightWeight master Q (reconstructed master a b) := by
   classical
-  unfold Diffan.LabelJoinDefect.exactMass
-  apply Diffan.GraphSupportedJoin.sum_eq_graph_of_positive
+  unfold Difan.LabelJoinDefect.exactMass
+  apply Difan.GraphSupportedJoin.sum_eq_graph_of_positive
     (fun m : Point => m.base)
     (reconstructed master a)
     (reconstructed_base master a)
@@ -161,7 +161,7 @@ theorem five_count_fixed_input_by_base (master : Master)
   classical
   have hcount :
       Fintype.card (FiveRestricted master (inputDifference a) Q R) =
-        Diffan.LabelJoinDefect.exactMass
+        Difan.LabelJoinDefect.exactMass
           (leftWeight master (inputDifference a) R)
           (rightWeight master Q) := by
     calc
@@ -190,4 +190,4 @@ theorem nonzero_input_fixed_output_by_base (master : Master)
   exact five_count_fixed_input_by_base master ((1#32), (1#32))
     (outputDifference b) R
 
-end Magma.DiffanFiveRoundFixedInputGraphJoin
+end Magma.DifanFiveRoundFixedInputGraphJoin

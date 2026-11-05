@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FixedInputMaskRefinementNoGo
-public import Diffan.Fibers.GraphLabelExactness
+public import Difan.Fibers.GraphLabelExactness
 
 @[expose] public section
 
@@ -20,16 +20,16 @@ and a right conditional support.  It works for nonzero input differences
 and arbitrary output and middle predicates, all under one master key.
 -/
 
-namespace Magma.DiffanFiveRoundFixedInputGraphDefect
+namespace Magma.DifanFiveRoundFixedInputGraphDefect
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundFixedInputGraphJoin
 
 private abbrev Word :=
   V 32
@@ -41,14 +41,14 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 open scoped Classical in
 /-- The base-only label is exact iff every active right point outside
 the predicted graph has zero joint weight with the left graph point. -/
 theorem base_exact_iff_off_graph_zero
     (master : Master) (a : RoundState) (Q R : Point → Prop) :
-    Diffan.LabelJoinDefect.coarseMass baseLabel
+    Difan.LabelJoinDefect.coarseMass baseLabel
         (leftWeight master (inputDifference a) R)
         (rightWeight master Q) =
       Fintype.card (FiveRestricted master (inputDifference a) Q R) ↔
@@ -57,7 +57,7 @@ theorem base_exact_iff_off_graph_zero
       leftWeight master (inputDifference a) R
         (reconstructed master a b) * rightWeight master Q n = 0 := by
   classical
-  have hcore := Diffan.GraphLabelExactness.graph_coarse_eq_exact_iff
+  have hcore := Difan.GraphLabelExactness.graph_coarse_eq_exact_iff
     (fun m : Point => m.base) (reconstructed master a)
     (reconstructed_base master a)
     (leftWeight master (inputDifference a) R)
@@ -67,29 +67,29 @@ theorem base_exact_iff_off_graph_zero
     (inputDifference a) Q R baseLabel
   constructor
   · intro heq
-    have hzero : Diffan.LabelJoinDefect.defectMass baseLabel
+    have hzero : Difan.LabelJoinDefect.defectMass baseLabel
         (leftWeight master (inputDifference a) R)
         (rightWeight master Q) = 0 := by omega
-    have heqexact : Diffan.LabelJoinDefect.coarseMass baseLabel
+    have heqexact : Difan.LabelJoinDefect.coarseMass baseLabel
         (leftWeight master (inputDifference a) R)
         (rightWeight master Q) =
-        Diffan.LabelJoinDefect.exactMass
+        Difan.LabelJoinDefect.exactMass
           (leftWeight master (inputDifference a) R)
           (rightWeight master Q) := by
-      rw [Diffan.LabelJoinDefect.coarse_eq_exact_add_defect, hzero]
+      rw [Difan.LabelJoinDefect.coarse_eq_exact_add_defect, hzero]
       simp
     exact hcore.mp heqexact
   · intro h
-    have heqexact : Diffan.LabelJoinDefect.coarseMass baseLabel
+    have heqexact : Difan.LabelJoinDefect.coarseMass baseLabel
         (leftWeight master (inputDifference a) R)
         (rightWeight master Q) =
-        Diffan.LabelJoinDefect.exactMass
+        Difan.LabelJoinDefect.exactMass
           (leftWeight master (inputDifference a) R)
           (rightWeight master Q) := hcore.mpr h
-    have hzero : Diffan.LabelJoinDefect.defectMass baseLabel
+    have hzero : Difan.LabelJoinDefect.defectMass baseLabel
         (leftWeight master (inputDifference a) R)
         (rightWeight master Q) = 0 := by
-      have hsplit := Diffan.LabelJoinDefect.coarse_eq_exact_add_defect
+      have hsplit := Difan.LabelJoinDefect.coarse_eq_exact_add_defect
         baseLabel (leftWeight master (inputDifference a) R)
         (rightWeight master Q)
       omega
@@ -108,10 +108,10 @@ theorem base_defect_pos_of_off_graph_witness
     (hL : 0 < leftWeight master (inputDifference a) R
       (reconstructed master a b))
     (hR : 0 < rightWeight master Q n) :
-    0 < Diffan.LabelJoinDefect.defectMass baseLabel
+    0 < Difan.LabelJoinDefect.defectMass baseLabel
       (leftWeight master (inputDifference a) R)
       (rightWeight master Q) := by
-  exact Diffan.GraphLabelExactness.graph_defect_pos_of_witness
+  exact Difan.GraphLabelExactness.graph_defect_pos_of_witness
     (fun m : Point => m.base) (reconstructed master a)
     (reconstructed_base master a)
     (leftWeight master (inputDifference a) R)
@@ -124,7 +124,7 @@ open scoped Classical in
 at both outer endpoints, while keeping the middle condition arbitrary. -/
 theorem fixed_boundary_base_exact_iff
     (master : Master) (a outDelta : RoundState) (R : Point → Prop) :
-    Diffan.LabelJoinDefect.coarseMass baseLabel
+    Difan.LabelJoinDefect.coarseMass baseLabel
         (leftWeight master (inputDifference a) R)
         (rightWeight master (outputDifference outDelta)) =
       Fintype.card
@@ -137,4 +137,4 @@ theorem fixed_boundary_base_exact_iff
         rightWeight master (outputDifference outDelta) n = 0 := by
   exact base_exact_iff_off_graph_zero master a (outputDifference outDelta) R
 
-end Magma.DiffanFiveRoundFixedInputGraphDefect
+end Magma.DifanFiveRoundFixedInputGraphDefect

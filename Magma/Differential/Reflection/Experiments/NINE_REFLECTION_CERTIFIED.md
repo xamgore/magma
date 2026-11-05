@@ -14,14 +14,14 @@ key-universal impossible differential or a fast full-width counter.
 
 The one reuse target is a *conditional, base-labelled* four-round
 kernel, NOT any marginal four-round DDT. In
-Diffan/Symmetry/ConjugatedDifferenceSpace.lean, the finite DDT
+Difan/Symmetry/ConjugatedDifferenceSpace.lean, the finite DDT
 transforms naturally under arbitrary nonlinear coordinate
 equivalences ONLY WHEN the difference structure is
 transported with them. Thus the conjugate
 Q=H^(-1) o J o H is a simple swap in H-adapted geometry,
 but not in the ordinary plaintext XOR geometry.
 
-Diffan/Observables/TwistedConditionalGram.lean derives a general finite
+Difan/Observables/TwistedConditionalGram.lean derives a general finite
 Nat-semiring identity for a deterministic state-labelled
 difference response with arbitrary base/difference actions.
 Magma/Differential/NinePlus/NineReflection.lean specializes it:
@@ -219,7 +219,7 @@ a measured manageable exact join exists.
 
 Trust audit:
 
-    printf 'import Magma.Differential.NinePlus.NineReflection\n#print axioms Magma.DiffanNineReflection.nine_ddt_eq_fourCrossingMass\n' >/tmp/CheckNine.lean
+    printf 'import Magma.Differential.NinePlus.NineReflection\n#print axioms Magma.DifanNineReflection.nine_ddt_eq_fourCrossingMass\n' >/tmp/CheckNine.lean
     lake env lean /tmp/CheckNine.lean
 
 Exact 7-round all-key zero families remain separately

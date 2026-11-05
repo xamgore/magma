@@ -17,17 +17,17 @@ The finite count of residual triples (1413) is presently computed
 separately, not claimed to be a theorem of this module.
 -/
 
-namespace Magma.DiffanOneHotTwoHotMiddleFilter
+namespace Magma.DifanOneHotTwoHotMiddleFilter
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFirstActiveNibbleInvariant
-open Magma.DiffanOneHotStructuralZero
-open Magma.DiffanOneHotTwoHotStructuralZero
-open Magma.DiffanFiveRoundUniversalSupport
-open Magma.DiffanPairedCarryRefutation
-open Magma.DiffanNibblePairCertificates
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFirstActiveNibbleInvariant
+open Magma.DifanOneHotStructuralZero
+open Magma.DifanOneHotTwoHotStructuralZero
+open Magma.DifanFiveRoundUniversalSupport
+open Magma.DifanPairedCarryRefutation
+open Magma.DifanNibblePairCertificates
 open Magma.TwoHotOutputOneFirstActive
 
 private abbrev Word := V 32
@@ -82,9 +82,9 @@ theorem universal_twoToOne_of_residual_certificate
     (hjk : j.val < k.val) :
     xorDDT_rounds 5 (fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
       (twoHot j k, 0#32) (0#32, oneHotDifference i) = 0 := by
-  rw [← Magma.DiffanFiveRoundDDTReverse.outer_ddt_reverse
+  rw [← Magma.DifanFiveRoundDDTReverse.outer_ddt_reverse
     k₄ k₃ k₂ k₁ k₀ (oneHotDifference i) (twoHot j k)]
   exact universal_oneToTwo_of_residual_certificate
     cert k₄ k₃ k₂ k₁ k₀ i j k hjk
 
-end Magma.DiffanOneHotTwoHotMiddleFilter
+end Magma.DifanOneHotTwoHotMiddleFilter

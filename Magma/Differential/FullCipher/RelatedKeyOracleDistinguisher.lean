@@ -1,7 +1,7 @@
 module
 public import Magma.Differential.FullCipher.FullKeyMSBGauge
 public import Magma.Differential.FullCipher.PalindromicOracle
-public import Diffan.Observables.OracleObservableBarrier
+public import Difan.Observables.OracleObservableBarrier
 import all Init.Data.Range.Basic
 
 @[expose] public section
@@ -32,9 +32,9 @@ distinguisher, not a key-recovery attack and not
 a break of standard chosen-plaintext Magma encryption.
 -/
 
-namespace Magma.DiffanRelatedKeyOracle
+namespace Magma.DifanRelatedKeyOracle
 open Magma Magma.Internal Magma.MultiRoundDDT
-open Magma.DiffanFullKeyMSBGauge
+open Magma.DifanFullKeyMSBGauge
 
 private abbrev S := FeistelState
 
@@ -74,6 +74,6 @@ ideal permutations, the one-query conditional pass
 probability is thus precisely 2^-64. -/
 theorem ideal_output_alphabet_card :
     Fintype.card S = 2 ^ 64 :=
-  Magma.DiffanPalindromicOracle.all_64bit_states_count
+  Magma.DifanPalindromicOracle.all_64bit_states_count
 
-end Magma.DiffanRelatedKeyOracle
+end Magma.DifanRelatedKeyOracle

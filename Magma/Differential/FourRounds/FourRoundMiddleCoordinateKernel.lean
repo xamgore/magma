@@ -21,11 +21,11 @@ independent. The multiplicative formula explicitly requires a separating
 predicate equivalence.
 -/
 
-namespace Magma.DiffanFourRoundMiddleCoordinateKernel
+namespace Magma.DifanFourRoundMiddleCoordinateKernel
 
 open Magma
-open Magma.DiffanFourRoundScheduledMiddleFibers
-open Magma.DiffanFourRoundForcedMiddleDifference
+open Magma.DifanFourRoundScheduledMiddleFibers
+open Magma.DifanFourRoundForcedMiddleDifference
 open scoped Classical
 
 private abbrev Word :=
@@ -38,7 +38,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Exact membership test on the two actual midpoint base coordinates.
 It retains the input, middle and output constraints under the same master. -/
@@ -209,4 +209,4 @@ theorem fourRound_middle_masks_upper_bound (master : Master) (aL bR : Word)
           (fun v => (v &&& maskV) = (0#32)) hnecessary)
     _ = _ := Fintype.card_prod _ _
 
-end Magma.DiffanFourRoundMiddleCoordinateKernel
+end Magma.DifanFourRoundMiddleCoordinateKernel

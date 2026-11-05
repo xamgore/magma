@@ -1,6 +1,6 @@
 # Compositionality and compact elimination: DESIGN FREEZE
 
-**Frozen 2026-11-04. Priority: REUSABLE DIFFAN COMPOSITION, not
+**Frozen 2026-11-04. Priority: REUSABLE DIFAN COMPOSITION, not
 maximizing searched round counts or chasing isolated impossible cells.**
 
 **2026-11-04 P0 UPDATE: LOCAL SPARSE/CARRY/BDD EXCLUSION IS ALSO FROZEN.**
@@ -10,7 +10,7 @@ needed to establish the general composition algebra. See
 actual RFC 32-round encryption is formally H-conjugate to
 J o H², and the exact integer DDT reduces from 32 rounds
 to 16 only in the nonlinear H-transferred difference geometry.
-Diffan/Symmetry/ReflectedMacroSchedule.lean proves the generic law
+Difan/Symmetry/ReflectedMacroSchedule.lean proves the generic law
 for arbitrary reflected/repeated permutation blocks.
 The frozen next P0 is new exact **theorems**, not a larger solver.
 
@@ -78,7 +78,7 @@ ONE matching middle base and a FUNCTIONAL middle delta;
 a second theorem eliminates the output label b from
 sum_b D_C((a,0),(0,b)), yielding a 32-bit left-ciphertext
 projection collision count. Generic fiber-square energy
-and output-label elimination are proved in Diffan.
+and output-label elimination are proved in Difan.
 
 **DO NOT PROJECT middle differences onto a zero-half slice.**
 This is NOT compositional: the full-32 one-Sbox toy
@@ -113,20 +113,20 @@ The composition over the SAME full intermediate base and difference is
 This is exact. DDT_f(a,b) is a *terminal contraction* that discards
 the original base; scalar DDT_f and DDT_g are not composable
 without an additional exact factorization theorem. Existing
-Diffan.Algorithms.WeightedKernel, KernelFactorization, LabelJoinDefect,
+Difan.Algorithms.WeightedKernel, KernelFactorization, LabelJoinDefect,
 ChainCount, LocalTransducer and StateDifference cover much
 of the abstract framework. Do not duplicate them.
 
 **New universal geometry theorem:**
-Diffan/Symmetry/ConjugatedDifferenceSpace.lean defines an EXACT
-pullback of ANY Diffan.Core.DifferenceSpace along an equivalence
+Difan/Symmetry/ConjugatedDifferenceSpace.lean defines an EXACT
+pullback of ANY Difan.Core.DifferenceSpace along an equivalence
 e:X~Y and proves the integer DDT conjugation law when the
 difference convention is pulled back on BOTH sides.
 For XOR and a nonlinear change of coordinates, holding
 the original XOR geometry fixed invalidates that shortcut.
 
 **New exact twisted self-Gram operator:**
-Diffan/Observables/TwistedConditionalGram.lean proves for arbitrary
+Difan/Observables/TwistedConditionalGram.lean proves for arbitrary
 finite base-label U, derivative-label D, deterministic response
 t:U->A->D and arbitrary base/difference actions sigma,tau:
 
@@ -165,9 +165,9 @@ permutation P sends (u,lambda) to (Ju,Jlambda).
 This immediately explains the exact D_Q symmetry.
 
 Lean theorems:
- - Magma.DiffanNineReflection.Q_ddt_in_adapted_coordinates
- - Magma.DiffanNineReflection.qDDT_eq_twisted_conditional_gram
- - Magma.DiffanNineReflection.nine_ddt_eq_twisted_four_round_gram
+ - Magma.DifanNineReflection.Q_ddt_in_adapted_coordinates
+ - Magma.DifanNineReflection.qDDT_eq_twisted_conditional_gram
+ - Magma.DifanNineReflection.nine_ddt_eq_twisted_four_round_gram
  - earlier nine_ddt_eq_fourCrossingMass (explicit pair bijection)
  - earlier Q_has_exactly_two_pow_32_fixed_points
 
@@ -396,8 +396,8 @@ more SAT runtime, are the immediate P0.
 
 ## Reproduce
 
-    lake build Diffan.Symmetry.ConjugatedDifferenceSpace
-    lake build Diffan.Observables.TwistedConditionalGram
+    lake build Difan.Symmetry.ConjugatedDifferenceSpace
+    lake build Difan.Observables.TwistedConditionalGram
     lake build Magma.Differential.NinePlus.NineReflection
     lake build Magma
     python3 Magma/Differential/Reflection/Experiments/reflected_four_local_regression.py

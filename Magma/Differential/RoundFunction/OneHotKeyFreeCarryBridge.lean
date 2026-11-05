@@ -19,14 +19,14 @@ ordered one-hot pairs is sufficient: five-round Feistel reversal
 transports the conclusion to all reverse-ordered pairs.
 -/
 
-namespace Magma.DiffanOneHotKeyFreeCarryBridge
+namespace Magma.DifanOneHotKeyFreeCarryBridge
 
 open Magma
 open Magma.CarryAutomaton
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFiveRoundUniversalSupport
-open Magma.DiffanFiveRoundDDTReverse
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFiveRoundUniversalSupport
+open Magma.DifanFiveRoundDDTReverse
 
 private abbrev Word :=
   V 32
@@ -144,4 +144,4 @@ theorem fiveRound_zero_of_no_keyFree_threePath (k₀ k₁ k₂ k₃ k₄ a s : W
         keyFreeCarrySupport_implies_localPath c (xor s a) hc.2.1,
         keyFreeCarrySupport_implies_localPath s c hc.2.2⟩
 
-end Magma.DiffanOneHotKeyFreeCarryBridge
+end Magma.DifanOneHotKeyFreeCarryBridge

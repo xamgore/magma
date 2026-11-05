@@ -23,15 +23,15 @@ The criteria apply to each choice of the second key and the differences
 aL and bR.
 -/
 
-namespace Magma.DiffanEvenUnitOverlapEight
+namespace Magma.DifanEvenUnitOverlapEight
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
 open Magma.ZeroLeftParityCompleteSlice
 open Magma.ZeroLeftEightEntries
-open Magma.DiffanZeroLeftSupportOverlap
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanZeroLeftSupportOverlap
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -183,4 +183,4 @@ theorem even_all_eight_zero_implies_disjoint
     exact ((Nat.ne_of_gt hpair.2) hcol).elim
   · exact Set.empty_subset _
 
-end Magma.DiffanEvenUnitOverlapEight
+end Magma.DifanEvenUnitOverlapEight

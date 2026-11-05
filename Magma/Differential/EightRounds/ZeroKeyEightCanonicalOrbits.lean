@@ -1,7 +1,7 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Symmetry.CanonicalTranslationOrbits
+public import Difan.Symmetry.CanonicalTranslationOrbits
 public import Magma.Differential.EightRounds.ZeroKeyEightTranslationTiling
 
 @[expose] public section
@@ -21,16 +21,16 @@ members of every orbit strictly, even though this rank is not injective on
 all 76 pairs.
 -/
 
-namespace Magma.DiffanZeroKeyEightCanonicalOrbits
+namespace Magma.DifanZeroKeyEightCanonicalOrbits
 
 open Magma
-open Magma.DiffanZeroKeyEightDefectClassification
-open Magma.DiffanZeroKeyEightDefectWeights
-open Magma.DiffanZeroKeyEightDefectSpectrum
-open Magma.DiffanZeroKeyEightOrbitReduction
-open Magma.DiffanZeroKeyEightTranslationTiling
-open Diffan.CanonicalTranslationOrbits
-open Diffan.FiniteTranslationOrbits
+open Magma.DifanZeroKeyEightDefectClassification
+open Magma.DifanZeroKeyEightDefectWeights
+open Magma.DifanZeroKeyEightDefectSpectrum
+open Magma.DifanZeroKeyEightOrbitReduction
+open Magma.DifanZeroKeyEightTranslationTiling
+open Difan.CanonicalTranslationOrbits
+open Difan.FiniteTranslationOrbits
 
 private abbrev Word :=
   V 32
@@ -140,10 +140,10 @@ theorem canonical_pairs_eq_prior : canonicalPairs = orbitRepresentatives := by
   ext p
   change (p ∈ canonicalRepresentatives positiveDefectPairs shifts
         shiftByBool leftRank) ↔
-    p ∈ Diffan.FiniteInvolutionOrbits.representatives
+    p ∈ Difan.FiniteInvolutionOrbits.representatives
       positiveDefectPairs shiftPair leftRank
   rw [mem_canonicalRepresentatives_iff,
-      Diffan.FiniteInvolutionOrbits.mem_representatives_iff,
+      Difan.FiniteInvolutionOrbits.mem_representatives_iff,
       bool_orbit_eq_pair]
   constructor
   · rintro ⟨hp, hmin⟩
@@ -164,7 +164,7 @@ theorem canonical_pairs_eq_prior : canonicalPairs = orbitRepresentatives := by
 theorem reduced_defect_canonical_sum :
     (∑ p ∈ positiveDefectPairs, reducedDefect p.1 p.2) =
       shifts.card * (∑ p ∈ canonicalPairs, reducedDefect p.1 p.2) := by
-  apply Diffan.CanonicalTranslationOrbits.canonical_sum_invariant
+  apply Difan.CanonicalTranslationOrbits.canonical_sum_invariant
     positiveDefectPairs shifts shiftByBool leftRank canonical_pairs_tiling
     (fun p => reducedDefect p.1 p.2)
   intro p hp b hb
@@ -181,4 +181,4 @@ theorem canonical_reduced_defect_total :
   rw [canonical_pairs_eq_prior]
   exact reduced_defect_representatives_total
 
-end Magma.DiffanZeroKeyEightCanonicalOrbits
+end Magma.DifanZeroKeyEightCanonicalOrbits

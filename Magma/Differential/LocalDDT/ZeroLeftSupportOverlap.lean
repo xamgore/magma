@@ -19,13 +19,13 @@ singleton characterizes zero defect, while equality characterizes zero
 defect with a positive differential coefficient.
 -/
 
-namespace Magma.DiffanZeroLeftSupportOverlap
+namespace Magma.DifanZeroLeftSupportOverlap
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanThreeRoundConvolutionDefect
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundConvolutionDefect
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -210,4 +210,4 @@ theorem disjoint_support_gives_zero_defect_and_zero_ddt
     rw [h] at hb
     exact hb
 
-end Magma.DiffanZeroLeftSupportOverlap
+end Magma.DifanZeroLeftSupportOverlap

@@ -27,7 +27,7 @@ Z3 solver's strategy, runtime, SAT/UNSAT result or
 end-to-end Python implementation.
 -/
 
-namespace Magma.DiffanRepeatedKeySolverEncoding
+namespace Magma.DifanRepeatedKeySolverEncoding
 
 open Magma
 
@@ -90,4 +90,4 @@ theorem exact_bidirectional_midpoint_iff
           (post.symm_apply_apply (pre input)).symm
       _ = post.symm output := congrArg post.symm h
 
-end Magma.DiffanRepeatedKeySolverEncoding
+end Magma.DifanRepeatedKeySolverEncoding

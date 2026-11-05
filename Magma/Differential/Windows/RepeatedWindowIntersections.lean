@@ -23,14 +23,14 @@ This is a statement about common master-key restrictions; it does not
 assert statistical independence of different differential characteristics.
 -/
 
-namespace Magma.DiffanRepeatedWindowIntersections
+namespace Magma.DifanRepeatedWindowIntersections
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanDiagonalSupportScheduledWindows
-open Magma.DiffanDiagonalMasterCountReduction
-open Magma.DiffanOuterKeySplitCertificate
-open Magma.DiffanDiagonalMasterKeyClasses
+open Magma.DifanDiagonalSupportScheduledWindows
+open Magma.DifanDiagonalMasterCountReduction
+open Magma.DifanOuterKeySplitCertificate
+open Magma.DifanDiagonalMasterKeyClasses
 
 private abbrev Word :=
   V 32
@@ -254,4 +254,4 @@ theorem repeated_oneHot_joint_card (s : Fin 14) (j t : Fin 32) :
       (fun u => oneHotLocalClass u j) (fun v => oneHotLocalClass v j)
       (fun u => oneHotLocalClass u t) (fun v => oneHotLocalClass v t)
 
-end Magma.DiffanRepeatedWindowIntersections
+end Magma.DifanRepeatedWindowIntersections

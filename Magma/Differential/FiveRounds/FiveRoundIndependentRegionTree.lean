@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FiveRoundTwoRegionJoin
-public import Diffan.Algorithms.PriorityRegionTree
+public import Difan.Algorithms.PriorityRegionTree
 
 @[expose] public section
 
@@ -27,21 +27,21 @@ The tree is semantically exact over ALL bases, on arbitrary internal
 window restrictions, for every master sharing the first five subkeys.
 -/
 
-namespace Magma.DiffanFiveRoundIndependentRegionTree
+namespace Magma.DifanFiveRoundIndependentRegionTree
 
 open Magma
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFiveRoundDualBoundaryGraphJoin
-open Magma.DiffanFiveRoundGraphSyndrome
-open Magma.DiffanFiveRoundNonemptyMaskGain
-open Magma.DiffanFiveRoundPrefixKeyFamily
-open Magma.DiffanFiveRoundBitCubeExactMask
-open Magma.DiffanFiveRoundTwoRegionJoin
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundDualBoundaryGraphJoin
+open Magma.DifanFiveRoundGraphSyndrome
+open Magma.DifanFiveRoundNonemptyMaskGain
+open Magma.DifanFiveRoundPrefixKeyFamily
+open Magma.DifanFiveRoundBitCubeExactMask
+open Magma.DifanFiveRoundTwoRegionJoin
 
 private abbrev Master :=
   V 256
@@ -53,7 +53,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- A six-bit index embeds in positions {0,1,2,3,6,7}, a geometric
 bit-cube predicate independent of the differential syndrome. -/
@@ -213,7 +213,7 @@ theorem wide_base_weight_pos :
 /-- Three priority branches with the SAME observation result type.
 Branch 1 observes zero bits; branch 2 one bit on the old cube;
 branch 3 three bits on the independent 64-base cube. -/
-def stages : List (Diffan.PriorityRegionTree.Branch RoundState Point RoundState) :=
+def stages : List (Difan.PriorityRegionTree.Branch RoundState Point RoundState) :=
   [ ⟨provenBase, maskedDifference emptyMask⟩,
     ⟨otherCube, maskedDifference separatingMask⟩,
     ⟨wideRegion, maskedDifference wideMask⟩ ]
@@ -221,16 +221,16 @@ def stages : List (Diffan.PriorityRegionTree.Branch RoundState Point RoundState)
 /-- Every local branch is semantically certified; no disjointness is
 needed for correctness because branches run in priority order. -/
 theorem stages_certified (K : Master) (h : sameFirstFive K) :
-    Diffan.PriorityRegionTree.Certified stages
+    Difan.PriorityRegionTree.Certified stages
       (reconstructed K chosenInput) (rightReconstructed K chosenOutput) := by
   intro s hs b hb hobs
   have hs' :
       s = (⟨provenBase, maskedDifference emptyMask⟩ :
-          Diffan.PriorityRegionTree.Branch RoundState Point RoundState) ∨
+          Difan.PriorityRegionTree.Branch RoundState Point RoundState) ∨
       s = (⟨otherCube, maskedDifference separatingMask⟩ :
-          Diffan.PriorityRegionTree.Branch RoundState Point RoundState) ∨
+          Difan.PriorityRegionTree.Branch RoundState Point RoundState) ∨
       s = (⟨wideRegion, maskedDifference wideMask⟩ :
-          Diffan.PriorityRegionTree.Branch RoundState Point RoundState) := by
+          Difan.PriorityRegionTree.Branch RoundState Point RoundState) := by
     simpa only [stages, List.mem_cons, List.not_mem_nil, or_false] using hs
   rcases hs' with hs' | hs' | hs'
   · subst s
@@ -257,7 +257,7 @@ def finalGate : RoundState → Prop := fun b => thirdGate b ∧ ¬wideRegion b
 restrictions R, with the full-equality fallback at unmatched bases. -/
 noncomputable def treeCount (K : Master) (R : Point → Prop) : Nat := by
   classical
-  exact Diffan.PriorityRegionTree.mass stages
+  exact Difan.PriorityRegionTree.mass stages
     (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
     (baseWeight K chosenInput chosenOutput R)
 
@@ -271,7 +271,7 @@ theorem tree_exact (K : Master) (h : sameFirstFive K)
         (outputDifference chosenOutput) R) := by
   classical
   unfold treeCount
-  rw [Diffan.PriorityRegionTree.mass_eq_exact_of_certified
+  rw [Difan.PriorityRegionTree.mass_eq_exact_of_certified
     stages (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
     (baseWeight K chosenInput chosenOutput R) (stages_certified K h)]
   exact (five_exact_as_graph_mass K chosenInput chosenOutput R).symm
@@ -280,7 +280,7 @@ theorem tree_exact (K : Master) (h : sameFirstFive K)
 fallback. In particular, the same base is never charged to two branches. -/
 noncomputable def rejectionBudgets (K : Master) (R : Point → Prop) : List Nat := by
   classical
-  exact Diffan.PriorityRegionTree.rejections stages (fun _ => True)
+  exact Difan.PriorityRegionTree.rejections stages (fun _ => True)
     (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
     (baseWeight K chosenInput chosenOutput R)
 
@@ -289,22 +289,22 @@ open scoped Classical in
 full fallback, with no duplicate ownership of any common base. -/
 theorem rejection_budgets_four (K : Master) (R : Point → Prop) :
     rejectionBudgets K R =
-    [ Diffan.PriorityRegionTree.branchRejected firstGate
+    [ Difan.PriorityRegionTree.branchRejected firstGate
         (⟨provenBase, maskedDifference emptyMask⟩ :
-          Diffan.PriorityRegionTree.Branch RoundState Point RoundState)
+          Difan.PriorityRegionTree.Branch RoundState Point RoundState)
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R),
-      Diffan.PriorityRegionTree.branchRejected secondGate
+      Difan.PriorityRegionTree.branchRejected secondGate
         (⟨otherCube, maskedDifference separatingMask⟩ :
-          Diffan.PriorityRegionTree.Branch RoundState Point RoundState)
+          Difan.PriorityRegionTree.Branch RoundState Point RoundState)
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R),
-      Diffan.PriorityRegionTree.branchRejected thirdGate
+      Difan.PriorityRegionTree.branchRejected thirdGate
         (⟨wideRegion, maskedDifference wideMask⟩ :
-          Diffan.PriorityRegionTree.Branch RoundState Point RoundState)
+          Difan.PriorityRegionTree.Branch RoundState Point RoundState)
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R),
-      Diffan.PriorityRegionTree.fallbackRejected finalGate
+      Difan.PriorityRegionTree.fallbackRejected finalGate
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) ] := by
   rfl
@@ -318,11 +318,11 @@ theorem tree_accounting (K : Master) (h : sameFirstFive K)
         (outputDifference chosenOutput) R) +
         (rejectionBudgets K R).sum := by
   classical
-  have hh := Diffan.PriorityRegionTree.coarse_eq_exact_add_rejections
+  have hh := Difan.PriorityRegionTree.coarse_eq_exact_add_rejections
     stages (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
     (baseWeight K chosenInput chosenOutput R) (stages_certified K h)
   change (∑ b : RoundState, baseWeight K chosenInput chosenOutput R b) =
-      Diffan.ObservedGraphJoin.exactMass (reconstructed K chosenInput)
+      Difan.ObservedGraphJoin.exactMass (reconstructed K chosenInput)
         (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) +
       (rejectionBudgets K R).sum at hh
@@ -341,22 +341,22 @@ theorem tree_accounting_four (K : Master) (h : sameFirstFive K)
     (∑ b : RoundState, baseWeight K chosenInput chosenOutput R b) =
       Fintype.card (FiveRestricted K (inputDifference chosenInput)
         (outputDifference chosenOutput) R) +
-      Diffan.PriorityRegionTree.branchRejected firstGate
+      Difan.PriorityRegionTree.branchRejected firstGate
         (⟨provenBase, maskedDifference emptyMask⟩ :
-          Diffan.PriorityRegionTree.Branch RoundState Point RoundState)
+          Difan.PriorityRegionTree.Branch RoundState Point RoundState)
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) +
-      Diffan.PriorityRegionTree.branchRejected secondGate
+      Difan.PriorityRegionTree.branchRejected secondGate
         (⟨otherCube, maskedDifference separatingMask⟩ :
-          Diffan.PriorityRegionTree.Branch RoundState Point RoundState)
+          Difan.PriorityRegionTree.Branch RoundState Point RoundState)
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) +
-      Diffan.PriorityRegionTree.branchRejected thirdGate
+      Difan.PriorityRegionTree.branchRejected thirdGate
         (⟨wideRegion, maskedDifference wideMask⟩ :
-          Diffan.PriorityRegionTree.Branch RoundState Point RoundState)
+          Difan.PriorityRegionTree.Branch RoundState Point RoundState)
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) +
-      Diffan.PriorityRegionTree.fallbackRejected finalGate
+      Difan.PriorityRegionTree.fallbackRejected finalGate
         (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) := by
   classical
@@ -368,17 +368,17 @@ open scoped Classical in
 /-- A positively weighted candidate is REJECTED by the third (new)
 region, and is not owned by either of the two preceding regions. -/
 theorem third_branch_gain_positive (K : Master) (h : sameFirstFive K) :
-    0 < Diffan.PriorityRegionTree.branchRejected
+    0 < Difan.PriorityRegionTree.branchRejected
       thirdGate
       (⟨wideRegion, maskedDifference wideMask⟩ :
-        Diffan.PriorityRegionTree.Branch RoundState Point RoundState)
+        Difan.PriorityRegionTree.Branch RoundState Point RoundState)
       (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
       (baseWeight K chosenInput chosenOutput unrestricted) := by
   classical
-  apply Diffan.PriorityRegionTree.branch_rejected_pos_of_witness
+  apply Difan.PriorityRegionTree.branch_rejected_pos_of_witness
     thirdGate
     (⟨wideRegion, maskedDifference wideMask⟩ :
-      Diffan.PriorityRegionTree.Branch RoundState Point RoundState)
+      Difan.PriorityRegionTree.Branch RoundState Point RoundState)
     (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
     (baseWeight K chosenInput chosenOutput unrestricted) (wideBase 0)
   · rw [baseWeight_eq K h chosenInput chosenOutput unrestricted (wideBase 0)]
@@ -403,14 +403,14 @@ open scoped Classical in
 real positive-weight rejection while a true five-round path survives. -/
 theorem three_stage_nonempty_gain (K : Master) (h : sameFirstFive K) :
     0 < treeCount K unrestricted ∧
-    0 < Diffan.TwoRegionCertifiedJoin.secondRejected provenBase otherCube
+    0 < Difan.TwoRegionCertifiedJoin.secondRejected provenBase otherCube
       (maskedDifference separatingMask)
       (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
       (baseWeight K chosenInput chosenOutput unrestricted) ∧
-    0 < Diffan.PriorityRegionTree.branchRejected
+    0 < Difan.PriorityRegionTree.branchRejected
       thirdGate
       (⟨wideRegion, maskedDifference wideMask⟩ :
-        Diffan.PriorityRegionTree.Branch RoundState Point RoundState)
+        Difan.PriorityRegionTree.Branch RoundState Point RoundState)
       (reconstructed K chosenInput) (rightReconstructed K chosenOutput)
       (baseWeight K chosenInput chosenOutput unrestricted) := by
   constructor
@@ -422,4 +422,4 @@ theorem three_stage_nonempty_gain (K : Master) (h : sameFirstFive K) :
   · exact second_stage_rejection_positive K h
   · exact third_branch_gain_positive K h
 
-end Magma.DiffanFiveRoundIndependentRegionTree
+end Magma.DifanFiveRoundIndependentRegionTree

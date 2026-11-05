@@ -25,10 +25,10 @@ This is an obstruction to *pointwise* uniform transport of state differences,
 not an obstruction to the previously proved *marginal DDT* symmetries.
 -/
 
-namespace Magma.DiffanAllKeyFeistelCorrection
+namespace Magma.DifanAllKeyFeistelCorrection
 
 open Magma Magma.Internal Magma.GProperties
-open Magma.DiffanFeistelDeltaPropagation
+open Magma.DifanFeistelDeltaPropagation
 
 private abbrev Word :=
   V 32
@@ -37,7 +37,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 private def obs (b : Word) : V 4 :=
   nibble (b.rotateRight 11) (3 : Fin 8)
@@ -155,4 +155,4 @@ theorem shift6000_correction_has_distinct_values (k : Word) :
         secondCorrection k (0x00006000#32) q :=
   ⟨mid0, mid1000, second_correction_witnesses_distinct k⟩
 
-end Magma.DiffanAllKeyFeistelCorrection
+end Magma.DifanAllKeyFeistelCorrection

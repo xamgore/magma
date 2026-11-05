@@ -27,13 +27,13 @@ constraint with this property has been found.
 
 -/
 
-namespace Magma.DiffanScheduledCorrectionPartnerFibers
+namespace Magma.DifanScheduledCorrectionPartnerFibers
 
 open Magma
-open Magma.DiffanFeistelDeltaPropagation
-open Magma.DiffanScheduledCorrectionReachability
-open Magma.DiffanScheduledCorrectionHomogeneity
-open Magma.DiffanScheduledMeet
+open Magma.DifanFeistelDeltaPropagation
+open Magma.DifanScheduledCorrectionReachability
+open Magma.DifanScheduledCorrectionHomogeneity
+open Magma.DifanScheduledMeet
 
 private abbrev Word :=
   V 32
@@ -42,7 +42,7 @@ private abbrev Master :=
   V 256
 
 private abbrev Point :=
-  Diffan.StateDifference (Word × Word) (Word × Word)
+  Difan.StateDifference (Word × Word) (Word × Word)
 
 /-- An XOR derivative has the same value at x and x XOR t.
     The key and the function g are completely unrestricted here. -/
@@ -254,4 +254,4 @@ theorem paired_endpoint_other_slice_zero
   rw [hfilter]
   rfl
 
-end Magma.DiffanScheduledCorrectionPartnerFibers
+end Magma.DifanScheduledCorrectionPartnerFibers

@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FiveRoundTwoBaseExactMask
-public import Diffan.Fibers.IndexedSupportExactness
+public import Difan.Fibers.IndexedSupportExactness
 
 @[expose] public section
 
@@ -28,22 +28,22 @@ The predicate is imposed on the ACTUAL p₂ state of the left window; it
 never inspects the reconstructed graph equality or its syndrome.
 -/
 
-namespace Magma.DiffanFiveRoundBitCubeExactMask
+namespace Magma.DifanFiveRoundBitCubeExactMask
 
 open Magma
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFourRoundForcedMiddleDifference
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFiveRoundDualBoundaryGraphJoin
-open Magma.DiffanFiveRoundGraphSyndrome
-open Magma.DiffanFiveRoundGraphMaskRefinement
-open Magma.DiffanFiveRoundNonemptyMaskGain
-open Magma.DiffanFiveRoundPrefixKeyFamily
-open Magma.DiffanFiveRoundTwoBaseExactMask
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFourRoundForcedMiddleDifference
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundDualBoundaryGraphJoin
+open Magma.DifanFiveRoundGraphSyndrome
+open Magma.DifanFiveRoundGraphMaskRefinement
+open Magma.DifanFiveRoundNonemptyMaskGain
+open Magma.DifanFiveRoundPrefixKeyFamily
+open Magma.DifanFiveRoundTwoBaseExactMask
 
 private abbrev Word :=
   V 32
@@ -55,7 +55,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Embed the four bits of a 4-bit index in positions 0,3,8,14 of a
 32-bit base word. These positions are fixed independently of the graph
@@ -164,12 +164,12 @@ theorem cube_one_bit_exact :
       (inputDifference chosenInput) (outputDifference chosenOutput)
       cubeSecondSelected) := by
   classical
-  change Diffan.ObservedGraphJoin.observedMass
+  change Difan.ObservedGraphJoin.observedMass
     (maskedDifference separatingMask)
     (reconstructed chosenMaster chosenInput)
     (rightReconstructed chosenMaster chosenOutput)
     (baseWeight chosenMaster chosenInput chosenOutput cubeSecondSelected) = _
-  rw [Diffan.IndexedSupportExactness.observed_exact_of_indexed_support
+  rw [Difan.IndexedSupportExactness.observed_exact_of_indexed_support
     (maskedDifference separatingMask)
     (reconstructed chosenMaster chosenInput)
     (rightReconstructed chosenMaster chosenOutput)
@@ -230,7 +230,7 @@ theorem cube_gain_positive :
     0 < newlyRejectedMaskMass chosenMaster chosenInput chosenOutput
       cubeSecondSelected emptyMask separatingMask := by
   classical
-  exact Diffan.ObservedGraphRefinement.gained_pos_of_witness
+  exact Difan.ObservedGraphRefinement.gained_pos_of_witness
     (maskedDifference emptyMask) (maskedDifference separatingMask)
     (reconstructed chosenMaster chosenInput)
     (rightReconstructed chosenMaster chosenOutput)
@@ -318,4 +318,4 @@ theorem cube_zero_bit_hidden_positive_for_family
   rw [hx.2.2.1] at hd
   omega
 
-end Magma.DiffanFiveRoundBitCubeExactMask
+end Magma.DifanFiveRoundBitCubeExactMask

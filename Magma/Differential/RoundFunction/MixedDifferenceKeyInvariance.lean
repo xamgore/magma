@@ -25,7 +25,7 @@ not pointwise base-conditioned fibers (which still depend
 on k), and NOT the 32-round native Magma DDT.
 -/
 
-namespace Magma.DiffanMixedDifferenceKeyInvariance
+namespace Magma.DifanMixedDifferenceKeyInvariance
 
 open Magma
 
@@ -186,4 +186,4 @@ theorem modModDDT_all_keys_same
       exact sub_add_cancel p.1 key
   }
 
-end Magma.DiffanMixedDifferenceKeyInvariance
+end Magma.DifanMixedDifferenceKeyInvariance

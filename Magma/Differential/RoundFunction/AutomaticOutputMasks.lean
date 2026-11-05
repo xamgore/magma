@@ -17,7 +17,7 @@ below proves that the structurally obtained mask really is optimal.
 
 -/
 
-namespace Magma.DiffanAutomaticOutputMasks
+namespace Magma.DifanAutomaticOutputMasks
 
 open Magma Magma.Internal Magma.GProperties
 
@@ -604,4 +604,4 @@ theorem mask_6000_complete (m : Word) :
       bv_decide
     exact restrict_mask _ _ _ _ h hsub
 
-end Magma.DiffanAutomaticOutputMasks
+end Magma.DifanAutomaticOutputMasks

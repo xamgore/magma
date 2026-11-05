@@ -1,9 +1,9 @@
 module
-public import Diffan.Composition.ExactBaseJoin
-public import Diffan.Observables.SlicedCollisionEnergy
+public import Difan.Composition.ExactBaseJoin
+public import Difan.Observables.SlicedCollisionEnergy
 public import Magma.Differential.FullCipher.FullScheduleXorSymmetries
 import all Init.Data.Range.Basic
-import Magma.Differential.Bridges.DiffanRoundDDTBridge
+import Magma.Differential.Bridges.DifanRoundDDTBridge
 
 set_option maxRecDepth 2048
 set_option maxHeartbeats 1000000
@@ -35,11 +35,11 @@ does not claim that evaluating the 2^64-base sum is
 efficient without a proven compression.
 -/
 
-namespace Magma.DiffanFull32SlicedJoin
+namespace Magma.DifanFull32SlicedJoin
 
 open Magma Magma.Internal Magma.MultiRoundDDT
-open Magma.DiffanFullScheduleConjugacy
-open Magma.DiffanFullScheduleXorSymmetries
+open Magma.DifanFullScheduleConjugacy
+open Magma.DifanFullScheduleXorSymmetries
 
 private abbrev W := V 32
 private abbrev S := FeistelState
@@ -55,13 +55,13 @@ to keep zero-half endpoint slices as first-class objects.
 It is NOT stable under a second generic Feistel round. -/
 theorem one_round_half_zero_free
     (k a : W) (x : S) :
-    Diffan.derivative pairXor pairXor (G k)
+    Difan.derivative pairXor pairXor (G k)
       (a,0#32) x = (0#32,a) := by
-  change Diffan.derivative
-      Magma.DiffanReverseRound.roundXor
-      Magma.DiffanReverseRound.roundXor (G k)
+  change Difan.derivative
+      Magma.DifanReverseRound.roundXor
+      Magma.DifanReverseRound.roundXor (G k)
       (a,0#32) x = (0#32,a)
-  rw [Magma.DiffanRoundDDTBridge.derivative_G_eq_feistel]
+  rw [Magma.DifanRoundDDTBridge.derivative_G_eq_feistel]
   rw [Magma.FeistelDDT.feistelXorDiff_eq]
   rcases x with ⟨l,r⟩
   change (0#32, (g k (r ^^^ 0#32) ^^^ g k r) ^^^ a) =
@@ -85,11 +85,11 @@ the whole C32 DDT exactly equals ONE state-conditioned
 join of the 16-round forward and reflected blocks. -/
 theorem c32_ddt_eq_base_join
     (keys : Fin 8 → W) (alpha beta : S) :
-    Diffan.ddt pairXor pairXor (C keys) alpha beta =
-      Diffan.ExactBaseJoin.count pairXor
+    Difan.ddt pairXor pairXor (C keys) alpha beta =
+      Difan.ExactBaseJoin.count pairXor
         (forward16 keys) (Q16 keys) alpha beta := by
   rw [native_32_eq_two_middles]
-  exact Diffan.ExactBaseJoin.ddt_comp_eq_exactBaseJoin
+  exact Difan.ExactBaseJoin.ddt_comp_eq_exactBaseJoin
     pairXor (forward16 keys) (Q16 keys) alpha beta
 
 /-- The first *genuine aggregation* of the user's slice:
@@ -102,26 +102,26 @@ including all 32 true RFC rounds with a fixed key.
 It is not an equality of scalar DDT PRODUCTS. -/
 theorem sum_halfzero_output_label_eliminates
     (f : S → S) (a : W) :
-    (∑ b : W, Diffan.ddt pairXor pairXor f
+    (∑ b : W, Difan.ddt pairXor pairXor f
       (a,0#32) (0#32,b)) =
       Fintype.card {x : S //
-        (Diffan.derivative pairXor pairXor f
+        (Difan.derivative pairXor pairXor f
           (a,0#32) x).1 = 0#32} := by
   classical
   calc
-    (∑ b : W, Diffan.ddt pairXor pairXor f
+    (∑ b : W, Difan.ddt pairXor pairXor f
       (a,0#32) (0#32,b)) =
         ∑ b : W, Fintype.card {x : S //
-          Diffan.derivative pairXor pairXor f
+          Difan.derivative pairXor pairXor f
             (a,0#32) x = (0#32,b)} := by
       apply Finset.sum_congr rfl
       intro b _
-      simp only [Diffan.ddt, Fintype.card_subtype]
+      simp only [Difan.ddt, Fintype.card_subtype]
     _ = Fintype.card {x : S //
-        (Diffan.derivative pairXor pairXor f
+        (Difan.derivative pairXor pairXor f
           (a,0#32) x).1 = 0#32} :=
-      Diffan.SlicedCollisionEnergy.sum_output_label_eliminates
-        (fun x : S => Diffan.derivative pairXor pairXor f
+      Difan.SlicedCollisionEnergy.sum_output_label_eliminates
+        (fun x : S => Difan.derivative pairXor pairXor f
           (a,0#32) x) (0#32)
 
 /-- The remaining condition has NO differential output word:
@@ -129,7 +129,7 @@ it asks whether a 32-bit left-output projection collides
 when input LEFT is XOR-shifted and input RIGHT is held fixed. -/
 theorem projected_left_collision_iff
     (f : S → S) (a : W) (x : S) :
-    (Diffan.derivative pairXor pairXor f
+    (Difan.derivative pairXor pairXor f
       (a,0#32) x).1 = 0#32 ↔
       (f x).1 = (f (x.1 ^^^ a, x.2)).1 := by
   have hz : Magma.xor x.2 (0#32) = x.2 := by
@@ -152,7 +152,7 @@ requires an efficient way to count these 32-bit collisions;
 the theorem alone does not give a sub-2^64 algorithm. -/
 theorem rfc_full32_halfzero_aggregated
     (K : V 256) (a : W) :
-    (∑ b : W, Diffan.ddt pairXor pairXor
+    (∑ b : W, Difan.ddt pairXor pairXor
       (fun p : S => split 32 32 (encrypt K (pack p)))
       (a,0#32) (0#32,b)) =
       Fintype.card {x : S //
@@ -180,9 +180,9 @@ theorem rfc_full32_halfzero_aggregated
 and b arbitrary actual 32-bit XOR differences. -/
 theorem c32_half_zero_slice
     (keys : Fin 8 → W) (a b : W) :
-    Diffan.ddt pairXor pairXor (C keys)
+    Difan.ddt pairXor pairXor (C keys)
       (a,0#32) (0#32,b) =
-    Diffan.ExactBaseJoin.count pairXor
+    Difan.ExactBaseJoin.count pairXor
       (forward16 keys) (Q16 keys) (a,0#32) (0#32,b) :=
   c32_ddt_eq_base_join keys _ _
 
@@ -191,10 +191,10 @@ schedule, and final GStar(no swap). Not a convenient toy
 of a merely related Feistel function. -/
 theorem rfc_c32_half_zero_slice
     (K : V 256) (a b : W) :
-    Diffan.ddt pairXor pairXor
+    Difan.ddt pairXor pairXor
       (fun p : S => split 32 32 (encrypt K (pack p)))
       (a,0#32) (0#32,b) =
-    Diffan.ExactBaseJoin.count pairXor
+    Difan.ExactBaseJoin.count pairXor
       (forward16 (master8 K)) (Q16 (master8 K))
       (a,0#32) (0#32,b) := by
   have h :
@@ -210,11 +210,11 @@ the ONLY compatible delta there is the functional prefix
 derivative from the same original x. -/
 theorem midpoint_base_and_delta (keys : Fin 8 → W)
     (a : W) (x : S) :
-    Diffan.ExactBaseJoin.intermediateDelta pairXor
+    Difan.ExactBaseJoin.intermediateDelta pairXor
       (forward16 keys) (a,0#32) (forward16 keys x) =
-      Diffan.derivative pairXor pairXor
+      Difan.derivative pairXor pairXor
         (forward16 keys) (a,0#32) x := by
-  simp only [Diffan.ExactBaseJoin.intermediateDelta,
+  simp only [Difan.ExactBaseJoin.intermediateDelta,
     (forward16 keys).symm_apply_apply]
 
 /-- The LEFT-zero OR RIGHT-zero condition on a MIDPOINT
@@ -228,10 +228,10 @@ noncomputable def clippedCount (keys : Fin 8 → W)
   classical
   exact ((Finset.univ : Finset S).filter (fun u =>
     midpointHasZeroHalf
-      (Diffan.ExactBaseJoin.intermediateDelta
+      (Difan.ExactBaseJoin.intermediateDelta
         pairXor (forward16 keys) (a,0#32) u) ∧
-    Diffan.derivative pairXor pairXor (Q16 keys)
-      (Diffan.ExactBaseJoin.intermediateDelta
+    Difan.derivative pairXor pairXor (Q16 keys)
+      (Difan.ExactBaseJoin.intermediateDelta
         pairXor (forward16 keys) (a,0#32) u) u =
         (0#32,b))).card
 
@@ -241,14 +241,14 @@ is key- and difference-dependent, not universally zero. -/
 theorem clippedCount_le_actual (keys : Fin 8 → W)
     (a b : W) :
     clippedCount keys a b ≤
-      Diffan.ddt pairXor pairXor (C keys)
+      Difan.ddt pairXor pairXor (C keys)
         (a,0#32) (0#32,b) := by
   classical
   rw [c32_half_zero_slice]
-  unfold clippedCount Diffan.ExactBaseJoin.count
+  unfold clippedCount Difan.ExactBaseJoin.count
   apply Finset.card_le_card
   intro u hu
   simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hu ⊢
   exact hu.2
 
-end Magma.DiffanFull32SlicedJoin
+end Magma.DifanFull32SlicedJoin

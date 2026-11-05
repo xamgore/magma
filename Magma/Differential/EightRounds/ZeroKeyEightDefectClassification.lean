@@ -29,15 +29,15 @@ These statements concern exact counts of concrete-state fibers, not
 products of independently sampled differential transitions.
 -/
 
-namespace Magma.DiffanZeroKeyEightDefectClassification
+namespace Magma.DifanZeroKeyEightDefectClassification
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanThreeRoundCouplingDefect
-open Magma.DiffanZeroLeftSupportOverlap
-open Magma.DiffanZeroKeyEightColumn
-open Magma.DiffanZeroKeyEightSharpBound
-open Magma.DiffanZeroKeyEightMultiplicity
+open Magma.DifanThreeRoundCouplingDefect
+open Magma.DifanZeroLeftSupportOverlap
+open Magma.DifanZeroKeyEightColumn
+open Magma.DifanZeroKeyEightSharpBound
+open Magma.DifanZeroKeyEightMultiplicity
 
 private abbrev Word :=
   V 32
@@ -217,4 +217,4 @@ theorem positive_and_defect_forces_two_masks
   exact odd_multiple_forces_two_masks k₀ aL hk
     ((odd_multiple_iff k₀ aL hk).mpr ht)
 
-end Magma.DiffanZeroKeyEightDefectClassification
+end Magma.DifanZeroKeyEightDefectClassification

@@ -22,11 +22,11 @@ required to apply the earlier BitVec-based `BlockwiseXorCorrelation`
 interface directly; this file establishes the Magma pointwise certificate.
 -/
 
-namespace Magma.DiffanGCarryFiberTensor
+namespace Magma.DifanGCarryFiberTensor
 
 open Magma
 open Magma.CarryAutomaton
-open Magma.DiffanGCarryHalfSplit
+open Magma.DifanGCarryHalfSplit
 
 private abbrev Word :=
   V 32
@@ -205,4 +205,4 @@ theorem true_g_fiber_tensor_on_two_halves
     exact joinDigits_high lo hi i
   simpa only [hpack, hlo, hhi] using h
 
-end Magma.DiffanGCarryFiberTensor
+end Magma.DifanGCarryFiberTensor

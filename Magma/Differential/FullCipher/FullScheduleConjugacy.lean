@@ -1,6 +1,6 @@
 module
 public import Magma.Differential.NinePlus.NineReflection
-public import Diffan.Symmetry.ReflectedMacroSchedule
+public import Difan.Symmetry.ReflectedMacroSchedule
 import all Init.Data.Range.Basic
 
 set_option maxRecDepth 2048
@@ -31,7 +31,7 @@ DDT of the 16-round map J ∘ H^2, with exact integer counts.
 No 2^64 enumeration and no cryptanalytic independence assumption.
 -/
 
-namespace Magma.DiffanFullScheduleConjugacy
+namespace Magma.DifanFullScheduleConjugacy
 
 open Magma Magma.Internal Magma.MultiRoundDDT
 abbrev W := V 32
@@ -240,45 +240,45 @@ theorem C_eq_conjugated_sixteen (k : Fin 8 → W) :
 /-- The actual RFC macro is the n=2 instance of the
 cipher-independent reflected/repeated schedule law. -/
 theorem C_eq_generic_schedule (k : Fin 8 → W) :
-    C k = Diffan.ReflectedMacroSchedule.fullSchedule (HE k) J 2 := by
+    C k = Difan.ReflectedMacroSchedule.fullSchedule (HE k) J 2 := by
   funext p
   calc
     C k p = (HE k).symm (J (H k (H k (H k p)))) :=
       C_eq_H_inverse_J_H_cubed k p
-    _ = Diffan.ReflectedMacroSchedule.shortConjugated (HE k) J 2 p := by
+    _ = Difan.ReflectedMacroSchedule.shortConjugated (HE k) J 2 p := by
       change (HE k).symm (J (H k (H k (H k p)))) =
         (HE k).symm (J ((HE k) ((HE k) ((HE k) p))))
       simp only [HE_apply]
-    _ = Diffan.ReflectedMacroSchedule.fullSchedule (HE k) J 2 p :=
-      (Diffan.ReflectedMacroSchedule.fullSchedule_eq_short
+    _ = Difan.ReflectedMacroSchedule.fullSchedule (HE k) J 2 p :=
+      (Difan.ReflectedMacroSchedule.fullSchedule_eq_short
         (HE k) J (by intro q; exact Prod.swap_swap q) 2 p).symm
 
-def pairXor : Diffan.DifferenceSpace S S :=
-  Diffan.DifferenceSpace.prod
-    Magma.DiffanBridge.xor32 Magma.DiffanBridge.xor32
+def pairXor : Difan.DifferenceSpace S S :=
+  Difan.DifferenceSpace.prod
+    Magma.DifanBridge.xor32 Magma.DifanBridge.xor32
 
 /-- Key-dependent nonlinear state difference:
 d_H(x,y) := H(y) XOR H(x). This is NOT ordinary XOR on
 the original plaintext/ciphertext halves. -/
-def adaptedXor (k : Fin 8 → W) : Diffan.DifferenceSpace S S :=
-  Diffan.ConjugatedDifferenceSpace.pullback (HE k) pairXor
+def adaptedXor (k : Fin 8 → W) : Difan.DifferenceSpace S S :=
+  Difan.ConjugatedDifferenceSpace.pullback (HE k) pairXor
 
 /-- The entire reflected 16-round second half has a trivial
 DDT only in the NONLINEAR KEY-DEPENDENT H geometry, not
 in ordinary plaintext XOR differences. -/
 theorem reflected16_ddt_in_H_geometry_is_half_swap
     (k : Fin 8 → W) (a b : S) :
-    Diffan.ddt (adaptedXor k) (adaptedXor k) (Q16 k) a b =
+    Difan.ddt (adaptedXor k) (adaptedXor k) (Q16 k) a b =
       if J a = b then Fintype.card S else 0 := by
   rw [Q16_eq_conjugated_swap]
   calc
-    Diffan.ddt (adaptedXor k) (adaptedXor k)
+    Difan.ddt (adaptedXor k) (adaptedXor k)
         ((HE k).symm ∘ J ∘ HE k) a b =
-        Diffan.ddt pairXor pairXor J a b :=
-      Diffan.ConjugatedDifferenceSpace.ddt_conjugate
+        Difan.ddt pairXor pairXor J a b :=
+      Difan.ConjugatedDifferenceSpace.ddt_conjugate
         (HE k) pairXor J a b
     _ = if J a = b then Fintype.card S else 0 :=
-      Magma.DiffanNineReflection.J_ddt_trivial a b
+      Magma.DifanNineReflection.J_ddt_trivial a b
 
 /-- Exact integer DDT REDUCTION: after an 8-round
 KEY-DEPENDENT change in the DIFFERENCE CONVENTION, the
@@ -287,21 +287,21 @@ followed by the half-swap J. This is NOT an ordinary
 XOR-DDT 32-to-16 shortcut. -/
 theorem full32_ddt_in_adapted_geometry_eq_sixteen
     (k : Fin 8 → W) (a b : S) :
-    Diffan.ddt (adaptedXor k) (adaptedXor k) (C k) a b =
-      Diffan.ddt pairXor pairXor
+    Difan.ddt (adaptedXor k) (adaptedXor k) (C k) a b =
+      Difan.ddt pairXor pairXor
         (fun u : S => J (H k (H k u))) a b := by
   rw [C_eq_conjugated_sixteen]
-  exact Diffan.ConjugatedDifferenceSpace.ddt_conjugate
+  exact Difan.ConjugatedDifferenceSpace.ddt_conjugate
     (HE k) pairXor (fun u : S => J (H k (H k u))) a b
 
 /-- The same result expressed directly using the actual RFC
 encrypt API and the RFC master-key schedule, on pair states. -/
 theorem rfc_full32_ddt_in_adapted_geometry_eq_sixteen
     (K : V 256) (a b : S) :
-    Diffan.ddt (adaptedXor (master8 K))
+    Difan.ddt (adaptedXor (master8 K))
         (adaptedXor (master8 K))
         (fun p : S => split 32 32 (encrypt K (pack p))) a b =
-      Diffan.ddt pairXor pairXor
+      Difan.ddt pairXor pairXor
         (fun u : S => J (H (master8 K) (H (master8 K) u)))
         a b := by
   have h : (fun p : S => split 32 32 (encrypt K (pack p))) =
@@ -341,4 +341,4 @@ def full32_fixed_points_equiv (k : Fin 8 → W) :
     apply Subtype.ext
     exact (HE k).apply_symm_apply u.1
 
-end Magma.DiffanFullScheduleConjugacy
+end Magma.DifanFullScheduleConjugacy

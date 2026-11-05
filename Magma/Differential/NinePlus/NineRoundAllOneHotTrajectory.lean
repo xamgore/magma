@@ -35,11 +35,11 @@ public import Magma.Differential.NinePlus.PositiveRows.Row31
 set_option maxRecDepth 8192
 set_option maxHeartbeats 20000000
 @[expose] public section
-namespace Magma.DiffanNineRoundAllOneHotTrajectory
+namespace Magma.DifanNineRoundAllOneHotTrajectory
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundUniversalSupport
-open Magma.DiffanNineRoundPositiveRows
+open Magma.DifanFiveRoundUniversalSupport
+open Magma.DifanNineRoundPositiveRows
 
 /-- All 1,024 concrete nine-round trajectories are checked
     by Lean, with independent RFC master-key witnesses for
@@ -84,4 +84,4 @@ theorem all_oneHot_nine_round_trajectory (i j : Fin 32) :
   · exact row30 j
   · exact row31 j
 
-end Magma.DiffanNineRoundAllOneHotTrajectory
+end Magma.DifanNineRoundAllOneHotTrajectory

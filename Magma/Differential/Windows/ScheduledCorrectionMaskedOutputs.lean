@@ -27,14 +27,14 @@ Every restricted correction coefficient is even, and for each master key
 there are two distinct positive correction fibers.
 -/
 
-namespace Magma.DiffanScheduledCorrectionMaskedOutputs
+namespace Magma.DifanScheduledCorrectionMaskedOutputs
 
 open Magma
-open Magma.DiffanScheduledMeet
-open Magma.DiffanScheduledCorrectionReachability
-open Magma.DiffanScheduledCorrectionHomogeneity
-open Magma.DiffanScheduledCorrectionMaskedInputs
-open Magma.DiffanScheduledCorrectionPartnerFibers
+open Magma.DifanScheduledMeet
+open Magma.DifanScheduledCorrectionReachability
+open Magma.DifanScheduledCorrectionHomogeneity
+open Magma.DifanScheduledCorrectionMaskedInputs
+open Magma.DifanScheduledCorrectionPartnerFibers
 
 private abbrev Word :=
   V 32
@@ -43,7 +43,7 @@ private abbrev Master :=
   V 256
 
 private abbrev Point :=
-  Diffan.StateDifference (Word × Word) (Word × Word)
+  Difan.StateDifference (Word × Word) (Word × Word)
 
 /-- Observe the masked left base of the actual final pair.  Unlike a
     condition on a difference, this is a concrete endpoint-state predicate. -/
@@ -264,4 +264,4 @@ theorem chosen_all_counts_even
     lowerOutputMask L aL d (0x00006000#32) b
     (by decide) chosen_hides_direction_input chosen_hides_direction_output
 
-end Magma.DiffanScheduledCorrectionMaskedOutputs
+end Magma.DifanScheduledCorrectionMaskedOutputs

@@ -21,7 +21,7 @@ zero-left deletion removes *both* boundary rounds of any chain of length
 at least two.
 -/
 
-namespace Magma.DiffanFirstRoundDeletion
+namespace Magma.DifanFirstRoundDeletion
 
 open Magma
 open Magma.MultiRoundDDT
@@ -162,7 +162,7 @@ theorem twoSided_boundary_ddt_eq_inner (n : Nat)
     _ = xorDDT_rounds n
           (fun i : Fin n => keys i.castSucc.succ)
           (0#32, aL) (bR, 0#32) :=
-      Magma.DiffanFourRoundZeroLeftFactorization.zeroLeft_succ_ddt_eq_prefix
+      Magma.DifanFourRoundZeroLeftFactorization.zeroLeft_succ_ddt_eq_prefix
         n (fun j : Fin (n + 1) => keys j.succ) (0#32, aL) bR
 
 /-- The previously proved four-round slice is literally a two-round
@@ -171,17 +171,17 @@ theorem twoSided_boundary_ddt_eq_inner (n : Nat)
 theorem fourRound_eq_twoRound_inner
     (k₀ k₁ k₂ k₃ aL bR : Word) :
     xorDDT_rounds 4
-      (Magma.DiffanFourRoundZeroLeftFactorization.fourRoundKeys
+      (Magma.DifanFourRoundZeroLeftFactorization.fourRoundKeys
         k₀ k₁ k₂ k₃)
       (aL, 0#32) (0#32, bR) =
     xorDDT_rounds 2 (twoRoundKeys k₁ k₂)
       (0#32, aL) (bR, 0#32) := by
   have h := twoSided_boundary_ddt_eq_inner 2
-    (Magma.DiffanFourRoundZeroLeftFactorization.fourRoundKeys
+    (Magma.DifanFourRoundZeroLeftFactorization.fourRoundKeys
       k₀ k₁ k₂ k₃) aL bR
   have hkeys :
       (fun i : Fin 2 =>
-        Magma.DiffanFourRoundZeroLeftFactorization.fourRoundKeys
+        Magma.DifanFourRoundZeroLeftFactorization.fourRoundKeys
           k₀ k₁ k₂ k₃ i.castSucc.succ) =
         twoRoundKeys k₁ k₂ := by
     funext i
@@ -189,4 +189,4 @@ theorem fourRound_eq_twoRound_inner
   rw [hkeys] at h
   exact h
 
-end Magma.DiffanFirstRoundDeletion
+end Magma.DifanFirstRoundDeletion

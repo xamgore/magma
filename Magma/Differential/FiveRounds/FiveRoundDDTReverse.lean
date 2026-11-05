@@ -13,11 +13,11 @@ This gives a base-state correspondence for five-round differences
 without assuming anything about S-boxes or independent round keys.
 -/
 
-namespace Magma.DiffanFiveRoundDDTReverse
+namespace Magma.DifanFiveRoundDDTReverse
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
+open Magma.DifanFiveRoundCoreDefect
 
 private abbrev Word :=
   V 32
@@ -175,4 +175,4 @@ theorem outer_ddt_reverse
         (σ, 0#32) (0#32, α) :=
   fiveRound_ddt_reverse k₀ k₁ k₂ k₃ k₄ (α, 0#32) (0#32, σ)
 
-end Magma.DiffanFiveRoundDDTReverse
+end Magma.DifanFiveRoundDDTReverse

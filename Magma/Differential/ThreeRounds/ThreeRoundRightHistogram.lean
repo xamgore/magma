@@ -20,13 +20,13 @@ The bL = 0 specialization simplifies to the previously proved one-term
 factorization; for nonzero bL the histogram retains the third-key coupling.
 -/
 
-namespace Magma.DiffanThreeRoundRightHistogram
+namespace Magma.DifanThreeRoundRightHistogram
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanThreeRoundCouplingDefect
-open Magma.DiffanThreeRoundConvolutionDefect
+open Magma.DifanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundConvolutionDefect
 
 private abbrev Word :=
   V 32
@@ -65,7 +65,7 @@ private theorem mem_middleCandidates_iff
     p ∈ middleCandidates k₀ k₁ aL aR bL ↔
       middleCondition k₀ k₁ aL aR bL p := by
   classical
-  unfold middleCandidates Diffan.FiberDefect.candidates
+  unfold middleCandidates Difan.FiberDefect.candidates
   simp only [Finset.mem_filter, Finset.mem_univ, true_and]
 
 seal rightOutput middleCondition threeRoundCoupled middleCandidates
@@ -98,7 +98,7 @@ theorem defect_eq_rightOutput_ne_fiber
       ((middleCandidates k₀ k₁ aL aR bL).filter
         (fun p => rightOutput k₀ k₁ k₂ aL aR bL p ≠ bR)).card := by
   classical
-  unfold couplingDefect Diffan.FiberDefect.rejected
+  unfold couplingDefect Difan.FiberDefect.rejected
   apply congrArg Finset.card
   ext p
   change
@@ -224,4 +224,4 @@ theorem rightOutput_mass_independent_third_key
   rw [rightOutput_mass_eq_convolution,
     rightOutput_mass_eq_convolution]
 
-end Magma.DiffanThreeRoundRightHistogram
+end Magma.DifanThreeRoundRightHistogram

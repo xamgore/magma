@@ -25,7 +25,7 @@ namespace Magma.NinePlus
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundUniversalSupport
+open Magma.DifanFiveRoundUniversalSupport
 
 private abbrev Word := V 32
 private abbrev State := FeistelState

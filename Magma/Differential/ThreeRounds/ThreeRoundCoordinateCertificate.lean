@@ -1,7 +1,7 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Core.CoordinateSeparation
+public import Difan.Core.CoordinateSeparation
 public import Magma.Differential.Core.MultiRoundDDT
 
 @[expose] public section
@@ -16,7 +16,7 @@ each depending on one 32-bit coordinate. Their product describes every
 64-bit witness exactly and yields the fixed-key DDT factorization.
 -/
 
-namespace Magma.DiffanThreeRoundCoordinateCertificate
+namespace Magma.DifanThreeRoundCoordinateCertificate
 
 open Magma
 open Magma.MultiRoundDDT
@@ -67,7 +67,7 @@ def zeroLeft_fiberEquiv (k₀ k₁ k₂ aL aR bR : Word) :
         start (aL, aR) = (0#32, bR)} ≃
       {R : Word // firstFiber k₀ aL aR bR R} ×
       {Z : Word // secondFiber k₁ aR bR Z} :=
-  Diffan.CoordinateSeparation.fiberEquiv
+  Difan.CoordinateSeparation.fiberEquiv
     (twoRoundCoordinates k₀)
     (fun start => multiRoundDelta 3 (threeRoundKeys k₀ k₁ k₂)
       start (aL, aR) = (0#32, bR))
@@ -145,4 +145,4 @@ theorem threeRound_factorization_via_coordinates
     _ = _ := by
       rw [firstFiber_card, secondFiber_card]
 
-end Magma.DiffanThreeRoundCoordinateCertificate
+end Magma.DifanThreeRoundCoordinateCertificate

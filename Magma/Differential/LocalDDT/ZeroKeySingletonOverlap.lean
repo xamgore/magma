@@ -20,15 +20,15 @@ at this intermediate difference. Its coupling defect is zero at the
 corresponding output and 2^58 at every other output, for any third key.
 -/
 
-namespace Magma.DiffanZeroKeySingletonOverlap
+namespace Magma.DifanZeroKeySingletonOverlap
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.ZeroLeftSupport
 open Magma.ZeroLeft64Exact
 open Magma.ZeroLeft64Completeness
-open Magma.DiffanZeroLeftSupportOverlap
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanZeroLeftSupportOverlap
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -211,4 +211,4 @@ theorem concrete_offDiagonal_defect (k₂ : Word) :
   have hne : (0x00400000#32) ≠ (0x00300000#32) := by decide
   simpa only [hne, ite_false] using h
 
-end Magma.DiffanZeroKeySingletonOverlap
+end Magma.DifanZeroKeySingletonOverlap

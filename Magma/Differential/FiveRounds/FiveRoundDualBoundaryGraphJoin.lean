@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FiveRoundOffGraphMass
-public import Diffan.Fibers.TwoGraphJoinMass
+public import Difan.Fibers.TwoGraphJoinMass
 
 @[expose] public section
 
@@ -19,17 +19,17 @@ full points agree. The coarse base-only join adds precisely the bases
 where they disagree. All five keys come from one Magma master key.
 -/
 
-namespace Magma.DiffanFiveRoundDualBoundaryGraphJoin
+namespace Magma.DifanFiveRoundDualBoundaryGraphJoin
 
 open Magma
-open Magma.DiffanFourRoundForcedMiddleDifference
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFiveRoundOffGraphMass
+open Magma.DifanFourRoundForcedMiddleDifference
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundOffGraphMass
 
 private abbrev Word :=
   V 32
@@ -41,7 +41,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Recover the input XOR difference of a single ordinary G round from
 its input *base* and its output difference. -/
@@ -201,7 +201,7 @@ theorem five_fixed_boundaries_exact_matching_graphs
         else 0 := by
   classical
   calc
-    _ = Diffan.LabelJoinDefect.exactMass
+    _ = Difan.LabelJoinDefect.exactMass
         (leftWeight master (inputDifference a) R)
         (rightWeight master (outputDifference outDelta)) := by
       calc
@@ -211,7 +211,7 @@ theorem five_fixed_boundaries_exact_matching_graphs
           five_count_eq_conditional_mass master
             (inputDifference a) (outputDifference outDelta) R
         _ = _ := rfl
-    _ = _ := Diffan.TwoGraphJoinMass.exact_eq_sum_matching_graphs
+    _ = _ := Difan.TwoGraphJoinMass.exact_eq_sum_matching_graphs
       (fun m : Point => m.base)
       (reconstructed master a)
       (rightReconstructed master outDelta)
@@ -226,7 +226,7 @@ open scoped Classical in
 explicit, deterministically reconstructed differences. -/
 theorem five_fixed_boundaries_defect_mismatch
     (master : Master) (a outDelta : RoundState) (R : Point → Prop) :
-    Diffan.LabelJoinDefect.defectMass baseLabel
+    Difan.LabelJoinDefect.defectMass baseLabel
       (leftWeight master (inputDifference a) R)
       (rightWeight master (outputDifference outDelta)) =
       ∑ b : RoundState,
@@ -236,7 +236,7 @@ theorem five_fixed_boundaries_defect_mismatch
             rightWeight master (outputDifference outDelta)
               (rightReconstructed master outDelta b) := by
   classical
-  exact Diffan.TwoGraphJoinMass.defect_eq_sum_mismatched_graphs
+  exact Difan.TwoGraphJoinMass.defect_eq_sum_mismatched_graphs
     (fun m : Point => m.base)
     (reconstructed master a)
     (rightReconstructed master outDelta)
@@ -247,4 +247,4 @@ theorem five_fixed_boundaries_defect_mismatch
     (left_active_graph master a R)
     (right_active_output_graph master outDelta)
 
-end Magma.DiffanFiveRoundDualBoundaryGraphJoin
+end Magma.DifanFiveRoundDualBoundaryGraphJoin

@@ -11,7 +11,7 @@ seven-round key sequence.
 1,908,225 nonzero pairs) are covered by ONE parameterized
 full seven-round DDT equality theorem:
 
-    Magma.DiffanSevenNibbleValuationClasses.seven_round_zero_six_nibble_classes
+    Magma.DifanSevenNibbleValuationClasses.seven_round_zero_six_nibble_classes
 
 in Magma/Differential/SevenRounds/SevenNibbleValuationClasses.lean. The original
 225 high/high cases also have the independent earlier theorem
@@ -163,7 +163,7 @@ with strictly the bare kernel as the trust base.
 
 The new theorem
 
-    Magma.DiffanSevenNibbleValuationClasses.seven_round_zero_six_nibble_classes
+    Magma.DifanSevenNibbleValuationClasses.seven_round_zero_six_nibble_classes
 
 covers ALL SIX classes for ANY seven independently chosen
 round keys. Its proof is the composition of these three
@@ -263,7 +263,7 @@ freeze is unchanged.
 
 For trust-base inspection:
 
-    printf 'import Magma.Differential.SevenRounds.SevenNibbleValuationClasses\n#print axioms Magma.DiffanSevenNibbleValuationClasses.seven_round_zero_six_nibble_classes\n' >/tmp/CheckSeven.lean
+    printf 'import Magma.Differential.SevenRounds.SevenNibbleValuationClasses\n#print axioms Magma.DifanSevenNibbleValuationClasses.seven_round_zero_six_nibble_classes\n' >/tmp/CheckSeven.lean
     lake env lean /tmp/CheckSeven.lean
 
 DO NOT promote relaxed SAT examples to real Feistel

@@ -21,14 +21,14 @@ five-round joined count can be aggregated over 12-bit labels. The right
 window must still be tested at the reconstructed full point.
 -/
 
-namespace Magma.DiffanFixedInputLow12Factor
+namespace Magma.DifanFixedInputLow12Factor
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFixedInputMaskedObservation
-open Magma.DiffanTwoRoundRawOutputMasks
-open Magma.DiffanAutomaticOutputMasks
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFixedInputMaskedObservation
+open Magma.DifanTwoRoundRawOutputMasks
+open Magma.DifanAutomaticOutputMasks
 
 private abbrev Word :=
   V 32
@@ -150,4 +150,4 @@ theorem compressed_observation_noninjective (master : Master)
   · decide
   · rfl
 
-end Magma.DiffanFixedInputLow12Factor
+end Magma.DifanFixedInputLow12Factor

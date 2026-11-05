@@ -8,13 +8,13 @@ set_option maxRecDepth 4096
 
 /-! ## First kernel-checked 1-hot → 4-hot positive differential -/
 
-namespace Magma.DiffanOneHotFourHotPositive
+namespace Magma.DifanOneHotFourHotPositive
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFiveRoundDDTReverse
-open Magma.DiffanSparsePositiveWitnesses
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFiveRoundDDTReverse
+open Magma.DifanSparsePositiveWitnesses
 
 private theorem base_step_0 :
     G (0x00000000#32) (0x9e2641a9#32, 0x3754c03d#32) = (0x3754c03d#32, 0xdfffdf48#32) := by
@@ -117,4 +117,4 @@ theorem positive_fourHot_to_oneHot_reverse :
       (0x00000000#32) (0x00000080#32) (0xc0000820#32)]
   exact positive_oneHot_to_fourHot
 
-end Magma.DiffanOneHotFourHotPositive
+end Magma.DifanOneHotFourHotPositive

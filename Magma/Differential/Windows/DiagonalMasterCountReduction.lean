@@ -19,12 +19,12 @@ refer to distinct source slots, but do not silently assume an unproved
 `BitVec 256 ≃ Word × Word × BitVec 192` compatibility with `roundKey`.
 -/
 
-namespace Magma.DiffanDiagonalMasterCountReduction
+namespace Magma.DifanDiagonalMasterCountReduction
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanDiagonalMasterKeyClasses
-open Magma.DiffanDiagonalSupportScheduledWindows
+open Magma.DifanDiagonalMasterKeyClasses
+open Magma.DifanDiagonalSupportScheduledWindows
 open Magma.OneHotFullKeyClassInvariant
 open Magma.ZeroLeftParityCompleteSlice
 
@@ -195,4 +195,4 @@ theorem oneHot_diagonal_master_count_of_split
     _ = _ := count_two_local_classes_of_split start e h
       (fun u => oneHotLocalClass u j) (fun v => oneHotLocalClass v j)
 
-end Magma.DiffanDiagonalMasterCountReduction
+end Magma.DifanDiagonalMasterCountReduction

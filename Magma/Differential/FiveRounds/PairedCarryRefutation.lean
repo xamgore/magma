@@ -14,16 +14,16 @@ already certified Boolean automaton. A successful refutation implies
 an impossible five-round ordinary Feistel differential for all keys.
 -/
 
-namespace Magma.DiffanPairedCarryRefutation
+namespace Magma.DifanPairedCarryRefutation
 
 open Magma
 open Magma.Internal
 open Magma.CarryAutomaton
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFiveRoundUniversalSupport
-open Magma.DiffanOneHotKeyFreeCarryBridge
-open Magma.DiffanKeyFreeCarryAutomaton
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFiveRoundUniversalSupport
+open Magma.DifanOneHotKeyFreeCarryBridge
+open Magma.DifanKeyFreeCarryAutomaton
 
 private abbrev Word :=
   V 32
@@ -246,7 +246,7 @@ theorem universal_oneHot_of_half_certificate
     have href : refutesTriple (oneHotDifference j)
         (oneHotDifference i) = true := by
       simpa [hji] using hp
-    rw [Magma.DiffanFiveRoundDDTReverse.outer_ddt_reverse]
+    rw [Magma.DifanFiveRoundDDTReverse.outer_ddt_reverse]
     exact refutesTriple_sound _ _ href k₄ k₃ k₂ k₁ k₀
 
-end Magma.DiffanPairedCarryRefutation
+end Magma.DifanPairedCarryRefutation

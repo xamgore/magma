@@ -28,7 +28,7 @@ For a LINEAR XOR projection pi, this is equivalent to
 
 These equivalences are proved for ANY bitvector
 bijection H in
-Diffan/Symmetry/TransportedXorQuotients.lean:
+Difan/Symmetry/TransportedXorQuotients.lean:
   quotientStable_iff_source,
   quotientStable_iff_projected_tau.
 
@@ -202,7 +202,7 @@ although evaluating the counts can still
 be computationally infeasible.
 
 Lean generic certificate:
-  Diffan/Symmetry/ConjugacyCycleInvariants.lean
+  Difan/Symmetry/ConjugacyCycleInvariants.lean
   power_conjugate,
   periodicFiberEquiv,
   periodic_counts_equal.
@@ -291,7 +291,7 @@ STILL OPEN:
   output tau_H interface.
 
 Final build and trust audit (2026-11-04):
-  lake build Diffan Magma PASSED (18,737 jobs).
+  lake build Difan Magma PASSED (18,737 jobs).
   #print axioms on twelve new representative quotient,
   periodic-point, full-width DDT and arbitrary-observable
   correlation theorems shows ZERO native bv_decide axioms,

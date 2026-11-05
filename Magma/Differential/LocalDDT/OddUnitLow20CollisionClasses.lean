@@ -22,16 +22,16 @@ Thus all positive zero-left three-round DDT entries outside those six
 prefixes have zero coupling defect, even when the first key is odd.
 -/
 
-namespace Magma.DiffanOddUnitLow20CollisionClasses
+namespace Magma.DifanOddUnitLow20CollisionClasses
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
 open Magma.OddUnitInput77
 open Magma.ZeroLeftParityCompleteSlice
-open Magma.DiffanZeroLeftSupportOverlap
-open Magma.DiffanUnitColumnLow20AndUniqueEven
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanZeroLeftSupportOverlap
+open Magma.DifanUnitColumnLow20AndUniqueEven
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -297,4 +297,4 @@ theorem odd_zero_of_prefix_not_supported
   intro hp
   exact h (odd_positive_requires_42_prefixes k₀ k₁ k₂ aL bR hk hp)
 
-end Magma.DiffanOddUnitLow20CollisionClasses
+end Magma.DifanOddUnitLow20CollisionClasses

@@ -23,14 +23,14 @@ schedule segment. The conclusions concern the DDTs of these individual
 three-round windows.
 -/
 
-namespace Magma.DiffanScheduledWindowLeftSymmetries
+namespace Magma.DifanScheduledWindowLeftSymmetries
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanThreeRoundLeftTranslationAudit
-open Magma.DiffanDiagonalSupportScheduledWindows
-open Magma.DiffanDiagonalMasterCountReduction
-open Magma.DiffanRepeatedWindowIntersections
+open Magma.DifanThreeRoundLeftTranslationAudit
+open Magma.DifanDiagonalSupportScheduledWindows
+open Magma.DifanDiagonalMasterCountReduction
+open Magma.DifanRepeatedWindowIntersections
 
 private abbrev Word :=
   V 32
@@ -176,4 +176,4 @@ theorem all_windows_actual_shift (K : Master)
   rw [roundKey_eq_source]
   exact heven (sourceSlot ⟨start.val, by omega⟩)
 
-end Magma.DiffanScheduledWindowLeftSymmetries
+end Magma.DifanScheduledWindowLeftSymmetries

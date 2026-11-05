@@ -4,12 +4,12 @@ public import Magma.Differential.RoundFunction.KeyFreeCarryAutomaton
 
 @[expose] public section
 
-namespace Magma.DiffanOneHotCarryConcrete
+namespace Magma.DifanOneHotCarryConcrete
 
 open Magma
-open Magma.DiffanKeyFreeCarryAutomaton
+open Magma.DifanKeyFreeCarryAutomaton
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
+open Magma.DifanFiveRoundCoreDefect
 
 /-- One of three central-carry obstructions for the 8-to-11 one-hot pair. -/
 theorem middle_cannot_8_11_a :
@@ -46,4 +46,4 @@ theorem fiveRound_zero_8_11_of_outer_coverage
   · subst c
     simp only [middle_cannot_8_11_c, Bool.false_eq_true] at hmiddle
 
-end Magma.DiffanOneHotCarryConcrete
+end Magma.DifanOneHotCarryConcrete

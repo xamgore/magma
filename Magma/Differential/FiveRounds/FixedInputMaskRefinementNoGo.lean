@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FixedInputLow12ActiveDefect
-public import Diffan.Fibers.LabelRefinementDefect
+public import Difan.Fibers.LabelRefinementDefect
 import Std.Tactic.BVDecide
 
 @[expose] public section
@@ -20,17 +20,17 @@ The output difference may depend on the master key; no uniform output
 witness across all keys is asserted.
 -/
 
-namespace Magma.DiffanFixedInputMaskRefinementNoGo
+namespace Magma.DifanFixedInputMaskRefinementNoGo
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFixedInputLow12ActiveDefect
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFixedInputLow12ActiveDefect
 
 private abbrev Word :=
   V 32
@@ -42,7 +42,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Keep the entire second base and complete difference, but project the
 first base through `mask`. -/
@@ -96,7 +96,7 @@ are preserved in full. -/
 theorem rich_mask_defect_positive (master : Master) (a : RoundState)
     (mask t : Word) (ht : t ≠ 0#32) (hmask : t &&& mask = 0#32) :
     ∃ b : RoundState,
-      0 < Diffan.LabelJoinDefect.defectMass (richMaskLabel mask)
+      0 < Difan.LabelJoinDefect.defectMass (richMaskLabel mask)
         (leftWeight master (inputDifference a) unrestricted)
         (rightWeight master (outputDifference b)) := by
   classical
@@ -104,11 +104,11 @@ theorem rich_mask_defect_positive (master : Master) (a : RoundState)
     ⟨b, m, n, hc, hne, hL, hR⟩
   refine ⟨b, ?_⟩
   by_contra hnot
-  have hz : Diffan.LabelJoinDefect.defectMass (richMaskLabel mask)
+  have hz : Difan.LabelJoinDefect.defectMass (richMaskLabel mask)
       (leftWeight master (inputDifference a) unrestricted)
       (rightWeight master (outputDifference b)) = 0 := Nat.eq_zero_of_not_pos hnot
   have hterm :=
-    (Diffan.LabelJoinDefect.defect_eq_zero_iff (richMaskLabel mask)
+    (Difan.LabelJoinDefect.defect_eq_zero_iff (richMaskLabel mask)
       (leftWeight master (inputDifference a) unrestricted)
       (rightWeight master (outputDifference b))).mp hz m n hc hne
   have hp : 0 < leftWeight master (inputDifference a) unrestricted m *
@@ -127,7 +127,7 @@ The fixed input difference is arbitrary, including nonzero ones. -/
 theorem every_proper_first_mask_has_defect (master : Master)
     (a : RoundState) (mask : Word) (h : mask ≠ (0xFFFFFFFF#32)) :
     ∃ b : RoundState,
-      0 < Diffan.LabelJoinDefect.defectMass (richMaskLabel mask)
+      0 < Difan.LabelJoinDefect.defectMass (richMaskLabel mask)
         (leftWeight master (inputDifference a) unrestricted)
         (rightWeight master (outputDifference b)) := by
   have ht : (~~~mask) ≠ 0#32 := complement_nonzero_of_proper mask h
@@ -170,10 +170,10 @@ open scoped Classical in
 suitable fixed-output slice, for EVERY master and fixed input difference. -/
 theorem low13_strictly_improves_low12 (master : Master) (a : RoundState) :
     ∃ b : RoundState,
-      Diffan.LabelJoinDefect.defectMass (richMaskLabel (0x00001FFF#32))
+      Difan.LabelJoinDefect.defectMass (richMaskLabel (0x00001FFF#32))
           (leftWeight master (inputDifference a) unrestricted)
           (rightWeight master (outputDifference b)) <
-      Diffan.LabelJoinDefect.defectMass (richMaskLabel (0x00000FFF#32))
+      Difan.LabelJoinDefect.defectMass (richMaskLabel (0x00000FFF#32))
           (leftWeight master (inputDifference a) unrestricted)
           (rightWeight master (outputDifference b)) := by
   classical
@@ -191,7 +191,7 @@ theorem low13_strictly_improves_low12 (master : Master) (a : RoundState) :
   have hR : 0 < rightWeight master (outputDifference b) n :=
     fixed_output_right_pos master n
   refine ⟨b, ?_⟩
-  exact Diffan.LabelRefinementDefect.defect_refinement_strict_of_witness
+  exact Difan.LabelRefinementDefect.defect_refinement_strict_of_witness
     (richMaskLabel (0x00000FFF#32)) (richMaskLabel (0x00001FFF#32))
     low13_refines_low12
     (leftWeight master (inputDifference a) unrestricted)
@@ -202,10 +202,10 @@ open scoped Classical in
 universally sufficient: bit 13 remains omitted. -/
 theorem low13_still_has_active_false_joins (master : Master) (a : RoundState) :
     ∃ b : RoundState,
-      0 < Diffan.LabelJoinDefect.defectMass (richMaskLabel (0x00001FFF#32))
+      0 < Difan.LabelJoinDefect.defectMass (richMaskLabel (0x00001FFF#32))
         (leftWeight master (inputDifference a) unrestricted)
         (rightWeight master (outputDifference b)) := by
   exact rich_mask_defect_positive master a (0x00001FFF#32)
     (0x00002000#32) (by decide) (by decide)
 
-end Magma.DiffanFixedInputMaskRefinementNoGo
+end Magma.DifanFixedInputMaskRefinementNoGo

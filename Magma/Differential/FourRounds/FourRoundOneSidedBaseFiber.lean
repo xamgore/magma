@@ -20,12 +20,12 @@ Unlike the rectangular `(aL, 0) -> (0, bR)` slice, the resulting
 conditions are generally coupled. No independent-DDT product is assumed.
 -/
 
-namespace Magma.DiffanFourRoundOneSidedBaseFiber
+namespace Magma.DifanFourRoundOneSidedBaseFiber
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFourRoundScheduledMiddleFibers
-open Magma.DiffanFourRoundGeneralBoundaryEquations
+open Magma.DifanFourRoundScheduledMiddleFibers
+open Magma.DifanFourRoundGeneralBoundaryEquations
 
 private abbrev Word :=
   V 32
@@ -144,4 +144,4 @@ theorem oneSided_exact_base_count (master : Master)
   classical
   exact Fintype.card_congr (oneSidedJoinedEquiv master aL bL bR)
 
-end Magma.DiffanFourRoundOneSidedBaseFiber
+end Magma.DifanFourRoundOneSidedBaseFiber

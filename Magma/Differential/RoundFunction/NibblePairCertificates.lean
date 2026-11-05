@@ -9,12 +9,12 @@ set_option maxRecDepth 2048
 /-! All 32 incompatible pairs of nibble indices, checked by Lean's
     bit-vector decision procedure, independently of the SAT matrix. -/
 
-namespace Magma.DiffanNibblePairCertificates
+namespace Magma.DifanNibblePairCertificates
 
 open Magma
 open Magma.CarryAutomaton
-open Magma.DiffanFirstActiveNibbleInvariant
-open Magma.DiffanFiveRoundMiddleNibbleFilter
+open Magma.DifanFirstActiveNibbleInvariant
+open Magma.DifanFiveRoundMiddleNibbleFilter
 
 abbrev Word := V 32
 
@@ -1517,9 +1517,9 @@ theorem fiveRound_zero_of_badIndex
     (hm : FirstActiveNibbleAt ((Magma.xor s a).rotateRight 11) j)
     (hb : BadIndex i j) :
     Magma.MultiRoundDDT.xorDDT_rounds 5
-      (Magma.DiffanFiveRoundCoreDefect.fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
+      (Magma.DifanFiveRoundCoreDefect.fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
       (a, 0#32) (0#32, s) = 0 :=
   fiveRound_zero_of_no_compatible_middle k₀ k₁ k₂ k₃ k₄ a s i j
     ha hm (noCompatible_of_badIndex i j hb)
 
-end Magma.DiffanNibblePairCertificates
+end Magma.DifanNibblePairCertificates

@@ -18,11 +18,11 @@ one-sided differential-equation reduction: an arbitrary five-round
 path need not satisfy that reduction in either window.
 -/
 
-namespace Magma.DiffanFiveRoundOverlappingWindows
+namespace Magma.DifanFiveRoundOverlappingWindows
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFourRoundForcedMiddleDifference
+open Magma.DifanFourRoundForcedMiddleDifference
 
 private abbrev Word :=
   V 32
@@ -34,7 +34,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- One real four-step window, with all five full points retained. -/
 structure FourWindow (k₀ k₁ k₂ k₃ : Word) where
@@ -260,4 +260,4 @@ theorem scheduled_restricted_count (master : Master) (P Q R : Point → Prop) :
   classical
   exact Fintype.card_congr (scheduledRestrictedEquiv master P Q R)
 
-end Magma.DiffanFiveRoundOverlappingWindows
+end Magma.DifanFiveRoundOverlappingWindows

@@ -17,10 +17,10 @@ certificate needs only key zero and at most two input bases per direction.
 
 -/
 
-namespace Magma.DiffanHighNibbleOutputMaskCertificates
+namespace Magma.DifanHighNibbleOutputMaskCertificates
 
 open Magma Magma.Internal Magma.GProperties
-open Magma.DiffanAutomaticOutputMasks
+open Magma.DifanAutomaticOutputMasks
 
 private abbrev Word :=
   V 32
@@ -356,4 +356,4 @@ theorem highNibble_universalMask_iff (s m : Word)
   rw [hcomp] at h
   exact h
 
-end Magma.DiffanHighNibbleOutputMaskCertificates
+end Magma.DifanHighNibbleOutputMaskCertificates

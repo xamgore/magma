@@ -21,15 +21,15 @@ These are statements about the actual five ordinary Feistel rounds,
 with one scheduled 256-bit master key.
 -/
 
-namespace Magma.DiffanFiveRoundZeroBoundaryBaseLabel
+namespace Magma.DifanFiveRoundZeroBoundaryBaseLabel
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFourRoundForcedMiddleDifference
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFourRoundForcedMiddleDifference
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
 
 private abbrev Word :=
   V 32
@@ -41,7 +41,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- The trivial difference of the full 64-bit Feistel state. -/
 def zeroDifference : RoundState := ((0#32), (0#32))
@@ -142,7 +142,7 @@ base is enough because every active common point has zero difference.
 Arbitrary middle restrictions R remain in force, as do all scheduled keys. -/
 theorem zero_boundaries_base_exact (master : Master)
     (R : Point → Prop) :
-    Diffan.LabelJoinDefect.coarseMass baseLabel
+    Difan.LabelJoinDefect.coarseMass baseLabel
         (leftWeight master inputZero R)
         (rightWeight master outputZero) =
       Fintype.card (FiveRestricted master inputZero outputZero R) := by
@@ -170,7 +170,7 @@ open scoped Classical in
 still leaves false base-label joins if the right window is unrestricted. -/
 theorem fixed_input_only_base_defect_pos (master : Master)
     (a : RoundState) :
-    0 < Diffan.LabelJoinDefect.defectMass baseLabel
+    0 < Difan.LabelJoinDefect.defectMass baseLabel
       (leftWeight master (inputDifference a) unrestricted)
       (rightWeight master unrestricted) := by
   classical
@@ -188,10 +188,10 @@ theorem fixed_input_only_base_defect_pos (master : Master)
   have hR : 0 < rightWeight master unrestricted n :=
     right_weight_pos master n
   by_contra hn
-  have hz : Diffan.LabelJoinDefect.defectMass baseLabel
+  have hz : Difan.LabelJoinDefect.defectMass baseLabel
       (leftWeight master (inputDifference a) unrestricted)
       (rightWeight master unrestricted) = 0 := Nat.eq_zero_of_not_pos hn
-  have hbad := (Diffan.LabelJoinDefect.defect_eq_zero_iff baseLabel
+  have hbad := (Difan.LabelJoinDefect.defect_eq_zero_iff baseLabel
     (leftWeight master (inputDifference a) unrestricted)
     (rightWeight master unrestricted)).mp hz m n hlabel hne
   have hpositive : 0 <
@@ -206,7 +206,7 @@ theorem fixed_input_only_base_coarse_strict (master : Master)
     (a : RoundState) :
     Fintype.card
       (FiveRestricted master (inputDifference a) unrestricted unrestricted) <
-    Diffan.LabelJoinDefect.coarseMass baseLabel
+    Difan.LabelJoinDefect.coarseMass baseLabel
       (leftWeight master (inputDifference a) unrestricted)
       (rightWeight master unrestricted) := by
   have hmass := five_coarse_eq_real_plus_defect master
@@ -214,4 +214,4 @@ theorem fixed_input_only_base_coarse_strict (master : Master)
   have hdefect := fixed_input_only_base_defect_pos master a
   omega
 
-end Magma.DiffanFiveRoundZeroBoundaryBaseLabel
+end Magma.DifanFiveRoundZeroBoundaryBaseLabel

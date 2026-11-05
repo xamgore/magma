@@ -13,7 +13,7 @@ import sys
 from typing import Iterator
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOTS = ('Diffan', 'Magma')
+PROJECT_ROOTS = ('Difan', 'Magma')
 
 
 def name_parts(name: str) -> list[str]:

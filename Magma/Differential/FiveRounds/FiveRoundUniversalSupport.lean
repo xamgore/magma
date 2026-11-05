@@ -14,11 +14,11 @@ constraints has no common middle difference, the true coupled
 five-round Feistel differential is impossible.
 -/
 
-namespace Magma.DiffanFiveRoundUniversalSupport
+namespace Magma.DifanFiveRoundUniversalSupport
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
+open Magma.DifanFiveRoundCoreDefect
 
 private abbrev Word :=
   V 32
@@ -92,4 +92,4 @@ theorem universal_oneHot_fiveRound_zero_of_jointSupportEmpty
     k₀ k₁ k₂ k₃ k₄ (oneHotDifference i) (oneHotDifference j)
     (hcert i j)
 
-end Magma.DiffanFiveRoundUniversalSupport
+end Magma.DifanFiveRoundUniversalSupport

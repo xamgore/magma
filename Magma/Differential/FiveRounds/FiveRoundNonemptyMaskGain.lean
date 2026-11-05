@@ -16,19 +16,19 @@ The numerical checks involve only constant executions of five ordinary
 Magma rounds and one four-round backwards difference reconstruction.
 -/
 
-namespace Magma.DiffanFiveRoundNonemptyMaskGain
+namespace Magma.DifanFiveRoundNonemptyMaskGain
 
 open Magma
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFiveRoundDualBoundaryGraphJoin
-open Magma.DiffanFiveRoundGraphSyndrome
-open Magma.DiffanFiveRoundGraphMaskRefinement
-open Magma.DiffanFiveRoundConcreteMaskGain
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundDualBoundaryGraphJoin
+open Magma.DifanFiveRoundGraphSyndrome
+open Magma.DifanFiveRoundGraphMaskRefinement
+open Magma.DifanFiveRoundConcreteMaskGain
 
 private abbrev Word :=
   V 32
@@ -40,7 +40,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- A single *explicit* genuine Magma master key. -/
 def chosenMaster : Master := (0#256)
@@ -223,7 +223,7 @@ theorem nonempty_slice_gain_positive :
     0 < newlyRejectedMaskMass chosenMaster chosenInput chosenOutput
       unrestricted emptyMask separatingMask := by
   classical
-  exact Diffan.ObservedGraphRefinement.gained_pos_of_witness
+  exact Difan.ObservedGraphRefinement.gained_pos_of_witness
     (maskedDifference emptyMask) (maskedDifference separatingMask)
     (reconstructed chosenMaster chosenInput)
     (rightReconstructed chosenMaster chosenOutput)
@@ -243,4 +243,4 @@ theorem nonempty_and_strict_gain :
       unrestricted emptyMask separatingMask := by
   exact ⟨actual_five_round_count_positive, nonempty_slice_gain_positive⟩
 
-end Magma.DiffanFiveRoundNonemptyMaskGain
+end Magma.DifanFiveRoundNonemptyMaskGain

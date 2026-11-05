@@ -16,13 +16,13 @@ impossible differential claims; two more follow by Feistel reversal.
 No solver-generated UNSAT results are assumed as axioms.
 -/
 
-namespace Magma.DiffanFiveRoundOuterWeightBound
+namespace Magma.DifanFiveRoundOuterWeightBound
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFiveRoundDDTReverse
-open Magma.DiffanOneHotFourHotPositive
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFiveRoundDDTReverse
+open Magma.DifanOneHotFourHotPositive
 
 private abbrev Word :=
   V 32
@@ -122,4 +122,4 @@ theorem weight_sum_five_attainable :
   · decide +kernel
   · exact positive_oneHot_to_fourHot
 
-end Magma.DiffanFiveRoundOuterWeightBound
+end Magma.DifanFiveRoundOuterWeightBound

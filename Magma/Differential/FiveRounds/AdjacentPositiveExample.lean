@@ -10,12 +10,12 @@ set_option maxRecDepth 4096
     extensions of the OUTER weight-sum bound to both active halves.
     One bit is active in each half at the input and at the output. -/
 
-namespace Magma.DiffanAdjacentPositiveExample
+namespace Magma.DifanAdjacentPositiveExample
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanSparsePositiveWitnesses
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanSparsePositiveWitnesses
 
 private theorem base_step_0 :
     G (0x495958a8#32) (0x0706b966#32, 0x56ae5f4f#32) = (0x56ae5f4f#32, 0xede97424#32) := by
@@ -107,4 +107,4 @@ theorem general_diagonal_ddt_positive :
         (0x00000001#32, 0x00080000#32) (0x00000001#32, 0x00080000#32) :=
   ddt_pos_of_concrete_base _ _ _ _ _ _ _ _ general_diagonal_trajectory
 
-end Magma.DiffanAdjacentPositiveExample
+end Magma.DifanAdjacentPositiveExample

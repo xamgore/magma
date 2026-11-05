@@ -27,17 +27,17 @@ prefix of Feistel rounds. Such a reachability restriction must be intersected
 with the predicates in the existing scheduled meet framework.
 -/
 
-namespace Magma.DiffanCorrectionFiberSlices
+namespace Magma.DifanCorrectionFiberSlices
 
 open Magma
 open Magma.CarryAutomaton
-open Magma.DiffanFeistelDeltaPropagation
+open Magma.DifanFeistelDeltaPropagation
 
 private abbrev Word :=
   V 32
 
 private abbrev Point :=
-  Diffan.StateDifference (Word × Word) (Word × Word)
+  Difan.StateDifference (Word × Word) (Word × Word)
 
 /-- A midpoint with fixed right difference `d` and variable right base `R`.
     Left components are irrelevant to the second-round correction. -/
@@ -128,7 +128,7 @@ theorem shift6000_distinct_on_each_right_difference (k d : Word) :
   have hxor : ((0x00001000#32 : Word) ^^^ (0x00006000#32)) =
       (0x00007000#32 : Word) := by decide
   simpa only [BitVec.zero_xor, hxor] using
-    Magma.DiffanAllKeyFeistelCorrection.shift6000_two_witnesses k
+    Magma.DifanAllKeyFeistelCorrection.shift6000_two_witnesses k
 
 /-- Therefore no value `b` can describe the correction on all midpoints
     with the same right difference `d` (even if the key is fixed). -/
@@ -155,4 +155,4 @@ theorem correction_left_coordinates_irrelevant
     secondCorrection k t (⟨(L, R), (aL, d)⟩ : Point) =
       secondCorrection k t (sampleMid R d) := rfl
 
-end Magma.DiffanCorrectionFiberSlices
+end Magma.DifanCorrectionFiberSlices

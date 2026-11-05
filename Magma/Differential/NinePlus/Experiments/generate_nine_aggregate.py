@@ -27,11 +27,11 @@ lines += [
     "set_option maxRecDepth 8192",
     "set_option maxHeartbeats 20000000",
     "@[expose] public section",
-    "namespace Magma.DiffanNineRoundAllOneHotTrajectory",
+    "namespace Magma.DifanNineRoundAllOneHotTrajectory",
     "open Magma",
     "open Magma.MultiRoundDDT",
-    "open Magma.DiffanFiveRoundUniversalSupport",
-    "open Magma.DiffanNineRoundPositiveRows",
+    "open Magma.DifanFiveRoundUniversalSupport",
+    "open Magma.DifanNineRoundPositiveRows",
     "",
     "/-- All 1,024 concrete nine-round trajectories are checked",
     "    by Lean, with independent RFC master-key witnesses for",
@@ -45,7 +45,7 @@ lines += [
     "  fin_cases i",
 ]
 lines += [f"  · exact row{i:02} j" for i in range(32)]
-lines += ["", "end Magma.DiffanNineRoundAllOneHotTrajectory"]
+lines += ["", "end Magma.DifanNineRoundAllOneHotTrajectory"]
 save(root / "Magma/Differential/NinePlus/NineRoundAllOneHotTrajectory.lean", lines)
 
 lines = [
@@ -54,11 +54,11 @@ lines = [
     "set_option maxRecDepth 8192",
     "set_option maxHeartbeats 20000000",
     "@[expose] public section",
-    "namespace Magma.DiffanNineRoundAllOneHotPositive",
+    "namespace Magma.DifanNineRoundAllOneHotPositive",
     "open Magma",
     "open Magma.MultiRoundDDT",
-    "open Magma.DiffanFiveRoundUniversalSupport",
-    "open Magma.DiffanNineRoundAllOneHotTrajectory",
+    "open Magma.DifanFiveRoundUniversalSupport",
+    "open Magma.DifanNineRoundAllOneHotTrajectory",
     "",
     "private theorem positive_of_real_delta (n : Nat)",
     "    (keys : Fin n → V 32) (a b base : FeistelState)",
@@ -82,6 +82,6 @@ lines = [
     "    all_oneHot_nine_round_trajectory i j",
     "  exact ⟨master, positive_of_real_delta 9 _ _ _ _ hd⟩",
     "",
-    "end Magma.DiffanNineRoundAllOneHotPositive",
+    "end Magma.DifanNineRoundAllOneHotPositive",
 ]
 save(root / "Magma/Differential/NinePlus/NineRoundAllOneHotPositive.lean", lines)

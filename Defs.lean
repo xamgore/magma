@@ -9,7 +9,7 @@ public section
 /-!
 # Project declarations
 
-`lake exe defs` writes authored declarations from the compiled `Diffan` and `Magma`
+`lake exe defs` writes authored declarations from the compiled `Difan` and `Magma`
 modules to `.lake/defs.txt` and the complete source bundle to `.lake/sources.txt`.
 Modules follow Lean's dependency-first import order, also exported by `deps` for
 the source bundle. Within a module, Tarjan components order declarations by all
@@ -27,7 +27,7 @@ namespace Defs
 open Lean Meta
 
 private def isProjectModule (name : Name) : Bool :=
-  (`Diffan).isPrefixOf name || (`Magma).isPrefixOf name
+  (`Difan).isPrefixOf name || (`Magma).isPrefixOf name
 
 private def isLocal (env : Environment) (name : Name) : Bool :=
   (env.getModuleIdxFor? name).any fun idx => isProjectModule env.header.moduleNames[idx]!
@@ -126,7 +126,7 @@ private def printDeclarations (out : IO.FS.Handle) : MetaM Unit := do
       "-- Reading index: definition bodies, theorem statements; module and dependency order.\n"
   for idx in [:env.header.moduleNames.size] do
     let moduleName := env.header.moduleNames[idx]!
-    if moduleName == `Magma || moduleName == `Diffan || !isProjectModule moduleName then
+    if moduleName == `Magma || moduleName == `Difan || !isProjectModule moduleName then
       continue
     let path := String.intercalate "/" (moduleName.components.map Name.toString) ++ ".lean"
     out.putStrLn s!"-- module {moduleName} | {path}\n"
@@ -160,7 +160,7 @@ private def printDeclarations (out : IO.FS.Handle) : MetaM Unit := do
 def run : IO Unit := do
   initSearchPath (← findSysroot)
   unsafe enableInitializersExecution
-  let env ← importModules #[{ module := `Diffan }, { module := `Magma }] {} (loadExts := true)
+  let env ← importModules #[{ module := `Difan }, { module := `Magma }] {} (loadExts := true)
   let options := ({} : Options).setBool `pp.proofs false |>.setBool `pp.piBinderNames true
   IO.FS.createDirAll ".lake"
   IO.FS.withFile ".lake/defs.txt.tmp" .write fun out => do

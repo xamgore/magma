@@ -19,12 +19,12 @@ matching only their differences, or matching arbitrary partial labels,
 is NOT sufficient.
 -/
 
-namespace Magma.DiffanFiveRoundSinglePointOverlap
+namespace Magma.DifanFiveRoundSinglePointOverlap
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFourRoundForcedMiddleDifference
-open Magma.DiffanFiveRoundOverlappingWindows
+open Magma.DifanFourRoundForcedMiddleDifference
+open Magma.DifanFiveRoundOverlappingWindows
 
 private abbrev Word :=
   V 32
@@ -36,7 +36,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Determinism of the three SHARED rounds means that the first common
 complete point determines the entire common portion of both windows. -/
@@ -169,4 +169,4 @@ theorem first_observation_mismatch_excludes
   intro hc
   exact hmismatch (congrArg observe hc.1)
 
-end Magma.DiffanFiveRoundSinglePointOverlap
+end Magma.DifanFiveRoundSinglePointOverlap

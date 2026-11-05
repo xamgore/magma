@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FiveRoundPrefixKeyFamily
-public import Diffan.Fibers.TwoBaseSupportExactness
+public import Difan.Fibers.TwoBaseSupportExactness
 
 @[expose] public section
 
@@ -27,21 +27,21 @@ support-dependent certificate, NOT global one-bit sufficiency on all
 identical first five scheduled round keys.
 -/
 
-namespace Magma.DiffanFiveRoundTwoBaseExactMask
+namespace Magma.DifanFiveRoundTwoBaseExactMask
 
 open Magma
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFourRoundForcedMiddleDifference
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFiveRoundDualBoundaryGraphJoin
-open Magma.DiffanFiveRoundGraphSyndrome
-open Magma.DiffanFiveRoundGraphMaskRefinement
-open Magma.DiffanFiveRoundNonemptyMaskGain
-open Magma.DiffanFiveRoundPrefixKeyFamily
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFourRoundForcedMiddleDifference
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundDualBoundaryGraphJoin
+open Magma.DifanFiveRoundGraphSyndrome
+open Magma.DifanFiveRoundGraphMaskRefinement
+open Magma.DifanFiveRoundNonemptyMaskGain
+open Magma.DifanFiveRoundPrefixKeyFamily
 
 private abbrev Word :=
   V 32
@@ -53,7 +53,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- A genuine predicate on the SECOND point of the left window, not
 an external truncation of a finite sum. Its two allowed base states
@@ -200,12 +200,12 @@ theorem one_bit_exact_selected :
       (inputDifference chosenInput) (outputDifference chosenOutput)
       selectedSecondBase) := by
   classical
-  change Diffan.ObservedGraphJoin.observedMass
+  change Difan.ObservedGraphJoin.observedMass
     (maskedDifference separatingMask)
     (reconstructed chosenMaster chosenInput)
     (rightReconstructed chosenMaster chosenOutput)
     (baseWeight chosenMaster chosenInput chosenOutput selectedSecondBase) = _
-  rw [Diffan.TwoBaseSupportExactness.observed_exact_of_two_base_support
+  rw [Difan.TwoBaseSupportExactness.observed_exact_of_two_base_support
     (maskedDifference separatingMask)
     (reconstructed chosenMaster chosenInput)
     (rightReconstructed chosenMaster chosenOutput)
@@ -233,7 +233,7 @@ theorem selected_gain_positive :
     0 < newlyRejectedMaskMass chosenMaster chosenInput chosenOutput
       selectedSecondBase emptyMask separatingMask := by
   classical
-  exact Diffan.ObservedGraphRefinement.gained_pos_of_witness
+  exact Difan.ObservedGraphRefinement.gained_pos_of_witness
     (maskedDifference emptyMask) (maskedDifference separatingMask)
     (reconstructed chosenMaster chosenInput)
     (rightReconstructed chosenMaster chosenOutput)
@@ -336,4 +336,4 @@ theorem one_bit_strictly_better_for_family
     selectedSecondBase emptyMask separatingMask masks_ordered
   omega
 
-end Magma.DiffanFiveRoundTwoBaseExactMask
+end Magma.DifanFiveRoundTwoBaseExactMask

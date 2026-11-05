@@ -25,15 +25,15 @@ through `Fintype.card_pi`. The earlier two-word and three-word count theorems ar
 cases of this general rule.
 -/
 
-namespace Magma.DiffanArbitraryWindowIntersections
+namespace Magma.DifanArbitraryWindowIntersections
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanDiagonalMasterCountReduction
-open Magma.DiffanRepeatedWindowIntersections
-open Magma.DiffanOuterKeySplitCertificate
-open Magma.DiffanDiagonalMasterKeyClasses
-open Magma.DiffanDiagonalSupportScheduledWindows
+open Magma.DifanDiagonalMasterCountReduction
+open Magma.DifanRepeatedWindowIntersections
+open Magma.DifanOuterKeySplitCertificate
+open Magma.DifanDiagonalMasterKeyClasses
+open Magma.DifanDiagonalSupportScheduledWindows
 
 private abbrev Word :=
   V 32
@@ -250,4 +250,4 @@ theorem arbitrary_oneHot_joint_card (s t : Fin 30) (j u : Fin 32) :
       (fun w => oneHotLocalClass w j) (fun w => oneHotLocalClass w j)
       (fun w => oneHotLocalClass w u) (fun w => oneHotLocalClass w u)
 
-end Magma.DiffanArbitraryWindowIntersections
+end Magma.DifanArbitraryWindowIntersections

@@ -18,7 +18,7 @@ prove that the eight recorded base outputs concatenate to t(Z+k),
 then propagate rot11 into the input of the third carry chain.
 -/
 
-namespace Magma.DiffanGBaseTaggedCarryStep
+namespace Magma.DifanGBaseTaggedCarryStep
 
 open Magma
 open Magma.Internal
@@ -53,4 +53,4 @@ theorem taggedStep_base_digit
       baseSboxDigit i k x incoming := by
   rfl
 
-end Magma.DiffanGBaseTaggedCarryStep
+end Magma.DifanGBaseTaggedCarryStep

@@ -26,13 +26,13 @@ multiplicity is even. The 76 pairs in fact admit a fixed-point-free
 weight-preserving XOR involution, certified on the same finite domain.
 -/
 
-namespace Magma.DiffanZeroKeyEightDefectSpectrum
+namespace Magma.DifanZeroKeyEightDefectSpectrum
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanThreeRoundCouplingDefect
-open Magma.DiffanZeroKeyEightDefectClassification
-open Magma.DiffanZeroKeyEightDefectWeights
+open Magma.DifanThreeRoundCouplingDefect
+open Magma.DifanZeroKeyEightDefectClassification
+open Magma.DifanZeroKeyEightDefectWeights
 
 private abbrev Word :=
   V 32
@@ -254,4 +254,4 @@ theorem odd_actual_selected_total (k₀ k₂ : Word)
     _ = 2 ^ 29 * 500170752 := by
       rw [← Finset.mul_sum, selected_total_exact]
 
-end Magma.DiffanZeroKeyEightDefectSpectrum
+end Magma.DifanZeroKeyEightDefectSpectrum

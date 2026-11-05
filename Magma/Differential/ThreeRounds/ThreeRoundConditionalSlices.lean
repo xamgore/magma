@@ -1,7 +1,7 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Fibers.FiberUniformity
+public import Difan.Fibers.FiberUniformity
 public import Magma.Differential.ThreeRounds.ThreeRoundRightHistogram
 
 @[expose] public section
@@ -17,14 +17,14 @@ precise, separately provable homogeneity condition under which a new
 DDT-style convolution really follows.
 -/
 
-namespace Magma.DiffanThreeRoundConditionalSlices
+namespace Magma.DifanThreeRoundConditionalSlices
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanThreeRoundCouplingDefect
-open Magma.DiffanThreeRoundRightHistogram
-open Magma.DiffanThreeRoundCoordinateCertificate
+open Magma.DifanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundRightHistogram
+open Magma.DifanThreeRoundCoordinateCertificate
 
 private abbrev Word :=
   V 32
@@ -36,7 +36,7 @@ attribute [local instance 2000] Classical.propDecidable
 
 /-- Exact Z-fiber at a fixed R (not a standalone round-function DDT). -/
 noncomputable def conditionalZCount (k₀ k₁ k₂ aL aR bL bR R : Word) : Nat :=
-  Diffan.FiberUniformity.conditionalCount
+  Difan.FiberUniformity.conditionalCount
     (fun R Z => middleCondition k₀ k₁ aL aR bL (R, Z))
     (fun R Z => rightOutput k₀ k₁ k₂ aL aR bL (R, Z) = bR)
     R
@@ -54,7 +54,7 @@ private theorem histogram_as_joint_filter
   classical
   apply congrArg Finset.card
   ext p
-  simp only [middleCandidates, Diffan.FiberDefect.candidates,
+  simp only [middleCandidates, Difan.FiberDefect.candidates,
     Finset.mem_filter, Finset.mem_univ, true_and]
 
 seal Finset.univ middleCondition rightOutput intermediateDifference
@@ -76,7 +76,7 @@ theorem ddt_eq_sum_conditional_slices
   rw [actual_eq_rightOutput_fiber,
     histogram_as_joint_filter]
   simpa only [Prod.eta, conditionalZCount] using
-    (Diffan.FiberUniformity.card_eq_sum_slices
+    (Difan.FiberUniformity.card_eq_sum_slices
     (fun R Z => middleCondition k₀ k₁ aL aR bL (R, Z))
     (fun R Z => rightOutput k₀ k₁ k₂ aL aR bL (R, Z) = bR)
     (intermediateDifference k₀ aL aR))
@@ -121,7 +121,7 @@ theorem conditionalZCount_le_middleDDT
     conditionalZCount k₀ k₁ k₂ aL aR bL bR R ≤
         ((Finset.univ : Finset Word).filter
           (fun Z => middleCondition k₀ k₁ aL aR bL (R, Z))).card := by
-      unfold conditionalZCount Diffan.FiberUniformity.conditionalCount
+      unfold conditionalZCount Difan.FiberUniformity.conditionalCount
       simp only
       apply Finset.card_le_card
       apply Finset.monotone_filter_right
@@ -182,4 +182,4 @@ theorem ddt_eq_weighted_convolution_of_uniform
       ext R
       simp only [Finset.mem_filter, Finset.mem_univ, true_and]
 
-end Magma.DiffanThreeRoundConditionalSlices
+end Magma.DifanThreeRoundConditionalSlices

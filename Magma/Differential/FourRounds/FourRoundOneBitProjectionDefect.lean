@@ -24,14 +24,14 @@ imposed at the middle: this is not a claim that the Magma S-boxes themselves
 produce the defect, nor a nonzero-difference cryptanalytic distinguisher.
 -/
 
-namespace Magma.DiffanFourRoundOneBitProjectionDefect
+namespace Magma.DifanFourRoundOneBitProjectionDefect
 
 open Magma
-open Magma.DiffanReverseRound
-open Magma.DiffanScheduledMeet
-open Magma.DiffanFourRoundScheduledMiddleFibers
-open Magma.DiffanFourRoundMiddleCoordinateKernel
-open Magma.DiffanFourRoundProjectionDefect
+open Magma.DifanReverseRound
+open Magma.DifanScheduledMeet
+open Magma.DifanFourRoundScheduledMiddleFibers
+open Magma.DifanFourRoundMiddleCoordinateKernel
+open Magma.DifanFourRoundProjectionDefect
 
 private abbrev Word :=
   V 32
@@ -43,12 +43,12 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Any state map transports an identically zero XOR difference to zero.
 This is a statement about actual paired inputs, not about DDT marginals. -/
 private theorem transport_zero (f : RoundState → RoundState) (base : RoundState) :
-    (Diffan.StateDifference.transport roundXor roundXor f
+    (Difan.StateDifference.transport roundXor roundXor f
       (⟨base, ((0#32), (0#32))⟩ : Point)).delta =
         ((0#32), (0#32)) := by
   change roundXor.diff (f base)
@@ -67,7 +67,7 @@ private theorem left_symm_zero (master : Master) (base : RoundState) :
     ((left master).symm
       (⟨base, ((0#32), (0#32))⟩ : Point)).delta =
         ((0#32), (0#32)) := by
-  change (Diffan.StateDifference.transport roundXor roundXor
+  change (Difan.StateDifference.transport roundXor roundXor
     (scheduledRounds master firstTwo).toEquiv.symm
     (⟨base, ((0#32), (0#32))⟩ : Point)).delta =
       ((0#32), (0#32))
@@ -78,7 +78,7 @@ private theorem right_zero (master : Master) (base : RoundState) :
     (right master
       (⟨base, ((0#32), (0#32))⟩ : Point)).delta =
         ((0#32), (0#32)) := by
-  change (Diffan.StateDifference.transport roundXor roundXor
+  change (Difan.StateDifference.transport roundXor roundXor
     (scheduledRounds master secondTwo).toEquiv
     (⟨base, ((0#32), (0#32))⟩ : Point)).delta =
       ((0#32), (0#32))
@@ -207,4 +207,4 @@ theorem no_rectangular_separation (master : Master) :
   rw [hz] at hpos
   simp at hpos
 
-end Magma.DiffanFourRoundOneBitProjectionDefect
+end Magma.DifanFourRoundOneBitProjectionDefect

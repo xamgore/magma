@@ -138,7 +138,7 @@ The true RFC full-32 schedule is different from BOTH.
   python3 Magma/Differential/RepeatedKeys/Experiments/repeated_key_mitm_smt.py --pattern ABABBAA --pairs 3 --seed 4106 --timeout 600000 --encoding anf --input-mode zero-right
   python3 Magma/Differential/RepeatedKeys/Experiments/repeated_key_mitm_smt.py --pattern ABABBAAB --pairs 3 --seed 4106 --timeout 600000 --encoding anf --input-mode zero-right
   python3 Magma/Differential/RepeatedKeys/Experiments/repeated_key_local_smt.py --pattern ABABBA --pairs 3 --seed 4106 --timeout 600000 --encoding anf --input-mode zero-right
-  lake build Magma Diffan
+  lake build Magma Difan
 
 The full native RFC 32-round 256-bit master-key attack
 remains OPEN. A short 2-word repeated Feistel schedule

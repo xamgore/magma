@@ -26,7 +26,7 @@ input differences, detects every possible left-only shift.  The complete
 family of such shifts is {0, 0x00006000} for even k0 and {0} for odd k0.
 -/
 
-namespace Magma.DiffanThreeRoundLeftTranslationAudit
+namespace Magma.DifanThreeRoundLeftTranslationAudit
 
 open Magma
 open Magma.MultiRoundDDT
@@ -34,9 +34,9 @@ open Magma.CarryAutomaton
 open Magma.ZeroLeftParityCompleteSlice
 open Magma.ZeroLeftEightEntries
 open Magma.OddUnitInput77
-open Magma.DiffanThreeRoundCouplingDefect
-open Magma.DiffanZeroKeyEightColumn
-open Magma.DiffanZeroKeyEightColumnSymmetry
+open Magma.DifanThreeRoundCouplingDefect
+open Magma.DifanZeroKeyEightColumn
+open Magma.DifanZeroKeyEightColumnSymmetry
 
 private abbrev Word :=
   V 32
@@ -65,7 +65,7 @@ theorem even_row_shift (k d : Word) (hk : k.toNat % 2 = 0) :
         xorDDT_g k (1#32) (d ^^^ (0x00006000#32)) := by
           exact (one_round_unit_exact k (d ^^^ leftMask)).symm
     _ = xorDDT_g k (1#32) d :=
-      Magma.DiffanUnitInputAutomaticSymmetryAudit.even_key_DDT_translation k d hk
+      Magma.DifanUnitInputAutomaticSymmetryAudit.even_key_DDT_translation k d hk
     _ = parityRowCount k d := one_round_unit_exact k d
 
 /-- The even first-key translation preserves the coefficient for arbitrary
@@ -114,18 +114,18 @@ theorem even_fourfold_selected
     (k₀ k₂ aL bR : Word) (hk : k₀.toNat % 2 = 0) :
     (selected k₀ (0#32) k₂ (aL ^^^ leftMask) bR =
        selected k₀ (0#32) k₂ aL bR) ∧
-    (selected k₀ (0#32) k₂ (Magma.DiffanZeroKeyEightColumnSymmetry.translate aL) (Magma.DiffanZeroKeyEightColumnSymmetry.translate bR) =
+    (selected k₀ (0#32) k₂ (Magma.DifanZeroKeyEightColumnSymmetry.translate aL) (Magma.DifanZeroKeyEightColumnSymmetry.translate bR) =
        selected k₀ (0#32) k₂ aL bR) ∧
-    (selected k₀ (0#32) k₂ ((Magma.DiffanZeroKeyEightColumnSymmetry.translate aL) ^^^ leftMask)
-       (Magma.DiffanZeroKeyEightColumnSymmetry.translate bR) = selected k₀ (0#32) k₂ aL bR) := by
+    (selected k₀ (0#32) k₂ ((Magma.DifanZeroKeyEightColumnSymmetry.translate aL) ^^^ leftMask)
+       (Magma.DifanZeroKeyEightColumnSymmetry.translate bR) = selected k₀ (0#32) k₂ aL bR) := by
   refine ⟨even_selected_left_shift k₀ (0#32) k₂ aL bR hk, ?_, ?_⟩
   · exact actual_threeRound_translate k₀ k₂ aL bR
   · calc
-      selected k₀ (0#32) k₂ ((Magma.DiffanZeroKeyEightColumnSymmetry.translate aL) ^^^ leftMask)
-          (Magma.DiffanZeroKeyEightColumnSymmetry.translate bR) =
-        selected k₀ (0#32) k₂ (Magma.DiffanZeroKeyEightColumnSymmetry.translate aL) (Magma.DiffanZeroKeyEightColumnSymmetry.translate bR) :=
+      selected k₀ (0#32) k₂ ((Magma.DifanZeroKeyEightColumnSymmetry.translate aL) ^^^ leftMask)
+          (Magma.DifanZeroKeyEightColumnSymmetry.translate bR) =
+        selected k₀ (0#32) k₂ (Magma.DifanZeroKeyEightColumnSymmetry.translate aL) (Magma.DifanZeroKeyEightColumnSymmetry.translate bR) :=
           even_selected_left_shift k₀ (0#32) k₂
-            (Magma.DiffanZeroKeyEightColumnSymmetry.translate aL) (Magma.DiffanZeroKeyEightColumnSymmetry.translate bR) hk
+            (Magma.DifanZeroKeyEightColumnSymmetry.translate aL) (Magma.DifanZeroKeyEightColumnSymmetry.translate bR) hk
       _ = selected k₀ (0#32) k₂ aL bR :=
         actual_threeRound_translate k₀ k₂ aL bR
 
@@ -134,21 +134,21 @@ theorem even_fourfold_defect
     (k₀ k₂ aL bR : Word) (hk : k₀.toNat % 2 = 0) :
     (couplingDefect k₀ (0#32) k₂ (aL ^^^ leftMask) (1#32)
         (0#32) bR = couplingDefect k₀ (0#32) k₂ aL (1#32) (0#32) bR) ∧
-    (couplingDefect k₀ (0#32) k₂ (Magma.DiffanZeroKeyEightColumnSymmetry.translate aL) (1#32)
-        (0#32) (Magma.DiffanZeroKeyEightColumnSymmetry.translate bR) =
+    (couplingDefect k₀ (0#32) k₂ (Magma.DifanZeroKeyEightColumnSymmetry.translate aL) (1#32)
+        (0#32) (Magma.DifanZeroKeyEightColumnSymmetry.translate bR) =
       couplingDefect k₀ (0#32) k₂ aL (1#32) (0#32) bR) ∧
-    (couplingDefect k₀ (0#32) k₂ ((Magma.DiffanZeroKeyEightColumnSymmetry.translate aL) ^^^ leftMask)
-        (1#32) (0#32) (Magma.DiffanZeroKeyEightColumnSymmetry.translate bR) =
+    (couplingDefect k₀ (0#32) k₂ ((Magma.DifanZeroKeyEightColumnSymmetry.translate aL) ^^^ leftMask)
+        (1#32) (0#32) (Magma.DifanZeroKeyEightColumnSymmetry.translate bR) =
       couplingDefect k₀ (0#32) k₂ aL (1#32) (0#32) bR) := by
   refine ⟨even_defect_left_shift k₀ k₂ aL bR hk, ?_, ?_⟩
   · exact actual_couplingDefect_translate k₀ k₂ aL bR
   · calc
-      couplingDefect k₀ (0#32) k₂ ((Magma.DiffanZeroKeyEightColumnSymmetry.translate aL) ^^^ leftMask)
-          (1#32) (0#32) (Magma.DiffanZeroKeyEightColumnSymmetry.translate bR) =
-        couplingDefect k₀ (0#32) k₂ (Magma.DiffanZeroKeyEightColumnSymmetry.translate aL)
-          (1#32) (0#32) (Magma.DiffanZeroKeyEightColumnSymmetry.translate bR) :=
-            even_defect_left_shift k₀ k₂ (Magma.DiffanZeroKeyEightColumnSymmetry.translate aL)
-              (Magma.DiffanZeroKeyEightColumnSymmetry.translate bR) hk
+      couplingDefect k₀ (0#32) k₂ ((Magma.DifanZeroKeyEightColumnSymmetry.translate aL) ^^^ leftMask)
+          (1#32) (0#32) (Magma.DifanZeroKeyEightColumnSymmetry.translate bR) =
+        couplingDefect k₀ (0#32) k₂ (Magma.DifanZeroKeyEightColumnSymmetry.translate aL)
+          (1#32) (0#32) (Magma.DifanZeroKeyEightColumnSymmetry.translate bR) :=
+            even_defect_left_shift k₀ k₂ (Magma.DifanZeroKeyEightColumnSymmetry.translate aL)
+              (Magma.DifanZeroKeyEightColumnSymmetry.translate bR) hk
       _ = couplingDefect k₀ (0#32) k₂ aL (1#32)
             (0#32) bR :=
         actual_couplingDefect_translate k₀ k₂ aL bR
@@ -233,7 +233,7 @@ private theorem row_support_iff (k d : Word) :
     simp only [parityRowSupport, hk, ite_false]
     exact (odd_key_positive_iff_support k d hodd).symm
 
-attribute [local irreducible] Diffan.AutomaticXorOrbits.shifts
+attribute [local irreducible] Difan.AutomaticXorOrbits.shifts
 
 /-- Necessary condition: the only left-only shifts visible in the
     complete zero-second-key slice depend on the first key's parity. -/
@@ -256,20 +256,20 @@ theorem left_shift_necessary (k s : Word)
     simp only [parityRowSupport, hk, ite_true] at hstable
     have hne : eightOffsets.Nonempty :=
       ⟨0x00001000#32, by decide⟩
-    have ht : s ∈ Diffan.AutomaticXorOrbits.shifts eightOffsets :=
-      (Diffan.AutomaticXorOrbits.mem_shifts_iff
+    have ht : s ∈ Difan.AutomaticXorOrbits.shifts eightOffsets :=
+      (Difan.AutomaticXorOrbits.mem_shifts_iff
         eightOffsets hne s).mpr hstable
-    rw [Magma.DiffanUnitInputAutomaticSymmetryAudit.even_shifts_exact] at ht
+    rw [Magma.DifanUnitInputAutomaticSymmetryAudit.even_shifts_exact] at ht
     simpa only [Finset.mem_insert, Finset.mem_singleton,
       leftMask] using ht
   · simp only [hk, ite_false]
     simp only [parityRowSupport, hk, ite_false] at hstable
     have hne : oddOutputSupport.Nonempty :=
       ⟨0x00001000#32, by decide +kernel⟩
-    have ht : s ∈ Diffan.AutomaticXorOrbits.shifts oddOutputSupport :=
-      (Diffan.AutomaticXorOrbits.mem_shifts_iff
+    have ht : s ∈ Difan.AutomaticXorOrbits.shifts oddOutputSupport :=
+      (Difan.AutomaticXorOrbits.mem_shifts_iff
         oddOutputSupport hne s).mpr hstable
-    rw [Magma.DiffanUnitInputAutomaticSymmetryAudit.odd_shifts_exact] at ht
+    rw [Magma.DifanUnitInputAutomaticSymmetryAudit.odd_shifts_exact] at ht
     exact Finset.mem_singleton.mp ht
 
 /-- Complete classification of translations of ONLY aL that preserve
@@ -299,4 +299,4 @@ theorem uniform_left_shift_iff (k s : Word) :
       intro k₁ k₂ aL bR
       simp only [BitVec.xor_zero]
 
-end Magma.DiffanThreeRoundLeftTranslationAudit
+end Magma.DifanThreeRoundLeftTranslationAudit

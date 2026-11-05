@@ -1,7 +1,7 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Composition.ScheduledConstraints
+public import Difan.Composition.ScheduledConstraints
 public import Magma.RFC8891
 
 @[expose] public section
@@ -22,13 +22,13 @@ open Magma
 
 /-- Pull a predicate on one 32-bit round key back to the 256-bit master key. -/
 def atRound (r : Fin 32) (P : V 32 → Prop) : V 256 → Prop :=
-  Diffan.KeyConstraint.atStep roundKey r P
+  Difan.KeyConstraint.atStep roundKey r P
 
 /-- The round positions `i` and `i+8` use the same 32-bit word. -/
 theorem atRound_repeat8 (i : Fin 8) (P : V 32 → Prop) :
     atRound ⟨i.val + 8, by omega⟩ P =
       atRound ⟨i.val, by omega⟩ P := by
-  apply Diffan.KeyConstraint.atStep_eq_of_schedule_eq
+  apply Difan.KeyConstraint.atStep_eq_of_schedule_eq
   intro master
   exact roundKey_repeat8 master i
 
@@ -36,11 +36,11 @@ theorem atRound_repeat8 (i : Fin 8) (P : V 32 → Prop) :
     a single scheduled round-key value. -/
 theorem intersect_repeated_rounds (i : Fin 8)
     (P Q : V 32 → Prop) :
-    Diffan.KeyConstraint.intersect
+    Difan.KeyConstraint.intersect
       (atRound ⟨i.val, by omega⟩ P)
       (atRound ⟨i.val + 8, by omega⟩ Q) =
-    atRound ⟨i.val, by omega⟩ (Diffan.KeyConstraint.intersect P Q) := by
-  apply Diffan.KeyConstraint.intersect_atStep_of_schedule_eq
+    atRound ⟨i.val, by omega⟩ (Difan.KeyConstraint.intersect P Q) := by
+  apply Difan.KeyConstraint.intersect_atStep_of_schedule_eq
   intro master
   exact (roundKey_repeat8 master i).symm
 
@@ -48,7 +48,7 @@ theorem intersect_repeated_rounds (i : Fin 8)
 theorem atRound_repeat16 (i : Fin 8) (P : V 32 → Prop) :
     atRound ⟨i.val + 16, by omega⟩ P =
       atRound ⟨i.val, by omega⟩ P := by
-  apply Diffan.KeyConstraint.atStep_eq_of_schedule_eq
+  apply Difan.KeyConstraint.atStep_eq_of_schedule_eq
   intro master
   exact roundKey_repeat16 master i
 

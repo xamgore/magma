@@ -14,13 +14,13 @@ five-round core after seven. Both equalities hold for arbitrary
 round keys, including repeated words from the RFC 8891 schedule.
 -/
 
-namespace Magma.DiffanSixSevenOuterReduction
+namespace Magma.DifanSixSevenOuterReduction
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFirstRoundDeletion
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanFourRoundZeroLeftFactorization
+open Magma.DifanFirstRoundDeletion
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanFourRoundZeroLeftFactorization
 
 private abbrev Word :=
   V 32
@@ -65,4 +65,4 @@ theorem sevenRound_outer_independent_boundary_keys (k₀ k₀' k₁ k₂ k₃ k�
       xorDDT_rounds 7 (sevenRoundKeys k₀' k₁ k₂ k₃ k₄ k₅ k₆') (a, 0#32) (0#32, s) := by
   rw [sevenRound_outer_eq_fiveCore, sevenRound_outer_eq_fiveCore]
 
-end Magma.DiffanSixSevenOuterReduction
+end Magma.DifanSixSevenOuterReduction

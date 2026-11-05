@@ -19,7 +19,7 @@ Each factor contains four 4-bit S-box steps. Conditioning on the
 boundary carries retains the dependence between the two halves.
 -/
 
-namespace Magma.DiffanGCarryHalfSplit
+namespace Magma.DifanGCarryHalfSplit
 
 open Magma
 open Magma.CarryAutomaton
@@ -155,4 +155,4 @@ theorem xorDDT_g_eq_four_carry_halves_of_rotate
   subst outputDiff
   exact xorDDT_g_eq_four_carry_halves k inputDiff target
 
-end Magma.DiffanGCarryHalfSplit
+end Magma.DifanGCarryHalfSplit

@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FourRounds.FourRoundScheduledMiddleFibers
-public import Magma.Differential.Bridges.DiffanRoundDDTBridge
+public import Magma.Differential.Bridges.DifanRoundDDTBridge
 
 @[expose] public section
 
@@ -19,11 +19,11 @@ canonically equivalent to a fiber over the 64-bit *base state only*.
 This is an exact reduction, not the multiplication of marginal DDTs.
 -/
 
-namespace Magma.DiffanFourRoundForcedMiddleDifference
+namespace Magma.DifanFourRoundForcedMiddleDifference
 
 open Magma
-open Magma.DiffanReverseRound
-open Magma.DiffanFourRoundScheduledMiddleFibers
+open Magma.DifanReverseRound
+open Magma.DifanFourRoundScheduledMiddleFibers
 
 private abbrev Word :=
   V 32
@@ -35,19 +35,19 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Transport both states of a differential pair by one ordinary Feistel round. -/
 def step (k : Word) (p : Point) : Point :=
-  Diffan.StateDifference.transport roundXor roundXor (G k) p
+  Difan.StateDifference.transport roundXor roundXor (G k) p
 
 /-- The exact one-round difference law, at the actual base state. -/
 theorem step_delta (k : Word) (p : Point) :
     (step k p).delta =
       (p.delta.2,
         (g k (p.base.2 ^^^ p.delta.2) ^^^ g k p.base.2) ^^^ p.delta.1) := by
-  change Diffan.derivative roundXor roundXor (G k) p.delta p.base = _
-  rw [Magma.DiffanRoundDDTBridge.derivative_G_eq_feistel]
+  change Difan.derivative roundXor roundXor (G k) p.delta p.base = _
+  rw [Magma.DifanRoundDDTBridge.derivative_G_eq_feistel]
   exact Magma.FeistelDDT.feistelXorDiff_eq k
     p.delta.1 p.delta.2 p.base.1 p.base.2
 
@@ -85,12 +85,12 @@ theorem two_steps_right_of_zero_output_left
 /-! ## Linking the formulas to the true 256-bit key schedule -/
 
 private theorem firstTwo_run (master : Master) (x : RoundState) :
-    (Magma.DiffanScheduledMeet.scheduledRounds master firstTwo).forward.run x =
+    (Magma.DifanScheduledMeet.scheduledRounds master firstTwo).forward.run x =
       G (roundKey master (1 : Fin 32)) (G (roundKey master (0 : Fin 32)) x) := by
   rfl
 
 private theorem secondTwo_run (master : Master) (x : RoundState) :
-    (Magma.DiffanScheduledMeet.scheduledRounds master secondTwo).forward.run x =
+    (Magma.DifanScheduledMeet.scheduledRounds master secondTwo).forward.run x =
       G (roundKey master (3 : Fin 32)) (G (roundKey master (2 : Fin 32)) x) := by
   rfl
 
@@ -100,16 +100,16 @@ theorem left_eq_two_steps (master : Master) (p : Point) :
       step (roundKey master (1 : Fin 32))
         (step (roundKey master (0 : Fin 32)) p) := by
   change
-    Diffan.StateDifference.transport roundXor roundXor
-      (Magma.DiffanScheduledMeet.scheduledRounds master firstTwo).forward.run p = _
+    Difan.StateDifference.transport roundXor roundXor
+      (Magma.DifanScheduledMeet.scheduledRounds master firstTwo).forward.run p = _
   have hrun :
-      (Magma.DiffanScheduledMeet.scheduledRounds master firstTwo).forward.run =
+      (Magma.DifanScheduledMeet.scheduledRounds master firstTwo).forward.run =
         (G (roundKey master (1 : Fin 32))) ∘
           (G (roundKey master (0 : Fin 32))) := by
     funext x
     exact firstTwo_run master x
   rw [hrun]
-  exact (Diffan.StateDifference.transport_comp roundXor roundXor roundXor
+  exact (Difan.StateDifference.transport_comp roundXor roundXor roundXor
     (G (roundKey master (0 : Fin 32)))
     (G (roundKey master (1 : Fin 32))) p).symm
 
@@ -119,16 +119,16 @@ theorem right_eq_two_steps (master : Master) (p : Point) :
       step (roundKey master (3 : Fin 32))
         (step (roundKey master (2 : Fin 32)) p) := by
   change
-    Diffan.StateDifference.transport roundXor roundXor
-      (Magma.DiffanScheduledMeet.scheduledRounds master secondTwo).forward.run p = _
+    Difan.StateDifference.transport roundXor roundXor
+      (Magma.DifanScheduledMeet.scheduledRounds master secondTwo).forward.run p = _
   have hrun :
-      (Magma.DiffanScheduledMeet.scheduledRounds master secondTwo).forward.run =
+      (Magma.DifanScheduledMeet.scheduledRounds master secondTwo).forward.run =
         (G (roundKey master (3 : Fin 32))) ∘
           (G (roundKey master (2 : Fin 32))) := by
     funext x
     exact secondTwo_run master x
   rw [hrun]
-  exact (Diffan.StateDifference.transport_comp roundXor roundXor roundXor
+  exact (Difan.StateDifference.transport_comp roundXor roundXor roundXor
     (G (roundKey master (2 : Fin 32)))
     (G (roundKey master (3 : Fin 32))) p).symm
 
@@ -234,4 +234,4 @@ theorem forced_bit_label (master : Master) (aL bR : Word)
   unfold bitLabel
   rw [masked_middle_delta master aL bR inputMask outputMask R mid h]
 
-end Magma.DiffanFourRoundForcedMiddleDifference
+end Magma.DifanFourRoundForcedMiddleDifference

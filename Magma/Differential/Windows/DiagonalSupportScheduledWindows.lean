@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.ThreeRounds.ThreeRoundMiddleDiagonal
-public import Diffan.Composition.ScheduledConstraints
+public import Difan.Composition.ScheduledConstraints
 
 @[expose] public section
 
@@ -20,12 +20,12 @@ five-round G subchain; it is NOT a claim about the final GStar representation
 or about the full 32-round cipher.
 -/
 
-namespace Magma.DiffanDiagonalSupportScheduledWindows
+namespace Magma.DifanDiagonalSupportScheduledWindows
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanThreeRoundMiddleDiagonal
+open Magma.DifanThreeRoundMiddleDiagonal
 
 private abbrev Word :=
   V 32
@@ -79,11 +79,11 @@ private theorem scheduledThreeKeys_eq (master : V 256) (start : Fin 30) :
     of constraints pulled back along the real Magma schedule; no
     independent round-key variables are quantified. -/
 def diagonalConstraintAt (start : Fin 30) (aL aR bR : Word) :
-    Diffan.KeyConstraint (V 256) :=
-  Diffan.KeyConstraint.intersect
-    (Diffan.KeyConstraint.atStep roundKey ⟨start.val, by omega⟩
+    Difan.KeyConstraint (V 256) :=
+  Difan.KeyConstraint.intersect
+    (Difan.KeyConstraint.atStep roundKey ⟨start.val, by omega⟩
       (fun k : Word => 0 < xorDDT_g k aR aL))
-    (Diffan.KeyConstraint.atStep roundKey ⟨start.val + 2, by omega⟩
+    (Difan.KeyConstraint.atStep roundKey ⟨start.val + 2, by omega⟩
       (fun k : Word => 0 < xorDDT_g k aR bR))
 
 /-- Exact characterization of the diagonal's support for ALL 30
@@ -107,7 +107,7 @@ def scheduledFiveKeys (master : V 256) (start : Fin 28) : Fin 5 → Word :=
 
 private theorem scheduledFiveKeys_eq (master : V 256) (start : Fin 28) :
     scheduledFiveKeys master start =
-      Magma.DiffanFiveRoundCoreDefect.fiveRoundKeys (roundKey master ⟨start.val, by omega⟩)
+      Magma.DifanFiveRoundCoreDefect.fiveRoundKeys (roundKey master ⟨start.val, by omega⟩)
         (roundKey master ⟨start.val + 1, by omega⟩) (roundKey master ⟨start.val + 2, by omega⟩)
         (roundKey master ⟨start.val + 3, by omega⟩)
         (roundKey master ⟨start.val + 4, by omega⟩) := by
@@ -147,7 +147,7 @@ private theorem gDDT_zero_zero_positive (k : Word) :
 theorem fiveRound_diagonal_support_iff_zero
     (k₀ k₁ k₂ k₃ k₄ a : Word) :
     0 < xorDDT_rounds 5
-      (Magma.DiffanFiveRoundCoreDefect.fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
+      (Magma.DifanFiveRoundCoreDefect.fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
       (a, 0#32) (0#32, a) ↔ a = (0#32) := by
   constructor
   · intro h
@@ -157,7 +157,7 @@ theorem fiveRound_diagonal_support_iff_zero
     omega
   · intro ha
     subst a
-    rw [Magma.DiffanFiveRoundCoreDefect.fiveRound_eq_threeCore,
+    rw [Magma.DifanFiveRoundCoreDefect.fiveRound_eq_threeCore,
       threeRound_middleDiagonal_factorization]
     exact Nat.mul_pos (gDDT_zero_zero_positive k₁)
       (gDDT_zero_zero_positive k₃)
@@ -177,4 +177,4 @@ theorem scheduledFive_diagonal_support_iff_zero
     (roundKey master ⟨start.val + 4, by omega⟩)
     a
 
-end Magma.DiffanDiagonalSupportScheduledWindows
+end Magma.DifanDiagonalSupportScheduledWindows

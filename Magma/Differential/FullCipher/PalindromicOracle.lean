@@ -21,9 +21,9 @@ of the reflected suffix. The 32-round macro C=Q16 H^2
 does NOT imply 2^32 observable fixed/crossing points.
 -/
 
-namespace Magma.DiffanPalindromicOracle
+namespace Magma.DifanPalindromicOracle
 
-open Magma Magma.Internal Magma.MultiRoundDDT Magma.DiffanFullScheduleConjugacy
+open Magma Magma.Internal Magma.MultiRoundDDT Magma.DifanFullScheduleConjugacy
 private abbrev W := V 32
 private abbrev S := FeistelState
 
@@ -113,4 +113,4 @@ theorem all_64bit_states_count :
   rw [hw]
   norm_num [← pow_add]
 
-end Magma.DiffanPalindromicOracle
+end Magma.DifanPalindromicOracle

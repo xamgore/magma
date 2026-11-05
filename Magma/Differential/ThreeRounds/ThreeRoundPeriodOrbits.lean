@@ -19,14 +19,14 @@ intermediate-difference class is a single orbit; that is a further,
 cipher-specific mathematical question.
 -/
 
-namespace Magma.DiffanThreeRoundPeriodOrbits
+namespace Magma.DifanThreeRoundPeriodOrbits
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanThreeRoundCouplingDefect
-open Magma.DiffanThreeRoundConditionalSlices
-open Magma.DiffanThreeRoundPeriodSymmetry
+open Magma.DifanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundConditionalSlices
+open Magma.DifanThreeRoundPeriodSymmetry
 
 private abbrev Word :=
   V 32
@@ -195,4 +195,4 @@ theorem diagonal_period_is_common (k₀ k₂ d : Word) :
   exact ⟨(fun x => gDifference_xor_period k₀ x d),
     (fun x => gDifference_xor_period k₂ x d)⟩
 
-end Magma.DiffanThreeRoundPeriodOrbits
+end Magma.DifanThreeRoundPeriodOrbits

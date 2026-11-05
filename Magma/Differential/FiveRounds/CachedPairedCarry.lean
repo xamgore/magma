@@ -13,13 +13,13 @@ The cached refuter is proven pointwise equal to the earlier certified
 paired-frontier refuter.
 -/
 
-namespace Magma.DiffanCachedPairedCarry
+namespace Magma.DifanCachedPairedCarry
 
 open Magma
 open Magma.CarryAutomaton
-open Magma.DiffanPairedCarryRefutation
-open Magma.DiffanKeyFreeCarryAutomaton
-open Magma.DiffanFiveRoundCoreDefect
+open Magma.DifanPairedCarryRefutation
+open Magma.DifanKeyFreeCarryAutomaton
+open Magma.DifanFiveRoundCoreDefect
 open Magma.MultiRoundDDT
 
 private abbrev Word :=
@@ -116,13 +116,13 @@ def cachedOneHotHalfCertificate : Bool :=
     (List.finRange 32).all fun j =>
       if i.val ≤ j.val then
         cachedRefutes
-          (Magma.DiffanFiveRoundUniversalSupport.oneHotDifference i)
-          (Magma.DiffanFiveRoundUniversalSupport.oneHotDifference j)
+          (Magma.DifanFiveRoundUniversalSupport.oneHotDifference i)
+          (Magma.DifanFiveRoundUniversalSupport.oneHotDifference j)
       else true
 
 theorem cachedOneHotHalfCertificate_eq :
-    cachedOneHotHalfCertificate = Magma.DiffanPairedCarryRefutation.oneHotHalfCertificate := by
-  simp only [cachedOneHotHalfCertificate, Magma.DiffanPairedCarryRefutation.oneHotHalfCertificate,
+    cachedOneHotHalfCertificate = Magma.DifanPairedCarryRefutation.oneHotHalfCertificate := by
+  simp only [cachedOneHotHalfCertificate, Magma.DifanPairedCarryRefutation.oneHotHalfCertificate,
     cachedRefutes_eq]
 
 /-- A successful complete cached certificate proves the one-hot
@@ -131,9 +131,9 @@ theorem universal_oneHot_of_cached_certificate
     (h : cachedOneHotHalfCertificate = true)
     (k₀ k₁ k₂ k₃ k₄ : Word) (i j : Fin 32) :
     xorDDT_rounds 5 (fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
-      (Magma.DiffanFiveRoundUniversalSupport.oneHotDifference i, 0#32)
-      (0#32, Magma.DiffanFiveRoundUniversalSupport.oneHotDifference j) = 0 :=
-  Magma.DiffanPairedCarryRefutation.universal_oneHot_of_half_certificate
+      (Magma.DifanFiveRoundUniversalSupport.oneHotDifference i, 0#32)
+      (0#32, Magma.DifanFiveRoundUniversalSupport.oneHotDifference j) = 0 :=
+  Magma.DifanPairedCarryRefutation.universal_oneHot_of_half_certificate
     (cachedOneHotHalfCertificate_eq ▸ h) k₀ k₁ k₂ k₃ k₄ i j
 
-end Magma.DiffanCachedPairedCarry
+end Magma.DifanCachedPairedCarry

@@ -1,6 +1,6 @@
 name = "magma"
 version = "0.1.0"
-defaultTargets = ["Magma", "Diffan", "defs", "deps"]
+defaultTargets = ["Magma", "Difan", "defs", "deps"]
 lintDriver = "fmt"
 lintDriverArgs = ["format", "--check", "--workers", "2"]
 
@@ -29,18 +29,18 @@ rev = "main"
 name = "Magma"
 
 [[lean_lib]]
-name = "Diffan"
+name = "Difan"
 
 [[lean_exe]]
 name = "defs"
 root = "Defs"
-needs = ["Diffan", "Magma"]
+needs = ["Difan", "Magma"]
 supportInterpreter = true
 
 [[lean_exe]]
 name = "deps"
 root = "Deps"
-needs = ["Diffan", "Magma"]
+needs = ["Difan", "Magma"]
 supportInterpreter = true
 
 [[lean_exe]]

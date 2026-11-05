@@ -18,13 +18,13 @@ and a dependent product of eight constrained 32-bit words. Reused source
 slots contribute intersections of their local conditions.
 -/
 
-namespace Magma.DiffanMultiWindowIntersections
+namespace Magma.DifanMultiWindowIntersections
 
 open Magma
-open Magma.DiffanDiagonalMasterCountReduction
-open Magma.DiffanArbitraryWindowIntersections
-open Magma.DiffanRepeatedWindowIntersections
-open Magma.DiffanOuterKeySplitCertificate
+open Magma.DifanDiagonalMasterCountReduction
+open Magma.DifanArbitraryWindowIntersections
+open Magma.DifanRepeatedWindowIntersections
+open Magma.DifanOuterKeySplitCertificate
 
 private abbrev Word :=
   V 32
@@ -163,4 +163,4 @@ theorem no_master_of_impossible_slot
   have hs := (tuple_iff_slots rules (eightWordsEquiv K)).mp ht
   exact h ((eightWordsEquiv K) i) (hs i)
 
-end Magma.DiffanMultiWindowIntersections
+end Magma.DifanMultiWindowIntersections

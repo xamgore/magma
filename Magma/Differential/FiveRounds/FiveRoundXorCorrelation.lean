@@ -3,7 +3,7 @@ module
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FiveRoundCoreDefect
 public import Magma.Differential.ThreeRounds.ThreeRoundConditionalSlices
-public import Diffan.Fibers.XorFiberCorrelation
+public import Difan.Fibers.XorFiberCorrelation
 
 @[expose] public section
 
@@ -26,15 +26,15 @@ algorithm is not formally verified in this package. In particular, the
 formula retains the coupled conditions of the original path count.
 -/
 
-namespace Magma.DiffanFiveRoundXorCorrelation
+namespace Magma.DifanFiveRoundXorCorrelation
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanThreeRoundCouplingDefect
-open Magma.DiffanThreeRoundRightHistogram
-open Magma.DiffanThreeRoundConditionalSlices
-open Magma.DiffanFiveRoundCoreDefect
+open Magma.DifanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundRightHistogram
+open Magma.DifanThreeRoundConditionalSlices
+open Magma.DifanFiveRoundCoreDefect
 
 private abbrev Word :=
   V 32
@@ -111,11 +111,11 @@ theorem coreSlice_eq_correlation_sum (k₁ k₂ k₃ a b c : Word) :
     coreSlice k₁ k₂ k₃ a b c =
       ∑ z : Word,
         if middleFiber k₂ a b c z then
-          Diffan.XorFiberCorrelation.correlation
+          Difan.XorFiberCorrelation.correlation
             (leftFiber k₁ a c) (rightFiber k₃ b c) (g k₂ z)
         else 0 := by
   classical
-  exact Diffan.XorFiberCorrelation.sum_shifted_fibers_as_correlations
+  exact Difan.XorFiberCorrelation.sum_shifted_fibers_as_correlations
     (leftFiber k₁ a c) (rightFiber k₃ b c)
     (middleFiber k₂ a b c) (g k₂)
 
@@ -169,7 +169,7 @@ theorem old_slice_eq_coreSlice (k₁ k₂ k₃ a b c : Word) :
   by_cases hc : leftFiber k₁ a c r
   · have h : intermediateDifference k₁ (0#32) a r = c := hclass.mpr hc
     simp only [h, ite_true]
-    unfold conditionalZCount Diffan.FiberUniformity.conditionalCount
+    unfold conditionalZCount Difan.FiberUniformity.conditionalCount
     rw [Finset.card_filter]
     apply Finset.sum_congr rfl
     intro z _
@@ -224,7 +224,7 @@ theorem fiveRound_eq_sum_xor_correlations
       (a, 0#32) (0#32, b) =
     ∑ c : Word, ∑ z : Word,
       if middleFiber k₂ a b c z then
-        Diffan.XorFiberCorrelation.correlation
+        Difan.XorFiberCorrelation.correlation
           (leftFiber k₁ a c) (rightFiber k₃ b c) (g k₂ z)
       else 0 := by
   rw [fiveRound_eq_sum_coreSlices]
@@ -232,4 +232,4 @@ theorem fiveRound_eq_sum_xor_correlations
   intro c _
   exact coreSlice_eq_correlation_sum k₁ k₂ k₃ a b c
 
-end Magma.DiffanFiveRoundXorCorrelation
+end Magma.DifanFiveRoundXorCorrelation

@@ -26,17 +26,17 @@ The correction count is an exact selected midpoint fiber under one
 256-bit master.
 -/
 
-namespace Magma.DiffanTwoRoundSuffixObservation
+namespace Magma.DifanTwoRoundSuffixObservation
 
 open Magma
-open Magma.DiffanScheduledMeet
-open Magma.DiffanFeistelDeltaPropagation
-open Magma.DiffanAllKeyFeistelCorrection
-open Magma.DiffanScheduledCorrectionReachability
-open Magma.DiffanScheduledCorrectionHomogeneity
-open Magma.DiffanScheduledCorrectionPartnerFibers
-open Magma.DiffanScheduledCorrectionMaskedInputs
-open Magma.DiffanScheduledCorrectionMaskedOutputs
+open Magma.DifanScheduledMeet
+open Magma.DifanFeistelDeltaPropagation
+open Magma.DifanAllKeyFeistelCorrection
+open Magma.DifanScheduledCorrectionReachability
+open Magma.DifanScheduledCorrectionHomogeneity
+open Magma.DifanScheduledCorrectionPartnerFibers
+open Magma.DifanScheduledCorrectionMaskedInputs
+open Magma.DifanScheduledCorrectionMaskedOutputs
 
 private abbrev Word :=
   V 32
@@ -45,7 +45,7 @@ private abbrev Master :=
   V 256
 
 private abbrev Point :=
-  Diffan.StateDifference (Word × Word) (Word × Word)
+  Difan.StateDifference (Word × Word) (Word × Word)
 
 /-- The left base after two chronological ordinary G rounds. -/
 theorem twoRound_leftBase
@@ -259,4 +259,4 @@ theorem chosen_twoRound_all_counts_even
     lowerOutputMask L aL d (0x00006000#32) b
     (by decide) (by decide) (by decide)
 
-end Magma.DiffanTwoRoundSuffixObservation
+end Magma.DifanTwoRoundSuffixObservation

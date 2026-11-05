@@ -1,7 +1,7 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Core.CoordinateSeparation
+public import Difan.Core.CoordinateSeparation
 public import Magma.Differential.ThreeRounds.ThreeRoundPeriodOrbits
 
 @[expose] public section
@@ -23,12 +23,12 @@ use the bijection (R,Z) ↦ (Z, R XOR g[k₁](Z)). Both compatibility tests
 then depend on separate coordinates.
 -/
 
-namespace Magma.DiffanThreeRoundZeroRightInputFactorization
+namespace Magma.DifanThreeRoundZeroRightInputFactorization
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -118,7 +118,7 @@ def zeroRightInput_fiberEquiv
       aL (0#32) bL bR p.1 p.2} ≃
     {Z : Word // gDifference k₁ Z aL = bL} ×
     {Y : Word // gDifference k₂ Y bL = xor bR aL} :=
-  Diffan.CoordinateSeparation.fiberEquiv
+  Difan.CoordinateSeparation.fiberEquiv
     (zeroRightCoordinates k₁)
     (fun p => threeRoundCoupled k₀ k₁ k₂
       aL (0#32) bL bR p.1 p.2)
@@ -196,4 +196,4 @@ theorem zeroRightInput_zero_of_second_zero (k₀ k₁ k₂ aL bL bR : Word)
     xorDDT_rounds 3 (threeRoundKeys k₀ k₁ k₂) (aL, (0#32)) (bL, bR) = 0 := by
   rw [threeRound_zeroRightInput_factorization, h, mul_zero]
 
-end Magma.DiffanThreeRoundZeroRightInputFactorization
+end Magma.DifanThreeRoundZeroRightInputFactorization

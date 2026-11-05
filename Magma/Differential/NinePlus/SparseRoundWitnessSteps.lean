@@ -7,11 +7,11 @@ set_option maxHeartbeats 1000000
 
 @[expose] public section
 
-namespace Magma.DiffanSparseRoundSteps
+namespace Magma.DifanSparseRoundSteps
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
+open Magma.DifanFiveRoundCoreDefect
 
 private theorem w0_base_step0 :
     G (0x00000000#32) (0x9d651eb2#32, 0x17714960#32) = (0x17714960#32, 0xe3effd57#32) := by
@@ -149,4 +149,4 @@ theorem w1_xor_five :
       (0x9e6f57e5#32, 0xd2d65ac0#32)
   rw [w1_xor_step0, w1_xor_step1, w1_xor_step2, w1_xor_step3, w1_xor_step4]
 
-end Magma.DiffanSparseRoundSteps
+end Magma.DifanSparseRoundSteps

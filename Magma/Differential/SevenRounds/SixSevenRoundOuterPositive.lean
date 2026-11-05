@@ -11,7 +11,7 @@ set_option maxHeartbeats 1000000
     Concrete first-round schedule of RFC 8891 is checked in Lean.
     CNF/solver witnesses are not trusted in the Lean proof. -/
 
-namespace Magma.DiffanSixSevenRoundOuterPositive
+namespace Magma.DifanSixSevenRoundOuterPositive
 
 open Magma
 open Magma.MultiRoundDDT
@@ -255,4 +255,4 @@ theorem sevenRound_master_positive :
   rw [← sevenKeys_from_master]
   exact sevenRound_outer_positive
 
-end Magma.DiffanSixSevenRoundOuterPositive
+end Magma.DifanSixSevenRoundOuterPositive

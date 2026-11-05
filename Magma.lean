@@ -68,16 +68,16 @@ public import Magma.DDT.TwoHot.OutputOne.Exact.SevenTraceKernelBridge
 public import Magma.DDT.TwoHot.OutputOne.Exact.SevenQuantitativeClosure
 public import Magma.DDT.TwoHot.OutputOne.Extrema.SevenCoefficientExtrema
 public import Magma.DDT.TwoHot.OutputOne.KeyClasses.CrossPeakExactKeyCount
-public import Magma.Differential.Bridges.DiffanBridge
-public import Magma.Differential.Bridges.DiffanCarryBridge
-public import Magma.Differential.Bridges.DiffanTwoHot
-public import Magma.Differential.Bridges.DiffanThreeRound
-public import Magma.Differential.Bridges.DiffanWeightedCarry
-public import Magma.Differential.Bridges.DiffanLocalTransducer
-public import Magma.Differential.Bridges.DiffanChainExample
-public import Magma.Differential.Bridges.DiffanReverseRound
-public import Magma.Differential.Bridges.DiffanRoundDDTBridge
-public import Magma.Differential.Bridges.DiffanMiddleMeet
+public import Magma.Differential.Bridges.DifanBridge
+public import Magma.Differential.Bridges.DifanCarryBridge
+public import Magma.Differential.Bridges.DifanTwoHot
+public import Magma.Differential.Bridges.DifanThreeRound
+public import Magma.Differential.Bridges.DifanWeightedCarry
+public import Magma.Differential.Bridges.DifanLocalTransducer
+public import Magma.Differential.Bridges.DifanChainExample
+public import Magma.Differential.Bridges.DifanReverseRound
+public import Magma.Differential.Bridges.DifanRoundDDTBridge
+public import Magma.Differential.Bridges.DifanMiddleMeet
 public import Magma.Differential.Windows.ScheduledKeyConstraints
 public import Magma.Differential.Windows.ScheduledMeet
 public import Magma.Differential.ThreeRounds.ThreeRoundCoordinateCertificate
@@ -112,7 +112,7 @@ public import Magma.Differential.Windows.OuterCoreCarryGeometry
 public import Magma.Differential.Windows.OuterWordRecurrence
 public import Magma.Differential.Windows.IndependentRoundSupport
 -- Generated finite positive witnesses are optional:
--- lake build Magma.Diffan.Certificates
+-- lake build Magma.Difan.Certificates
 public import Magma.Differential.FiveRounds.AdjacentPositiveExample
 public import Magma.Differential.ThreeRounds.ThreeRoundMiddleDiagonal
 public import Magma.Differential.Windows.DiagonalSupportScheduledWindows

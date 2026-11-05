@@ -5,10 +5,10 @@ public import Magma.Differential.NinePlus.PositiveRows.Row13Group01
 public import Magma.Differential.NinePlus.PositiveRows.Row13Group02
 public import Magma.Differential.NinePlus.PositiveRows.Row13Group03
 @[expose] public section
-namespace Magma.DiffanNineRoundPositiveRows
+namespace Magma.DifanNineRoundPositiveRows
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundUniversalSupport
+open Magma.DifanFiveRoundUniversalSupport
 
 /-- Every output bit j is reachable for input bit 13. -/
 theorem row13 (j : Fin 32) :
@@ -83,4 +83,4 @@ theorem row13 (j : Fin 32) :
   · exact ⟨0x00000000082befff46deb4b31aea2a9ed4fb05fb5ec7d0f21ed61e13a54c76fe#256,
       (0x4c9a871d#32, 0xf851addf#32), by simpa [oneHotDifference] using cell_13_31⟩
 
-end Magma.DiffanNineRoundPositiveRows
+end Magma.DifanNineRoundPositiveRows

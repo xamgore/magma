@@ -25,16 +25,16 @@ certificates establish column stability and classify the shifts among
 the XOR differences of its eight elements.
 -/
 
-namespace Magma.DiffanZeroKeyEightColumnSymmetry
+namespace Magma.DifanZeroKeyEightColumnSymmetry
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanZeroLeftSupportOverlap
+open Magma.DifanZeroLeftSupportOverlap
 open Magma.ZeroLeftParityCompleteSlice
-open Magma.DiffanThreeRoundCouplingDefect
-open Magma.DiffanZeroKeyEightColumn
-open Magma.DiffanZeroKeyEightDefectWeights
-open Magma.DiffanZeroKeyEightDefectSpectrum
+open Magma.DifanThreeRoundCouplingDefect
+open Magma.DifanZeroKeyEightColumn
+open Magma.DifanZeroKeyEightDefectWeights
+open Magma.DifanZeroKeyEightDefectSpectrum
 
 private abbrev Word :=
   V 32
@@ -300,4 +300,4 @@ theorem actual_positive_and_defect_translate_iff (k₀ k₂ aL bR : Word) :
       0 < couplingDefect k₀ (0#32) k₂ aL (1#32) (0#32) bR) := by
   rw [actual_threeRound_translate, actual_couplingDefect_translate]
 
-end Magma.DiffanZeroKeyEightColumnSymmetry
+end Magma.DifanZeroKeyEightColumnSymmetry

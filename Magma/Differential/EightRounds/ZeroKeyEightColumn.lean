@@ -26,14 +26,14 @@ when the second key is 0 and aR=1, bL=0. The full symbolic convolution
 and defect become sums of at most eight coefficients of the first DDT.
 -/
 
-namespace Magma.DiffanZeroKeyEightColumn
+namespace Magma.DifanZeroKeyEightColumn
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanZeroLeftSupportOverlap
-open Magma.DiffanExactPositiveDefectMass
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanZeroLeftSupportOverlap
+open Magma.DifanExactPositiveDefectMass
+open Magma.DifanThreeRoundCouplingDefect
 open Magma.ZeroLeftParityCompleteSlice
 
 private abbrev Word :=
@@ -326,4 +326,4 @@ theorem couplingDefect_eight_parity (k₀ k₂ aL bR : Word) :
   intro c _
   rw [one_round_unit_exact]
 
-end Magma.DiffanZeroKeyEightColumn
+end Magma.DifanZeroKeyEightColumn

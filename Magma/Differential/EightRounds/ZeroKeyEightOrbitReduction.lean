@@ -1,7 +1,7 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Symmetry.FiniteInvolutionOrbits
+public import Difan.Symmetry.FiniteInvolutionOrbits
 public import Magma.Differential.EightRounds.ZeroKeyEightGenericSymmetry
 import Std.Tactic.BVDecide
 
@@ -17,15 +17,15 @@ one representative of every orbit. The generic finite-involution
 lemma then gives a twofold identity for arbitrary certified weights.
 -/
 
-namespace Magma.DiffanZeroKeyEightOrbitReduction
+namespace Magma.DifanZeroKeyEightOrbitReduction
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanThreeRoundCouplingDefect
-open Magma.DiffanZeroKeyEightDefectClassification
-open Magma.DiffanZeroKeyEightDefectWeights
-open Magma.DiffanZeroKeyEightDefectSpectrum
-open Diffan.FiniteInvolutionOrbits
+open Magma.DifanThreeRoundCouplingDefect
+open Magma.DifanZeroKeyEightDefectClassification
+open Magma.DifanZeroKeyEightDefectWeights
+open Magma.DifanZeroKeyEightDefectSpectrum
+open Difan.FiniteInvolutionOrbits
 
 private abbrev Word :=
   V 32
@@ -107,4 +107,4 @@ theorem odd_actual_defect_representatives_total
   norm_num at h ⊢
   omega
 
-end Magma.DiffanZeroKeyEightOrbitReduction
+end Magma.DifanZeroKeyEightOrbitReduction

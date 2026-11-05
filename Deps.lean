@@ -8,7 +8,7 @@ public section
 /-!
 # Declaration dependencies
 
-`lake exe deps` exports direct dependencies from the compiled `Diffan` and `Magma` libraries.
+`lake exe deps` exports direct dependencies from the compiled `Difan` and `Magma` libraries.
 The `declarations` array includes generated declarations so every local dependency
 has a corresponding node. Each node has `name`, `module`, `kind`,
 `typeDependencies`, and `bodyDependencies`; both dependency sets are split into
@@ -31,7 +31,7 @@ namespace Deps
 open Lean
 
 private def isProjectModule (name : Name) : Bool :=
-  (`Diffan).isPrefixOf name || (`Magma).isPrefixOf name
+  (`Difan).isPrefixOf name || (`Magma).isPrefixOf name
 
 private def moduleOf? (env : Environment) (name : Name) : Option Name := do
   let idx ← env.getModuleIdxFor? name
@@ -73,7 +73,7 @@ private def declarationJson (env : Environment) (info : ConstantInfo) : Json :=
 def run : IO Unit := do
   initSearchPath (← findSysroot)
   unsafe enableInitializersExecution
-  let env ← importModules #[{ module := `Diffan }, { module := `Magma }] {} (loadExts := true)
+  let env ← importModules #[{ module := `Difan }, { module := `Magma }] {} (loadExts := true)
   let decls :=
     env.constants.toList.toArray.filter (fun (name, _) => isLocal env name) |>.qsort
       (fun a b => a.1.toString < b.1.toString)
@@ -94,7 +94,7 @@ def run : IO Unit := do
             ("imports", toJson <| imports.map Name.toString)]
   let report :=
     Json.mkObj
-      [("schemaVersion", toJson (3 : Nat)), ("rootModules", toJson #["Diffan", "Magma"]),
+      [("schemaVersion", toJson (3 : Nat)), ("rootModules", toJson #["Difan", "Magma"]),
         ("edgeDirection", toJson "declaration -> dependency"), ("moduleOrder", toJson moduleOrder),
         ("modules", Json.arr modules),
         ("declarations", Json.arr <| decls.map (fun (_, info) => declarationJson env info))]

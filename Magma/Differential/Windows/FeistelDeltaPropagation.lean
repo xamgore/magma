@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.Windows.ScheduledMeetFiberTransport
-public import Magma.Differential.Bridges.DiffanRoundDDTBridge
+public import Magma.Differential.Bridges.DifanRoundDDTBridge
 import Std.Tactic.BVDecide
 
 @[expose] public section
@@ -17,11 +17,11 @@ and give the exact state-dependent correction for the second round.
 These statements concern ordinary G rounds, not the terminal GStar.
 -/
 
-namespace Magma.DiffanFeistelDeltaPropagation
+namespace Magma.DifanFeistelDeltaPropagation
 
 open Magma
-open Magma.DiffanReverseRound
-open Magma.DiffanScheduledMeetFiberTransport
+open Magma.DifanReverseRound
+open Magma.DifanScheduledMeetFiberTransport
 
 private abbrev Word :=
   V 32
@@ -30,11 +30,11 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Concrete propagation of a state-and-difference pair through one G round. -/
 def roundPoint (k : Word) (p : Point) : Point :=
-  Diffan.StateDifference.transport roundXor roundXor (G k) p
+  Difan.StateDifference.transport roundXor roundXor (G k) p
 
 /-- Translate only the right component of the *difference*, not the base. -/
 def shiftRightDelta (t : Word) (p : Point) : Point :=
@@ -48,8 +48,8 @@ theorem roundPoint_formula (k : Word) (p : Point) :
           (g k (p.base.2 ^^^ p.delta.2) ^^^ g k p.base.2) ^^^ p.delta.1)⟩ := by
   rcases p with ⟨⟨L, R⟩, ⟨aL, aR⟩⟩
   change (⟨G k (L, R),
-    Diffan.derivative roundXor roundXor (G k) (aL, aR) (L, R)⟩ : Point) = _
-  rw [Magma.DiffanRoundDDTBridge.derivative_G_eq_feistel,
+    Difan.derivative roundXor roundXor (G k) (aL, aR) (L, R)⟩ : Point) = _
+  rw [Magma.DifanRoundDDTBridge.derivative_G_eq_feistel,
       Magma.FeistelDDT.feistelXorDiff_eq]
   rfl
 
@@ -170,4 +170,4 @@ theorem scheduled_first_round_shift
       shiftRightDelta t (roundPoint (roundKey master i) p) :=
   first_round_shift (roundKey master i) t p
 
-end Magma.DiffanFeistelDeltaPropagation
+end Magma.DifanFeistelDeltaPropagation

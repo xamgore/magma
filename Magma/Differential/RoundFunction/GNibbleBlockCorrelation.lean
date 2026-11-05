@@ -2,24 +2,24 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.RoundFunction.GCarryFiberTensor
-public import Diffan.Fibers.BlockwiseXorCorrelation
+public import Difan.Fibers.BlockwiseXorCorrelation
 
 @[expose] public section
 
 /-!
 # XOR-correlation of two four-nibble blocks
 
-This is the 16+16 analogue of `Diffan.BlockwiseXorCorrelation`,
+This is the 16+16 analogue of `Difan.BlockwiseXorCorrelation`,
 using the actual nibble coordinates in the verified Magma carry model.
 Both blocks have exactly 16 bits; XOR acts *digitwise*, so there is no
 cross-block XOR carry. Arithmetic ADDITION carries remain present in the
 four-state mixture indices, not in the XOR shift.
 -/
 
-namespace Magma.DiffanGNibbleBlockCorrelation
+namespace Magma.DifanGNibbleBlockCorrelation
 
 open Magma.CarryAutomaton
-open Magma.DiffanGCarryFiberTensor
+open Magma.DifanGCarryFiberTensor
 
 /-- XOR shift of four four-bit digits. -/
 def halfXor (x y : HalfDigits) : HalfDigits :=
@@ -142,4 +142,4 @@ theorem nibbleBlockCorr_of_certificates
           exact nibbleBlockCorr_rectangle (l₁ i) (l₂ j)
             (h₁ i) (h₂ j) shift
 
-end Magma.DiffanGNibbleBlockCorrelation
+end Magma.DifanGNibbleBlockCorrelation

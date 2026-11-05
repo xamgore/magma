@@ -1,8 +1,8 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Fibers.MiddleObservation
-public import Diffan.Core.Constraints
+public import Difan.Fibers.MiddleObservation
+public import Difan.Core.Constraints
 public import Magma.Differential.Windows.ScheduledMeet
 public import Magma.Differential.Windows.ScheduledWindowLeftSymmetries
 
@@ -21,12 +21,12 @@ longer-round DDT symmetry. That would need an intertwining equivalence on
 concrete trajectory fibers, not only a symmetry of marginal DDT entries.
 -/
 
-namespace Magma.DiffanScheduledMiddleObservation
+namespace Magma.DifanScheduledMiddleObservation
 
 open Magma
-open Magma.DiffanScheduledMeet
-open Magma.DiffanScheduledWindowLeftSymmetries
-open Magma.DiffanThreeRoundLeftTranslationAudit (leftMask)
+open Magma.DifanScheduledMeet
+open Magma.DifanScheduledWindowLeftSymmetries
+open Magma.DifanThreeRoundLeftTranslationAudit (leftMask)
 
 private abbrev Word :=
   V 32
@@ -38,24 +38,24 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Exact midpoint agreement for two scheduled segments using one master. -/
 def exactMeets («prefix» suffix : List (Fin 32))
     (master : Master) (initial final : Point) : Prop :=
-  Diffan.Meet.meets (leftEquiv «prefix» master) (rightEquiv suffix master)
+  Difan.Meet.meets (leftEquiv «prefix» master) (rightEquiv suffix master)
     initial final
 
 /-- Equality of the actual 64-bit middle base state. -/
 def baseMatches («prefix» suffix : List (Fin 32))
     (master : Master) (initial final : Point) : Prop :=
-  Diffan.MiddleObservation.baseMeets
+  Difan.MiddleObservation.baseMeets
     (leftEquiv «prefix» master) (rightEquiv suffix master) initial final
 
 /-- Equality of both 32-bit middle differences, without the base. -/
 def deltaMatches («prefix» suffix : List (Fin 32))
     (master : Master) (initial final : Point) : Prop :=
-  Diffan.MiddleObservation.differenceMeets
+  Difan.MiddleObservation.differenceMeets
     (leftEquiv «prefix» master) (rightEquiv suffix master) initial final
 
 /-- The full meet is equivalent to the conjunction of the two fields.
@@ -66,7 +66,7 @@ theorem exact_iff_base_and_delta
     exactMeets «prefix» suffix master initial final ↔
       baseMatches «prefix» suffix master initial final ∧
         deltaMatches «prefix» suffix master initial final := by
-  exact Diffan.MiddleObservation.exact_iff_base_and_difference
+  exact Difan.MiddleObservation.exact_iff_base_and_difference
     (leftEquiv «prefix» master) (rightEquiv suffix master) initial final
 
 /-- Observe the selected bits in each half of the middle difference. -/
@@ -76,7 +76,7 @@ def maskedDelta (maskL maskR : Word) (p : Point) : Word × Word :=
 /-- A cheap necessary condition for an actual joint trajectory. -/
 def maskedMatches («prefix» suffix : List (Fin 32))
     (maskL maskR : Word) (master : Master) (initial final : Point) : Prop :=
-  Diffan.MiddleObservation.observedMeets
+  Difan.MiddleObservation.observedMeets
     (leftEquiv «prefix» master) (rightEquiv suffix master)
     (maskedDelta maskL maskR) initial final
 
@@ -85,7 +85,7 @@ theorem exact_implies_masked («prefix» suffix : List (Fin 32))
     (maskL maskR : Word) (master : Master) (initial final : Point)
     (h : exactMeets «prefix» suffix master initial final) :
     maskedMatches «prefix» suffix maskL maskR master initial final := by
-  exact Diffan.MiddleObservation.exact_implies_observed
+  exact Difan.MiddleObservation.exact_implies_observed
     (leftEquiv «prefix» master) (rightEquiv suffix master)
     (maskedDelta maskL maskR) initial final h
 
@@ -95,14 +95,14 @@ theorem mismatch_excludes_exact («prefix» suffix : List (Fin 32))
     (maskL maskR : Word) (master : Master) (initial final : Point)
     (h : ¬ maskedMatches «prefix» suffix maskL maskR master initial final) :
     ¬ exactMeets «prefix» suffix master initial final := by
-  exact Diffan.MiddleObservation.no_exact_of_observation_mismatch
+  exact Difan.MiddleObservation.no_exact_of_observation_mismatch
     (leftEquiv «prefix» master) (rightEquiv suffix master)
     (maskedDelta maskL maskR) initial final h
 
 /-- Master keys whose reconstructed midpoints agree on the selected bits. -/
 def candidateMasters («prefix» suffix : List (Fin 32))
     (maskL maskR : Word) (initial final : Point) :
-    Diffan.KeyConstraint Master :=
+    Difan.KeyConstraint Master :=
   fun master => maskedMatches «prefix» suffix maskL maskR master initial final
 
 /-- Every master key admitting an exact joined trajectory passes the filter. -/
@@ -124,4 +124,4 @@ theorem local_symmetry_and_exact_implies_candidate
   exact ⟨(all_windows_iff_eight_source_words_even master).mp hlocal,
     exact_master_in_candidates «prefix» suffix maskL maskR master initial final hexact⟩
 
-end Magma.DiffanScheduledMiddleObservation
+end Magma.DifanScheduledMiddleObservation

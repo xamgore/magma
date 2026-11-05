@@ -19,13 +19,13 @@ Z-fibers are exactly equal at R and R XOR h.  In particular, when
 (or orbitwise) symmetry, NOT full uniformity over all R of the same c.
 -/
 
-namespace Magma.DiffanThreeRoundPeriodSymmetry
+namespace Magma.DifanThreeRoundPeriodSymmetry
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanThreeRoundCouplingDefect
-open Magma.DiffanThreeRoundRightHistogram
-open Magma.DiffanThreeRoundConditionalSlices
+open Magma.DifanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundRightHistogram
+open Magma.DifanThreeRoundConditionalSlices
 
 private abbrev Word :=
   V 32
@@ -88,7 +88,7 @@ theorem conditionalZCount_translate
     conditionalZCount k₀ k₁ k₂ aL aR bL bR (xor R h) =
       conditionalZCount k₀ k₁ k₂ aL aR bL bR R := by
   classical
-  unfold conditionalZCount Diffan.FiberUniformity.conditionalCount
+  unfold conditionalZCount Difan.FiberUniformity.conditionalCount
   simp only
   apply congrArg Finset.card
   apply Finset.filter_congr
@@ -130,4 +130,4 @@ theorem diagonal_slice_summand_period
   rw [intermediateDifference_diagonal_period,
     conditionalZCount_diagonal_period]
 
-end Magma.DiffanThreeRoundPeriodSymmetry
+end Magma.DifanThreeRoundPeriodSymmetry

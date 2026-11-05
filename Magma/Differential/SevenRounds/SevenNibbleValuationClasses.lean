@@ -7,11 +7,11 @@ import Std.Tactic.BVDecide
 set_option maxHeartbeats 2000000
 
 @[expose] public section
-namespace Magma.DiffanSevenNibbleValuationClasses
+namespace Magma.DifanSevenNibbleValuationClasses
 
 open Magma Magma.CarryAutomaton Magma.MultiRoundDDT
-open Magma.DiffanFirstActiveNibbleInvariant
-open Magma.DiffanSevenTopNibble
+open Magma.DifanFirstActiveNibbleInvariant
+open Magma.DifanSevenTopNibble
 
 private abbrev Word := V 32
 
@@ -108,7 +108,7 @@ theorem possible_of_real_g (k x d : Word) :
     · subst d
       simp [gDifference, Magma.xor, BitVec.xor_zero]
   · obtain ⟨i, hi⟩ := exists_first d hd
-    have hp := Magma.DiffanFirstActiveNibbleInvariant.firstActiveNibble_preserved
+    have hp := Magma.DifanFirstActiveNibbleInvariant.firstActiveNibble_preserved
       k d x i hi
     have ha : activeAt d i.val := activeAt_of_first d i hi
     have hb : activeAt
@@ -147,7 +147,7 @@ many active higher-order nibbles. -/
 theorem opposite_five_core_zero_sixClasses
     (keys : Fin 5 → Word) (a b : Word) (hclass : sixClasses a b) :
     xorDDT_rounds 5 keys (0#32, a) (b, 0#32) = 0 := by
-  apply Magma.DiffanSevenTopNibble.opposite_five_core_zero_of_no_local_chain
+  apply Magma.DifanSevenTopNibble.opposite_five_core_zero_of_no_local_chain
     keys a b
   intro k0 k1 k2 k3 k4 x1 x2 x3 x4 x5 p q t h0 h1 h2 h3 h4
   apply no_five_valuation_chain a b p q t
@@ -170,7 +170,7 @@ The proof applies uniformly, without enumerating those pairs. -/
 theorem seven_round_zero_six_nibble_classes
     (keys : Fin 7 → Word) (a b : Word) (hclass : sixClasses a b) :
     xorDDT_rounds 7 keys (a, 0#32) (0#32, b) = 0 := by
-  rw [Magma.DiffanFirstRoundDeletion.twoSided_boundary_ddt_eq_inner
+  rw [Magma.DifanFirstRoundDeletion.twoSided_boundary_ddt_eq_inner
     5 keys a b]
   exact opposite_five_core_zero_sixClasses
     (fun i : Fin 5 => keys i.castSucc.succ) a b hclass
@@ -204,4 +204,4 @@ theorem nine_high_high_valuation_relaxation_has_path :
   unfold possible activeAt
   norm_num
 
-end Magma.DiffanSevenNibbleValuationClasses
+end Magma.DifanSevenNibbleValuationClasses

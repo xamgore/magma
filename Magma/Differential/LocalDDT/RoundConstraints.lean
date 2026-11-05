@@ -20,13 +20,13 @@ of eight constrained source words. Three-round window rules translate to
 this representation by constraining their first and third round keys.
 -/
 
-namespace Magma.DiffanRoundConstraints
+namespace Magma.DifanRoundConstraints
 
 open Magma
-open Magma.DiffanDiagonalMasterCountReduction
-open Magma.DiffanOuterKeySplitCertificate
-open Magma.DiffanRepeatedWindowIntersections
-open Magma.DiffanMultiWindowIntersections
+open Magma.DifanDiagonalMasterCountReduction
+open Magma.DifanOuterKeySplitCertificate
+open Magma.DifanRepeatedWindowIntersections
+open Magma.DifanMultiWindowIntersections
 
 private abbrev Word :=
   V 32
@@ -256,4 +256,4 @@ theorem legacyWindows_card_via_rounds (rules : List WindowRule) :
       Fintype.card_congr E
     _ = _ := Fintype.card_pi
 
-end Magma.DiffanRoundConstraints
+end Magma.DifanRoundConstraints

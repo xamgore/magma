@@ -17,12 +17,12 @@ but summing the left and right marginals separately within one label is
 NOT justified: the concrete common point must still match.
 -/
 
-namespace Magma.DiffanFiveRoundMiddleFiberMass
+namespace Magma.DifanFiveRoundMiddleFiberMass
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundSinglePointOverlap
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundSinglePointOverlap
 
 private abbrev Word :=
   V 32
@@ -34,7 +34,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Left four-round windows satisfying the input and middle predicates. -/
 abbrev LeftEligible (master : Master) (P R : Point → Prop) : Type :=
@@ -170,4 +170,4 @@ theorem base_match_iff_full_of_same_delta
     (full_point_iff_base_and_difference a.p₁ b.p₀).2 ⟨hb, hd⟩,
     fun h => ((full_point_iff_base_and_difference a.p₁ b.p₀).1 h).1⟩
 
-end Magma.DiffanFiveRoundMiddleFiberMass
+end Magma.DifanFiveRoundMiddleFiberMass

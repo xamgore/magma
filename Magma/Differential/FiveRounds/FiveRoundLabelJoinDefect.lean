@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FiveRoundMiddleFiberMass
-public import Diffan.Fibers.LabelJoinDefect
+public import Difan.Fibers.LabelJoinDefect
 
 @[expose] public section
 
@@ -15,11 +15,11 @@ use the same master key. No independent-round-key or marginal-DDT product
 assumption is introduced.
 -/
 
-namespace Magma.DiffanFiveRoundLabelJoinDefect
+namespace Magma.DifanFiveRoundLabelJoinDefect
 
 open Magma
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundOverlappingWindows
 
 private abbrev Word :=
   V 32
@@ -31,7 +31,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Actual multiplicities of two real four-round windows at a full point. -/
 noncomputable def leftWeight (master : Master) (P R : Point → Prop) (m : Point) : Nat :=
@@ -47,14 +47,14 @@ number of false cross-window matches. -/
 theorem five_coarse_eq_real_plus_defect
     (master : Master) (P Q R : Point → Prop)
     {Label : Type*} [DecidableEq Label] (observe : Point → Label) :
-    Diffan.LabelJoinDefect.coarseMass observe
+    Difan.LabelJoinDefect.coarseMass observe
         (leftWeight master P R) (rightWeight master Q) =
       Fintype.card (FiveRestricted master P Q R) +
-        Diffan.LabelJoinDefect.defectMass observe
+        Difan.LabelJoinDefect.defectMass observe
           (leftWeight master P R) (rightWeight master Q) := by
   classical
   have htotal :
-      Diffan.LabelJoinDefect.exactMass
+      Difan.LabelJoinDefect.exactMass
           (leftWeight master P R) (rightWeight master Q) =
         Fintype.card (FiveRestricted master P Q R) := by
     calc
@@ -62,11 +62,11 @@ theorem five_coarse_eq_real_plus_defect
         rfl
       _ = _ := (five_count_eq_conditional_mass master P Q R).symm
   calc
-    _ = Diffan.LabelJoinDefect.exactMass
+    _ = Difan.LabelJoinDefect.exactMass
           (leftWeight master P R) (rightWeight master Q) +
-        Diffan.LabelJoinDefect.defectMass observe
+        Difan.LabelJoinDefect.defectMass observe
           (leftWeight master P R) (rightWeight master Q) :=
-      Diffan.LabelJoinDefect.coarse_eq_exact_add_defect observe
+      Difan.LabelJoinDefect.coarse_eq_exact_add_defect observe
         (leftWeight master P R) (rightWeight master Q)
     _ = _ := by rw [htotal]
 
@@ -77,7 +77,7 @@ reachable fibers, not on the width of `Label` alone. -/
 theorem five_coarse_exact_iff
     (master : Master) (P Q R : Point → Prop)
     {Label : Type*} [DecidableEq Label] (observe : Point → Label) :
-    Diffan.LabelJoinDefect.coarseMass observe
+    Difan.LabelJoinDefect.coarseMass observe
         (leftWeight master P R) (rightWeight master Q) =
       Fintype.card (FiveRestricted master P Q R) ↔
     ∀ m n : Point, observe m = observe n → m ≠ n →
@@ -86,15 +86,15 @@ theorem five_coarse_exact_iff
   have hs := five_coarse_eq_real_plus_defect master P Q R observe
   constructor
   · intro heq
-    have hz : Diffan.LabelJoinDefect.defectMass observe
+    have hz : Difan.LabelJoinDefect.defectMass observe
         (leftWeight master P R) (rightWeight master Q) = 0 := by
       omega
-    exact (Diffan.LabelJoinDefect.defect_eq_zero_iff observe
+    exact (Difan.LabelJoinDefect.defect_eq_zero_iff observe
       (leftWeight master P R) (rightWeight master Q)).mp hz
   · intro h
-    have hz := (Diffan.LabelJoinDefect.defect_eq_zero_iff observe
+    have hz := (Difan.LabelJoinDefect.defect_eq_zero_iff observe
       (leftWeight master P R) (rightWeight master Q)).mpr h
     rw [hs, hz]
     simp
 
-end Magma.DiffanFiveRoundLabelJoinDefect
+end Magma.DifanFiveRoundLabelJoinDefect

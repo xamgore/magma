@@ -19,13 +19,13 @@ are repacked bijectively into `BitVec 192`.
 
 -/
 
-namespace Magma.DiffanOuterKeySplitCertificate
+namespace Magma.DifanOuterKeySplitCertificate
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanDiagonalSupportScheduledWindows
-open Magma.DiffanDiagonalMasterCountReduction
-open Magma.DiffanDiagonalMasterKeyClasses
+open Magma.DifanDiagonalSupportScheduledWindows
+open Magma.DifanDiagonalMasterCountReduction
+open Magma.DifanDiagonalMasterKeyClasses
 open Magma.OneHotFullKeyClassInvariant
 open Magma.ZeroLeftParityCompleteSlice
 
@@ -193,4 +193,4 @@ theorem oneHot_diagonal_master_count
   exact oneHot_diagonal_master_count_of_split start j
     (outerSplit start) (outerSplit_correct start)
 
-end Magma.DiffanOuterKeySplitCertificate
+end Magma.DifanOuterKeySplitCertificate

@@ -20,18 +20,18 @@ accepts it. No claim that this particular output difference is key-
 independent, or that the exact five-round fiber is nonempty, is made.
 -/
 
-namespace Magma.DiffanFiveRoundConcreteMaskGain
+namespace Magma.DifanFiveRoundConcreteMaskGain
 
 open Magma
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFiveRoundDualBoundaryGraphJoin
-open Magma.DiffanFiveRoundGraphSyndrome
-open Magma.DiffanFiveRoundGraphMaskRefinement
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundDualBoundaryGraphJoin
+open Magma.DifanFiveRoundGraphSyndrome
+open Magma.DifanFiveRoundGraphMaskRefinement
 
 private abbrev Word :=
   V 32
@@ -43,7 +43,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- A fixed, nonzero input difference, independent of the master key. -/
 def inputDir : RoundState := ((0#32), (1#32))
@@ -198,7 +198,7 @@ theorem gained_mass_positive (master : Master) :
     0 < newlyRejectedMaskMass master inputDir (outputDir master)
       unrestricted coarseMask fineMask := by
   classical
-  exact Diffan.ObservedGraphRefinement.gained_pos_of_witness
+  exact Difan.ObservedGraphRefinement.gained_pos_of_witness
     (maskedDifference coarseMask) (maskedDifference fineMask)
     (reconstructed master inputDir)
     (rightReconstructed master (outputDir master))
@@ -206,4 +206,4 @@ theorem gained_mass_positive (master : Master) :
     (commonBase master) (active_base master)
     (coarse_agreement master) (fine_disagreement master)
 
-end Magma.DiffanFiveRoundConcreteMaskGain
+end Magma.DifanFiveRoundConcreteMaskGain

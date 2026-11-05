@@ -14,11 +14,11 @@ that a derivative of e^{-1} factors in the same nibble coordinates as
 one of e; inverse rotation must be represented explicitly.
 -/
 
-namespace Magma.DiffanMiddleInverseDerivative
+namespace Magma.DifanMiddleInverseDerivative
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundImageJoin
+open Magma.DifanFiveRoundImageJoin
 
 private abbrev Word :=
   V 32
@@ -118,7 +118,7 @@ open scoped Classical in
 theorem fiveRound_eq_three_inverse_fibers
     (k₀ k₁ k₂ k₃ k₄ a b : Word) :
     Magma.MultiRoundDDT.xorDDT_rounds 5
-        (Magma.DiffanFiveRoundCoreDefect.fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
+        (Magma.DifanFiveRoundCoreDefect.fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
         (a, 0#32) (0#32, b) =
       ∑ r : Word, ∑ h : Word,
         if inverseTripleCondition k₁ k₂ k₃ a b r h
@@ -131,4 +131,4 @@ theorem fiveRound_eq_three_inverse_fibers
   exact if_congr
     (imageTriple_iff_inverseTriple k₁ k₂ k₃ a b r h) rfl rfl
 
-end Magma.DiffanMiddleInverseDerivative
+end Magma.DifanMiddleInverseDerivative

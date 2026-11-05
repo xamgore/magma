@@ -12,14 +12,14 @@ reachability test overapproximates all real Magma round differences.
 A negative result is a sound certificate for universal impossibility.
 -/
 
-namespace Magma.DiffanKeyFreeCarryAutomaton
+namespace Magma.DifanKeyFreeCarryAutomaton
 
 open Magma
 open Magma.CarryAutomaton
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
-open Magma.DiffanOneHotKeyFreeCarryBridge
-open Magma.DiffanFiveRoundUniversalSupport
+open Magma.DifanFiveRoundCoreDefect
+open Magma.DifanOneHotKeyFreeCarryBridge
+open Magma.DifanFiveRoundUniversalSupport
 
 private abbrev Word :=
   V 32
@@ -111,4 +111,4 @@ theorem fiveRound_zero_of_boolean_keyFree_conflict
      keyFreePossible_of_anyKeyGSupport c (xor s a) h.2.1,
      keyFreePossible_of_anyKeyGSupport s c h.2.2⟩
 
-end Magma.DiffanKeyFreeCarryAutomaton
+end Magma.DifanKeyFreeCarryAutomaton

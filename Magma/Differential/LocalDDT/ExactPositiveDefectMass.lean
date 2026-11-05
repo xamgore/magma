@@ -18,16 +18,16 @@ The finite certificate checks the odd-row prefix fiber, containing at
 most 29 candidates, through products of eight local S-box DDT entries.
 -/
 
-namespace Magma.DiffanExactPositiveDefectMass
+namespace Magma.DifanExactPositiveDefectMass
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
 open Magma.OddUnitInput77
-open Magma.DiffanPositiveDefectConcreteWitness
-open Magma.DiffanZeroLeftSupportOverlap
-open Magma.DiffanOddUnitLow20CollisionClasses
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanPositiveDefectConcreteWitness
+open Magma.DifanZeroLeftSupportOverlap
+open Magma.DifanOddUnitLow20CollisionClasses
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -252,4 +252,4 @@ theorem other_defect_exact (k₀ k₂ requested : Word)
   have hsum := exact_defect_plus_selected_weight k₀ k₂ requested hk
   exact eq_of_zero_summand hsum (overlapWeight_zero_outside k₀ requested hk hnot)
 
-end Magma.DiffanExactPositiveDefectMass
+end Magma.DifanExactPositiveDefectMass

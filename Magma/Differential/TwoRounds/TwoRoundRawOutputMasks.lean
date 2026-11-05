@@ -26,17 +26,17 @@ A predicate on raw output bits and an independent input mask give exact
 partner-closed correction fibers.
 -/
 
-namespace Magma.DiffanTwoRoundRawOutputMasks
+namespace Magma.DifanTwoRoundRawOutputMasks
 
 open Magma Magma.Internal Magma.GProperties
-open Magma.DiffanFeistelDeltaPropagation (secondCorrection)
-open Magma.DiffanScheduledMeet
-open Magma.DiffanScheduledCorrectionReachability
-open Magma.DiffanScheduledCorrectionHomogeneity
-open Magma.DiffanScheduledCorrectionPartnerFibers
-open Magma.DiffanScheduledCorrectionMaskedInputs
-open Magma.DiffanScheduledCorrectionMaskedOutputs
-open Magma.DiffanTwoRoundSuffixObservation
+open Magma.DifanFeistelDeltaPropagation (secondCorrection)
+open Magma.DifanScheduledMeet
+open Magma.DifanScheduledCorrectionReachability
+open Magma.DifanScheduledCorrectionHomogeneity
+open Magma.DifanScheduledCorrectionPartnerFibers
+open Magma.DifanScheduledCorrectionMaskedInputs
+open Magma.DifanScheduledCorrectionMaskedOutputs
+open Magma.DifanTwoRoundSuffixObservation
 
 private abbrev Word :=
   V 32
@@ -45,7 +45,7 @@ private abbrev Master :=
   V 256
 
 private abbrev Point :=
-  Diffan.StateDifference (Word × Word) (Word × Word)
+  Difan.StateDifference (Word × Word) (Word × Word)
 
 /-- The three lowest S-boxes after rotation occupy bits 11..22. -/
 def outputLowBoxMask : Word := 0x007FF800#32
@@ -222,9 +222,9 @@ private theorem finite_partner_card_even
     have hh : R = R ^^^ s := BitVec.toNat_injective heq
     have hz : s = 0#32 := by bv_decide
     exact hs hz
-  refine ⟨(Diffan.FiniteInvolutionOrbits.representatives
+  refine ⟨(Difan.FiniteInvolutionOrbits.representatives
     C (fun R => R ^^^ s) BitVec.toNat).card, ?_⟩
-  exact Diffan.FiniteInvolutionOrbits.card_eq_twice_representatives
+  exact Difan.FiniteInvolutionOrbits.card_eq_twice_representatives
     C (fun R => R ^^^ s) BitVec.toNat hinvol hstable hrank
 
 /-- Every genuinely endpoint-restricted correction fiber is even, now
@@ -306,4 +306,4 @@ theorem selected_raw_two_positive_corrections
     (selected_raw_admitted master i j L aL d (0x00001000#32)
       (by decide) (by decide))
 
-end Magma.DiffanTwoRoundRawOutputMasks
+end Magma.DifanTwoRoundRawOutputMasks

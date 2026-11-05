@@ -27,7 +27,7 @@ The 2-round schedule G_k,G_k is even more transparent:
 and one plaintext/ciphertext determines g_k(R).
 -/
 
-namespace Magma.DiffanRepeatedKeyThreeRound
+namespace Magma.DifanRepeatedKeyThreeRound
 
 open Magma
 
@@ -140,4 +140,4 @@ theorem four_repeated_inner_key_equation
           (g a R ^^^ L)) ^^^
             (g b (g a R ^^^ L) ^^^ R)) := by ac_rfl
 
-end Magma.DiffanRepeatedKeyThreeRound
+end Magma.DifanRepeatedKeyThreeRound

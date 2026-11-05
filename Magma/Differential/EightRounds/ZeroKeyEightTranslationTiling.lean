@@ -1,7 +1,7 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Symmetry.FiniteTranslationOrbits
+public import Difan.Symmetry.FiniteTranslationOrbits
 public import Magma.Differential.EightRounds.ZeroKeyEightOrbitReduction
 
 @[expose] public section
@@ -17,14 +17,14 @@ The weighted formulas instantiate the generic finite-translation theorem
 with the reduced defect, which is constant on each two-element orbit.
 -/
 
-namespace Magma.DiffanZeroKeyEightTranslationTiling
+namespace Magma.DifanZeroKeyEightTranslationTiling
 
 open Magma
-open Magma.DiffanZeroKeyEightDefectClassification
-open Magma.DiffanZeroKeyEightDefectWeights
-open Magma.DiffanZeroKeyEightDefectSpectrum
-open Magma.DiffanZeroKeyEightOrbitReduction
-open Diffan.FiniteTranslationOrbits
+open Magma.DifanZeroKeyEightDefectClassification
+open Magma.DifanZeroKeyEightDefectWeights
+open Magma.DifanZeroKeyEightDefectSpectrum
+open Magma.DifanZeroKeyEightOrbitReduction
+open Difan.FiniteTranslationOrbits
 
 private abbrev Word :=
   V 32
@@ -88,4 +88,4 @@ theorem reduced_defect_total_via_tiling :
   rw [reduced_defect_sum_via_tiling, reduced_defect_representatives_total]
   decide
 
-end Magma.DiffanZeroKeyEightTranslationTiling
+end Magma.DifanZeroKeyEightTranslationTiling

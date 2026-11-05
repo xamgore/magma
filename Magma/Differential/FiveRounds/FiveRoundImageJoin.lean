@@ -13,11 +13,11 @@ base Z is replaced by the genuine middle round-function OUTPUT h=g[k2](Z).
 Because g[k2] is bijective, no multiplicity or Jacobian appears.
 -/
 
-namespace Magma.DiffanFiveRoundImageJoin
+namespace Magma.DifanFiveRoundImageJoin
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
+open Magma.DifanFiveRoundCoreDefect
 
 private abbrev Word :=
   V 32
@@ -88,4 +88,4 @@ theorem fiveRound_eq_imageTriple (k₀ k₁ k₂ k₃ k₄ a b : Word) :
   exact if_congr
     (imageJoin_iff_three_conditions k₁ k₂ k₃ a b r h) rfl rfl
 
-end Magma.DiffanFiveRoundImageJoin
+end Magma.DifanFiveRoundImageJoin

@@ -18,19 +18,19 @@ keys for overlapping windows. The remaining master-key words are not read
 by this five-round prefix.
 -/
 
-namespace Magma.DiffanFiveRoundPrefixKeyFamily
+namespace Magma.DifanFiveRoundPrefixKeyFamily
 
 open Magma
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundLabelJoinDefect
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFiveRoundDualBoundaryGraphJoin
-open Magma.DiffanFiveRoundGraphSyndrome
-open Magma.DiffanFiveRoundGraphMaskRefinement
-open Magma.DiffanFiveRoundNonemptyMaskGain
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundLabelJoinDefect
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundDualBoundaryGraphJoin
+open Magma.DifanFiveRoundGraphSyndrome
+open Magma.DifanFiveRoundGraphMaskRefinement
+open Magma.DifanFiveRoundNonemptyMaskGain
 
 private abbrev Word :=
   V 32
@@ -42,7 +42,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- The five ACTUAL scheduled subkeys used by five ordinary rounds are
 identical to those of the zero-master witness. -/
@@ -188,4 +188,4 @@ theorem family_nontrivial :
     ∃ K : Master, K ≠ chosenMaster ∧ sameFirstFive K :=
   ⟨alternateMaster, alternateMaster_ne, alternateMaster_mem⟩
 
-end Magma.DiffanFiveRoundPrefixKeyFamily
+end Magma.DifanFiveRoundPrefixKeyFamily

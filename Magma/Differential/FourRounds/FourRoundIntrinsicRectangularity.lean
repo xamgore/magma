@@ -20,14 +20,14 @@ When both are zero, the two conditions separate.  No marginal-DDT
 independence is postulated.
 -/
 
-namespace Magma.DiffanFourRoundIntrinsicRectangularity
+namespace Magma.DifanFourRoundIntrinsicRectangularity
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFourRoundScheduledMiddleFibers
-open Magma.DiffanFourRoundForcedMiddleDifference
-open Magma.DiffanFourRoundMiddleCoordinateKernel
-open Magma.DiffanFourRoundProjectionDefect
+open Magma.DifanFourRoundScheduledMiddleFibers
+open Magma.DifanFourRoundForcedMiddleDifference
+open Magma.DifanFourRoundMiddleCoordinateKernel
+open Magma.DifanFourRoundProjectionDefect
 
 private abbrev Word :=
   V 32
@@ -39,7 +39,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 private theorem xor_eq_zero_iff (x y : Word) : (x ^^^ y) = (0#32) ↔ x = y := by
   constructor
@@ -212,7 +212,7 @@ def unmaskedJoinedEquiv (master : Master) (aL bR : Word) :
         P u ∧ Q v := by
     intro u v
     exact unmasked_admissible_iff master aL bR u v
-  refine Equiv.trans (Diffan.Meet.fiberEquiv (left master) (right master)
+  refine Equiv.trans (Difan.Meet.fiberEquiv (left master) (right master)
     (fun p => inputMasked (aL, 0#32) (0#32) p ∧
       (fun _ : Point => True) ((left master) p))
     (outputMasked (0#32, bR) (0#32))).symm ?_
@@ -245,4 +245,4 @@ theorem unmasked_fourRound_product (master : Master) (aL bR : Word) :
       Fintype.card_congr (unmaskedJoinedEquiv master aL bR)
     _ = _ := Fintype.card_prod _ _
 
-end Magma.DiffanFourRoundIntrinsicRectangularity
+end Magma.DifanFourRoundIntrinsicRectangularity

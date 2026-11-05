@@ -12,11 +12,11 @@ or postulate the conjecture as a theorem. The all-UNSAT computational
 matrix is evidence, not part of the Lean kernel proof.
 -/
 
-namespace Magma.DiffanTwoHotFiveRoundTarget
+namespace Magma.DifanTwoHotFiveRoundTarget
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanFiveRoundCoreDefect
+open Magma.DifanFiveRoundCoreDefect
 
 abbrev Word := V 32
 
@@ -33,4 +33,4 @@ def universalTwoHotFiveRoundZero : Prop :=
     xorDDT_rounds 5 (fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
       (a, 0#32) (0#32, s) = 0
 
-end Magma.DiffanTwoHotFiveRoundTarget
+end Magma.DifanTwoHotFiveRoundTarget

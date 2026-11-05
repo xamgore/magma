@@ -1,7 +1,7 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.Composition.MeetFiberTransport
+public import Difan.Composition.MeetFiberTransport
 public import Magma.Differential.Windows.ScheduledMiddleObservation
 import Std.Tactic.BVDecide
 
@@ -21,10 +21,10 @@ additional theorem identifying the induced output map with that simple shift.
 All executions here use ordinary G rounds, not the final GStar encoding.
 -/
 
-namespace Magma.DiffanScheduledMeetFiberTransport
+namespace Magma.DifanScheduledMeetFiberTransport
 
 open Magma
-open Magma.DiffanScheduledMeet
+open Magma.DifanScheduledMeet
 
 private abbrev Word :=
   V 32
@@ -36,7 +36,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Transport an input coordinate change to the real middle state. -/
 def inducedMiddle («prefix» : List (Fin 32)) (master : Master)
@@ -73,7 +73,7 @@ theorem pushCondition_apply (shift : Point ≃ Point) (P : Point → Prop) (p : 
 def scheduledCertificate
     («prefix» suffix : List (Fin 32)) (master : Master)
     (shift : Point ≃ Point) (P Q R : Point → Prop) :
-    Diffan.MeetFiberTransport.Certificate
+    Difan.MeetFiberTransport.Certificate
       (leftEquiv «prefix» master) (leftEquiv «prefix» master)
       (rightEquiv suffix master) (rightEquiv suffix master)
       P (pushCondition shift P)
@@ -93,7 +93,7 @@ def scheduledCertificate
 /-- The actual set of joint midpoint witnesses, retaining both endpoints. -/
 abbrev joinedAt («prefix» suffix : List (Fin 32)) (master : Master)
     (P Q R : Point → Prop) : Type _ :=
-  Diffan.Meet.JoinedFiber
+  Difan.Meet.JoinedFiber
     (leftEquiv «prefix» master) (rightEquiv suffix master)
     (fun p => P p ∧ R (leftEquiv «prefix» master p)) Q
 
@@ -157,4 +157,4 @@ theorem leftDelta_count_transport
   exact joinedCount_transport «prefix» suffix master
     (shiftInputLeftDelta (0x00006000#32)) P Q R
 
-end Magma.DiffanScheduledMeetFiberTransport
+end Magma.DifanScheduledMeetFiberTransport

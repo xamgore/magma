@@ -25,7 +25,7 @@ open Magma
 open Magma.Internal
 open Magma.GProperties
 open Magma.CarryAutomaton
-open Magma.DiffanGBaseTaggedCarryStep
+open Magma.DifanGBaseTaggedCarryStep
 
 private abbrev Word := V 32
 

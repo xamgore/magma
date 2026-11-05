@@ -2,7 +2,7 @@ module
 
 import all Init.Data.Range.Basic
 public import Magma.Differential.FiveRounds.FiveRoundBitCubeExactMask
-public import Diffan.Algorithms.CertifiedFastPath
+public import Difan.Algorithms.CertifiedFastPath
 
 @[expose] public section
 
@@ -28,19 +28,19 @@ most bases may require the full comparison, and membership in the small
 cube itself has an implementation cost.
 -/
 
-namespace Magma.DiffanFiveRoundCertifiedFastPath
+namespace Magma.DifanFiveRoundCertifiedFastPath
 
 open Magma
-open Magma.DiffanFiveRoundOverlappingWindows
-open Magma.DiffanFiveRoundMiddleFiberMass
-open Magma.DiffanFiveRoundZeroBoundaryBaseLabel
-open Magma.DiffanFiveRoundBaseDeltaLabelAudit
-open Magma.DiffanFiveRoundFixedInputGraphJoin
-open Magma.DiffanFiveRoundDualBoundaryGraphJoin
-open Magma.DiffanFiveRoundGraphSyndrome
-open Magma.DiffanFiveRoundNonemptyMaskGain
-open Magma.DiffanFiveRoundPrefixKeyFamily
-open Magma.DiffanFiveRoundBitCubeExactMask
+open Magma.DifanFiveRoundOverlappingWindows
+open Magma.DifanFiveRoundMiddleFiberMass
+open Magma.DifanFiveRoundZeroBoundaryBaseLabel
+open Magma.DifanFiveRoundBaseDeltaLabelAudit
+open Magma.DifanFiveRoundFixedInputGraphJoin
+open Magma.DifanFiveRoundDualBoundaryGraphJoin
+open Magma.DifanFiveRoundGraphSyndrome
+open Magma.DifanFiveRoundNonemptyMaskGain
+open Magma.DifanFiveRoundPrefixKeyFamily
+open Magma.DifanFiveRoundBitCubeExactMask
 
 private abbrev Master :=
   V 256
@@ -49,7 +49,7 @@ private abbrev RoundState :=
   V 32 × V 32
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- A geometric membership test on the COMMON BASE, independent of
 both differences and the reconstructed syndrome. -/
@@ -78,7 +78,7 @@ the bases to the cube. -/
 noncomputable def adaptiveCandidateMass (K : Master)
     (R : Point → Prop) : Nat := by
   classical
-  exact Diffan.CertifiedFastPath.hybridMass cubeFast
+  exact Difan.CertifiedFastPath.hybridMass cubeFast
     (maskedDifference separatingMask)
     (reconstructed K chosenInput)
     (rightReconstructed K chosenOutput)
@@ -94,7 +94,7 @@ theorem adaptive_exact_for_family (K : Master) (h : sameFirstFive K)
         (outputDifference chosenOutput) R) := by
   classical
   unfold adaptiveCandidateMass
-  rw [Diffan.CertifiedFastPath.hybrid_eq_exact_of_certificate
+  rw [Difan.CertifiedFastPath.hybrid_eq_exact_of_certificate
     cubeFast (maskedDifference separatingMask)
     (reconstructed K chosenInput)
     (rightReconstructed K chosenOutput)
@@ -111,29 +111,29 @@ theorem adaptive_accounting_for_family (K : Master)
     (∑ b : RoundState, baseWeight K chosenInput chosenOutput R b) =
       Fintype.card (FiveRestricted K (inputDifference chosenInput)
         (outputDifference chosenOutput) R) +
-      Diffan.CertifiedFastPath.fastRejectedMass cubeFast
+      Difan.CertifiedFastPath.fastRejectedMass cubeFast
         (maskedDifference separatingMask)
         (reconstructed K chosenInput)
         (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) +
-      Diffan.CertifiedFastPath.fallbackRejectedMass cubeFast
+      Difan.CertifiedFastPath.fallbackRejectedMass cubeFast
         (reconstructed K chosenInput)
         (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) := by
   classical
-  have hc := Diffan.CertifiedFastPath.coarse_eq_hybrid_add_rejections
+  have hc := Difan.CertifiedFastPath.coarse_eq_hybrid_add_rejections
     cubeFast (maskedDifference separatingMask)
     (reconstructed K chosenInput)
     (rightReconstructed K chosenOutput)
     (baseWeight K chosenInput chosenOutput R)
   change (∑ b : RoundState, baseWeight K chosenInput chosenOutput R b) =
     adaptiveCandidateMass K R +
-      Diffan.CertifiedFastPath.fastRejectedMass cubeFast
+      Difan.CertifiedFastPath.fastRejectedMass cubeFast
         (maskedDifference separatingMask)
         (reconstructed K chosenInput)
         (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) +
-      Diffan.CertifiedFastPath.fallbackRejectedMass cubeFast
+      Difan.CertifiedFastPath.fallbackRejectedMass cubeFast
         (reconstructed K chosenInput)
         (rightReconstructed K chosenOutput)
         (baseWeight K chosenInput chosenOutput R) at hc
@@ -149,13 +149,13 @@ open scoped Classical in
 /-- The one-bit fast rejection has positive weight even on the FULL
 unrestricted five-round support, for every scheduled-key family member. -/
 theorem global_fast_rejection_positive (K : Master) (h : sameFirstFive K) :
-    0 < Diffan.CertifiedFastPath.fastRejectedMass cubeFast
+    0 < Difan.CertifiedFastPath.fastRejectedMass cubeFast
       (maskedDifference separatingMask)
       (reconstructed K chosenInput)
       (rightReconstructed K chosenOutput)
       (baseWeight K chosenInput chosenOutput unrestricted) := by
   classical
-  apply Diffan.CertifiedFastPath.fast_rejected_pos_of_witness
+  apply Difan.CertifiedFastPath.fast_rejected_pos_of_witness
     cubeFast (maskedDifference separatingMask)
     (reconstructed K chosenInput)
     (rightReconstructed K chosenOutput)
@@ -177,7 +177,7 @@ theorem global_nonempty_exact_with_fast_gain (K : Master)
     adaptiveCandidateMass K unrestricted =
       Fintype.card (FiveRestricted K (inputDifference chosenInput)
         (outputDifference chosenOutput) unrestricted) ∧
-    0 < Diffan.CertifiedFastPath.fastRejectedMass cubeFast
+    0 < Difan.CertifiedFastPath.fastRejectedMass cubeFast
       (maskedDifference separatingMask)
       (reconstructed K chosenInput)
       (rightReconstructed K chosenOutput)
@@ -188,4 +188,4 @@ theorem global_nonempty_exact_with_fast_gain (K : Master)
     (inputDifference chosenInput) (outputDifference chosenOutput) unrestricted]
   exact actual_five_round_count_positive
 
-end Magma.DiffanFiveRoundCertifiedFastPath
+end Magma.DifanFiveRoundCertifiedFastPath

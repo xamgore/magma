@@ -21,12 +21,12 @@ The middle key k1 disappears. A direct five-round consequence is that
 D5 ((a,0),(0,a)) = 0 whenever a != 0, independently of all round keys.
 -/
 
-namespace Magma.DiffanThreeRoundMiddleDiagonal
+namespace Magma.DifanThreeRoundMiddleDiagonal
 
 open Magma
 open Magma.MultiRoundDDT
 open Magma.CarryAutomaton
-open Magma.DiffanThreeRoundCouplingDefect
+open Magma.DifanThreeRoundCouplingDefect
 
 private abbrev Word :=
   V 32
@@ -62,7 +62,7 @@ theorem gDifference_zero_iff (k x d : Word) :
       BitVec.zero_xor] using hh
   · intro h
     subst d
-    exact Magma.DiffanThreeRoundZeroRightInputFactorization.gDifference_zero k x
+    exact Magma.DifanThreeRoundZeroRightInputFactorization.gDifference_zero k x
 
 /-- For every u, u XOR a = a iff u=0. -/
 private theorem xor_right_eq_right_iff (u a : Word) :
@@ -148,7 +148,7 @@ noncomputable def middleDiagonal_fiberEquiv
       aL aR aR bR p.1 p.2} ≃
     {R : Word // gDifference k₀ R aR = aL} ×
     {Y : Word // gDifference k₂ Y aR = bR} :=
-  Diffan.CoordinateSeparation.fiberEquiv
+  Difan.CoordinateSeparation.fiberEquiv
     (middleDiagonalCoordinates k₁)
     (fun p => threeRoundCoupled k₀ k₁ k₂
       aL aR aR bR p.1 p.2)
@@ -178,8 +178,8 @@ theorem threeRound_middleDiagonal_factorization
       exact Fintype.card_congr
         (middleDiagonal_fiberEquiv k₀ k₁ k₂ aL aR bR)
     _ = xorDDT_g k₀ aR aL * xorDDT_g k₂ aR bR := by
-      rw [Magma.DiffanThreeRoundZeroRightInputFactorization.gDifference_fiber_card,
-        Magma.DiffanThreeRoundZeroRightInputFactorization.gDifference_fiber_card]
+      rw [Magma.DifanThreeRoundZeroRightInputFactorization.gDifference_fiber_card,
+        Magma.DifanThreeRoundZeroRightInputFactorization.gDifference_fiber_card]
 
 /-- Full diagonal slice is independent of the middle key k1. -/
 theorem threeRound_independent_middle_key
@@ -221,9 +221,9 @@ theorem threeRound_diagonal_impossible
 theorem fiveRound_diagonal_impossible
     (k₀ k₁ k₂ k₃ k₄ a : Word) (ha : a ≠ (0#32)) :
     xorDDT_rounds 5
-      (Magma.DiffanFiveRoundCoreDefect.fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
+      (Magma.DifanFiveRoundCoreDefect.fiveRoundKeys k₀ k₁ k₂ k₃ k₄)
       (a, 0#32) (0#32, a) = 0 := by
-  rw [Magma.DiffanFiveRoundCoreDefect.fiveRound_eq_threeCore]
+  rw [Magma.DifanFiveRoundCoreDefect.fiveRound_eq_threeCore]
   exact threeRound_diagonal_impossible k₁ k₂ k₃ a ha
 
-end Magma.DiffanThreeRoundMiddleDiagonal
+end Magma.DifanThreeRoundMiddleDiagonal

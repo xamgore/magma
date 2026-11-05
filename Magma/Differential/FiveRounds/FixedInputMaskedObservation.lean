@@ -23,12 +23,12 @@ It does NOT state that the base alone can be aggregated into a coarse
 weighted join, nor that observed equalities imply full-point equality.
 -/
 
-namespace Magma.DiffanFixedInputMaskedObservation
+namespace Magma.DifanFixedInputMaskedObservation
 
 open Magma
 open Magma.MultiRoundDDT
-open Magma.DiffanAutomaticOutputMasks
-open Magma.DiffanFiveRoundFixedInputGraphJoin
+open Magma.DifanAutomaticOutputMasks
+open Magma.DifanFiveRoundFixedInputGraphJoin
 
 private abbrev Word :=
   V 32
@@ -40,7 +40,7 @@ private abbrev RoundState :=
   Word × Word
 
 private abbrev Point :=
-  Diffan.StateDifference RoundState RoundState
+  Difan.StateDifference RoundState RoundState
 
 /-- Agreement on a mask is preserved by bitwise XOR of two pairs. -/
 private theorem masked_xor_congr (a b c d mask : Word)
@@ -115,4 +115,4 @@ theorem predictedDelta_shift6000_mask (master : Master)
   simpa only [mask_6000_exact] using
     predictedDelta_shift_mask master a b (0x00006000#32)
 
-end Magma.DiffanFixedInputMaskedObservation
+end Magma.DifanFixedInputMaskedObservation

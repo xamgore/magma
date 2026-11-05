@@ -38,9 +38,9 @@ doc=['module','import all Init.Data.Range.Basic',
 '','/-! A concrete five-round general-diagonal counterexample to naive',
 '    extensions of the OUTER weight-sum bound to both active halves.',
 '    One bit is active in each half at the input and at the output. -/',
-'namespace Magma.DiffanAdjacentPositiveExample',
-'open Magma','open Magma.MultiRoundDDT','open Magma.DiffanFiveRoundCoreDefect',
-'open Magma.DiffanSparsePositiveWitnesses','']
+'namespace Magma.DifanAdjacentPositiveExample',
+'open Magma','open Magma.MultiRoundDDT','open Magma.DifanFiveRoundCoreDefect',
+'open Magma.DifanSparsePositiveWitnesses','']
 for tag,states in [('base',tb),('altered',td)]:
     for j in range(5):
         doc += [f'private theorem {tag}_step_{j} :',
@@ -64,7 +64,7 @@ doc += ['theorem general_diagonal_trajectory :',
   f'    0 < xorDDT_rounds 5 ({ks})',
   f'      {p((q(alpha),t(alpha)))} {p((q(omega),t(omega)))} :=',
   '  ddt_pos_of_concrete_base _ _ _ _ _ _ _ _ general_diagonal_trajectory',
-  '','end Magma.DiffanAdjacentPositiveExample','']
+  '','end Magma.DifanAdjacentPositiveExample','']
 dest=root/'Magma/Differential/FiveRounds/AdjacentPositiveExample.lean'
 assert not dest.exists()
 dest.write_text('\n'.join(doc))
