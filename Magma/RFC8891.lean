@@ -225,7 +225,14 @@ theorem Internal.xor_cancel_twice (a b : V 32) :
   change a ^^^ (a ^^^ b) = b
   rw [← BitVec.xor_assoc, BitVec.xor_self, BitVec.zero_xor]
 
-/-- The ring of residues modulo 2^n. -/
+/--
+  The ring of residue classes modulo `2^n` (RFC 8891, Section 3.2).
+
+  Mathlib's `ZMod` already has the standard commutative ring structure:
+  both addition and multiplication are taken modulo `2^n`. The RFC
+  introduces notation `[+]` for addition because the Magma round function
+  uses that operation; it does not use ring multiplication.
+-/
 abbrev Z2 (n : Nat) : Type := ZMod (2 ^ n)
 
 /-- Addition in the ring Z_(2^32). -/
@@ -242,8 +249,8 @@ private theorem add₃₂_is_bijective (k : Z2 32) :
     change (b - k) + k = b
     exact sub_add_cancel b k
 
--- TODO: should we show that this is a ring?
--- TODO: why RFC doesn't say anything about multiplication?
+/-- The ring structure required by RFC 8891 is already provided by `ZMod`. -/
+example (n : Nat) : CommRing (Z2 n) := inferInstance
 
 /-- Maps an element of Z_(2^s) to its binary representation in V_s. -/
 def Vec_s (s : Nat) (z : Z2 s) : V s := BitVec.ofNat s z.val
