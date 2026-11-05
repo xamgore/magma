@@ -16,3 +16,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Run Lean Action
         uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
+        env:
+          # CI checks the two compiled libraries; the expensive reading export
+          # (lake exe defs) remains available as a separate local command.
+          BUILD_ARGS: "Magma Difan"
