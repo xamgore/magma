@@ -2,7 +2,7 @@ module
 
 public import Magma.DDT.OneHot.Support.ActiveNibbleNecessary
 import all Init.Data.Range.Basic
-import Magma.Composition.MultiRoundDDT
+import Magma.Differential.Core.MultiRoundDDT
 
 @[expose] public section
 

@@ -1,7 +1,7 @@
 module
 
 import all Init.Data.Range.Basic
-public import Diffan.DifferentialMap
+public import Diffan.Core.DifferentialMap
 
 @[expose] public section
 

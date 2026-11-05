@@ -1,6 +1,6 @@
 module
 
-public import Magma.DDT.OneHot.ThreeRound.ExactColumnMass
+public import Magma.Differential.ThreeRounds.OneHot.ExactColumnMass
 import all Init.Data.Range.Basic
 
 @[expose] public section

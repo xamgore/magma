@@ -1,6 +1,16 @@
+# Magma
+
 A Lean 4 and Mathlib formalization of the Magma block cipher from
 [RFC 8891](https://rfc-editor.org/info/rfc8891/), with differential models, sound pruning,
 independently checked certificates, and certificate search.
+
+## Project map
+
+The implementation of [Magma](Magma/RFC8891.lean) is the starting point. The [Diffan library](Diffan/README.md) develops differential laws for composing transformations; [Magma/Differential](Magma/Differential/README.md) applies them at successive round counts. Each research direction contains its Lean proofs and an `Experiments/` subdirectory with the associated notes, scripts and results. One-round DDT families are organized separately under [Magma/DDT](Magma/DDT/), with their numbered experimental iterations under [Magma/DDT/Experiments/Evidence](Magma/DDT/Experiments/Evidence).
+
+For longer-round research, begin with the [five-round joins](Magma/Differential/FiveRounds/README.md), [seven-round bounds](Magma/Differential/SevenRounds/README.md), [window experiments](Magma/Differential/Windows/README.md), [nine-plus investigations](Magma/Differential/NinePlus/README.md), or [full-cipher properties](Magma/Differential/FullCipher/README.md). Each branch keeps its research notes, experimental evidence and decisions together. Git retains the dated development history; `git log --follow -- <path>` traces a relocated file.
+
+## Working with the project
 
 ```sh
 lake build
@@ -13,7 +23,7 @@ run on every invocation.
 
 ### Research iterations
 
-`Magma/Evidence/` records research iterations in order, outside the default build. Each file states
+`Magma/DDT/Experiments/Evidence/` records research iterations in order, outside the default build. Each file states
 its question, preserves experiments and historical observations, and explains what motivated the
 next iteration.
 
@@ -45,7 +55,7 @@ Fixed observations are Lean examples and theorems. Measurements use `#eval`. Run
 explicitly; iterations import the library directly and do not run earlier experiments:
 
 ```sh
-lake build Magma/Evidence/01_UInt16Search.lean
+lake build Magma/DDT/Experiments/Evidence/01_UInt16Search.lean
 ```
 
 ### Formatting

@@ -1,7 +1,7 @@
 module
 
 public import Magma.DDT.UnitInput.Parity
-public import Magma.Composition.MultiRoundDDT
+public import Magma.Differential.Core.MultiRoundDDT
 import all Init.Data.Range.Basic
 
 @[expose] public section

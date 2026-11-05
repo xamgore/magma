@@ -20,16 +20,16 @@ class ExportTests(unittest.TestCase):
 module
 -- import Magma.Fake
 public import Magma.A
-public import Diffan.Chain
+public import Diffan.Paths.Chain
 import DiffanExtra.NotProject
-meta import all Magma.Evidence.«08_Test»
+meta import all Magma.DDT.Experiments.Evidence.«08_Test»
 import Mathlib.Data.Nat.Basic
 /- import Magma.Fake -/
 @[expose] public section
 def text := "import Magma.Fake"
 '''
         self.assertEqual(source_imports(source),
-                         ('Magma.A', 'Diffan.Chain', 'Magma.Evidence.«08_Test»'))
+                         ('Magma.A', 'Diffan.Paths.Chain', 'Magma.DDT.Experiments.Evidence.«08_Test»'))
         self.assertEqual(name_parts('Magma.«Part.With.Dot».Item'), ['Magma', 'Part.With.Dot', 'Item'])
 
     def test_malformed_header(self):
@@ -67,20 +67,20 @@ def text := "import Magma.Fake"
                 path = root / item['path']
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text('module\n\n-- original source\n', encoding='utf-8')
-            folder = root / 'Magma/Evidence'
-            folder.mkdir()
+            folder = root / 'Magma/DDT/Experiments/Evidence'
+            folder.mkdir(parents=True)
             first = 'module\nimport Magma.A\n\n#eval panic! "must not run"\n'
-            second = 'module\nimport Magma.Evidence.«01_First»\n\nexample : True := by\n  trivial\n'
+            second = 'module\nimport Magma.DDT.Experiments.Evidence.«01_First»\n\nexample : True := by\n  trivial\n'
             (folder / '01_First.lean').write_text(first, encoding='utf-8')
             (folder / '02_Second.lean').write_text(second, encoding='utf-8')
             modules = ordered_modules(report, root)
             self.assertEqual([module.name for module in modules],
-                             ['Magma.A', 'Magma.Evidence.«01_First»', 'Magma.Evidence.«02_Second»',
+                             ['Magma.A', 'Magma.DDT.Experiments.Evidence.«01_First»', 'Magma.DDT.Experiments.Evidence.«02_Second»',
                               'Magma.B'])
             bundle = render_bundle(modules, root)
             self.assertIn(first, bundle)
             self.assertIn(second, bundle)
-            self.assertIn('Magma.Evidence.«01_First» | Magma/Evidence/01_First.lean', bundle)
+            self.assertIn('Magma.DDT.Experiments.Evidence.«01_First» | Magma/DDT/Experiments/Evidence/01_First.lean', bundle)
             self.assertEqual(len(ordered_modules(report, root, include_evidence=False)), 2)
 
     def test_aggregate_is_omitted_and_its_imports_are_preserved(self):
@@ -88,12 +88,12 @@ def text := "import Magma.Fake"
                            ('Magma', ['Magma.A', 'Magma.B'])])
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            folder = root / 'Magma/Evidence'
+            folder = root / 'Magma/DDT/Experiments/Evidence'
             folder.mkdir(parents=True)
             (folder / '01_Test.lean').write_text('module\nimport Magma\n', encoding='utf-8')
             modules = ordered_modules(report, root)
         self.assertEqual([module.name for module in modules],
-                         ['Magma.A', 'Magma.B', 'Magma.Evidence.«01_Test»'])
+                         ['Magma.A', 'Magma.B', 'Magma.DDT.Experiments.Evidence.«01_Test»'])
         self.assertEqual(modules[-1].imports, ('Magma.A', 'Magma.B'))
         diagram = render_mermaid(modules)
         self.assertNotIn('["Magma"]', diagram)
@@ -123,8 +123,8 @@ def text := "import Magma.Fake"
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text('module\n', encoding='utf-8')
             (root / 'Diffan/Extra.lean').write_text('import Diffan.Core\n', encoding='utf-8')
-            folder = root / 'Magma/Evidence'
-            folder.mkdir()
+            folder = root / 'Magma/DDT/Experiments/Evidence'
+            folder.mkdir(parents=True)
             (folder / '01_Test.lean').write_text('import Diffan\nimport Magma\n', encoding='utf-8')
             modules = ordered_modules(report, root)
             by_name = {module.name: module for module in modules}
@@ -133,7 +133,7 @@ def text := "import Magma.Fake"
             self.assertIn('Diffan.Extra', by_name)
             self.assertEqual(by_name['Magma.Bridge'].imports,
                              ('Magma.RFC8891', 'Diffan.Core', 'Diffan.Unused'))
-            self.assertEqual(by_name['Magma.Evidence.«01_Test»'].imports,
+            self.assertEqual(by_name['Magma.DDT.Experiments.Evidence.«01_Test»'].imports,
                              ('Diffan.Core', 'Diffan.Unused', 'Magma.Bridge'))
             positions = {module.name: index for index, module in enumerate(modules)}
             for module in modules:
