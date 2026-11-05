@@ -247,6 +247,34 @@ The follow-on gate is an externally observable shortcut
 for longer real-key repeated windows or a tested exact
 class-elimination algorithm, not raw DDT symmetry.
 
+## 2026-11-05: 600-second repeated-key SMT scaling and exact midpoint proof
+
+Reproducible evidence: [REPEATED_KEY_600S_STUDY.md](REPEATED_KEY_600S_STUDY.md).
+The original real RFC Sbox and 32-bit modular arithmetic were
+retained. `ABAB` (4 rounds, 2 keys, 2 pairs) is solved in 0.067s;
+`ABABB` (5 rounds) in 1.472s by bidirectional ANF SMT.
+At six rounds, true palindrome `ABAABA` under two 32-bit
+unknown words was solved from 2 pairs in 110.7s. User-proposed
+`ABABBA` was solved from 2 ordinary pairs in 539.7s, or
+from 3 chosen pairs with R=0 in 20.7s. All candidate keys
+were independently replayed; only 4-round `ABAB` had a
+separate UNSAT certificate of uniqueness in this trial.
+
+For `ABCABC` (6 rounds, THREE 32-bit keys), six different
+600-second direct/MITM/local trials returned UNKNOWN,
+not UNSAT. For `ABABBAA` (7 rounds) and `ABABBAAB`
+(8 rounds), 3 chosen R=0 pairs and bidirectional ANF
+also returned UNKNOWN at 600s. This is solver-budget
+behavior, not a cryptographic security lower bound.
+
+New exact Lean module
+`Magma/Diffan/RepeatedKeySolverEncoding.lean` proves
+G recurrence, backward G inverse and the bidirectional
+midpoint iff full-cipher relation over any true 32-bit
+round keys. It does not certify Z3 runtime or model
+uniqueness. The actual full 32-round native 8-word
+RFC master key remains unrecovered.
+
 ## Explicit design freezes
 
 **F1 — formal verification of the Rust weight aggregator: FROZEN.**
