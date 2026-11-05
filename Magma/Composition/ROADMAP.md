@@ -215,6 +215,38 @@ Freeze expensive carry/BDD/SAT optimization until there
 is such a theorem. No key-recovery/attack conclusion from
 these identities alone.
 
+## 2026-11-05: Real-word repeated-key mixed difference experiment (2..7 rounds)
+
+Evidence and reproduction: [REPEATED_KEY_MIXED_GEOMETRY.md](REPEATED_KEY_MIXED_GEOMETRY.md).
+A new exact Lean theorem for native RFC 32-bit Feistel G says
+that the observable output (Q,U) of a,b,a on input (L,R)
+necessarily satisfies g_a(R) XOR g_a(Q)=L XOR U,
+with NO b. Actual modular additions and RFC Sboxes are
+retained. A digit-wise dual-carry symbolic constraint
+enumerator uses this identity to narrow a, and derives b
+uniquely for each a from an observed pair. For 250
+independent random 64-bit a,b short-schedule instances,
+2 known pairs yielded 236 single candidates and 14 double
+candidates; 3 known pairs yielded EXACTLY one candidate
+in ALL 250 cases. Mean three-pair cost: ~132 local
+nibble trials. This is fully reproducible sampled
+REDUCED-ROUND key recovery, not a proof for 32 rounds.
+Two-round independent a,b are already recoverable from
+one pair even without repeated keys, so avoid claiming
+that case as a new repetition benefit.
+
+Four a,b,a,b rounds have coupled unknown internal words;
+Lean formally derives their exact repeated-key equation.
+One Z3 bitvector SMT instance on true 32-bit words and
+two pairs solved 4 rounds (2.1s) and 5 rounds (5.2s),
+while 6/7 rounds returned UNKNOWN under 6.5s caps.
+Timeout is NOT a lower bound or proof of impossibility.
+The real full RFC has eight independent words in a
+32-round schedule, so no full-key recovery claim applies.
+The follow-on gate is an externally observable shortcut
+for longer real-key repeated windows or a tested exact
+class-elimination algorithm, not raw DDT symmetry.
+
 ## Explicit design freezes
 
 **F1 — formal verification of the Rust weight aggregator: FROZEN.**
