@@ -1,12 +1,5 @@
 Don't write reports anywhere except the chat unless requested.
 
-Keep temporary agent files out of `.lake/` itself: use `.lake/work/agent/` only.
-Keep script diagnostics in a named subdirectory of `.lake/work/`. When the task is
-finished and its processes have exited, run `python3 scripts/clean_lake.py --apply`
-to clear disposable work files. Do not clean while a detached process is active.
-Never delete or overwrite `.lake/ROADMAP.md`, `.lake/plan.md`, or
-`.lake/portable-rc2/`. Do not delete `.lake/archive/`, `.lake/exports/`, or
-`.lake/state/` without the user's explicit instruction. See `docs/LAKE.md`.
 When updating README.md, only extend the existing blocks.
 
 All project Lean sources must use the module system and include `import all Init.Data.Range.Basic` unconditionally. Include this import when adapting incoming Lean files, even if they contain no range loops. Full imports are not re-exported transitively.
