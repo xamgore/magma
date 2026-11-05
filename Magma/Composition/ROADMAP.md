@@ -275,6 +275,36 @@ round keys. It does not certify Z3 runtime or model
 uniqueness. The actual full 32-round native 8-word
 RFC master key remains unrecovered.
 
+## 2026-11-05: ACTUAL differential-coordinate comparison, original RFC word width
+
+Report: [XOR_VS_MOD_REAL_MAGMA.md](XOR_VS_MOD_REAL_MAGMA.md).
+Unlike earlier 600-second key-SMT encoding runs, this test truly
+CHANGES input difference from XOR to modular addition, while
+keeping the output difference XOR. For real full 32-bit RFC g,
+all 8 genuine Sboxes and ROL11, the event 'differential output
+spills outside ROL11(low nibble)' for input difference 1 is:
+  XOR-input, even key: 0;
+  XOR-input, odd key: 1/8;
+  MOD-input, ANY key: 1/16.
+Six full-word keys x 65536 chosen base words independently confirm.
+Exact arithmetic reasoning covers all 2^32 base states.
+
+More importantly, exact Lean `modXorDDT_all_keys_same` and
+`modModDDT_all_keys_same` establish that the ENTIRE marginal
+modular-input DDT of native g is INDEPENDENT of the subkey,
+for both XOR and MODULAR output differences. A pure modular
+marginal does NOT filter key families. At FIXED BASE,
+XOR/MOD difference labels are isomorphic (`modularDifferenceOfXor_left_inverse`
+and `xorDifferenceOfModular_left_inverse`), so a mere
+relabeling cannot create information. Pure MOD-output
+through Feistel also loses cancellation of the left base.
+Consequently prioritize XOR at Feistel boundaries,
+modular LOCAL carry constraints at add-with-key, and
+retain the original base/unknown-key dependencies.
+This is a key-information result for isolated full-word g,
+not an attack on actual 32-round Magma. No full-width
+multi-round differential-kernel runtime comparison is claimed.
+
 ## Explicit design freezes
 
 **F1 — formal verification of the Rust weight aggregator: FROZEN.**
