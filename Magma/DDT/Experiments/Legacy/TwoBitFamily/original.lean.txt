@@ -1,0 +1,192 @@
+/-
+  Magma: the certified 493-element two-bit family, plus precise diagnostics
+  for the three unresolved candidates (12,23), (13,23), (14,23).
+
+  Append after BatchFamily (which in turn uses BatchSearch).
+  In the reorganized project, import your existing BatchFamily module instead.
+
+  IMPORTANT TRUST BOUNDARY:
+  - The generator and diagnostics are computations, not trusted proofs.
+  - The zero-DDT results follow from the already proved batch verifier.
+  - A closed theorem for all 493 cases additionally needs a kernel proof of
+    `verifyBatchCertificate example493TwoBitBatch = true`.
+  - The three excluded differences are UNRESOLVED, not proven possible.
+
+  No sorry, axiom, or native_decide.
+-/
+
+namespace Magma
+namespace GProperties
+namespace CarryCertificates
+namespace TwoBitFamily
+
+open Magma.GProperties.MultiRoundDDT
+open Magma.GProperties.CarryCertificates.BatchSearch
+open Magma.GProperties.CarryCertificates.BatchFamily
+
+/-! ### The three unresolved two-bit differences -/
+
+/-- Numerically numbered from bit 0, inclusive of the low bit. -/
+def unresolvedTwoBitPairs : List (Nat × Nat) :=
+  [(12, 23), (13, 23), (14, 23)]
+
+/-- These masks remain *unresolved* by our existing carry+grouped checker. -/
+def unresolvedTwoBitDifferences32 : List (V 32) :=
+  unresolvedTwoBitPairs.map fun (i, j) =>
+    BitVec.ofNat 32 (2 ^ i + 2 ^ j)
+
+/-- 496 two-bit masks minus the three unresolved values.
+    This is a candidate family; it is a theorem only after verification. -/
+def selectedTwoBitDifferences32 : List (V 32) :=
+  twoBitDifferences32.filter fun aL =>
+    decide (aL ∉ unresolvedTwoBitDifferences32)
+
+/-- One shared carry base and separate grouped checks for the selected masks. -/
+def example493TwoBitBatch : BatchCertificate :=
+  { base := exampleBase
+    proposal := proposeSearchBase exampleBase
+    targets := selectedTwoBitDifferences32 }
+
+/-! ### Pure membership lemmas (no expensive crypto evaluation) -/
+
+private theorem twoBitDifferences32_mem
+    (i j : Fin 32) (hij : i.val < j.val) :
+    BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val) ∈ twoBitDifferences32 := by
+  unfold twoBitDifferences32
+  apply List.mem_flatMap.mpr
+  refine ⟨i.val, List.mem_range.mpr i.isLt, ?_⟩
+  apply List.mem_map.mpr
+  refine ⟨j.val, ?_, rfl⟩
+  exact List.mem_filter.mpr
+    ⟨List.mem_range.mpr j.isLt, (decide_eq_true_eq).mpr hij⟩
+
+private theorem selectedTwoBitDifferences32_mem
+    (i j : Fin 32) (hij : i.val < j.val)
+    (hnot : BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val) ∉
+      unresolvedTwoBitDifferences32) :
+    BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val) ∈
+      selectedTwoBitDifferences32 := by
+  unfold selectedTwoBitDifferences32
+  apply List.mem_filter.mpr
+  exact ⟨twoBitDifferences32_mem i j hij,
+    (decide_eq_true_eq).mpr hnot⟩
+
+/-! ### Whole-family cryptographic soundness -/
+
+/-- One proof of the Boolean batch check certifies every selected two-bit
+    difference, uniformly in the third round key and the right output. -/
+theorem twoBitFamily_impossible_of_checked
+    (hchecked : verifyBatchCertificate example493TwoBitBatch = true)
+    (i j : Fin 32) (hij : i.val < j.val)
+    (hnot : BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val) ∉
+      unresolvedTwoBitDifferences32)
+    (k₂ bR : V 32) :
+    xorDDT_rounds 3
+      (threeRoundKeys (0#32) (0#32) k₂)
+      (BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val), (1#32))
+      ((0#32), bR) = 0 := by
+  have hm : BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val) ∈
+      example493TwoBitBatch.targets := by
+    change BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val) ∈
+      selectedTwoBitDifferences32
+    exact selectedTwoBitDifferences32_mem i j hij hnot
+  exact xorDDT_rounds_three_zero_of_verifiedBatchCertificate
+    example493TwoBitBatch
+    (BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val))
+    k₂ bR hchecked hm
+
+/-- Alternative theorem requiring only the grouped checker for the given aL
+    plus the one shared base check. This avoids a 493-case Boolean proof if
+    the kernel evaluation of the entire batch is too costly. -/
+theorem twoBitCase_impossible_of_checks
+    (i j : Fin 32) (hij : i.val < j.val)
+    (k₂ bR : V 32)
+    (hbase : verifySearchBase exampleBase
+      (proposeSearchBase exampleBase) = true)
+    (hgroup : verifySearchWiring
+      (BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val))
+      (proposeSearchBase exampleBase)
+      (proposeWiring (BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val))
+        (proposeSearchBase exampleBase)) = true) :
+    xorDDT_rounds 3
+      (threeRoundKeys (0#32) (0#32) k₂)
+      (BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val), (1#32))
+      ((0#32), bR) = 0 := by
+  exact xorDDT_rounds_three_zero_of_verifiedBatchHit
+    exampleBase (proposeSearchBase exampleBase)
+    (BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val)) k₂ bR
+    (proposeWiring (BitVec.ofNat 32 (2 ^ i.val + 2 ^ j.val))
+      (proposeSearchBase exampleBase))
+    hbase hgroup
+
+/-! ### Minimal diagnostics for the three unresolved differences -/
+
+/-- Does grouped pruning keep all valid assignments but fail to empty a
+    domain? Or does it actually fail the independent grouped checker?
+    These are different failure modes. -/
+def profileThreeUnresolved : IO Unit := do
+  let t₀ ← IO.monoMsNow
+  let p := proposeSearchBase exampleBase
+  let t₁ ← IO.monoMsNow
+  IO.println s!"[3-exceptions] base proposal={t₁-t₀}ms"
+  for aL in unresolvedTwoBitDifferences32 do
+    let next := proposeWiring aL p
+    let filtered := quickWiringContradiction aL p
+    let groupedOK := verifyGroupedMaskCover aL p.carry.next next
+    let empty := verifyEmptyMaskedDomain next
+    IO.println s!"[3-exceptions] aL={aL.toNat}; fast={filtered}; groupedSound={groupedOK}; empty={empty}"
+    IO.println s!"[3-exceptions] final Y={next.1} C={next.2}"
+
+/-- Try repeated carry/grouped passes on each excluded mask. This is an
+    exploratory search only. The current batch certificate checks a SINGLE
+    carry reduction followed by a SINGLE grouped reduction, and therefore
+    CANNOT certify a contradiction found only after extra iterations. -/
+def profileThreeUnresolvedSaturation (passes : Nat := 16) : IO Unit := do
+  let p := proposeSearchBase exampleBase
+  for aL in unresolvedTwoBitDifferences32 do
+    let first := proposeWiring aL p
+    let t₀ ← IO.monoMsNow
+    let saturated := fastCoupledCarryWiringPropagate
+      exampleBase.k₀ exampleBase.k₁ aL exampleBase.aR exampleBase.bL
+      p.initial passes
+    let t₁ ← IO.monoMsNow
+    IO.println s!"[saturation] aL={aL.toNat} firstEmpty={emptyUInt16BitDomain first}; repeatedEmpty={emptyUInt16BitDomain saturated}; time={t₁-t₀}ms"
+    IO.println s!"[saturation] fixed Y={saturated.1} C={saturated.2}"
+
+/-- Perform one shared base check, then the grouped checker over all 493
+    selected values (never rechecking the base for every candidate). -/
+def profile493Batch : IO Unit := do
+  let p := proposeSearchBase exampleBase
+  let t₀ ← IO.monoMsNow
+  let baseOK := verifySearchBase exampleBase p
+  let t₁ ← IO.monoMsNow
+  let groupedOK := verifyBatchGroupedOnly p selectedTwoBitDifferences32
+  let t₂ ← IO.monoMsNow
+  IO.println s!"[493] selected={selectedTwoBitDifferences32.length}; excluded={unresolvedTwoBitDifferences32.length}"
+  IO.println s!"[493] base={baseOK}; all-grouped={groupedOK}"
+  IO.println s!"[493] base={t₁-t₀}ms; grouped={t₂-t₁}ms"
+
+/-
+  Suggested evaluation order:
+
+  #eval Magma.GProperties.CarryCertificates.TwoBitFamily.selectedTwoBitDifferences32.length
+  -- Expected 493.
+
+  #eval Magma.GProperties.CarryCertificates.TwoBitFamily.profileThreeUnresolved
+  -- Particularly interesting: `groupedSound=true`, `empty=false`.
+
+  #eval Magma.GProperties.CarryCertificates.TwoBitFamily.profileThreeUnresolvedSaturation 16
+  -- A contradiction after multiple passes needs a NEW trace certificate.
+
+  #eval Magma.GProperties.CarryCertificates.TwoBitFamily.profile493Batch
+  -- Expected: base=true, all-grouped=true (based on previous tests).
+
+  A closed version of the family theorem STILL requires an actual kernel
+  proof of `verifyBatchCertificate example493TwoBitBatch = true`, or separate
+  kernel-proved base and grouped lemmas. `#eval true` is just executable evidence.
+-/
+
+end TwoBitFamily
+end CarryCertificates
+end GProperties
+end Magma

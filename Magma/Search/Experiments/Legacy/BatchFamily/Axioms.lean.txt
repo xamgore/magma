@@ -1,0 +1,5 @@
+import Magma.Evidence.«05_BatchFamilyCertificates»
+#print axioms Magma.BatchFamily.xorDDT_rounds_three_zero_of_verifiedBatchCertificate
+#print axioms Magma.BatchFamily.xorDDT_rounds_three_zero_of_independentlyVerifiedHit
+#print axioms Magma.Evidence.BatchFamilyCertificates.oneBitBatch_checked
+#print axioms Magma.Evidence.BatchFamilyCertificates.oneBitFamily_impossible

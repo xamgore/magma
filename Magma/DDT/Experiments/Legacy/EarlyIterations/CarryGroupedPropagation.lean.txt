@@ -1,0 +1,141 @@
+import Magma.FastSearch
+
+/-!
+# Iteration 1: carry paths and grouped wiring
+
+For the candidate `(1, 1) -> (0, bR)` with the first two round keys zero,
+bit deletion alone finds no certificate within the chosen bound. Propagating
+whole carry paths and then grouped wiring produces an empty domain.
+
+The closed examples record this iteration's observations as checked statements.
+They concern these inputs, not universal equivalence or performance claims.
+Earlier local-deletion attempts and profiles are in `Archive.Iteration1`; this
+iteration does not execute them. The carry/grouped profiler below measures the
+new propagation stages.
+Build explicitly with `lake build Magma.Evidence.Iteration1`.
+-/
+
+open Magma.Internal Magma.CarryAutomaton Magma.Pruning
+open Magma.FastSearch Magma.Certificates.Encoding
+
+namespace Magma.Evidence.Iteration1
+
+/-- A finite reference comparison with the original formal sboxCarryStep.
+    This is a diagnostic, not a theorem. -/
+def fastSboxCarryStepAgreesAt
+    (i : Fin 8) (k d x : Fin 16) (s : CarryState) : Bool :=
+  let old := sboxCarryStep i k d x s
+  let computed := fastSboxCarryStep (fastSboxTables.getD i.val #[])
+    k.val d.val x.val (2 * s.1.val + s.2.val)
+  computed.1 == old.1.val &&
+    computed.2 == (2 * old.2.1.val + old.2.2.val)
+
+/-- A small, bounded smoke test exercising all boxes and all input nibbles,
+    for four sampled keys/differences and all four carry pairs. -/
+def fastSboxCarrySmokeTest : Bool :=
+  (List.finRange 8).all fun i =>
+    ([0, 3, 8, 15] : List Nat).all fun kn =>
+      ([0, 3, 8, 15] : List Nat).all fun dn =>
+        (List.finRange 16).all fun x =>
+          (List.finRange 2).all fun a =>
+            (List.finRange 2).all fun b =>
+              fastSboxCarryStepAgreesAt i
+                (Fin.ofNat 16 kn) (Fin.ofNat 16 dn) x (a, b)
+
+-- Check the local carry implementation against the source transition model.
+set_option maxHeartbeats 0 in
+example : fastSboxCarrySmokeTest = true := by decide +kernel
+
+-- The fast and finite-set initial domains agree on this particular input.
+set_option maxHeartbeats 0 in
+example :
+    fastInitialBitDomains (0#32) (0#32) (1#32) (0#32) =
+      bitDomainsToUInt16 (initialBitDomains (0#32) (0#32) (1#32) (0#32)) := by
+  decide +kernel
+
+-- Failure of this bounded search does not prove that the differential is possible.
+set_option maxHeartbeats 0 in
+example : (generateFastInitialCertificate (0#32) (0#32) (1#32) (1#32) (0#32) 8).isSome = false := by
+  decide +kernel
+
+private def propagationStages : Bool × Bool × Bool × Bool :=
+  Id.run do
+    let initial := fastInitialBitDomains (0#32) (0#32) (1#32) (0#32)
+    let carry := fastCarryPruneBoth (0#32) (0#32) (1#32) (0#32) initial
+    let grouped := fastGroupedUInt16 (1#32) carry
+    let final := fastCoupledCarryWiringPropagate (0#32) (0#32) (1#32) (1#32) (0#32) initial 16
+    return (emptyUInt16BitDomain initial, emptyUInt16BitDomain carry, emptyUInt16BitDomain grouped,
+        emptyUInt16BitDomain final)
+
+-- Initial domains and carry propagation remain nonempty; grouped wiring finds a contradiction.
+set_option maxHeartbeats 0 in
+example : propagationStages = (false, false, true, true) := by decide +kernel
+
+-- The actual masks are retained for readers who do not run Lean.
+set_option maxHeartbeats 0 in
+example :
+    fastInitialBitDomains (0#32) (0#32) (1#32) (0#32) =
+      (#[62975, 63051, 44521, 48863, 61413, 64487, 48089, 47849],
+        #[32907, 32907, 32907, 32907, 32907, 65503, 32907, 32907]) := by
+  decide +kernel
+
+set_option maxHeartbeats 0 in
+example :
+    fastCoupledCarryWiringFromInputs (0#32) (0#32) (1#32) (1#32) (0#32) 16 =
+      (#[0, 1, 1, 1, 1, 0, 1, 1], #[0, 1, 1, 0, 1, 0, 1, 1]) := by
+  decide +kernel
+
+-- Independently check the proposed forward frontiers for this candidate.
+set_option maxHeartbeats 0 in
+example :
+    verifyProposedCarryFrontiers (0#32) (0#32) (1#32) (0#32)
+        (fastInitialBitDomains (0#32) (0#32) (1#32) (0#32)) =
+      true := by
+  decide +kernel
+
+/-- First-stage diagnostic: global carry DP can shrink masks that local
+    nibble feasibility could not shrink. -/
+def profileGlobalCarryPropagation
+    (k₀ k₁ aL aR bL : V 32) (passes : Nat := 16) : IO Unit := do
+  let t0 ← IO.monoMsNow
+  let D := fastInitialBitDomains k₀ k₁ aR bL
+  IO.println s!"[carry] init empty={emptyUInt16BitDomain D}"
+  let t1 ← IO.monoMsNow
+  let carry := fastCarryPruneBoth k₀ k₁ aR bL D
+  IO.println s!"[carry] after automata empty={emptyUInt16BitDomain carry}"
+  let t2 ← IO.monoMsNow
+  let grouped := fastGroupedUInt16 aL carry
+  IO.println s!"[carry] after grouped wiring empty={emptyUInt16BitDomain grouped}"
+  let t3 ← IO.monoMsNow
+  let final := fastCoupledCarryWiringPropagate k₀ k₁ aL aR bL D passes
+  IO.println s!"[carry] saturated empty={emptyUInt16BitDomain final}"
+  let t4 ← IO.monoMsNow
+  IO.println s!"[carry] init={t1-t0}ms paths={t2-t1}ms wiring={t3-t2}ms repeat={t4-t3}ms"
+  IO.println s!"[carry] initial Y={D.1} C={D.2}"
+  IO.println s!"[carry] final   Y={final.1} C={final.2}"
+
+/-
+  Historical propagation transcript. Stable Boolean results and mask arrays
+  are rechecked in Magma.Evidence.Iteration1; the timings below are retained
+  as observations from the original run and vary with the environment.
+-/
+-- The sampled carry-step comparison above originally returned true in about 45 seconds.
+
+/-
+  [carry] init empty=false
+  [carry] after automata empty=false
+  [carry] after grouped wiring empty=true
+  [carry] saturated empty=true
+  [carry] init=66ms paths=6ms wiring=0ms repeat=5ms
+  [carry] initial Y=#[62975, 63051, 44521, 48863, 61413, 64487, 48089, 47849] C=#[32907, 32907, 32907, 32907, 32907, 65503, 32907, 32907]
+  [carry] final   Y=#[0, 1, 1, 1, 1, 0, 1, 1] C=#[0, 1, 1, 0, 1, 0, 1, 1]
+
+  `empty=true` identifies a candidate. A proof of `xorDDT_rounds 3 ... = 0`
+  uses the independent carry/grouped certificate checkers from
+  Magma.Certificates. The checked concrete example is in
+  Magma.Evidence.Iteration2.
+-/
+
+#eval profileGlobalCarryPropagation (0#32) (0#32) (1#32) (1#32) (0#32) 16
+
+end Magma.Evidence.Iteration1

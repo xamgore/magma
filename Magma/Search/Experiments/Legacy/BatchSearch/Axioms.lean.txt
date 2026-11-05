@@ -1,0 +1,4 @@
+import Magma.BatchSearch
+#print axioms Magma.BatchSearch.xorDDT_rounds_three_zero_of_verifiedBatchHit
+#print axioms Magma.BatchSearch.firstVerifiedAL_sound
+#print axioms Magma.BatchSearch.xorDDT_rounds_three_zero_of_firstVerifiedAL

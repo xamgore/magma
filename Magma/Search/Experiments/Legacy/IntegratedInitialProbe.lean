@@ -1,0 +1,7 @@
+import Magma
+#eval Magma.Evidence.ThreeRoundImpossible.profileFastInitialCoverBySteps
+#eval Magma.Evidence.ThreeRoundImpossible.testCarryGroupedCertificateFastInit
+#print axioms Magma.Certificates.FastInitialCheck.verifyInitialCoverBySteps_sound
+#print axioms Magma.Certificates.FastInitialCheck.xorDDT_rounds_three_zero_of_checkedCarryGrouped_fastInit
+#print axioms Magma.Evidence.ThreeRoundImpossible.concreteFastInitialCarryGroupedCheck
+#print axioms Magma.Evidence.ThreeRoundImpossible.concreteThreeRoundImpossible

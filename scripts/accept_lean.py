@@ -14,8 +14,10 @@ import sys
 from typing import TextIO
 
 ROOT = Path(__file__).resolve().parents[1]
-LOG = ROOT / '.lake/out.txt'
-HANDOFF = ROOT / '.lake/handoff'
+WORK = ROOT / '.lake/work/accept_lean'
+LOG = WORK / 'out.txt'
+HANDOFF = ROOT / '.lake/exports/handoff'
+STATE = ROOT / '.lake/state/accept_lean'
 RANGE_IMPORT = 'import all Init.Data.Range.Basic'
 
 
@@ -165,7 +167,7 @@ def prepare(args: argparse.Namespace) -> None:
 
 
 def proof_stamp(path: Path) -> Path:
-    return ROOT / '.lake/intake' / (module_name(path) + '.sha256')
+    return STATE / (module_name(path) + '.sha256')
 
 
 def fingerprint(path: Path) -> str:
@@ -214,7 +216,7 @@ end run
     errors = re.findall(r'^error:.*', diagnostics, re.M)
     excerpt = '\n'.join(errors[:12]) or diagnostics[-3000:]
     identity = '\n'.join([thread, str(path), fingerprint(path), stage, excerpt])
-    stamp = ROOT / '.lake/intake' / ('wake-' + hashlib.sha256(identity.encode()).hexdigest())
+    stamp = STATE / ('wake-' + hashlib.sha256(identity.encode()).hexdigest())
     if stamp.exists():
         print('Identical failure already sent to the chat; no repeated wakeup.', flush=True)
         return
@@ -237,7 +239,7 @@ end run
 
 def check(args: argparse.Namespace) -> None:
     path = relative_file(args.file)
-    LOG.parent.mkdir(exist_ok=True)
+    LOG.parent.mkdir(parents=True, exist_ok=True)
     stamp = proof_stamp(path)
     stamp.unlink(missing_ok=True)
     original = path.read_bytes()
@@ -340,6 +342,12 @@ def finish(args: argparse.Namespace) -> None:
   display notification (item 1 of argv) with title "Magma"
 end run
 ''', text=True, check=False)
+            # Successful detached jobs do not leave diagnostic logs behind.
+            LOG.unlink(missing_ok=True)
+            try:
+                WORK.rmdir()
+            except OSError:
+                pass  # Other files may still be present.
     raise SystemExit(code)
 
 
@@ -399,7 +407,7 @@ def main() -> None:
                 stamp = proof_stamp(checked)
                 if not stamp.exists() or stamp.read_text() != fingerprint(checked):
                     raise ValueError(f'Run check successfully before finish: {checked}')
-        LOG.parent.mkdir(exist_ok=True)
+        LOG.parent.mkdir(parents=True, exist_ok=True)
         LOG.write_text('')
         with LOG.open('a') as log:
             action = '_run' if args.action == 'run' else '_finish'

@@ -1,13 +1,21 @@
 Don't write reports anywhere except the chat unless requested.
+
+Keep temporary agent files out of `.lake/` itself: use `.lake/work/agent/` only.
+Keep script diagnostics in a named subdirectory of `.lake/work/`. When the task is
+finished and its processes have exited, run `python3 scripts/clean_lake.py --apply`
+to clear disposable work files. Do not clean while a detached process is active.
+Never delete or overwrite `.lake/ROADMAP.md`, `.lake/plan.md`, or
+`.lake/portable-rc2/`. Do not delete `.lake/archive/`, `.lake/exports/`, or
+`.lake/state/` without the user's explicit instruction. See `docs/LAKE.md`.
 When updating README.md, only extend the existing blocks.
 
 All project Lean sources must use the module system and include `import all Init.Data.Range.Basic` unconditionally. Include this import when adapting incoming Lean files, even if they contain no range loops. Full imports are not re-exported transitively.
 
 Keep project-wide Lean options in `leanOptions` in `lakefile.toml`, rather than duplicating `set_option` in source files. Use `lake lean <file>` for manual elaboration with these options.
 
-First elaborate changed Lean modules and fix proof errors before running the formatter. Then run mechanical formatting, final validation, axiom audit, and commit steps as one detached job. Redirect all output to `.lake/out.txt` and use `osascript` to notify completion or failure. Do not poll these jobs; inspect failures only when debugging. Stage and commit only task-owned paths.
+First elaborate changed Lean modules and fix proof errors before running the formatter. Then run mechanical formatting, final validation, axiom audit, and commit steps as one detached job. For intake workflows, redirect diagnostics to `.lake/work/accept_lean/out.txt` and use `osascript` to notify completion or failure. Do not poll these jobs; inspect failures only when debugging. Stage and commit only task-owned paths.
 
-Each new check/run/finish starts a fresh `.lake/out.txt`. Use `--append-log` only for subsequent steps of the same workflow, never to preserve earlier runs.
+Each new check/run/finish starts a fresh `.lake/work/accept_lean/out.txt`. Use `--append-log` only for subsequent steps of the same workflow, never to preserve earlier runs.
 
 Use `python3 scripts/accept_lean.py prepare/check/run/finish` for incoming modules. `run` detaches the full check-before-format workflow; failures notify the desktop and request a resume of the originating chat through the Codex CLI, once per identical failure. Review actual `example`/`#eval` commands for Evidence before choosing the destination. Do not run `git status` during routine intake or detached finishing. For heartbeat/recursion failures, request targeted Lean diagnostics before changing resource limits.
 

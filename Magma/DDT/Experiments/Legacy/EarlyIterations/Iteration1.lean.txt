@@ -1,0 +1,67 @@
+import Magma.FastSearch
+
+/-!
+# Iteration 1: carry paths and grouped wiring
+
+For the candidate `(1, 1) -> (0, bR)` with the first two round keys zero,
+bit deletion alone finds no certificate within the chosen bound. Propagating
+whole carry paths and then grouped wiring produces an empty domain.
+
+The closed examples record this iteration's observations as checked statements.
+They concern these inputs, not universal equivalence or performance claims.
+Build explicitly with `lake build Magma.Evidence.Iteration1`.
+-/
+
+open Magma.FastSearch Magma.Certificates.Encoding
+
+namespace Magma.Evidence.Iteration1
+
+-- Check the local carry implementation against the source transition model.
+set_option maxHeartbeats 0 in
+example : fastSboxCarrySmokeTest = true := by decide +kernel
+
+-- The fast and finite-set initial domains agree on this particular input.
+set_option maxHeartbeats 0 in
+example : fastInitialDomainsAgree (0#32) (0#32) (1#32) (0#32) = true := by decide +kernel
+
+-- Failure of this bounded search does not prove that the differential is possible.
+set_option maxHeartbeats 0 in
+example : (generateFastInitialCertificate (0#32) (0#32) (1#32) (1#32) (0#32) 8).isSome = false := by
+  decide +kernel
+
+private def propagationStages : Bool × Bool × Bool × Bool :=
+  Id.run do
+    let initial := fastInitialBitDomains (0#32) (0#32) (1#32) (0#32)
+    let carry := fastCarryPruneBoth (0#32) (0#32) (1#32) (0#32) initial
+    let grouped := fastGroupedUInt16 (1#32) carry
+    let final := fastCoupledCarryWiringPropagate (0#32) (0#32) (1#32) (1#32) (0#32) initial 16
+    return (emptyUInt16BitDomain initial, emptyUInt16BitDomain carry, emptyUInt16BitDomain grouped,
+        emptyUInt16BitDomain final)
+
+-- Initial domains and carry propagation remain nonempty; grouped wiring finds a contradiction.
+set_option maxHeartbeats 0 in
+example : propagationStages = (false, false, true, true) := by decide +kernel
+
+-- The actual masks are retained for readers who do not run Lean.
+set_option maxHeartbeats 0 in
+example :
+    fastInitialBitDomains (0#32) (0#32) (1#32) (0#32) =
+      (#[62975, 63051, 44521, 48863, 61413, 64487, 48089, 47849],
+        #[32907, 32907, 32907, 32907, 32907, 65503, 32907, 32907]) := by
+  decide +kernel
+
+set_option maxHeartbeats 0 in
+example :
+    fastCoupledCarryWiringFromInputs (0#32) (0#32) (1#32) (1#32) (0#32) 16 =
+      (#[0, 1, 1, 1, 1, 0, 1, 1], #[0, 1, 1, 0, 1, 0, 1, 1]) := by
+  decide +kernel
+
+-- Independently check the proposed forward frontiers for this candidate.
+set_option maxHeartbeats 0 in
+example :
+    verifyProposedCarryFrontiers (0#32) (0#32) (1#32) (0#32)
+        (fastInitialBitDomains (0#32) (0#32) (1#32) (0#32)) =
+      true := by
+  decide +kernel
+
+end Magma.Evidence.Iteration1

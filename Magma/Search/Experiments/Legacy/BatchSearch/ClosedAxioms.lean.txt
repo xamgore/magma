@@ -1,0 +1,4 @@
+import Magma.Evidence.«04_BatchCarryGroupedSearch»
+#print axioms Magma.BatchSearch.xorDDT_rounds_three_zero_of_verifiedBatchHit
+#print axioms Magma.Evidence.BatchCarryGroupedSearch.sharedBaseChecked
+#print axioms Magma.Evidence.BatchCarryGroupedSearch.firstBatchHitImpossible

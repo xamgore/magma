@@ -1,0 +1,144 @@
+import Magma.FastSearch
+
+/-!
+# Evidence from a checked three-round impossible differential
+
+The concrete carry/grouped certificate and its kernel-checked acceptance prove
+the `(1, 1) -> (0, bR)` differential impossible when the first two round keys
+are zero, for every third key and right output difference.
+This search-discovered case checks that the combined carry/grouped approach
+can find a candidate whose impossibility is independently proved.
+Initial coverage uses the sound transition-based checker from
+`Magma.Certificates.FastInitialCheck`. Historical Finset timings are retained
+as comments; evaluations live in the explicitly built `SearchChecks` module.
+-/
+
+open Magma.Internal Magma.CarryAutomaton Magma.MultiRoundDDT Magma.Pruning Magma.Certificates
+open Magma.Certificates.Encoding Magma.Certificates.BackwardMask Magma.FastSearch
+open Magma.Certificates.FastInitialCheck
+
+namespace Magma.Evidence.ThreeRoundImpossible
+
+/-- Forward-frontier check for the concrete carry/grouped candidate. -/
+def testVerifiedCarryFrontiers : Bool :=
+  verifyProposedCarryFrontiers (0#32) (0#32) (1#32) (0#32)
+    (fastInitialBitDomains (0#32) (0#32) (1#32) (0#32))
+
+/-
+  Recorded evaluation of testVerifiedCarryFrontiers: true.
+  Magma.Evidence.SearchChecks rechecks this output. Forward-frontier validity
+  is one ingredient of the final proof, alongside checked mask reductions,
+  grouped wiring and the connection to genuine carry paths.
+-/
+
+/-- Concrete carry/grouped certificate with initial coverage checked by
+    8704 source transition cases, using the sound checker in FastInitialCheck. -/
+def testCarryGroupedCertificateFastInit : Bool :=
+  let k₀ := (0#32)
+  let k₁ := (0#32)
+  let aL := (1#32)
+  let aR := (1#32)
+  let bL := (0#32)
+  let D := fastInitialBitDomains k₀ k₁ aR bL
+  let cert := proposeCarryReduction k₀ k₁ aR bL D
+  let next := fastGroupedUInt16 aL cert.next
+  verifyInitialCoverBySteps k₀ k₁ aR bL D &&
+    verifyOneCarryThenGrouped k₀ k₁ aL aR bL D cert next
+
+/-- Optional timings; only checks the initial mask cover, not the old
+    568-second Finset verifier. -/
+def profileFastInitialCoverBySteps : IO Unit := do
+  let k₀ := (0#32)
+  let k₁ := (0#32)
+  let aR := (1#32)
+  let bL := (0#32)
+  let D := fastInitialBitDomains k₀ k₁ aR bL
+  let t₀ ← IO.monoMsNow
+  let result := verifyInitialCoverBySteps k₀ k₁ aR bL D
+  let t₁ ← IO.monoMsNow
+  IO.println s!"[initial-fast] accepted={result}; time={t₁ - t₀}ms"
+
+/-- Print checks separately to locate an invalid proposal without
+    expanding the proof of the entire trace. -/
+def profileCheckedCarryReduction : IO Unit := do
+  let k₀ := (0#32)
+  let k₁ := (0#32)
+  let aL := (1#32)
+  let aR := (1#32)
+  let bL := (0#32)
+  let t₀ ← IO.monoMsNow
+  let D := fastInitialBitDomains k₀ k₁ aR bL
+  let cert := proposeCarryReduction k₀ k₁ aR bL D
+  let after := fastGroupedUInt16 aL cert.next
+  let t₁ ← IO.monoMsNow
+  IO.println s!"[carry-cert] proposal={t₁-t₀}ms; carryEmpty={emptyUInt16BitDomain cert.next}; groupedEmpty={emptyUInt16BitDomain after}"
+  IO.println s!"[carry-cert] edges0={verifyFirstCarryEdges k₀ aR D cert.edges₀} edges1={verifySecondCarryEdges k₁ aR bL D cert.edges₁}"
+  IO.println s!"[carry-cert] forwards={verifyForwardCarryFrontiers cert.edges₀ cert.forward₀},{verifyForwardCarryFrontiers cert.edges₁ cert.forward₁}"
+  IO.println s!"[carry-cert] backwards={verifyBackwardCarryFrontiers cert.edges₀ cert.backward₀},{verifyBackwardCarryFrontiers cert.edges₁ cert.backward₁}"
+  IO.println s!"[carry-cert] maskCover={verifyFirstCarryMaskCover k₀ aR D cert.next cert.forward₀ cert.backward₀},{verifySecondCarryMaskCover k₁ aR bL D cert.next cert.forward₁ cert.backward₁}"
+  IO.println s!"[carry-cert] groupedCover={verifyGroupedMaskCover aL cert.next after}; empty={verifyEmptyMaskedDomain after}"
+  let t₂ ← IO.monoMsNow
+  IO.println s!"[carry-cert] checks={t₂-t₁}ms"
+  IO.println s!"[carry-cert] initialCover={verifyInitialCoverBySteps k₀ k₁ aR bL D}"
+  let t₃ ← IO.monoMsNow
+  IO.println s!"[carry-cert] initialCheck={t₃-t₂}ms"
+
+/-
+  Historical profile of the former Finset initialization checker:
+  [carry-cert] proposal=80ms; carryEmpty=false; groupedEmpty=true
+  [carry-cert] edges0=true edges1=true
+  [carry-cert] forwards=true,true
+  [carry-cert] backwards=true,true
+  [carry-cert] maskCover=true,true
+  [carry-cert] groupedCover=true; empty=true
+  [carry-cert] checks=16917ms
+  [carry-cert] initialCover=true
+  [carry-cert] initialCheck=568194ms
+
+  The current profiler uses verifyInitialCoverBySteps instead of that old
+  initial checker. A previous run of the transition-based initial check gave:
+  [initial-fast] accepted=true; time=7829ms
+  The full transition-based certificate check also returned true.
+  These elapsed times are historical observations, not current guarantees.
+  Actual evaluations are in the explicitly built Magma.Evidence.SearchChecks.
+-/
+
+-- This small module separates the *mathematical theorem* from the
+-- computational proof obligation.  `#eval ... = true` does not by itself
+-- construct a Lean proof.
+
+/-- The transition-based checker supplies initial coverage to the existing
+    carry/grouped soundness theorem for the same concrete proposal. -/
+theorem concreteThreeRoundImpossible_of_checked
+    (k₂ bR : V 32)
+    (hchecked : testCarryGroupedCertificateFastInit = true) :
+    xorDDT_rounds 3
+      (threeRoundKeys (0#32) (0#32) k₂)
+      ((1#32), (1#32)) ((0#32), bR) = 0 := by
+  let D := fastInitialBitDomains (0#32) (0#32) (1#32) (0#32)
+  let cert := proposeCarryReduction (0#32) (0#32) (1#32) (0#32) D
+  let next := fastGroupedUInt16 (1#32) cert.next
+  have hparts :
+      verifyInitialCoverBySteps (0#32) (0#32) (1#32) (0#32) D = true ∧
+      verifyOneCarryThenGrouped
+        (0#32) (0#32) (1#32) (1#32) (0#32) D cert next = true :=
+    Bool.and_eq_true_iff.mp hchecked
+  exact xorDDT_rounds_three_zero_of_checkedCarryGrouped_fastInit
+    (0#32) (0#32) k₂ (1#32) (1#32) (0#32) bR
+    D cert next hparts.1 hparts.2
+
+set_option maxHeartbeats 0 in
+/-- Kernel-checked acceptance using transition-based initial coverage.
+    The expensive Finset initialization checker is not evaluated. -/
+theorem concreteFastInitialCarryGroupedCheck : testCarryGroupedCertificateFastInit = true := by
+  decide +kernel
+
+/-- Acceptance of the concrete certificate with the transition-based checker. -/
+theorem concreteCarryGroupedCheck : testCarryGroupedCertificateFastInit = true :=
+  concreteFastInitialCarryGroupedCheck
+
+theorem concreteThreeRoundImpossible (k₂ bR : V 32) :
+    xorDDT_rounds 3 (threeRoundKeys (0#32) (0#32) k₂) ((1#32), (1#32)) ((0#32), bR) = 0 := by
+  exact concreteThreeRoundImpossible_of_checked k₂ bR concreteFastInitialCarryGroupedCheck
+
+end Magma.Evidence.ThreeRoundImpossible

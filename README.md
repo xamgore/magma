@@ -31,12 +31,16 @@ lake lint
 
 ### Inspection
 
-`lake exe defs` regenerates both `.lake/defs.txt` and `.lake/sources.txt`; the Python command
-regenerates only the source bundle without invoking Lean.
+Local Lake caches, exports, temporary files and research archives are documented in
+[the workspace guide](docs/LAKE.md).
+
+`lake exe defs` regenerates both `.lake/exports/defs.txt` and
+`.lake/exports/sources.txt`; the Python command regenerates only the source bundle
+without invoking Lean.
 
 ```sh
 lake exe defs
-python3 scripts/export_sources.py -o .lake/sources.txt
+python3 scripts/export_sources.py -o .lake/exports/sources.txt
 lake exe axiom-audit
 ```
 

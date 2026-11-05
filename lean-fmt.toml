@@ -1,5 +1,9 @@
 # Research iterations run only when explicitly selected.
-exclude = ["Magma/DDT/Experiments/**"]
+exclude = [
+  "Magma/DDT/Experiments/**",
+  "Magma/Differential/**/Experiments/Probes/**",
+  "Magma/Search/Experiments/Legacy/**",
+]
 
 [format]
 line-width = 100

@@ -10,7 +10,8 @@ public section
 # Project declarations
 
 `lake exe defs` writes authored declarations from the compiled `Difan` and `Magma`
-modules to `.lake/defs.txt` and the complete source bundle to `.lake/sources.txt`.
+modules to `.lake/exports/defs.txt` and the complete source bundle to
+`.lake/exports/sources.txt`.
 Modules follow Lean's dependency-first import order, also used for
 the source bundle. Within a module, Tarjan components order declarations by all
 type and body dependencies, including theorem proofs and hidden generated helpers.
@@ -162,8 +163,8 @@ def run : IO Unit := do
   unsafe enableInitializersExecution
   let env ← importModules #[{ module := `Difan }, { module := `Magma }] {} (loadExts := true)
   let options := ({} : Options).setBool `pp.proofs false |>.setBool `pp.piBinderNames true
-  IO.FS.createDirAll ".lake"
-  IO.FS.withFile ".lake/defs.txt.tmp" .write fun out => do
+  IO.FS.createDirAll ".lake/exports"
+  IO.FS.withFile ".lake/exports/defs.txt.tmp" .write fun out => do
       let _ ←
         (printDeclarations out).run' {} {} |>.toIO
             { fileName := "<project declarations>", fileMap := default, options } { env }
@@ -171,11 +172,11 @@ def run : IO Unit := do
   let sources ←
     IO.Process.output
         { cmd := "python3"
-          args := #["scripts/export_sources.py", "-o", ".lake/sources.txt.tmp"] }
+          args := #["scripts/export_sources.py", "-o", ".lake/exports/sources.txt.tmp"] }
   if sources.exitCode != 0 then
     throw <| IO.userError s!"Source export failed:\n{sources.stderr}"
-  IO.FS.rename ".lake/defs.txt.tmp" ".lake/defs.txt"
-  IO.FS.rename ".lake/sources.txt.tmp" ".lake/sources.txt"
+  IO.FS.rename ".lake/exports/defs.txt.tmp" ".lake/exports/defs.txt"
+  IO.FS.rename ".lake/exports/sources.txt.tmp" ".lake/exports/sources.txt"
 
 end Defs
 
