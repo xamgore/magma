@@ -1,6 +1,6 @@
 # Magma
 
-A Lean 4 and Mathlib formalization of the Magma block cipher from
+A Lean 4 formalization of the Magma block cipher from
 [RFC 8891](https://rfc-editor.org/info/rfc8891/), with differential models, sound pruning,
 independently checked certificates, and certificate search.
 
@@ -21,28 +21,26 @@ lake lean Main.lean
 library through `Magma.lean`. Lake caches compiled imports; commands written directly in `Main.lean`
 run on every invocation.
 
-### Formatting
-
 ```sh
 lake exe fmt
 lake exe fmt format --diff
 lake lint
+lake exe axiom-audit
 ```
 
-### Inspection
+`axiom-audit` checks the compiled library against the default axiom allowlist:
+`propext`, `Classical.choice`, and `Quot.sound`.
 
-Local Lake caches, exports, temporary files and research archives are documented in
-[the workspace guide](docs/LAKE.md).
-
-`lake exe defs` regenerates both `.lake/exports/defs.txt` and
-`.lake/exports/sources.txt`; the Python command regenerates only the source bundle
-without invoking Lean.
+### Exporting code for LLMs
 
 ```sh
 lake exe defs
 python3 scripts/export_sources.py -o .lake/exports/sources.txt
-lake exe axiom-audit
 ```
+
+`lake exe defs` regenerates both `.lake/exports/defs.txt` and
+`.lake/exports/sources.txt`; the Python command regenerates only the source bundle
+without invoking Lean.
 
 `defs` includes definition bodies and omits proofs from the compiled library. Modules follow
 dependency order; declarations follow their type and proof dependencies, with source order as the
@@ -50,13 +48,10 @@ tie-breaker. Namespace blocks shorten names and references, and leading layout w
 removed. Recursive dependency components remain together. Module markers retain import names and
 original file paths.
 
-`sources.txt` contains the complete original library and DDT research iterations in dependency order,
-including comments and proofs. Numbered DDT iterations follow their prerequisites and retain
+`sources.txt` contains the complete original library and magma research iterations in dependency order,
+including comments and proofs. Experiments iterations follow their prerequisites and retain
 their research order. The relative order of library modules matches `defs`; otherwise independent
 branches follow the import order in `Magma.lean`. Source contents and indentation are preserved. The
 exporter reads the iterations without compiling or executing them. Use `--library-only`
 to include only the library modules. Both exports omit the aggregate `Difan.lean` and
 `Magma.lean` reexport modules.
-
-`axiom-audit` checks the compiled library against the default axiom allowlist:
-`propext`, `Classical.choice`, and `Quot.sound`.
