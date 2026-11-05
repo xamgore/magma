@@ -305,6 +305,44 @@ This is a key-information result for isolated full-word g,
 not an attack on actual 32-round Magma. No full-width
 multi-round differential-kernel runtime comparison is claimed.
 
+## 2026-11-05: signed Walsh of true fixed-key C32 and exact reflection spectrum
+
+Detailed methods, controls and samples:
+[FULL32_SIGNED_LAT_EXPERIMENT.md](../Diffan/Spectral/FULL32_SIGNED_LAT_EXPERIMENT.md).
+
+The real RFC 32-round macro C32=H^-1 J H^3 has the EXACT
+normalized signed Walsh operator T_C32=T_H^3 P T_H^T,
+where P swaps halves of linear masks and T_H is the full
+eight-round correlation operator. This is not a small matrix.
+For the 16-round reflected Q16=H^-1 J H, Lean now proves
+ALL 2^32 fixed points exist for EVERY actual fixed eight-word
+key, so the key-independent signed trace tr(T_Q16)=2^32;
+the involution has eigenvalue multiplicities 2^63±2^31.
+The trace conversion uses character orthogonality; Lean
+directly checks the fixed-point count (not a 2^64-matrix
+trace computation).
+
+An exact signed two-carry-state nibble DP calculates the
+REAL 32-bit g_k Walsh coefficient in 8*2*16 local checks;
+the witnessed masks input=0xC, output=0x6000 give
++1/2 for k=FFEEDDCC and -1/2 for k=BBAA9988.
+This is an exact KEY-DEPENDENT local sign, independently
+verified by 2^16 exhaustive low-word evaluation.
+
+An independent Rust sample of real full C32 across
+2^30 input states at one fixed RFC eight-word master key
+and 13 specified nontrivial Walsh mask pairs found NO
+reproducible strong full-round coefficient. One initially
+conspicuous mask gave +3.05 heuristic sigma in exploratory
+data and only +1.46 in the separate held-out sample.
+No full-64-bit exact LAT coefficient, same-key distinguisher
+or full-key recovery is claimed. The coefficient-size
+resolution of this experiment is vastly larger than the
+~2^-32 random-permutation correlation scale.
+Next meaningful progress would be a provably efficient
+key-coupled conditional Walsh composition across H windows,
+not naive multiplication of independent scalar LATs.
+
 ## Explicit design freezes
 
 **F1 — formal verification of the Rust weight aggregator: FROZEN.**

@@ -168,6 +168,7 @@ public import Magma.Diffan.NineReflection
 public import Magma.Diffan.FullScheduleConjugacy
 public import Magma.Diffan.FullScheduleXorSymmetries
 public import Magma.Diffan.FullKeyMSBGauge
+public import Magma.Diffan.SignedReflection
 public import Magma.Diffan.FullKeyMSBBoomerang
 public import Magma.Diffan.PalindromicOracle
 public import Magma.Diffan.RelatedKeyOracleDistinguisher
